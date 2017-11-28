@@ -26,12 +26,12 @@
   </build>
    <dependencies>
   
-  <!-- https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt.core -->
-<dependency>
-    <groupId>org.eclipse.jdt</groupId>
-    <artifactId>org.eclipse.jdt.core</artifactId>
-    <version>3.10.0</version>
-</dependency>
+	  <!-- https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt.core -->
+	<dependency>
+	    <groupId>org.eclipse.jdt</groupId>
+	    <artifactId>org.eclipse.jdt.core</artifactId>
+	    <version>3.10.0</version>
+	</dependency>
   
   <!-- test -->
 	<!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -71,12 +71,32 @@
 	    <version>1.1.2</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/jstl/jstl -->
-<dependency>
-    <groupId>jstl</groupId>
-    <artifactId>jstl</artifactId>
-    <version>1.2</version>
+	<dependency>
+	    <groupId>jstl</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>4.3.11.RELEASE</version>
 </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-beans</artifactId>
+	    <version>4.3.11.RELEASE</version>
+	</dependency>
 	
+	      <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>4.3.11.RELEASE</version>
+	</dependency>
+
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
@@ -148,6 +168,22 @@
 	      <artifactId>aspectjtools</artifactId>
 	      <version>1.6.2</version>
 	  </dependency>
+	   <!-- spring-security -->	
+		 <dependency>
+	        <groupId>org.springframework.security</groupId>
+	        <artifactId>spring-security-web</artifactId>
+	        <version>5.0.0.RC1</version>
+	    </dependency>
+	  </dependencies>
+	  <repositories>
+    <repository>
+        <id>spring-snapshots</id>
+        <name>Spring Snapshots</name>
+        <url>https://repo.spring.io/libs-snapshot</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 
-  </dependencies>
 </project>
