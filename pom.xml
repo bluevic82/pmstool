@@ -168,6 +168,15 @@
 	      <artifactId>aspectjtools</artifactId>
 	      <version>1.6.2</version>
 	  </dependency>
+	  
+	  <!-- Spring template thymeleaf -->
+	  <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
+		<dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf-spring4</artifactId>
+		    <version>3.0.4.RELEASE</version>
+		</dependency>
+	  
 	   <!-- spring-security -->	
 		 <dependency>
 	        <groupId>org.springframework.security</groupId>
