@@ -1,0 +1,27 @@
+package tinhvan.pms.model;
+/**
+ * @Purpose: POJO class Login
+ * @author NguyenManhIT
+ * @version 1.0
+ * @Date 24/11/2017
+ **/
+public class Login {
+	
+	private String username;
+	private String password;
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
+}
