@@ -11,18 +11,18 @@
                 <table align="center">
                     <tr>
                         <td>
-                            <form:label path="username">Username: </form:label>
+                            <form:label path="user_email">Username: </form:label>
                         </td>
                         <td>
-                            <form:input path="username" name="username" id="username" />
+                            <form:input path="user_email" name="user_email" id="user_email" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <form:label path="password">Password:</form:label>
+                            <form:label path="user_password">Password:</form:label>
                         </td>
                         <td>
-                            <form:password path="password" name="password" id="password" />
+                            <form:password path="user_password" name="user_password" id="user_password" />
                         </td>
                     </tr>
                     <tr>
