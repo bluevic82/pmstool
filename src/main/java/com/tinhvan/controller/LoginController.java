@@ -61,4 +61,15 @@ public class LoginController {
 		}
 		return "403Page";
 	}
+	
+	   @RequestMapping(value="/addProject")
+	   public String addProject() {
+		   
+		   return "addProject";
+	   }
+	   @RequestMapping(value="/updateProject")
+	   public String updateProject() {
+		   
+		   return "updateProject";
+	   }
 }
