@@ -17,7 +17,7 @@
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 <body>
-	<div class="container">
+	<div class="container" style="margin-top: 10px;">
 		<form>
 			<div class="row">
 				<div class="col-sm-4">
@@ -38,7 +38,7 @@
 				<div>Charge Cost <input value="" name="" style="margin-left: 10px"> (MM)</div><br>
 				<div>Status <input value="" name="" style="margin-left: 52px" ></div><br>
 				<div>Description <textarea style="margin-left: 15px" cols="60"></textarea></div><br>
-				<div><button value="save" style="background-color: green; color: white;">Save</button></div>
+				<div style="text-align: end;"><button value="save" style="background-color: green; color: white;">Save</button></div>
 		</form>
 	</div>
 
