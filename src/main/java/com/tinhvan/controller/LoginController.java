@@ -86,6 +86,12 @@ public class LoginController {
 		   
 		   return "updateProject";
 	   }
+	   
+	   @RequestMapping(value="/answerAndQ")
+	   public String qandA() {
+
+		   return "answerAndQ";
+	   }
 		
 	   @ModelAttribute("projectTypes")
 	   public List<Type> getTypes() {
