@@ -1,5 +1,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- 
+ <head>
+ 		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
+  		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />" >
+  		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />" >
+  		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />" >
+ </head>
 <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
  
   <a href="${pageContext.request.contextPath}/welcome">Home</a>
@@ -12,6 +17,9 @@
   | &nbsp;
    <a href="${pageContext.request.contextPath}/updateProject">Update project</a>
   
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/answerAndQ">Answer And Question List</a>
+   
   | &nbsp;
   
   <a href="${pageContext.request.contextPath}/admin">Admin</a>
