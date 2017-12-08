@@ -25,6 +25,6 @@ public class Status {
 		this.status_name = status_name;
 	}
 	public Status() {
-		super();
+	
 	}
 }

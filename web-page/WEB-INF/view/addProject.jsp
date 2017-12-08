@@ -61,7 +61,7 @@
 				<div>Status 
 					<select name="status" style="margin-left: 52px">
 				    	<c:forEach var="projectStatus" items="${projectStatus}">   
-				   			<option value="${projectStatus.status_id}" >${projectStatus.status_type}</option>
+				   			<option value="${projectStatus.status_type}" >${projectStatus.status_type}</option>
 				     	</c:forEach>  
 			    	</select>
 				</div><br>

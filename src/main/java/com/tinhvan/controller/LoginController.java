@@ -1,11 +1,19 @@
 package com.tinhvan.controller;
 
 import java.security.Principal;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.tinhvan.dao.StatusDao;
+import com.tinhvan.dao.TypeDao;
+import com.tinhvan.model.Status;
+import com.tinhvan.model.Type;
 
 /**
  * @Purpose: Controller
@@ -14,6 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginController {
+	
+	@Autowired
+	TypeDao typeDao;
+	@Autowired
+	StatusDao statusDao;
+	
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
@@ -72,4 +86,15 @@ public class LoginController {
 		   
 		   return "updateProject";
 	   }
+		
+	   @ModelAttribute("projectTypes")
+	   public List<Type> getTypes() {
+		   List<Type> list= typeDao.getAllType();
+		   return list;
+		}
+		@ModelAttribute("projectStatus")
+		public List<Status> geStatus(){
+			List<Status> list = statusDao.getAllStatus();
+			return list;
+		}
 }

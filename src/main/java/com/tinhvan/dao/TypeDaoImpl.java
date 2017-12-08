@@ -31,4 +31,5 @@ public class TypeDaoImpl implements TypeDao{
 		});
 	}
 	
+	
 }

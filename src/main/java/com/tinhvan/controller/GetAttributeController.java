@@ -16,19 +16,5 @@ import com.tinhvan.model.Type;
 
 @Controller
 public class GetAttributeController {
-	@Autowired
-	TypeDao typeDao;
-	@Autowired
-	StatusDao statusDao;
-	
-	   @ModelAttribute("projectTypes")
-	   public List<Type> getTypes() {
-		   List<Type> list= typeDao.getAllType();
-	        return list;
-	    }
-	   @ModelAttribute("projectStatus")
-	   public List<Status> geStatus(){
-		   List<Status> list = statusDao.getAllStatus();
-		   return list;
-	   }
+
 }
