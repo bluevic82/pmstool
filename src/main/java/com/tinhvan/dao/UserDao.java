@@ -12,5 +12,4 @@ public interface UserDao {
 	public UserInfo findUserInfo(String user_mail);
 	/*get role user*/
 	public List<String> getUserRoles(String user_mail);
-	
 }

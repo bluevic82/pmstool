@@ -7,6 +7,10 @@
   | &nbsp;
   
    <a href="${pageContext.request.contextPath}/userInfo">User Info</a>
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/addProject">Add project</a>
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/updateProject">Update project</a>
   
   | &nbsp;
   
