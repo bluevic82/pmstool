@@ -19,6 +19,6 @@ public class Type {
 	}
 
 	public Type() {
-		super();
+		
 	}
 }

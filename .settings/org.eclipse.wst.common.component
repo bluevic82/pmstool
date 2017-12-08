@@ -5,6 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resource"/>
         <property name="java-output-path" value="/Login/build/classes"/>
-        <property name="context-root" value="pms"/>
+        <property name="context-root" value="Login"/>
     </wb-module>
 </project-modules>
