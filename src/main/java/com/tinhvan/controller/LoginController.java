@@ -151,5 +151,10 @@ public class LoginController {
 			List<Category> list = categoryDao.getAllCategory();
 			return list;
 		}
+		@ModelAttribute("qaStatus")
+		public List<Status> getStatusOfQA(){
+			List<Status> list = statusDao.getStatusOfQA();
+			return list;
+		}
 		
 }
