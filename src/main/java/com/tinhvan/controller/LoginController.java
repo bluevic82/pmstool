@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.Type;
+
 
 /**
  * @Purpose: Controller
@@ -35,7 +38,8 @@ public class LoginController {
 	MemberProjectDao memberProjectDao;
 	@Autowired
 	CategoryDao categoryDao;
-	
+	@Autowired
+	QuestionAnswerDao qaDao;
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
@@ -154,6 +158,11 @@ public class LoginController {
 		@ModelAttribute("qaStatus")
 		public List<Status> getStatusOfQA(){
 			List<Status> list = statusDao.getStatusOfQA();
+			return list;
+		}
+		@ModelAttribute("allQA")
+		public  List<QuestionAnwer> getQA(){
+			List<QuestionAnwer> list = qaDao.getAllQA();
 			return list;
 		}
 		

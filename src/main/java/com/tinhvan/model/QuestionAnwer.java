@@ -1,5 +1,7 @@
 package com.tinhvan.model;
 
+import java.util.Date;
+
 public class QuestionAnwer {
 	private int project_id;
 	private String title;
@@ -9,9 +11,10 @@ public class QuestionAnwer {
 	private String qa_anser_jp;
 	private int qa_id;
 	private String reference;
-	private String member_to;
-	private String member_from;
-	private Status status_id;
+	private int member_to;
+	private int member_from;
+	private int status_id;
+	private	Date deadline;
 	public int getProject_id() {
 		return project_id;
 	}
@@ -60,24 +63,33 @@ public class QuestionAnwer {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-	public String getMember_to() {
+	
+	public int getMember_to() {
 		return member_to;
 	}
-	public void setMember_to(String member_to) {
+	public void setMember_to(int member_to) {
 		this.member_to = member_to;
 	}
-	public String getMember_from() {
+	public int getMember_from() {
 		return member_from;
 	}
-	public void setMember_from(String member_from) {
+	public void setMember_from(int member_from) {
 		this.member_from = member_from;
 	}
-	public Status getStatus_id() {
+	
+	public int getStatus_id() {
 		return status_id;
 	}
-	public void setStatus_id(Status status_id) {
+	public void setStatus_id(int status_id) {
 		this.status_id = status_id;
 	}
+	public Date getDeadline() {
+		return deadline;
+	}
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
 	public QuestionAnwer() {
 		super();
 	}
