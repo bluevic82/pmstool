@@ -22,13 +22,25 @@
 			<div class="col-sm-9">
 				<div class="row">
 					<div class="col-sm-5"><div>Project Name
-						<input value=""></div>
+						<select name="projectqa">
+					    	<c:forEach var="allQA" items="${allQA}">   
+					   			<option value="${allQA.project_id}" >${allQA.project_id}</option>
+					     	</c:forEach>  
+			    		</select></div>
 					</div>
 					<div class="col-sm-4"><div>Status
-						<input value="" size="15"></div>
+						<select name="status">
+					    	<c:forEach var="qaStatus" items="${qaStatus}">   
+					   			<option value="${qaStatus.status_id}" >${qaStatus.status_type}</option>
+					     	</c:forEach>  
+			    		</select></div>
 					</div>
 					<div class="col-sm-3"><div>PIC
-						<input value="" size="15" ></div>
+						<select name="projectqa">
+					    	<c:forEach var="allQA" items="${allQA}">   
+					   			<option value="${allQA.member_to}" >${allQA.member_to}</option>
+					     	</c:forEach>  
+			    		</select></div>
 					</div>
 				</div>
 				
@@ -43,31 +55,17 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>A</td>
-				      <td>Question1</td>
-				      <td>ThangNN</td>
-				      <td>08/12/2017</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>B</td>
-				      <td>Question2</td>
-				      <td>ThangNN</td>
-				      <td>09/12/2017</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td>C</td>
-				      <td>Question3</td>
-				      <td>ManhNV</td>
-				      <td>10/12/2017</td>
-				    </tr>
+					 <c:forEach var="allQA" items="${allQA}">
+					  	<tr>   
+						  	<th scope="row">${allQA.qa_id}</th>
+						  	<th>${allQA.title}</th>
+						  	<th>${allQA.member_to}</th>
+						  	<th>${allQA.deadline}</th>
+						  	<th >${allQA.status_id}</th>
+					  	</tr>
+				  	</c:forEach>
 				  </tbody>
-				</table>
-				
-				
+				</table>				
 			</div>
 			<div class="col-sm-3">
 				<div style="text-align: end;">
