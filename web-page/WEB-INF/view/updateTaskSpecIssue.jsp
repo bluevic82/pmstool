@@ -39,11 +39,11 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form id="addproject">
+		<form name="updateTask" action="actionUpdateTask">
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <input value="" name="" size="30">
+						Project Name <input value="" name="project_id" size="30">
 					</div>
 				</div>
 			</div>

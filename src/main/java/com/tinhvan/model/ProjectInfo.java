@@ -10,6 +10,7 @@ public class ProjectInfo {
 	private int type;
 	private String description;
 	private String technical;
+	
 	public String getProject_name() {
 		return project_name;
 	}

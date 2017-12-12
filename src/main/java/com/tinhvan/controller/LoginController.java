@@ -9,16 +9,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
+import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
 
@@ -38,6 +41,8 @@ public class LoginController {
 	MemberProjectDao memberProjectDao;
 	@Autowired
 	CategoryDao categoryDao;
+	@Autowired
+	TaskInfoDao taskInfoDao;
 	@Autowired
 	QuestionAnswerDao qaDao;
 
@@ -105,11 +110,18 @@ public class LoginController {
 		   return "answerAndQ";
 	   }
 	   
+		// Method create task/spec/issue
 		@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
 		public String createTask(Model model) {
 			model.addAttribute("title", "Welcome");
 			model.addAttribute("message", "Create Task/Spec/Issue");
 			return "createTaskSpecIssue";
+		}
+		
+		@RequestMapping(value = "actionCreateTask")
+		public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
+			taskInfoDao.addTask(task);
+			return new ModelAndView("whileSuccess");
 		}
 		
 		@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
