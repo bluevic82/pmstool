@@ -5,7 +5,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add Project</title>
+<title>Update Task/Spec/Issue</title>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap.min.css" />">

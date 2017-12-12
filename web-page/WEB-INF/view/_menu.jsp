@@ -21,7 +21,6 @@
 	<a href="${pageContext.request.contextPath}/createTask">Create task/spec/issue</a>
   | &nbsp;
 	<a href="${pageContext.request.contextPath}/updateTask">Update task/spec/issue</a>
-
   | &nbsp; 
    <a href="${pageContext.request.contextPath}/answerAndQ">Answer And Question List</a>
    
