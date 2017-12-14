@@ -23,7 +23,6 @@ import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
-import com.tinhvan.model.Scope;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
@@ -56,8 +55,8 @@ public class LoginController {
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "This is welcome page!");
+		model.addAttribute("title", "OverView");
+		model.addAttribute("message", "This is OverView page!");
 		return "welcomePage";
 	}
 
@@ -101,28 +100,14 @@ public class LoginController {
 		return "403Page";
 	}
 
-	@RequestMapping(value = "/addProject")
-	public String addProject() {
 
-		return "addProject";
-	}
-	@RequestMapping(value="actionCreateProject")
-	public ModelAndView addproject(Model model, @ModelAttribute(value="project") ProjectInfo project) {
-		projectDao.addProject(project);
-		return new ModelAndView("whileSuccess");
-	}
-
-	@RequestMapping(value = "/updateProject")
-	public String updateProject() {
-
-		return "updateProject";
-	}
 
 	@RequestMapping(value = "/answerAndQ")
 	public String qandA() {
 
 		return "answerAndQ";
 	}
+	
 
 	// Methods create and update task/spec/issue
 	@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
@@ -159,11 +144,7 @@ public class LoginController {
 		return list;
 	}
 
-	@ModelAttribute("projectTypes")
-	public List<Type> getTypes() {
-		List<Type> list = typeDao.getAllType();
-		return list;
-	}
+	
 
 	@ModelAttribute("taskTypes")
 	public List<Type> getTypeOfTask() {
@@ -184,11 +165,7 @@ public class LoginController {
 	}
 	
 
-	@ModelAttribute("projectStatus")
-	public List<Status> getStatus() {
-		List<Status> list = statusDao.getAllStatus();
-		return list;
-	}
+	
 
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
@@ -213,10 +190,6 @@ public class LoginController {
 		List<QuestionAnwer> list = qaDao.getAllQA();
 		return list;
 	}
-	@ModelAttribute("projectScope")
-	public List<Scope> getAllScope(){
-		List<Scope> list = scopeDao.getAllScope();
-		return list;
-	}
+	
 
 }

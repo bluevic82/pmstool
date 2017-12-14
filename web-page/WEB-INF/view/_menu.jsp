@@ -13,9 +13,11 @@
   
    <a href="${pageContext.request.contextPath}/userInfo">User Info</a>
   | &nbsp;
-   <a href="${pageContext.request.contextPath}/addProject">Add project</a>
+     <a href="${pageContext.request.contextPath}/detailProject">Project Information</a>
   | &nbsp;
-   <a href="${pageContext.request.contextPath}/updateProject">Update project</a>
+   <a href="${pageContext.request.contextPath}/addProject">Add project</a>
+ <%--  | &nbsp;
+   <a href="${pageContext.request.contextPath}/updateProject">Update project</a> --%>
    
   | &nbsp; 
 	<a href="${pageContext.request.contextPath}/createTask">Create task/spec/issue</a>
