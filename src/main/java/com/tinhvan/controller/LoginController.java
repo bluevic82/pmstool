@@ -13,26 +13,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
-
 /**
  * @Purpose: Controller
  * 
- * **/
+ **/
 
 @Controller
 public class LoginController {
-	
+
+	@Autowired
+	ProjectDao projectDao;
 	@Autowired
 	TypeDao typeDao;
 	@Autowired
@@ -75,7 +78,7 @@ public class LoginController {
 		// Sau khi user login thanh cong se co principal
 		String userName = principal.getName();
 
-		/*test get user*/
+		/* test get user */
 		System.out.println("User Name: " + userName);
 
 		return "userInfoPage";
@@ -92,90 +95,113 @@ public class LoginController {
 		}
 		return "403Page";
 	}
+
+	@RequestMapping(value = "/addProject")
+	public String addProject() {
+
+		return "addProject";
+	}
+
+	@RequestMapping(value = "/updateProject")
+	public String updateProject() {
+
+		return "updateProject";
+	}
+
+	@RequestMapping(value = "/answerAndQ")
+	public String qandA() {
+
+		return "answerAndQ";
+	}
+
+	// Methods create and update task/spec/issue
+	@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
+	public String createTask(Model model) {
+		model.addAttribute("title", "Welcome");
+		model.addAttribute("message", "Create Task/Spec/Issue");
+		return "createTaskSpecIssue";
+	}
+
+	@RequestMapping(value = "actionCreateTask")
+	public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
+		taskInfoDao.addTask(task);
+		return new ModelAndView("taskList");
+	}
+
+	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
+	public String updateTask(Model model) {
+		model.addAttribute("title", "Welcome");
+		model.addAttribute("message", "Update Task/Spec/Issue");
+		return "updateTaskSpecIssue";
+	}
 	
-	   @RequestMapping(value="/addProject")
-	   public String addProject() {
-		   
-		   return "addProject";
-	   }
-	   @RequestMapping(value="/updateProject")
-	   public String updateProject() {
-		   
-		   return "updateProject";
-	   }
-	   
-	   @RequestMapping(value="/answerAndQ")
-	   public String qandA() {
+	@RequestMapping(value = { "/listTask" }, method = RequestMethod.GET)
+	public String listTask(Model model) {
+		model.addAttribute("title", "Welcome");
+		model.addAttribute("message", "List Task/Spec/Issue");
+		return "taskList";
+	}
 
-		   return "answerAndQ";
-	   }
-	   
-		// Method create task/spec/issue
-		@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
-		public String createTask(Model model) {
-			model.addAttribute("title", "Welcome");
-			model.addAttribute("message", "Create Task/Spec/Issue");
-			return "createTaskSpecIssue";
-		}
-		
-		@RequestMapping(value = "actionCreateTask")
-		public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
-			taskInfoDao.addTask(task);
-			return new ModelAndView("whileSuccess");
-		}
-		
-		@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
-		public String updateTask(Model model) {
-			model.addAttribute("title", "Welcome");
-			model.addAttribute("message", "Update Task/Spec/Issue");
-			return "updateTaskSpecIssue";
-		}
-		
-	   //	Methods Attributes
-		@ModelAttribute("projectTypes")
-		public List<Type> getTypes() {
-			List<Type> list = typeDao.getAllType();
-			return list;
-		}
-		
-		@ModelAttribute("taskTypes")
-		public List<Type> getTypeOfTask() {
-			List<Type> list = typeDao.getTypeOfTask();
-			return list;
-		}
+	// Methods Attributes
+	@ModelAttribute("projectName")
+	public List<ProjectInfo> getAllProject() {
+		List<ProjectInfo> list = projectDao.getAllProject();
+		return list;
+	}
 
-		@ModelAttribute("projectStatus")
-		public List<Status> getStatus() {
-			List<Status> list = statusDao.getAllStatus();
-			return list;
-		}
-		
-		@ModelAttribute("taskStatus")
-		public List<Status> getStatusOfTask() {
-			List<Status> list = statusDao.getStatusOfTask();
-			return list;
-		}
-		
-		@ModelAttribute("pic")
-		public List<MemberProject> getPIC() {
-			List<MemberProject> list = memberProjectDao.getAllMember();
-			return list;
-		}
-		
-		@ModelAttribute("category")
-		public List<Category> getCategory() {
-			List<Category> list = categoryDao.getAllCategory();
-			return list;
-		}
-		@ModelAttribute("qaStatus")
-		public List<Status> getStatusOfQA(){
-			List<Status> list = statusDao.getStatusOfQA();
-			return list;
-		}
-		@ModelAttribute("allQA")
-		public  List<QuestionAnwer> getQA(){
-			List<QuestionAnwer> list = qaDao.getAllQA();
-			return list;
-		}
-		
+	@ModelAttribute("projectTypes")
+	public List<Type> getTypes() {
+		List<Type> list = typeDao.getAllType();
+		return list;
+	}
+
+	@ModelAttribute("taskTypes")
+	public List<Type> getTypeOfTask() {
+		List<Type> list = typeDao.getTypeOfTask();
+		return list;
+	}
+
+	@ModelAttribute("taskStatus")
+	public List<Status> getStatusOfTask() {
+		List<Status> list = statusDao.getStatusOfTask();
+		return list;
+	}
+	
+	@ModelAttribute("getDetailTask")
+	public List<TaskInfo> getDetailTask(){
+		List<TaskInfo> list = taskInfoDao.detailTask();
+		return list;
+	}
+	
+
+	@ModelAttribute("projectStatus")
+	public List<Status> getStatus() {
+		List<Status> list = statusDao.getAllStatus();
+		return list;
+	}
+
+	@ModelAttribute("pic")
+	public List<MemberProject> getPIC() {
+		List<MemberProject> list = memberProjectDao.getAllMember();
+		return list;
+	}
+
+	@ModelAttribute("category")
+	public List<Category> getCategory() {
+		List<Category> list = categoryDao.getAllCategory();
+		return list;
+	}
+
+	@ModelAttribute("qaStatus")
+	public List<Status> getStatusOfQA() {
+		List<Status> list = statusDao.getStatusOfQA();
+		return list;
+	}
+
+	@ModelAttribute("allQA")
+	public List<QuestionAnwer> getQA() {
+		List<QuestionAnwer> list = qaDao.getAllQA();
+		return list;
+	}
+
 }
