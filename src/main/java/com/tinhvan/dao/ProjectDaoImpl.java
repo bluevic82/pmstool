@@ -43,4 +43,13 @@ public class ProjectDaoImpl implements ProjectDao {
 		
 	}
 
+	@Override
+	public void addProject(ProjectInfo project) {
+		// TODO Auto-generated method stub
+		String sql="INSERT INTO project_info(PROJECT_NAME, PROJECT_FROM, PROJECT_TO, PROJECT_CHARGE_COST, STATUS_ID, TYPE_ID, PROJECT_DESCRIPTION, PROJECT_TECHNICAL)"+"VALUES (?,?,?,?,?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] {project.getProject_name(),project.getProject_from(),project.getProject_to(),project.getProject_charge_cost(),project.getStatus_id(),project.getType_id(),project.getProject_description(),project.getProject_technical()});
+	}
+	
+	
+
 }

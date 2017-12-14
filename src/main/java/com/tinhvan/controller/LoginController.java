@@ -15,6 +15,7 @@ import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
+import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
@@ -22,6 +23,7 @@ import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
+import com.tinhvan.model.Scope;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
@@ -48,6 +50,9 @@ public class LoginController {
 	TaskInfoDao taskInfoDao;
 	@Autowired
 	QuestionAnswerDao qaDao;
+	@Autowired
+	ScopeDao scopeDao;
+
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
@@ -100,6 +105,11 @@ public class LoginController {
 	public String addProject() {
 
 		return "addProject";
+	}
+	@RequestMapping(value="actionCreateProject")
+	public ModelAndView addproject(Model model, @ModelAttribute(value="project") ProjectInfo project) {
+		projectDao.addProject(project);
+		return new ModelAndView("whileSuccess");
 	}
 
 	@RequestMapping(value = "/updateProject")
@@ -201,6 +211,11 @@ public class LoginController {
 	@ModelAttribute("allQA")
 	public List<QuestionAnwer> getQA() {
 		List<QuestionAnwer> list = qaDao.getAllQA();
+		return list;
+	}
+	@ModelAttribute("projectScope")
+	public List<Scope> getAllScope(){
+		List<Scope> list = scopeDao.getAllScope();
 		return list;
 	}
 
