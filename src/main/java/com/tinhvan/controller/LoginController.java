@@ -114,7 +114,13 @@ public class LoginController {
 		return "answerAndQ";
 	}
 
-	// Methods create and update task/spec/issue
+	
+	/*
+	 * @Purpose: Method create and update task/spec/issue
+	 * @Author: NguyenManh
+	 * @Return: View Result
+	 * */
+	
 	@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
 	public String createTask(Model model) {
 		model.addAttribute("title", "Welcome");
