@@ -35,7 +35,7 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form name="task" action="actionUpdateTask" >
+		<form:form action="/pmstool/actionUpdateTask">
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
@@ -111,7 +111,7 @@
 			<br>
 			<div>
 				Solution
-				<textarea name="task_solution" style="margin-left: 36px" cols="60" rows="3"></textarea>
+				<form:textarea name="task_solution" path="task_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
 			</div>
 			<br>
 			
@@ -144,7 +144,7 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button name="actionUpdateTask" value="actionUpdateTask" style="background-color: green; color: white;">Create</button>
+				<button name="actionUpdateTask" value="actionUpdateTask" style="background-color: green; color: white;">Save</button>
 			</div>
 		</form:form>
 	</div>

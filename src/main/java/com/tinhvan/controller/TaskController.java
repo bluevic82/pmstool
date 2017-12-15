@@ -72,10 +72,10 @@ public class TaskController {
 	}
 	
 	//Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "actionUpdateTask")
-	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
+	@RequestMapping(value = "/actionUpdateTask")
+	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "updateTask") TaskInfo task) {
 		taskInfoDao.updateTask(task);
-		return new ModelAndView("whileSuccess");
+		return new ModelAndView("taskList");
 	}
 	
 	//Mapping get dataById for update Task/Spec/Issue
@@ -94,8 +94,9 @@ public class TaskController {
 		return "taskList";
 	}
 
-	// Methods Attributes
-	// get name of project
+	/*
+	 *@purpose: Methods Attributes
+	 */
 	@ModelAttribute("projectName")
 	public List<ProjectInfo> getAllProject() {
 		List<ProjectInfo> list = projectDao.getAllProject();
