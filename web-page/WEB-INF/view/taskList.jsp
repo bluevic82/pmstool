@@ -77,7 +77,7 @@
 			<tbody>
 				<c:forEach var="getDetailTask" items="${getDetailTask}">
 					<tr>
-						<th scope="row"><a href="${pageContext.request.contextPath}/updateTask">${getDetailTask.id}</a></th>
+						<th scope="row"><a href="editTask/${getDetailTask.id}">${getDetailTask.id}</a></th>
 						<th><a href="${pageContext.request.contextPath}/updateTask">${getDetailTask.task_subject}</a></th>
 						<th>${getDetailTask.member_project_id}</th>
 						<th>${getDetailTask.task_priority}</th>

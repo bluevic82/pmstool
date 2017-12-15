@@ -10,6 +10,7 @@ public interface TaskInfoDao {
 	
 	public void addTask(TaskInfo taskInfo);
 	
-	public void updateTask(TaskInfo taskInfo);
+	public int updateTask(TaskInfo taskInfo);
 	
+	public TaskInfo getTaskById(int id);
 }

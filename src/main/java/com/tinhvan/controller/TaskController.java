@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +26,7 @@ import com.tinhvan.model.Type;
 
 /*
  * @purpose: Task Controller using create,update Task/Spec/Issue
- *  Using method Attribute set data for screen
+ *  Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
  * @author: NguyenManh
  * @date: 2017/12/13
  * 
@@ -67,6 +68,20 @@ public class TaskController {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Update Task/Spec/Issue");
 		return "updateTaskSpecIssue";
+	}
+	
+	//Mapping button click save Task/Spec/Issue
+	@RequestMapping(value = "actionUpdateTask")
+	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
+		taskInfoDao.updateTask(task);
+		return new ModelAndView("whileSuccess");
+	}
+	
+	//Mapping get dataById for update Task/Spec/Issue
+	@RequestMapping(value = "/editTask/{id}")
+	public ModelAndView editTask(@PathVariable int id) {
+		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
+		return new ModelAndView("updateTaskSpecIssue","",taskInfo);
 	}
 	
 	//Mapping view list Task/Spec/Issue
