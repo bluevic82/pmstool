@@ -35,9 +35,6 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 				mp.setProject_id(rs.getInt(6));
 				return mp;
 			}
-
-
-
 		});
 	}
 }
