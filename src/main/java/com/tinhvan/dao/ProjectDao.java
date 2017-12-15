@@ -6,4 +6,6 @@ import com.tinhvan.model.ProjectInfo;
 
 public interface ProjectDao {
 	public List<ProjectInfo> getAllProject();
+	public void addProject(ProjectInfo project);
+	
 }

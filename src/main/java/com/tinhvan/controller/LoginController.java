@@ -15,6 +15,7 @@ import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
+import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
@@ -48,11 +49,14 @@ public class LoginController {
 	TaskInfoDao taskInfoDao;
 	@Autowired
 	QuestionAnswerDao qaDao;
+	@Autowired
+	ScopeDao scopeDao;
+
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcomePage(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "This is welcome page!");
+		model.addAttribute("title", "OverView");
+		model.addAttribute("message", "This is OverView page!");
 		return "welcomePage";
 	}
 
@@ -96,23 +100,14 @@ public class LoginController {
 		return "403Page";
 	}
 
-	@RequestMapping(value = "/addProject")
-	public String addProject() {
 
-		return "addProject";
-	}
-
-	@RequestMapping(value = "/updateProject")
-	public String updateProject() {
-
-		return "updateProject";
-	}
 
 	@RequestMapping(value = "/answerAndQ")
 	public String qandA() {
 
 		return "answerAndQ";
 	}
+	
 
 	
 	/*
@@ -155,11 +150,7 @@ public class LoginController {
 		return list;
 	}
 
-	@ModelAttribute("projectTypes")
-	public List<Type> getTypes() {
-		List<Type> list = typeDao.getAllType();
-		return list;
-	}
+	
 
 	@ModelAttribute("taskTypes")
 	public List<Type> getTypeOfTask() {
@@ -180,11 +171,7 @@ public class LoginController {
 	}
 	
 
-	@ModelAttribute("projectStatus")
-	public List<Status> getStatus() {
-		List<Status> list = statusDao.getAllStatus();
-		return list;
-	}
+	
 
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
@@ -209,5 +196,6 @@ public class LoginController {
 		List<QuestionAnwer> list = qaDao.getAllQA();
 		return list;
 	}
+	
 
 }
