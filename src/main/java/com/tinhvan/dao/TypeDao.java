@@ -8,4 +8,5 @@ import com.tinhvan.model.Type;
 public interface TypeDao {
 	public List<Type> getAllType();
 	public List<Type> getTypeOfTask();
+	public List<Type> getTypeOfBug();
 }

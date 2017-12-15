@@ -43,4 +43,17 @@ public class TypeDaoImpl implements TypeDao{
 					}
 				});
 	}
+
+	@Override
+	public List<Type> getTypeOfBug() {
+		return jdbctemplate.query("SELECT TYPE_ID,TYPE_NAME FROM TYPE WHERE TYPE_TYPE='bug'",
+				new RowMapper<Type>() {
+					public Type mapRow(ResultSet rs, int row) throws SQLException {
+						Type st = new Type();
+						st.setType_id(rs.getInt(1));
+						st.setType_name(rs.getString(2));
+						return st;
+					}
+				});
+	}
 }
