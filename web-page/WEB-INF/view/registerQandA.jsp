@@ -6,7 +6,7 @@
 <html>
 <head>
 <!-- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> -->
-<title> Q&A Register/Update</title>
+<title> QandA Register/Update</title>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
   	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />" >
