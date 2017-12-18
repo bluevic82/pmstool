@@ -62,7 +62,7 @@
 							${taskStatus.status_name}</option>
 					</c:forEach>
 				</form:select>
-				&emsp; Done<form:input style="margin-left: 10px;" value="" name="done" path="done"/>(%)
+				&emsp; Done<form:input style="margin-left: 10px;" value="" name="task_done" path="task_done"/>(%)
 			</div>
 			<br>
 			

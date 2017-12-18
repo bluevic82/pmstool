@@ -8,4 +8,8 @@ public interface MileStoneDao {
 	
 	public List<MileStone> getAllMileStone();
 	
+	public void addMileStone(MileStone mileStone);
+	
+	public void deleteMidelStone(MileStone MileStone);
+	
 }

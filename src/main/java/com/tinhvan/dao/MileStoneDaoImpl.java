@@ -35,4 +35,27 @@ public class MileStoneDaoImpl implements MileStoneDao {
 			}
 		});
 	}
+
+	@Override
+	public void addMileStone(MileStone mileStone) {
+		String sql = "INSERT INTO milestone_info (PROJECT_ID, MILESTONE_DATE, MILESTONE_DESCRIPTION, MILESTONE_ID) VALUES (?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] {
+			mileStone.getProject_id(),
+			mileStone.getMilestone_date(),
+			mileStone.getMilestone_description(),
+			mileStone.getMilestone_id()
+		});
+	}
+
+	@Override
+	public void deleteMidelStone(MileStone mileStone) {
+		String sql = "DELETE FROM milestone_info WHERE MILESTONE_ID = ?";
+		jdbcTemplate.update(sql, new Object[] {
+			mileStone.getProject_id(),
+			mileStone.getMilestone_date(),
+			mileStone.getMilestone_description(),
+			mileStone.getMilestone_id()
+		});
+		
+	}
 }

@@ -4,7 +4,7 @@ public class TaskInfo {
 	private int id;
 	private int type_id;
 	private int status_id;
-	private int done;
+	private int task_done;
 	private String task_from;
 	private String task_to;
 	private String task_subject;
@@ -39,12 +39,12 @@ public class TaskInfo {
 		this.status_id = status_id;
 	}
 
-	public int getDone() {
-		return done;
+	public int getTask_done() {
+		return task_done;
 	}
 
-	public void setDone(int done) {
-		this.done = done;
+	public void setTask_done(int task_done) {
+		this.task_done = task_done;
 	}
 
 	public String getTask_from() {

@@ -83,7 +83,7 @@
 						<th>${getDetailTask.task_priority}</th>
 						<th>${getDetailTask.task_to}</th>
 						<th>${getDetailTask.status_id}</th>
-						<th>${getDetailTask.done}</th>
+						<th>${getDetailTask.task_done}</th>
 						<th>${getDetailTask.task_description}</th>
 					</tr>
 				</c:forEach>
