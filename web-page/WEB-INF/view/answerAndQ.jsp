@@ -57,7 +57,7 @@
 				  <tbody>
 					 <c:forEach var="allQA" items="${allQA}">
 					  	<tr>   
-						  	<th scope="row">${allQA.q_a_id}</th>
+						  	<th scope="row"><a href="${pageContext.request.contextPath}/registerQA">${allQA.q_a_id}</a></th>
 						  	<th>${allQA.q_a_title}</th>
 						  	<th>${allQA.member_project_id}</th>
 						  	<th>${allQA.q_a_dealine}</th>
