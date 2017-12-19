@@ -31,7 +31,6 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 
-	 <title>${title}</title>
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">

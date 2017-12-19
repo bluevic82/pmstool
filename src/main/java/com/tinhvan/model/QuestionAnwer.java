@@ -1,74 +1,79 @@
 package com.tinhvan.model;
 
-import java.util.Date;
 
 public class QuestionAnwer {
 	private int project_id;
-	private String title;
-	private String qa_quest_vn;
-	private String qa_quest_jp;
-	private String qa_answer_vn;
-	private String qa_anser_jp;
-	private int qa_id;
-	private String reference;
-	private int member_to;
-	private int member_from;
+	private String q_a_title;
+	private String q_a_question_vi;
+	private String q_a_question_jp;
+	private String q_a_answer_vi;
+	private String q_a_anser_jp;
+	private int q_a_id;
+	private String referencepoint;
+	private int member_project_id;
 	private int status_id;
-	private	Date deadline;
+	private int member_from;
+	private	String q_a_dealine;
+	
 	public int getProject_id() {
 		return project_id;
 	}
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
 	}
-	public String getTitle() {
-		return title;
+	public String getQ_a_title() {
+		return q_a_title;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setQ_a_title(String q_a_title) {
+		this.q_a_title = q_a_title;
 	}
-	public String getQa_quest_vn() {
-		return qa_quest_vn;
+	public String getQ_a_question_vi() {
+		return q_a_question_vi;
 	}
-	public void setQa_quest_vn(String qa_quest_vn) {
-		this.qa_quest_vn = qa_quest_vn;
+	public void setQ_a_question_vi(String q_a_question_vi) {
+		this.q_a_question_vi = q_a_question_vi;
 	}
-	public String getQa_quest_jp() {
-		return qa_quest_jp;
+	public String getQ_a_question_jp() {
+		return q_a_question_jp;
 	}
-	public void setQa_quest_jp(String qa_quest_jp) {
-		this.qa_quest_jp = qa_quest_jp;
+	public void setQ_a_question_jp(String q_a_question_jp) {
+		this.q_a_question_jp = q_a_question_jp;
 	}
-	public String getQa_answer_vn() {
-		return qa_answer_vn;
+	public String getQ_a_answer_vi() {
+		return q_a_answer_vi;
 	}
-	public void setQa_answer_vn(String qa_answer_vn) {
-		this.qa_answer_vn = qa_answer_vn;
+	public void setQ_a_answer_vi(String q_a_answer_vi) {
+		this.q_a_answer_vi = q_a_answer_vi;
 	}
-	public String getQa_anser_jp() {
-		return qa_anser_jp;
+	public String getQ_a_anser_jp() {
+		return q_a_anser_jp;
 	}
-	public void setQa_anser_jp(String qa_anser_jp) {
-		this.qa_anser_jp = qa_anser_jp;
+	public void setQ_a_anser_jp(String q_a_anser_jp) {
+		this.q_a_anser_jp = q_a_anser_jp;
 	}
-	public int getQa_id() {
-		return qa_id;
+	public int getQ_a_id() {
+		return q_a_id;
 	}
-	public void setQa_id(int qa_id) {
-		this.qa_id = qa_id;
+	public void setQ_a_id(int q_a_id) {
+		this.q_a_id = q_a_id;
 	}
-	public String getReference() {
-		return reference;
+	public String getReferencepoint() {
+		return referencepoint;
 	}
-	public void setReference(String reference) {
-		this.reference = reference;
+	public void setReferencepoint(String referencepoint) {
+		this.referencepoint = referencepoint;
 	}
-	
-	public int getMember_to() {
-		return member_to;
+	public int getMember_project_id() {
+		return member_project_id;
 	}
-	public void setMember_to(int member_to) {
-		this.member_to = member_to;
+	public void setMember_project_id(int member_project_id) {
+		this.member_project_id = member_project_id;
+	}
+	public int getStatus_id() {
+		return status_id;
+	}
+	public void setStatus_id(int status_id) {
+		this.status_id = status_id;
 	}
 	public int getMember_from() {
 		return member_from;
@@ -76,21 +81,12 @@ public class QuestionAnwer {
 	public void setMember_from(int member_from) {
 		this.member_from = member_from;
 	}
+	public String getQ_a_dealine() {
+		return q_a_dealine;
+	}
+	public void setQ_a_dealine(String q_a_dealine) {
+		this.q_a_dealine = q_a_dealine;
+	}
 	
-	public int getStatus_id() {
-		return status_id;
-	}
-	public void setStatus_id(int status_id) {
-		this.status_id = status_id;
-	}
-	public Date getDeadline() {
-		return deadline;
-	}
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
-	}
-
-	public QuestionAnwer() {
-		super();
-	}
+	
 }

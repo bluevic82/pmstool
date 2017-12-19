@@ -1,12 +1,10 @@
 package com.tinhvan.controller;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -18,8 +16,6 @@ import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
-import com.tinhvan.model.QuestionAnwer;
-import com.tinhvan.model.Status;
 
 /**
  * @Purpose: Controller
@@ -93,22 +89,21 @@ public class LoginController {
 		return "403Page";
 	}
 
-	@RequestMapping(value = "/answerAndQ")
-	public String qandA() {
-
-		return "answerAndQ";
-	}
-
-	@ModelAttribute("qaStatus")
-	public List<Status> getStatusOfQA() {
-		List<Status> list = statusDao.getStatusOfQA();
-		return list;
-	}
-
-	@ModelAttribute("allQA")
-	public List<QuestionAnwer> getQA() {
-		List<QuestionAnwer> list = qaDao.getAllQA();
-		return list;
-	}
+//	@RequestMapping(value = "/answerAndQ")
+//	public String qandA() {
+//		return "answerAndQ";
+//	}
+//
+//	@ModelAttribute("qaStatus")
+//	public List<Status> getStatusOfQA() {
+//		List<Status> list = statusDao.getStatusOfQA();
+//		return list;
+//	}
+//
+//	@ModelAttribute("allQA")
+//	public List<QuestionAnwer> getQA() {
+//		List<QuestionAnwer> list = qaDao.getAllQA();
+//		return list;
+//	}
 
 }

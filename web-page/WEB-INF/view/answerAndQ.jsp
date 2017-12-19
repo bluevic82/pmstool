@@ -38,7 +38,7 @@
 					<div class="col-sm-3"><div>PIC
 						<select name="projectqa">
 					    	<c:forEach var="allQA" items="${allQA}">   
-					   			<option value="${allQA.member_to}" >${allQA.member_to}</option>
+					   			<option value="${allQA.member_project_id}" >${allQA.member_project_id}</option>
 					     	</c:forEach>  
 			    		</select></div>
 					</div>
@@ -57,10 +57,10 @@
 				  <tbody>
 					 <c:forEach var="allQA" items="${allQA}">
 					  	<tr>   
-						  	<th scope="row">${allQA.qa_id}</th>
-						  	<th>${allQA.title}</th>
-						  	<th>${allQA.member_to}</th>
-						  	<th>${allQA.deadline}</th>
+						  	<th scope="row">${allQA.q_a_id}</th>
+						  	<th>${allQA.q_a_title}</th>
+						  	<th>${allQA.member_project_id}</th>
+						  	<th>${allQA.q_a_dealine}</th>
 						  	<th >${allQA.status_id}</th>
 					  	</tr>
 				  	</c:forEach>

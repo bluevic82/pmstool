@@ -27,7 +27,7 @@ import com.tinhvan.model.Type;
 
 /*
  * @purpose: Task Controller using create,update Task/Spec/Issue
- *  Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
+ * Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
  * @author: NguyenManh
  * @date: 2017/12/13
  * 
@@ -48,7 +48,7 @@ public class TaskController {
 	@Autowired
 	TaskInfoDao taskInfoDao;
 	
-	//Mapping create Task/Spec/Issue
+	//Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
 	public String createTask(Model model) {
 		model.addAttribute("title", "Welcome");
@@ -63,7 +63,7 @@ public class TaskController {
 		return new ModelAndView("taskList");
 	}
 
-	//Mapping update Task/Spec/Issue
+	//Mapping view page update Task/Spec/Issue
 	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
 	public String updateTask(Model model) {
 		model.addAttribute("title", "Welcome");

@@ -26,17 +26,17 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 			public QuestionAnwer mapRow(ResultSet rs, int row) throws SQLException{
 				QuestionAnwer qa = new QuestionAnwer();
 					qa.setProject_id(rs.getInt(1));
-					qa.setTitle(rs.getString(2));
-					qa.setQa_quest_jp(rs.getString(3));
-					qa.setQa_quest_vn(rs.getString(4));
-					qa.setQa_anser_jp(rs.getString(5));
-					qa.setQa_answer_vn(rs.getString(6));
-					qa.setQa_id(rs.getInt(7));
-					qa.setReference(rs.getString(8));
+					qa.setQ_a_title(rs.getString(2));
+					qa.setQ_a_question_jp(rs.getString(3));
+					qa.setQ_a_question_vi(rs.getString(4));
+					qa.setQ_a_anser_jp(rs.getString(5));
+					qa.setQ_a_answer_vi(rs.getString(6));
+					qa.setQ_a_id(rs.getInt(7));
+					qa.setReferencepoint(rs.getString(8));
 					qa.setMember_from(rs.getInt(9));
-					qa.setMember_to(rs.getInt(10));
+					qa.setMember_project_id(rs.getInt(10));
 					qa.setStatus_id(rs.getInt(11));
-					qa.setDeadline(rs.getDate(12));
+					qa.setQ_a_dealine(rs.getString(12));
 				return qa;
 				}
 		});
