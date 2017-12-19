@@ -24,6 +24,8 @@
   | &nbsp;
   	<a href="${pageContext.request.contextPath}/listTask">List task/spec/issue</a>
   | &nbsp;  
+    <a href="${pageContext.request.contextPath}/createMileStone">Register Milestone</a>
+  | &nbsp; 
    <a href="${pageContext.request.contextPath}/answerAndQ">Answer And Question List</a>
    
   | &nbsp;

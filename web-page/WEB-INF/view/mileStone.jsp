@@ -31,35 +31,71 @@
 </head>
 <body>
 	<div class="container">
-		<form>
-			<div><label>Project</label><input></div>
-			
-				<div class="row">
-					<div class="col-sm-2">
-						<label >Milestone</label>
-					</div>
-					<div class="col-sm-3">
-						<div class="form-group">
-			                <div class='input-group date' id='datetimepicker' >
-			                    <input type='text' class="form-control" name="datemilestone"/>
-			                    <div class="input-group-addon">
-			                    	<div class="glyphicon glyphicon-calendar"></div>
-			                    </div>
-			                </div>
-			            </div>
-					</div>
-						<div class="col-sm-7">
-					<input >
-				
+		<form action="actionCreateMileStone" name="milestone">
+			<div>
+				<label>Project Name</label>
+				<input name="project_id">
+			</div>
+
+			<div class="row">
+				<div class="col-sm-2" style="margin-top: 20px">
+					<label>Milestone</label>
+				</div>
+				<div class="col-sm-3" style="margin-top: 10px">
+					<div class="form-group">
+						<div class='input-group date' id='datetimepicker'>
+							<input type='text' class="form-control" name="milestone_date" />
+							<div class="input-group-addon">
+								<div class="glyphicon glyphicon-calendar"></div>
+							</div>
+						</div>
 					</div>
 				</div>
-		
+				<div class="col-sm-7">
+					<input type="text" name="milestone_description" style="margin-top: 15px; width: 700px; height: 35px"></input>
+				</div> 
+			</div>
+			
+			<div class="row" style="margin-left: 200px">
+				<div class="col-sm-3" style="margin-top: 10px">
+						<div class="form-group">
+							<div class='input-group date' id='datetimepicker'>
+								<input type='text' class="form-control" name="milestone_date" />
+								<div class="input-group-addon">
+									<div class="glyphicon glyphicon-calendar"></div>
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="col-sm-7">
+					<input type="text" name="milestone_description" style="margin-top: 10px; width: 700px; height: 35px"></input>
+				</div> 
+			</div>
+			
+			<div class="row" style="margin-left: 200px">
+				<div class="col-sm-3" style="margin-top: 10px">
+						<div class="form-group">
+							<div class='input-group date' id='datetimepicker'>
+								<input type='text' class="form-control" name="milestone_date" />
+								<div class="input-group-addon">
+									<div class="glyphicon glyphicon-calendar"></div>
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="col-sm-7">
+					<input type="text" name="milestone_description" style="margin-top: 10px; width: 700px; height: 35px"></input>
+				</div> 
+			</div>
+			<div style="text-align: end;">
+				<button name="actionCreateMileStone" value=actionCreateMileStone style="background-color: green; color: white;">Create</button>
+			</div>
 		</form>
 	</div>
 	<button onclick="creatMileStone()">+</button>	
 <script>
-	function creatMileStone(){
-		var milestone ="<textarea></textarea>";
+	function creatMileStone() {
+		var milestone = "<textarea></textarea>";
 		$("body").append(milestone);
 	}
 </script>

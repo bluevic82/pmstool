@@ -24,18 +24,25 @@ public class MileStoneController {
 	@Autowired
 	MileStoneDao mileStoneDao;
 	
-	//Mapping create Task/Spec/Issue
+	//Mapping to view MileStone JSP
 	@RequestMapping(value = { "/createMileStone" }, method = RequestMethod.GET)
 	public String createMileStone(Model model) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create MileStone");
-		return "milestone";
+		return "mileStone";
 	}
 	
-	//Mapping button click create Task/Spec/Issue
+	//Mapping button click create MileStone
 	@RequestMapping(value = "actionCreateMileStone")
-	public ModelAndView addTask(Model model, @ModelAttribute(value = "milestone") MileStone mileStone) {
+	public ModelAndView addMileStone(Model model, @ModelAttribute(value = "milestone") MileStone mileStone) {
 		mileStoneDao.addMileStone(mileStone);
+		return new ModelAndView("whileSuccess");
+	}
+	
+	//Mapping button click delete MileStone
+	@RequestMapping(value = "actionDeleteMileStone")
+	public ModelAndView deleteMileStone(Model model, @ModelAttribute(value = "milestone") MileStone mileStone) {
+		mileStoneDao.deleteMidelStone(mileStone);
 		return new ModelAndView("whileSuccess");
 	}
 
