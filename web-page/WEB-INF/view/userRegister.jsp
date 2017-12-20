@@ -41,7 +41,7 @@
 		</div><br>
 		<div class="row">
 			<div class="col-sm-2">Password</div>
-			<div class="col-sm-10"><input size="30"> (at least 6 characters and include  number & symbol & Uppercase)</div>
+			<div class="col-sm-10"><input size="30"> (at least 6 characters and include  number and symbol and Uppercase)</div>
 		</div><br>
 		<div class="row">
 			<div class="col-sm-2">Role</div>

@@ -61,7 +61,7 @@
 						  	<th>${allQA.q_a_title}</th>
 						  	<th>${allQA.member_project_id}</th>
 						  	<th>${allQA.q_a_dealine}</th>
-						  	<th >${allQA.status_id}</th>
+						  	<th>${allQA.status_id}</th>
 					  	</tr>
 				  	</c:forEach>
 				  </tbody>

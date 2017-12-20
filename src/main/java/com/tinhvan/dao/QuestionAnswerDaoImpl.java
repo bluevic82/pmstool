@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 
 	@Override
 	public List<QuestionAnwer> getAllQA() {
-		// TODO Auto-generated method stub
+		// select all
 		return jdbcTemplate.query("SELECT * From anser_question", new RowMapper<QuestionAnwer>() {
 			public QuestionAnwer mapRow(ResultSet rs, int row) throws SQLException{
 				QuestionAnwer qa = new QuestionAnwer();
@@ -44,9 +45,76 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 	}
 
 	@Override
-	public QuestionAnwer getQAById(int id) {
-		String sql = "SELECT * FROM anser_question WHERE Q_A_ID = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<QuestionAnwer>(QuestionAnwer.class));
+	public void saveQA(QuestionAnwer questionAnwer) {
+		if(questionAnwer.getQ_a_id() > 0) {
+			//update
+			String sql = "UPDATE anser_question SET Q_A_TITLE=?, "
+					+ "Q_A_QUESTION_VI=?, "
+					+ "Q_A_QUESTION_JP=?, "
+					+ "Q_A_ANSWER_VI=?, "
+					+ "Q_A_ANSWER_JP=?, "
+					+ "REFERENCEPOINT=?, "
+					+ "MEMBER_PROJECT_ID=?, "
+					+ "STATUS_ID=?, "
+					+ "MEMBER_FROM=?, "
+					+ "Q_A_DEALINE=? "
+					+ "WHERE Q_A_ID=?";
+			jdbcTemplate.update(sql, questionAnwer.getQ_a_title(), 
+					questionAnwer.getQ_a_question_vi(),
+					questionAnwer.getQ_a_question_jp(),
+					questionAnwer.getQ_a_answer_vi(),
+					questionAnwer.getQ_a_anser_jp(),
+					questionAnwer.getReferencepoint(),
+					questionAnwer.getMember_project_id(),
+					questionAnwer.getStatus_id(),
+					questionAnwer.getMember_from(),
+					questionAnwer.getQ_a_dealine(),
+					questionAnwer.getQ_a_id());
+		}else {
+			//insert
+			String sql = "INSERT INTO anser_question (PROJECT_ID, Q_A_QUESTION_VI, Q_A_TITLE, Q_A_QUESTION_JP, Q_A_ANSWER_VI, Q_A_ANSWER_JP, REFERENCEPOINT, MEMBER_PROJECT_ID, STATUS_ID, MEMBER_FROM, Q_A_DEALINE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			jdbcTemplate.update(sql,
+					questionAnwer.getProject_id(),
+					questionAnwer.getQ_a_title(),
+					questionAnwer.getQ_a_question_vi(),
+					questionAnwer.getQ_a_question_jp(),
+					questionAnwer.getQ_a_answer_vi(),
+					questionAnwer.getQ_a_anser_jp(),
+					questionAnwer.getReferencepoint(),
+					questionAnwer.getMember_project_id(),
+					questionAnwer.getStatus_id(),
+					questionAnwer.getMember_from(),
+					questionAnwer.getQ_a_dealine());
+		}
+		
+	}
+
+	@Override
+	public QuestionAnwer getQAById(int q_a_id) {
+		String sql = "SELECT * FROM anser_question WHERE Q_A_ID =" + q_a_id;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<QuestionAnwer>() {
+
+			@Override
+			public QuestionAnwer extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.next()) {
+					QuestionAnwer questionAnwer = new QuestionAnwer();
+					questionAnwer.setQ_a_id(rs.getInt("q_a_id"));
+					questionAnwer.setQ_a_title(rs.getString("q_a_title"));
+					questionAnwer.setQ_a_question_vi(rs.getString("q_a_question_vi"));
+					questionAnwer.setQ_a_question_jp(rs.getString("q_a_question_jp"));
+					questionAnwer.setQ_a_answer_vi(rs.getString("q_a_answer_vi"));
+					questionAnwer.setQ_a_anser_jp(rs.getString("q_a_anser_jp"));
+					questionAnwer.setReferencepoint(rs.getString("referencepoint"));
+					questionAnwer.setMember_project_id(rs.getInt("member_project_id"));
+					questionAnwer.setStatus_id(rs.getInt("status_id"));
+					questionAnwer.setMember_from(rs.getInt("member_from"));
+					questionAnwer.setQ_a_dealine(rs.getString("q_a_dealine"));
+					return questionAnwer;
+				}
+				return null;
+			}
+			
+		});
 	}
 	
 	

@@ -27,7 +27,7 @@ import com.tinhvan.model.Type;
 
 /*
  * @purpose: Task Controller using create,update Task/Spec/Issue
- * Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
+ *  Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
  * @author: NguyenManh
  * @date: 2017/12/13
  * 
@@ -75,7 +75,7 @@ public class TaskController {
 	@RequestMapping(value = "/actionUpdateTask")
 	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "updateTask") TaskInfo task) {
 		taskInfoDao.updateTask(task);
-		return new ModelAndView("taskList");
+		return new ModelAndView("whileSuccess");
 	}
 	
 	//Mapping get dataById for update Task/Spec/Issue

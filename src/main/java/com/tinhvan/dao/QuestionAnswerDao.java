@@ -6,7 +6,9 @@ import com.tinhvan.model.QuestionAnwer;
 
 public interface QuestionAnswerDao {
 	
-	List<QuestionAnwer> getAllQA();
+	public List<QuestionAnwer> getAllQA();
 	
-	public QuestionAnwer getQAById(int id);
+	public void saveQA(QuestionAnwer questionAnwer);
+	
+	public QuestionAnwer getQAById(int q_a_id);
 }

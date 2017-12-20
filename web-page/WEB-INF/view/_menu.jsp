@@ -26,7 +26,7 @@
   | &nbsp;  
     <a href="${pageContext.request.contextPath}/createMileStone">Register Milestone</a>
   | &nbsp; 
-   <a href="${pageContext.request.contextPath}/answerAndQ">QA List</a>
+   <a href="${pageContext.request.contextPath}/qaList">QA List</a>
    
   | &nbsp;
   
