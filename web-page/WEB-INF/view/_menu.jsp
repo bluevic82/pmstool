@@ -5,37 +5,37 @@
   		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />" >
   		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />" >
  </head>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
+<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px; background-color: blue;  ">
  
-  <a href="${pageContext.request.contextPath}/welcome">Home</a>
+  <a href="${pageContext.request.contextPath}/welcome" style="color: #ffffff;">Home</a>
  
   | &nbsp;
   
-   <a href="${pageContext.request.contextPath}/userInfo">User Info</a>
+   <a href="${pageContext.request.contextPath}/userInfo" style="color: #ffffff;">User Info</a>
   | &nbsp;
-     <a href="${pageContext.request.contextPath}/detailProject">Project Information</a>
+     <a href="${pageContext.request.contextPath}/detailProject" style="color: #ffffff;">Project Information</a>
   | &nbsp;
-   <a href="${pageContext.request.contextPath}/addProject">Add project</a>
+   <a href="${pageContext.request.contextPath}/addProject" style="color: #ffffff;">Add project</a>
  <%--  | &nbsp;
    <a href="${pageContext.request.contextPath}/updateProject">Update project</a> --%>
    
   | &nbsp; 
-	<a href="${pageContext.request.contextPath}/createTask">Create task/spec/issue</a>
+	<a href="${pageContext.request.contextPath}/createTask" style="color: #ffffff;">Create task/spec/issue</a>
   | &nbsp;
-  	<a href="${pageContext.request.contextPath}/taskList">List task/spec/issue</a>
+  	<a href="${pageContext.request.contextPath}/taskList" style="color: #ffffff;">List task/spec/issue</a>
   | &nbsp;  
-    <a href="${pageContext.request.contextPath}/createMileStone">Register Milestone</a>
+    <a href="${pageContext.request.contextPath}/createMileStone" style="color: #ffffff;">Register Milestone</a>
   | &nbsp; 
-   <a href="${pageContext.request.contextPath}/answerAndQ">QA List</a>
+   <a href="${pageContext.request.contextPath}/answerAndQ" style="color: #ffffff;">QA List</a>
    
   | &nbsp;
   
-  <a href="${pageContext.request.contextPath}/admin">Admin</a>
+  <a href="${pageContext.request.contextPath}/admin" style="color: #ffffff;">Admin</a>
   
   <c:if test="${pageContext.request.userPrincipal.name != null}">
   
      | &nbsp;
-     <a href="${pageContext.request.contextPath}/logout">Logout</a>
+     <a href="${pageContext.request.contextPath}/logout" style="color: #ffffff;">Logout</a>
      
   </c:if>
   
