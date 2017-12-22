@@ -75,16 +75,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="getDetailTask" items="${getDetailTask}">
+				<c:forEach var="list" items="${list}">
 					<tr>
-						<th scope="row"><a href="editTask/${getDetailTask.id}">${getDetailTask.id}</a></th>
-						<th><a href="editTask/${getDetailTask.id}">${getDetailTask.task_subject}</a></th>
-						<th>${getDetailTask.member_project_id}</th>
-						<th>${getDetailTask.task_priority}</th>
-						<th>${getDetailTask.task_to}</th>
-						<th>${getDetailTask.status_id}</th>
-						<th>${getDetailTask.task_done}</th>
-						<th>${getDetailTask.task_description}</th>
+						<th scope="row"><a href="editTask/${list.task_id}">${list.task_id}</a></th>
+						<th><a href="editTask/${list.task_id}">${list.task_subject}</a></th>
+						<th>${list.member_project_id}</th>
+						<th>${list.task_priority}</th>
+						<th>${list.task_to}</th>
+						<th>${list.status_id}</th>
+						<th>${list.task_done}</th>
+						<th>${list.task_description}</th>
 					</tr>
 				</c:forEach>
 			</tbody>

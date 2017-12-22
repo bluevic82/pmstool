@@ -22,11 +22,11 @@
   | &nbsp; 
 	<a href="${pageContext.request.contextPath}/createTask">Create task/spec/issue</a>
   | &nbsp;
-  	<a href="${pageContext.request.contextPath}/listTask">List task/spec/issue</a>
+  	<a href="${pageContext.request.contextPath}/taskList">List task/spec/issue</a>
   | &nbsp;  
     <a href="${pageContext.request.contextPath}/createMileStone">Register Milestone</a>
   | &nbsp; 
-   <a href="${pageContext.request.contextPath}/qaList">QA List</a>
+   <a href="${pageContext.request.contextPath}/answerAndQ">QA List</a>
    
   | &nbsp;
   

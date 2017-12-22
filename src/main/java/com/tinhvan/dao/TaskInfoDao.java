@@ -6,11 +6,11 @@ import com.tinhvan.model.TaskInfo;
 
 public interface TaskInfoDao {
 	
-	public List<TaskInfo> detailTask();
+	public List<TaskInfo> getAllTask();
 	
 	public void addTask(TaskInfo taskInfo);
 	
-	public int updateTask(TaskInfo taskInfo);
+	public void updateTask(TaskInfo taskInfo);
 	
 	public TaskInfo getTaskById(int id);
 }

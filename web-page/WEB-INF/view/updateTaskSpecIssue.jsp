@@ -34,7 +34,8 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form action="/pmstool/actionUpdateTask">
+		<form:form action="/Login/actionUpdateTask" method="POST">
+			<form:hidden path="task_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
@@ -143,7 +144,7 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button name="actionUpdateTask" value="actionUpdateTask" style="background-color: green; color: white;">Save</button>
+				<button type="submit" name="" value="save" style="background-color: green; color: white;">Save</button>
 			</div>
 		</form:form>
 	</div>
