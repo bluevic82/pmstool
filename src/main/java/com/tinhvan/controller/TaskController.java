@@ -25,6 +25,7 @@ import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
+
 /*
  * @purpose: Task Controller using create,update Task/Spec/Issue
  *  Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
@@ -49,18 +50,18 @@ public class TaskController {
 	TaskInfoDao taskInfoDao;
 	
 	//Mapping view page create Task/Spec/Issue
-	@RequestMapping(value = { "/createTask" }, method = RequestMethod.GET)
-	public String createTask(Model model) {
+	@RequestMapping(value = "/createTask" )
+	public ModelAndView createTask(Model model) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create Task/Spec/Issue");
-		return "createTaskSpecIssue";
+		return new ModelAndView("createTaskSpecIssue","command",new TaskInfo());
 	}
 	
 	//Mapping button click create Task/Spec/Issue
-	@RequestMapping(value = "actionCreateTask")
+	@RequestMapping(value = "/actionCreateTask", method=RequestMethod.POST)
 	public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
 		taskInfoDao.addTask(task);
-		return new ModelAndView("taskList");
+		return new ModelAndView("redirect:/taskList");
 	}
 
 	//Mapping view page update Task/Spec/Issue
@@ -72,10 +73,10 @@ public class TaskController {
 	}
 	
 	//Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "/actionUpdateTask")
-	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "updateTask") TaskInfo task) {
+	@RequestMapping(value = "/actionUpdateTask", method=RequestMethod.POST)
+	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
 		taskInfoDao.updateTask(task);
-		return new ModelAndView("whileSuccess");
+		return new ModelAndView("redirect:/taskList");
 	}
 	
 	//Mapping get dataById for update Task/Spec/Issue
@@ -86,12 +87,16 @@ public class TaskController {
 		return new ModelAndView("updateTaskSpecIssue","command",taskInfo);
 	}
 	
+	/*ModelMap model, @ModelAttribute(value="task") TaskInfo task*/
+	
 	//Mapping view list Task/Spec/Issue
-	@RequestMapping(value = { "/listTask" }, method = RequestMethod.GET)
-	public String listTask(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "List Task/Spec/Issue");
-		return "taskList";
+	@RequestMapping("/taskList" )
+	public ModelAndView listTask() {
+		/*model.addAttribute("title", "List Task");
+		model.addAttribute("message", "List Task/Spec/Issue");*/
+		List<TaskInfo> list = taskInfoDao.getAllTask();
+		/*model.put("task", taskInfoDao.getAllTask());*/
+		return new ModelAndView("taskList","list",list);
 	}
 
 	/*
@@ -106,23 +111,29 @@ public class TaskController {
 	//get type of Task/Spec/Issue
 	@ModelAttribute("taskTypes")
 	public List<Type> getTypeOfTask() {
-		List<Type> list = typeDao.getTypeOfTask();
+		List<Type> list = typeDao.getAllType();
 		return list;
 	}
 
 	//get status of Task/Spec/Issue
 	@ModelAttribute("taskStatus")
 	public List<Status> getStatusOfTask() {
-		List<Status> list = statusDao.getStatusOfTask();
+		List<Status> list = statusDao.getAllStatus();
 		return list;
 	}
 	
 	//get detail Task/Spec/Issue for view list Task/Spec/Issue
-	@ModelAttribute("getDetailTask")
+	/*@ModelAttribute("getDetailTask")
 	public List<TaskInfo> getDetailTask(){
 		List<TaskInfo> list = taskInfoDao.detailTask();
-		return list;
-	}
+		return null;
+	}*/
+	/*ModelMap model, @ModelAttribute("task") TaskInfo task*/
+/*	@RequestMapping(value="taskList")
+	public ModelAndView listTask() {
+		List<TaskInfo> list = taskInfoDao.getAllTask();
+		return new ModelAndView("taskList","list",list);	
+	}*/
 	
 	//get all member project in Task/Spec/Issue
 	@ModelAttribute("pic")

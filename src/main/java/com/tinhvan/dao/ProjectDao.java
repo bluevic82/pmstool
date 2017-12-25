@@ -6,6 +6,11 @@ import com.tinhvan.model.ProjectInfo;
 
 public interface ProjectDao {
 	public List<ProjectInfo> getAllProject();
+	
 	public void addProject(ProjectInfo project);
+	
+	public void updateProject(ProjectInfo project);
+	
+	public ProjectInfo getProjectById(int id);
 	
 }

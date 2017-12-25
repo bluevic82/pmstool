@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,6 @@ public class ProjectDaoImpl implements ProjectDao {
 				projectInfo.setProject_technical(rs.getString(9));
 				return projectInfo;
 			}
-			
 		});
 		
 	}
@@ -49,7 +49,21 @@ public class ProjectDaoImpl implements ProjectDao {
 		String sql="INSERT INTO project_info(PROJECT_NAME, PROJECT_FROM, PROJECT_TO, PROJECT_CHARGE_COST, STATUS_ID, TYPE_ID, PROJECT_DESCRIPTION, PROJECT_TECHNICAL)"+"VALUES (?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] {project.getProject_name(),project.getProject_from(),project.getProject_to(),project.getProject_charge_cost(),project.getStatus_id(),project.getType_id(),project.getProject_description(),project.getProject_technical()});
 	}
-	
-	
 
+	@Override
+	public void updateProject(ProjectInfo project) {
+		// TODO Auto-generated method stub
+		String sql="update project_info set project_name='"+project.getProject_name()+"', project_from ='"+project.getProject_from()+"',  project_to='"+project.getProject_to()+"',  project_charge_cost="+project.getProject_charge_cost()+",  status_id="+project.getStatus_id()+",  type_id="+project.getType_id()+",  project_description='"+project.getProject_description()+"',  project_technical='"+project.getProject_technical()+"' where project_id="+project.getProject_id()+""; 
+		jdbcTemplate.update(sql);
+		
+	}
+
+	@Override
+	public ProjectInfo getProjectById(int id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM project_info where PROJECT_ID = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<ProjectInfo>(ProjectInfo.class));
+	}
+	
+	
 }

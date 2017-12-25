@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
@@ -41,21 +44,35 @@ public class ProjectController {
 	ScopeDao scopeDao;
 	//mapping add project
 	@RequestMapping(value = "/addProject")
-	public String addProject() {
+	public ModelAndView addProject() {
 
-		return "addProject";
+		return new ModelAndView("addProject","command",new ProjectInfo());
 	}
 	//mapping Create Project
-	@RequestMapping(value="actionCreateProject")
+	@RequestMapping(value="/actionCreateProject", method=RequestMethod.POST)
 	public ModelAndView addproject(Model model, @ModelAttribute(value="project") ProjectInfo project) {
 		projectDao.addProject(project);
-		return new ModelAndView("whileSuccess");
+		return new ModelAndView("redirect:/");
 	}
 	//mapping update project
-	@RequestMapping(value = "/updateProject")
+	/*@RequestMapping(value = "/updateProject")
 	public String updateProject() {
 
 		return "updateProject";
+	}*/
+	//mapping action update project
+	@RequestMapping(value="/actionUpdateProject", method=RequestMethod.POST)
+	public ModelAndView actionUpdateProject(Model model, @ModelAttribute(value = "project") ProjectInfo project) {
+		projectDao.updateProject(project);
+		return new ModelAndView("redirect:/");
+	}
+	
+	//mapping getdata project_id for update Project
+	@RequestMapping(value = "/editproject/{id}")
+	public ModelAndView editProject(@PathVariable int id, ModelMap model) {
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.put("command", projectDao.getProjectById(id));
+		return new ModelAndView("updateProject","command",projectInfo);
 	}
 	
 	//mapping detail project

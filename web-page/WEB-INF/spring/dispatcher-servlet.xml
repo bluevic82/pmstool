@@ -32,9 +32,9 @@
 	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/project_manager_system"></property>
+		<property name="url" value="jdbc:mysql://localhost/test_pms"></property>
 		<property name="username" value="root"></property>
-		<property name="password" value="123456"></property>
+		<property name="password" value=""></property>
 	</bean> -->
 	
 	<!-- using jdbc -->

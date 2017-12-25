@@ -31,7 +31,8 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form name="project" action="actionCreateProject">
+		<form name="project" action="actionCreateProject" method="post">
+		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>Project Name <input value="" name="project_name" size="30"></div>

@@ -1,12 +1,14 @@
 package com.tinhvan.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
@@ -16,6 +18,7 @@ import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
+import com.tinhvan.model.ProjectInfo;
 
 /**
  * @Purpose: Controller
@@ -42,11 +45,12 @@ public class LoginController {
 	@Autowired
 	ScopeDao scopeDao;
 
-	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
-	public String welcomePage(Model model) {
+	@RequestMapping(value = { "/", "/welcome" })
+	public ModelAndView welcomePage(Model model) {
 		model.addAttribute("title", "OverView");
 		model.addAttribute("message", "This is OverView page!");
-		return "welcomePage";
+		List<ProjectInfo> list = projectDao.getAllProject();
+		return new ModelAndView("welcomePage","list",list);
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
