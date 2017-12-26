@@ -7,7 +7,7 @@
 <html>
 <head>
 <!-- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> -->
-<title> QandA Registe</title>
+<title> QandA Register/Update</title>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
   	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />" >
@@ -32,18 +32,17 @@
 </head>
 <body>
 	<div class="container">
-	<form method="POST" name="addqa" action="actionRegisterQA">
-	
+	<form:form method="POST" name="qa" action="/Login/actionUpdateQA">
 		<div >
-			Project Name <input value="" name="project_id" size="30" style="margin-left: 7px;"/>
+			Project Name <form:input name="q_a_id" path="q_a_id" size="30" style="margin-left: 7px;"/>
 		</div>
 		<br>
 		<div>
-			Title <input value="" name="q_a_title" style="margin-left: 82px;" size="50"/>
+			Title <form:input path="q_a_title" name="q_a_title" style="margin-left: 82px;" size="50"/>
 		</div>
 		<br>
 		<div>
-			Reference point <input value="" name="referencepoint" style="margin-left: 10px;" size="50"/> 
+			Reference point <form:input path="referencepoint" name="referencepoint" style="margin-left: 10px;" size="50"/> 
 		<button>Browse</button>
 		</div>
 		<br>
@@ -51,15 +50,15 @@
 		<div class="col-sm-6">Question<br>
 			<div >
 				<label>VN</label>
-				<textarea name="q_a_question_vi" rows="4" cols="30"></textarea><br><br>
+				<form:textarea path="q_a_question_vi" name="q_a_question_vi" rows="4" cols="30"></form:textarea><br><br>
 				<label>JP</label>
-				<textarea name="q_a_question_jp" rows="4" cols="30"></textarea><br>
+				<form:textarea path="q_a_question_jp" name="q_a_question_jp" rows="4" cols="30"></form:textarea><br>
 			</div>
 		</div>
 			
 		<div class="col-sm-6">Answer<br>
-			<textarea name="q_a_answer_vi" rows="4" cols="30"></textarea><br><br>
-			<textarea name="q_a_answer_jp" rows="4" cols="30"></textarea><br>
+			<form:textarea path="q_a_answer_vi" name="q_a_answer_vi" rows="4" cols="30"></form:textarea><br><br>
+			<form:textarea path="q_a_answer_jp" name="q_a_answer_jp" rows="4" cols="30"></form:textarea><br>
 		</div>
 			
 		</div><br>
@@ -77,7 +76,7 @@
 				<div class="col-sm-1">Deadline</div>
 					<div class="form-group col-sm-4">
 						<div class='input-group date' id='datetimepicker1'>
-							<input name="q_a_dealine" size="20" type='text' class="form-control"/>
+							<form:input path="q_a_dealine" size="20" type='text' class="form-control" name="q_a_dealine" />
 							<div class="input-group-addon">
 								<div class="glyphicon glyphicon-calendar"></div>
 							</div>
@@ -86,14 +85,14 @@
 			<div class="col-sm-7"></div>
 			</div>
 			<div>
-				Status <select name="status_id">
+				Status <select name="status">
 					<c:forEach var="qaStatus" items="${qaStatus}">
 						<option value="${qaStatus.status_id}">${qaStatus.status_type}</option>
 					</c:forEach>
 				</select>
-				<button name="actionRegisterQA" value="actionRegisterQA" style="background-color: green; color: white; margin-left: 1000px;">Register</button>
+				<form:button name="actionUpdateQA" value="actionUpdateQA" style="background-color: green; color: white; margin-left: 1000px;">Save</form:button>
 			</div><br>
-			</form>
+			</form:form>
 	</div>
 
 

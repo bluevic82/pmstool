@@ -7,7 +7,7 @@ public class QuestionAnwer {
 	private String q_a_question_vi;
 	private String q_a_question_jp;
 	private String q_a_answer_vi;
-	private String q_a_anser_jp;
+	private String q_a_answer_jp;
 	private int q_a_id;
 	private String referencepoint;
 	private int member_project_id;
@@ -45,11 +45,11 @@ public class QuestionAnwer {
 	public void setQ_a_answer_vi(String q_a_answer_vi) {
 		this.q_a_answer_vi = q_a_answer_vi;
 	}
-	public String getQ_a_anser_jp() {
-		return q_a_anser_jp;
+	public String getQ_a_answer_jp() {
+		return q_a_answer_jp;
 	}
-	public void setQ_a_anser_jp(String q_a_anser_jp) {
-		this.q_a_anser_jp = q_a_anser_jp;
+	public void setQ_a_answer_jp(String q_a_answer_jp) {
+		this.q_a_answer_jp = q_a_answer_jp;
 	}
 	public int getQ_a_id() {
 		return q_a_id;
@@ -87,6 +87,5 @@ public class QuestionAnwer {
 	public void setQ_a_dealine(String q_a_dealine) {
 		this.q_a_dealine = q_a_dealine;
 	}
-	
 	
 }

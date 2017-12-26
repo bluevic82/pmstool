@@ -37,34 +37,48 @@ public class QAController {
 	MemberProjectDao memberProjectDao;
 
 	// Mapping view ListQuestion & Answer
-	@RequestMapping(value = "/qaList", method = RequestMethod.GET)
-	public String listQA(Model model) {
-		model.addAttribute("title", "ListQA");
-		model.addAttribute("message", "List Question and Answer");
-		return "qaList";
+	@RequestMapping(value = "/qaList")
+	public ModelAndView listQA(Model model) {
+		List<QuestionAnwer> list = answerDao.getAllQA();
+		return new ModelAndView("qaList", "list", list);
 	}
 
-	// Mapping view Register Q&A
+	//Mapping view page register QA
 	@RequestMapping(value = { "/registerQA" }, method = RequestMethod.GET)
-	public String updateQA(Model model) {
+	public String registerQA(Model model) {
 		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "Register Q&A");
+		model.addAttribute("message", "register QA");
 		return "registerQandA";
 	}
 	
-	//Mapping event click save Q&A
-	@RequestMapping(value = "/actionSave", method = RequestMethod.POST)
-	public ModelAndView saveQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer anwer) {
-		answerDao.saveQA(anwer);
-		return new ModelAndView("redirect:/");
+	//Mapping button click registerQA
+	@RequestMapping(value = "/actionRegisterQA", method=RequestMethod.POST)
+	public ModelAndView registerQA(Model model, @ModelAttribute(value = "addqa") QuestionAnwer questionAnwer) {
+		answerDao.registerQA(questionAnwer);
+		return new ModelAndView("redirect:/qaList");
 	}
 	
-	// Mapping get dataById for update Q&A
-	@RequestMapping(value = "/editQA{q_a_id}")
-	public ModelAndView editQA(@PathVariable int id, ModelMap mm) {
-		QuestionAnwer anwer = answerDao.getQAById(id);
-		mm.put("command", answerDao.getQAById(id));
-		return new ModelAndView("registerQandA", "command", anwer);
+	//Mapping view page update QA
+	@RequestMapping(value = { "/updateQA" }, method = RequestMethod.GET)
+	public String updateQA(Model model) {
+		model.addAttribute("title", "Welcome");
+		model.addAttribute("message", "Update QA");
+		return "updateQandA";
+	}
+	
+	//Mapping button click save QA
+	@RequestMapping(value = "/actionUpdateQA", method=RequestMethod.POST)
+	public ModelAndView updateQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer questionAnwer) {
+		answerDao.updateQA(questionAnwer);
+		return new ModelAndView("redirect:/qaList");
+	}
+	
+	//Mapping get dataById for update QA
+	@RequestMapping(value = "/editQA/{q_a_id}")
+	public ModelAndView editQA(@PathVariable int q_a_id, ModelMap model) {
+		QuestionAnwer questionAnwer = answerDao.getQAById(q_a_id);
+		model.put("command", answerDao.getQAById(q_a_id));
+		return new ModelAndView("updateQandA","command",questionAnwer);
 	}
 
 	/*	

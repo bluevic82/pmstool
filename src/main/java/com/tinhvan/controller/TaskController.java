@@ -86,16 +86,11 @@ public class TaskController {
 		model.put("command", taskInfoDao.getTaskById(id));
 		return new ModelAndView("updateTaskSpecIssue","command",taskInfo);
 	}
-	
-	/*ModelMap model, @ModelAttribute(value="task") TaskInfo task*/
-	
+		
 	//Mapping view list Task/Spec/Issue
 	@RequestMapping("/taskList" )
 	public ModelAndView listTask() {
-		/*model.addAttribute("title", "List Task");
-		model.addAttribute("message", "List Task/Spec/Issue");*/
 		List<TaskInfo> list = taskInfoDao.getAllTask();
-		/*model.put("task", taskInfoDao.getAllTask());*/
 		return new ModelAndView("taskList","list",list);
 	}
 
@@ -121,19 +116,6 @@ public class TaskController {
 		List<Status> list = statusDao.getAllStatus();
 		return list;
 	}
-	
-	//get detail Task/Spec/Issue for view list Task/Spec/Issue
-	/*@ModelAttribute("getDetailTask")
-	public List<TaskInfo> getDetailTask(){
-		List<TaskInfo> list = taskInfoDao.detailTask();
-		return null;
-	}*/
-	/*ModelMap model, @ModelAttribute("task") TaskInfo task*/
-/*	@RequestMapping(value="taskList")
-	public ModelAndView listTask() {
-		List<TaskInfo> list = taskInfoDao.getAllTask();
-		return new ModelAndView("taskList","list",list);	
-	}*/
 	
 	//get all member project in Task/Spec/Issue
 	@ModelAttribute("pic")

@@ -5,7 +5,7 @@
   		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />" >
   		<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />" >
  </head>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px; background-color: blue;  ">
+<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px; background-color: #837CFF;  ">
  
   <a href="${pageContext.request.contextPath}/welcome" style="color: #ffffff;">Home</a>
  
@@ -16,9 +16,6 @@
      <a href="${pageContext.request.contextPath}/detailProject" style="color: #ffffff;">Project Information</a>
   | &nbsp;
    <a href="${pageContext.request.contextPath}/addProject" style="color: #ffffff;">Add project</a>
- <%--  | &nbsp;
-   <a href="${pageContext.request.contextPath}/updateProject">Update project</a> --%>
-   
   | &nbsp; 
 	<a href="${pageContext.request.contextPath}/createTask" style="color: #ffffff;">Create task/spec/issue</a>
   | &nbsp;
@@ -26,10 +23,10 @@
   | &nbsp;  
     <a href="${pageContext.request.contextPath}/createMileStone" style="color: #ffffff;">Register Milestone</a>
   | &nbsp; 
-   <a href="${pageContext.request.contextPath}/answerAndQ" style="color: #ffffff;">QA List</a>
-   
+   <a href="${pageContext.request.contextPath}/registerQA" style="color: #ffffff;">Register QA</a>
   | &nbsp;
-  
+   <a href="${pageContext.request.contextPath}/qaList" style="color: #ffffff;">QA List</a>
+  | &nbsp;   
   <a href="${pageContext.request.contextPath}/admin" style="color: #ffffff;">Admin</a>
   
   <c:if test="${pageContext.request.userPrincipal.name != null}">

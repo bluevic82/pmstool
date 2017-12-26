@@ -30,7 +30,7 @@
 				<c:forEach var="projectName" items="${projectName}">
 					<option value="${projectName.project_id}">${projectName.project_name}</option>
 				</c:forEach>
-			</select> 
+			</select>
 			<label style="margin-left: 10px"> Type </label> 
 			<select name="type_id" style="margin-left: 5px">
 				<c:forEach var="taskTypes" items="${taskTypes}">
