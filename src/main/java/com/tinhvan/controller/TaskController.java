@@ -27,10 +27,10 @@ import com.tinhvan.model.Type;
 
 
 /*
- * @purpose: Task Controller using create,update Task/Spec/Issue
+ * @Purpose: Task Controller using create,update Task/Spec/Issue
  *  Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
- * @author: NguyenManh
- * @date: 2017/12/13
+ * @Author: NguyenManh
+ * @Date: 2017/12/13
  * 
  * **/
 @Controller
@@ -113,7 +113,7 @@ public class TaskController {
 	//get status of Task/Spec/Issue
 	@ModelAttribute("taskStatus")
 	public List<Status> getStatusOfTask() {
-		List<Status> list = statusDao.getAllStatus();
+		List<Status> list = statusDao.getStatusOfTask();
 		return list;
 	}
 	

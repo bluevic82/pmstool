@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
 
@@ -29,6 +31,8 @@ import com.tinhvan.model.Status;
 @Controller
 public class QAController {
 
+	@Autowired
+	ProjectDao projectDao;
 	@Autowired
 	QuestionAnswerDao answerDao;
 	@Autowired
@@ -96,10 +100,17 @@ public class QAController {
 		return list;
 	}
 	
-	//get all member project in Task/Spec/Issue
+	//get all member project in project this
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
 		List<MemberProject> list = memberProjectDao.getAllMember();
+		return list;
+	}
+	
+	//method get Name of Project
+	@ModelAttribute("projectName")
+	public List<ProjectInfo> getAllProject(){
+		List<ProjectInfo> list = projectDao.getAllProject();
 		return list;
 	}
 

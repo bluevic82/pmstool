@@ -12,9 +12,9 @@ import com.tinhvan.dao.MileStoneDao;
 import com.tinhvan.model.MileStone;
 
 /*
- * @purpose: MileStoneController using Setting Milestone
- * @author: NguyenManh
- * @date: 2017/12/15
+ * @Purpose: MileStoneController using Setting Milestone
+ * @Author: NguyenManh
+ * @Date: 2017/12/15
  * 
  * **/
 

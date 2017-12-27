@@ -17,15 +17,19 @@
   | &nbsp;
    <a href="${pageContext.request.contextPath}/addProject" style="color: #ffffff;">Add project</a>
   | &nbsp; 
-	<a href="${pageContext.request.contextPath}/createTask" style="color: #ffffff;">Create task/spec/issue</a>
+	<a href="${pageContext.request.contextPath}/createTask" style="color: #ffffff;">Create task</a>
   | &nbsp;
-  	<a href="${pageContext.request.contextPath}/taskList" style="color: #ffffff;">List task/spec/issue</a>
+  	<a href="${pageContext.request.contextPath}/taskList" style="color: #ffffff;">List task</a>
   | &nbsp;  
     <a href="${pageContext.request.contextPath}/createMileStone" style="color: #ffffff;">Register Milestone</a>
   | &nbsp; 
    <a href="${pageContext.request.contextPath}/registerQA" style="color: #ffffff;">Register QA</a>
   | &nbsp;
-   <a href="${pageContext.request.contextPath}/qaList" style="color: #ffffff;">QA List</a>
+   <a href="${pageContext.request.contextPath}/qaList" style="color: #ffffff;">List QA</a>
+  | &nbsp; 
+     <a href="${pageContext.request.contextPath}/registerTimeSheet" style="color: #ffffff;">Register TimeSheet</a>
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/timeSheetList" style="color: #ffffff;">List TimeSheet</a>
   | &nbsp;   
   <a href="${pageContext.request.contextPath}/admin" style="color: #ffffff;">Admin</a>
   

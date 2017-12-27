@@ -20,30 +20,26 @@
 	<div class="container" style="margin-top: 20px;">
 		<div class="row">
 			<div class="col-sm-9">
-				<div class="row">
-					<div class="col-sm-5"><div>Project Name
-						<select name="projectqa">
-					    	<c:forEach var="allQA" items="${allQA}">   
-					   			<option value="${allQA.project_id}" >${allQA.project_id}</option>
+				<div>
+					Project Name
+						<select name="projectName">
+					    	<c:forEach var="projectName" items="${projectName}">   
+					   			<option value="${projectName.project_id}" >${projectName.project_name}</option>
 					     	</c:forEach>  
-			    		</select></div>
-					</div>
-					<div class="col-sm-4"><div>Status
+			    		</select>
+					<label style="margin-left: 50px">Status</label>
 						<select name="status">
 					    	<c:forEach var="qaStatus" items="${qaStatus}">   
 					   			<option value="${qaStatus.status_id}" >${qaStatus.status_type}</option>
 					     	</c:forEach>  
-			    		</select></div>
-					</div>
-					<div class="col-sm-3"><div>PIC
-						<select name="projectqa">
-					    	<c:forEach var="allQA" items="${allQA}">   
-					   			<option value="${allQA.member_project_id}" >${allQA.member_project_id}</option>
+			    		</select>
+					<label style="margin-left: 50px">PIC</label>
+						<select name="member_project_id">
+					    	<c:forEach var="pic" items="${pic}">   
+					   			<option value="${pic.member_project_id}" >${pic.member_project_name}</option>
 					     	</c:forEach>  
-			    		</select></div>
-					</div>
+			    		</select>
 				</div>
-				
 				<table style="margin-top: 50px;" class="table table-bordered">
 				  <thead>
 				    <tr>

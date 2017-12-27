@@ -33,7 +33,7 @@
 <body>
 	<div class="container">
 	<form method="POST" name="addqa" action="actionRegisterQA">
-	
+	<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<div >
 			Project Name <input value="" name="project_id" size="30" style="margin-left: 7px;"/>
 		</div>

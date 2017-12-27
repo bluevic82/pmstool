@@ -5,7 +5,12 @@ import java.util.List;
 import com.tinhvan.model.Status;
 
 public interface StatusDao {
+	
 	public List<Status> getAllStatus();
+	
 	public List<Status> getStatusOfTask();
+	
 	public List<Status> getStatusOfQA();
+	
+	public List<Status> getStatusOfTS();
 }

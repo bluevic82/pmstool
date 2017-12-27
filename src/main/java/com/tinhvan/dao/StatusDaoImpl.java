@@ -62,5 +62,21 @@ public class StatusDaoImpl implements StatusDao{
 			}
 		});
 	}
+
+	@Override
+	public List<Status> getStatusOfTS() {
+		// TODO Auto-generated method stub
+		return jdbctemplate.query("SELECT * FROM STATUS_INFO WHERE STATUS_NAME='timesheet'", new RowMapper<Status>(){
+
+			@Override
+			public Status mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Status st = new Status();
+				st.setStatus_id(rs.getInt(1));
+				st.setStatus_name(rs.getString(2));
+				st.setStatus_type(rs.getString(3));
+				return st;
+			}
+		});
+	}
 	
 }
