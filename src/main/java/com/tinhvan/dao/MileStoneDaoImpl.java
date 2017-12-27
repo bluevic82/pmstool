@@ -38,12 +38,11 @@ public class MileStoneDaoImpl implements MileStoneDao {
 
 	@Override
 	public void addMileStone(MileStone mileStone) {
-		String sql = "INSERT INTO milestone_info (PROJECT_ID, MILESTONE_DATE, MILESTONE_DESCRIPTION, MILESTONE_ID) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO milestone_info (PROJECT_ID, MILESTONE_DATE, MILESTONE_DESCRIPTION)"+" VALUES (?,?,?)";
 		jdbcTemplate.update(sql, new Object[] {
 			mileStone.getProject_id(),
 			mileStone.getMilestone_date(),
-			mileStone.getMilestone_description(),
-			mileStone.getMilestone_id()
+			mileStone.getMilestone_description()
 		});
 	}
 
