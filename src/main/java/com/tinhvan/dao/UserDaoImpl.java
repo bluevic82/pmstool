@@ -1,5 +1,7 @@
 package com.tinhvan.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -7,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,4 +78,23 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 				users.getUser_passWord(), users.getRole_id() });
 	}
 
+	@Override
+	public List<User> gettAllUser() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * From user_info";
+		return jdbcTemplate.query(sql, new RowMapper<User>() {
+			
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				User user = new User();
+				user.setUser_id(rs.getInt(1));
+				user.setUser_fullName(rs.getString(2));
+				user.setUser_mail(rs.getString(3));
+				user.setUser_passWord(rs.getString(4));
+				user.setRole_id(rs.getInt(5));
+				return user;
+			}
+		} );
+	}
 }

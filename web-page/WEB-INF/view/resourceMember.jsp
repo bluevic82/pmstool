@@ -71,13 +71,13 @@
 				</table>
 				<div style="text-align: end"><button type="button" style="background-color: green; color: white;">Save</button></div>
 			</div>
-			<%-- <div class="col-sm-6">
+			<div class="col-sm-6">
 				<div class="row">
 					<div class="col-sm-6">System member
 						<div class="card border-secondary" style="overflow: scroll; height: 300px; width: 200px;">
 							<div class="card-body">
 								<c:forEach var="getAllUser" items="${getAllUser}">
-								    <input type="checkbox" value="${getAllUser.user_id}">${getAllUser.user_fullname}<br>
+								    <input type="checkbox" value="${getAllUser.user_id}">${getAllUser.user_fullName}<br>
 								</c:forEach>
 							</div>
 						</div>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<div style="text-align: end"><button type="button" style="background-color: green; color: white;">Add</button></div>
-			</div> --%>
+			</div>
 		</div>
 	</div>
 </body>

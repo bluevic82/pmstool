@@ -16,4 +16,6 @@ public interface UserDao {
 	/*create userInfo*/
 	public void addUserSystem(User users);
 	
+	public List<User> gettAllUser();
+	
 }

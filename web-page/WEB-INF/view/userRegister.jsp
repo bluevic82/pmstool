@@ -44,8 +44,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
-<body class="container">
-
+<body>
+	<div class="container">
 	<form action="actionCreateUser" style="margin-top: 20px;" method="post">
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
@@ -95,6 +95,6 @@
 			<button style="background-color: green; color: white;">Save</button>
 		</div>
 	</form>
-
+	</div>
 </body>
 </html>
