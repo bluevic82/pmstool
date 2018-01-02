@@ -31,6 +31,15 @@
   | &nbsp;
    <a href="${pageContext.request.contextPath}/timeSheetList" style="color: #ffffff;">List TimeSheet</a>
   | &nbsp;   
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/effortManagement" style="color: #ffffff;">Effort Management</a>
+  | &nbsp; 
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/resource" style="color: #ffffff;">Resource</a>
+  | &nbsp; 
+  | &nbsp;
+   <a href="${pageContext.request.contextPath}/resource" style="color: #ffffff;" >Projects</a>
+  | &nbsp;
   <a href="${pageContext.request.contextPath}/admin" style="color: #ffffff;">Admin</a>
   
   <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -39,5 +48,10 @@
      <a href="${pageContext.request.contextPath}/logout" style="color: #ffffff;">Logout</a>
      
   </c:if>
+  <script type="text/javascript">
+  	function listMenu(){
+  		doucument.write("List menu");
+  	}
   
+  </script>
 </div>

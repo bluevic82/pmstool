@@ -35,4 +35,5 @@ public class UserResourceController {
 		List<User> us = userDao.gettAllUser();
 		return us;
 	}
+	
 }

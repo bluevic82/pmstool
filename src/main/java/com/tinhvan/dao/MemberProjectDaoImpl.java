@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -18,23 +19,33 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
+
 	@Override
 	public List<MemberProject> getAllMember() {
-		
-		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT", new RowMapper<MemberProject>() {
 
-			@Override
-			public MemberProject mapRow(ResultSet rs, int rowNum) throws SQLException {
-				MemberProject mp = new MemberProject();
-				mp.setMember_project_id(rs.getInt(1));
-				mp.setUser_id(rs.getInt(2));
-				mp.setMember_project_name(rs.getString(3));
-				mp.setRole_id(rs.getInt(4));
-				mp.setMember_project_effort(rs.getInt(5));
-				mp.setProject_id(rs.getInt(6));
-				return mp;
-			}
-		});
+		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT",
+				new RowMapper<MemberProject>() {
+
+					@Override
+					public MemberProject mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						MemberProject mp = new MemberProject();
+						mp.setMember_project_id(rs.getInt(1));
+						mp.setUser_id(rs.getInt(2));
+						mp.setMember_project_name(rs.getString(3));
+						mp.setRole_id(rs.getInt(4));
+						mp.setMember_project_effort(rs.getInt(5));
+						mp.setProject_id(rs.getInt(6));
+						return mp;
+					}
+				});
 	}
+	
+	@Override
+	public MemberProject getMemberProjectByProjectId(int id) {
+		String sql = "SELECT * FROM MEMBER_PROJECT WHERE ID = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<MemberProject>());
+	}
+
 }

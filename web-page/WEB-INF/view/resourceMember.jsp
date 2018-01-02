@@ -69,7 +69,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<div style="text-align: end"><button type="button" style="background-color: green; color: white;">Save</button></div>
+				
 			</div>
 			<div class="col-sm-6">
 				<div class="row">
@@ -92,6 +92,8 @@
 						</div>
 					</div>
 				</div>
+				</br>
+				<div style="text-align: end"><button type="button" style="background-color: green; color: white; float: left">Save</button></div>
 				<div style="text-align: end"><button type="button" style="background-color: green; color: white;">Add</button></div>
 			</div>
 		</div>

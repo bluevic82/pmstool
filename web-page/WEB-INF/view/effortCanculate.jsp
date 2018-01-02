@@ -27,17 +27,17 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-6">Project Name<input style="margin-left: 50px" size="40"></div>
-			<div class="col-sm-6">Status<input style="margin-left: 50px"></div>
+			<div class="col-sm-6">Project Name<input style="margin-left: 50px" size="40" disabled value ="${effort.project_name}"></div>
+			<div class="col-sm-6">Status<input style="margin-left: 50px" disabled value = "${effort.status_type }"></div>
 		</div><br>
 		<div>
-			Charge Cost <input style="margin-left: 53px">&emsp;(MM)
+			Charge Cost <input style="margin-left: 53px" disabled value = "${effort.project_charge_cost }">&emsp;(MM)
 		</div><br>
 		<div>
-			Actual Cost <input style="margin-left: 60px">&emsp;(MM)
+			Actual Cost <input style="margin-left: 60px" disabled value = "${effort.project_actual_cost}">&emsp;(MM)
 		</div><br>
 		<div>
-			Overhead <input style="margin-left: 70px">&emsp;(%)
+			Overhead <input style="margin-left: 70px" disabled value = "${effort.over_head }">&emsp;(%)
 		</div><br>
 		<div>
 			Change Request <input style="margin-left: 25px">&emsp;(%)
