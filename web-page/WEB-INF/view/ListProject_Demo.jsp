@@ -53,26 +53,14 @@
 
 				<div
 					style="width: 200px; height: 50px; background-color: Gainsboro; float: left; text-align: center">
-					<a href="${list.project_id}/effortCalculate">${list.project_name}</a>
+					<a href="${list.project_id}/${list.project_name}/resource">${list.project_name}</a>
 				</div>
-				<div
-					style="width: 100px; height: 50px; background-color: green; float: left">
-					<div
-						style="width: 100px; height: 25px; background-color: FloralWhite; text-align: center;">Charge</div>
-					<div
-						style="width: 100px; height: 25px; background-color: FloralWhite; text-align: center;">Actual</div>
-				</div>
-				<div style="width: 700px; height: 50px; float: left;">
-					<div
-						style="width: ${list.width_project_charge_cost}; height: 25px; background-color: #6CA6CD"></div>
-					<div
-						style="width:${list.width_project_actual_cost}; height: 25px; background-color: #EE1289; float: left; color: white ">${list.over_head }%</div>
-				</div>
+				
+			
 
 
 			</div>
 			</br>
-			
 
 		</c:forEach>
 		

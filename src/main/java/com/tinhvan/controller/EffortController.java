@@ -20,25 +20,41 @@ public class EffortController {
 	ProjectDao projectDao;
 	@Autowired
 	EffortDao effortDao;
-	
+
 	@RequestMapping(value = "/effortManagement")
 	public ModelAndView EffortManagementPage(Model model) {
 		model.addAttribute("message", "Effort Management!");
+
 		List<Effort> list = effortDao.getAllEfort();
-		return new ModelAndView("effortManagementPage","list",list);
-	}	
+		return new ModelAndView("effortManagementPage", "list", list);
+	}
+
 	@RequestMapping(value = "/{id}/effortCalculate")
 	public ModelAndView effortCalculate(@PathVariable int id, ModelMap model) {
 		Effort effort = effortDao.getEffortById(id);
-		effort.setOver_head(OverheadCal(effort.getProject_charge_cost(), effort.getProject_actual_cost()));
+		effort.setOver_head((double) Math.round(OverheadCal(
+				effort.getProject_charge_cost(),
+				effort.getProject_actual_cost()) * 100) / 100);
 		model.put("effort", effort);
-		//effort.set
-		return new ModelAndView("effortCanculate","effort",effort);
+		// effort.set
+		return new ModelAndView("effortCanculate", "effort", effort);
 	}
-	
-	public double OverheadCal(double charge, double actual){
-		return ((actual/charge)*100-100);
+
+	public double OverheadCal(double charge, double actual) { // get overHead
+		double overHeadCal = ((actual / charge) * 100 - 100);
+		
+		if (overHeadCal < 0) {
+			return overHeadCal + 100;
+		}
+		return overHeadCal;
 	}
-	
-	
+
+	// Demo
+	@RequestMapping(value = "/listProject")
+	public ModelAndView EffortManagementPage1(Model model) {
+		model.addAttribute("message", "List project!");
+		List<Effort> list = effortDao.getAllEfort();
+		return new ModelAndView("ListProject_Demo", "list", list);
+	}
+
 }

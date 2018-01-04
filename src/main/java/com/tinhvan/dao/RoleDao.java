@@ -6,4 +6,5 @@ import com.tinhvan.model.Role;
 
 public interface RoleDao {
       public List<Role> getAllRole();
+      public String getRoleNameByRoleId(int id);
 }

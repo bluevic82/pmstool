@@ -9,6 +9,24 @@ public class Effort {
 	private double over_head;
 	private double change_Request;
 	private String status_type;
+	private double width_project_charge_cost;
+	private double width_project_actual_cost;
+
+	public double getWidth_project_charge_cost() {
+		return width_project_charge_cost;
+	}
+
+	public void setWidth_project_charge_cost(double width_project_charge_cost) {
+		this.width_project_charge_cost = width_project_charge_cost;
+	}
+
+	public double getWidth_project_actual_cost() {
+		return width_project_actual_cost;
+	}
+
+	public void setWidth_project_actual_cost(double width_project_actual_cost) {
+		this.width_project_actual_cost = width_project_actual_cost;
+	}
 
 	public String getStatus_type() {
 		return status_type;

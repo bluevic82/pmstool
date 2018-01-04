@@ -29,16 +29,13 @@
   | &nbsp; 
      <a href="${pageContext.request.contextPath}/registerTimeSheet" style="color: #ffffff;">Register TimeSheet</a>
   | &nbsp;
-   <a href="${pageContext.request.contextPath}/timeSheetList" style="color: #ffffff;">List TimeSheet</a>
-  | &nbsp;   
+   <a href="${pageContext.request.contextPath}/timeSheetList" style="color: #ffffff;">List TimeSheet</a>   
   | &nbsp;
    <a href="${pageContext.request.contextPath}/effortManagement" style="color: #ffffff;">Effort Management</a>
   | &nbsp; 
-  | &nbsp;
    <a href="${pageContext.request.contextPath}/resource" style="color: #ffffff;">Resource</a>
   | &nbsp; 
-  | &nbsp;
-   <a href="${pageContext.request.contextPath}/resource" style="color: #ffffff;" >Projects</a>
+   <a href="${pageContext.request.contextPath}/listProject" style="color: #ffffff;" >Projects</a>
   | &nbsp;
   <a href="${pageContext.request.contextPath}/admin" style="color: #ffffff;">Admin</a>
   

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.tinhvan.model.Role;
 
 @Repository
@@ -31,6 +32,12 @@ public class RoleDaoImpl implements RoleDao {
 				return rl;
 			}
 		});
+		
+	}
+	@Override
+	public String getRoleNameByRoleId(int id){
+		String sql= "SELECT ROLE_NAME FROM role WHERE ROLE_ID = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] {id}, String.class);
 	}
 
 

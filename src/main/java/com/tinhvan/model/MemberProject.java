@@ -8,7 +8,15 @@ public class MemberProject {
 	private int role_id;
 	private int member_project_effort;
 	private int project_id;
-	
+	private String role_name;
+
+	public String getRole_name() {
+		return role_name;
+	}
+
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
+	}
 
 	public MemberProject() {
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
+import com.tinhvan.dao.EffortDao;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.ScopeDao;
@@ -42,6 +43,8 @@ public class ProjectController {
 	CategoryDao categoryDao;
 	@Autowired
 	ScopeDao scopeDao;
+	@Autowired
+	EffortDao effortDao;
 	//mapping add project
 	@RequestMapping(value = "/addProject")
 	public ModelAndView addProject() {
@@ -99,4 +102,7 @@ public class ProjectController {
 		List<Scope> list = scopeDao.getAllScope();
 		return list;
 	}
+	
+	
+	
 }
