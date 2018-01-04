@@ -52,8 +52,8 @@
 			<div id="divMain_Effort" style="width: 1000px; height: 50px">
 
 				<div
-					style="width: 200px; height: 50px; background-color: Gainsboro; float: left; text-align: center">
-					<a href="${list.project_id}/effortCalculate">${list.project_name}</a>
+					style="width: 200px; height: 50px; background-color: Gainsboro; float: left; text-align: center"><b>
+					<a href="${list.project_id}/effortCalculate">${list.project_name}</a></b>
 				</div>
 				<div
 					style="width: 100px; height: 50px; background-color: green; float: left">
@@ -64,7 +64,7 @@
 				</div>
 				<div style="width: 700px; height: 50px; float: left;">
 					<div
-						style="width: ${list.width_project_charge_cost}; height: 25px; background-color: #6CA6CD"></div>
+						style="text-align: center; width: ${list.width_project_charge_cost}; height: 25px; background-color: #6CA6CD; color: white; ">${list.project_charge_cost} (MM)</div>
 					<div
 						style="width:${list.width_project_actual_cost}; height: 25px; background-color: #EE1289; float: left; color: white ">${list.over_head }%</div>
 				</div>

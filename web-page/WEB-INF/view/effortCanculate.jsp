@@ -40,7 +40,7 @@
 			Overhead <input style="margin-left: 70px" disabled value = "${effort.over_head }">&emsp;(%)
 		</div><br>
 		<div>
-			Change Request <input style="margin-left: 25px">&emsp;(%)
+			Change Request <input style="margin-left: 25px" value = "${effort.change_Request }" disabled>&emsp;(%)
 		</div><br>
 	
 	</div>
