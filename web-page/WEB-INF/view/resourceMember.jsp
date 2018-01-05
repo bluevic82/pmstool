@@ -36,7 +36,7 @@
 		<div class="row" style="margin-top: 30px;">
 			<div class="col-sm-6">
 				<table class="table" style="background-color: #FFE7BA"
-					id="table_function">
+					id="dataTable">
 					<thead>
 						<tr style="background-color: #C1FFC1">
 							<th scope="col">#</th>
@@ -48,22 +48,24 @@
 						</tr>
 					</thead>
 					<tbody>
+					
 						<c:forEach var="listMemberOfProject"
 							items="${listMemberOfProject}">
 
 							<tr id="row_function">
-								<th scope="row" id="stt"></th>
+								<th scope="row"  id="stt"></th>
 
 								<th>${listMemberOfProject.member_project_name}</th>
 
 								<th><input type="text"
 									value="${listMemberOfProject.member_project_effort}"
-									style="width: 50px">%</th>
+									style="width: 50px"></th>
 
-								<th>${listMemberOfProject.role_name}</th>
+								<th>${listMemberOfProject.role_name }</th>
 
-								<th><button id="edit_function">Edit</button></th>
-								<th><button id="deleteRow_function">Delete</button></th>
+								<th><input type = "button" id="edit" onclick = "edit_function()"value = "Edit"/></th>
+								
+								<th><input type = "button" id="deleteRow" onclick = "delete_function(this)" value = "Delete"/></th>
 							</tr>
 
 						</c:forEach>
@@ -81,7 +83,7 @@
 							<div class="card-body">
 								<c:forEach var="getAllUser" items="${getAllUser}">
 									<input type="checkbox" value="${getAllUser.user_fullName}"
-										name="addName">${getAllUser.user_fullName}<br>
+										name="checkboxName">${getAllUser.user_fullName}<br>
 								</c:forEach>
 							</div>
 						</div>
@@ -92,37 +94,40 @@
 							<div class="card-body">
 								<c:forEach var="roleUser" items="${roleUser}">
 									<input type="radio" value="${roleUser.role_name}"
-										name="addRole"> ${roleUser.role_name}<br>
+										name="radioRole"> ${roleUser.role_name}<br>
 								</c:forEach>
 							</div>
 						</div>
 					</div>
 				</div>
-				</br>
+				<br>
 				<div style="text-align: end">
-					<button type="button"
-						style="background-color: green; color: white; float: left">Save</button>
+					<input type="button" onclick="saveToDB_function()"
+						style="background-color: green; color: white; float: left" value = "Save"/>
 				</div>
 				<div style="text-align: end">
 
-					<input type="button" id="addToTable_function"
-						style="background-color: green; color: white;" value="Add">
+					<input type="button" onclick="addRowToTable_function()"
+						style="background-color: green; color: white;" value="Add"/>
 				</div>
+			
 			</div>
 		</div>
 	</div>
-
+ 
 	<script type="text/javascript">
-		document.getElementById("addToTable_function").onclick = function() {
+	/*add row to table */
+		function addRowToTable_function() {
+			var table = document.getElementById("dataTable");
+			var rowCount = table.rows.length;
 
-			var checkboxName = document.getElementsByName("addName");
-			var checkboxRole = document.getElementsByName("addRole");
+			var checkboxName = document.getElementsByName('checkboxName');
+			var radioRole = document.getElementsByName('radioRole');
 			var name;
 			var role;
-			var stt=1;
-			for (var i = 0; i < checkboxRole.length; i++) {
-				if (checkboxRole[i].checked === true) {
-					role = checkboxRole[i].value;
+			for (var i = 0; i < radioRole.length; i++) {
+				if (radioRole[i].checked === true) {
+					role = radioRole[i].value;
 				}
 			}
 
@@ -131,60 +136,57 @@
 					name = checkboxName[j].value
 				}
 			}
-
-			/* var table = document.getElementById("table_function");
-
-			var row = table.insertRow(1);
-			var cell1 = row.insertCell(0);
-			var cell2 = row.insertCell(1);
-			var cell3 = row.insertCell(2);
-			var cell4 = row.insertCell(3);
-			var cell5 = row.insertCell(4);
-			var cell6 = row.insertCell(5);
-			cell1.innerHTML = "STT";
-			cell2.innerHTML = name;
-			cell3.innerHTML = 0;
-			cell4.innerHTML = role;
-			cell5.innerHTML = document.getElementById("edit_function").i
-			cell5.innerHTML = '<button  id="edit_function">Edit</button>';
-			cell6.innerHTML = '<button  id="deleteRow_function">Delete</button>'; */
 			
-			var new_row = "<tr><td>"+ stt + "</td><td>"+ name + "</td><td><input type='text' style='width: 50px'></td><td>"+ role + "</td><td></td></tr>";
-			document.getElementById("table_function").append(new_row);
-		  /*  $(document).ready(function(){
-		        $(".addToTable_function").click(function(){
-		            var name = $("#name").val();
-		            var email = $("#email").val();
-		            var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + email + "</td></tr>";
-		            $("table tbody").append(markup);
-		        }); */
-	</script>
-	<script type="text/javascript">
-		document.getElementById("stt").innerHTML = "5";
-	</script>
-
-	<!-- 	<script type="text/javascript">
-	document.getElementById("deleteRow_function").onclick = function() {
-
-		var checkboxName = document.getElementsByName("addName");
-		var checkboxRole = document.getElementsByName("addRole");
-		var name;
-		var role;
-		for (var i = 0; i < checkboxRole.length; i++) {
-			if (checkboxRole[i].checked === true) {
-				role = checkboxRole[i].value;
-			}
+			var row = table.insertRow(rowCount);
+			var cell1 = row.insertCell(0);
+		    var cell2 = row.insertCell(1);
+		    var cell3 = row.insertCell(2);
+		    var cell4 = row.insertCell(3);
+		    var cell5 = row.insertCell(4);
+		    var cell6 = row.insertCell(5);
+		    cell1.innerHTML = rowCount;
+		    cell2.innerHTML = name;
+		    cell3.innerHTML = '<input type="text" style="width: 50px">';	
+		    cell4.innerHTML = role;
+		    cell5.innerHTML = '<input type = "button" id="edit" onclick = "edit_function()"value = "Edit"/>';
+		    cell6.innerHTML = '<input type = "button" id="deleteRow" onclick = "delete_function()" value = "Delete"/>';
+			
+			
 		}
-
-		for (var j = 0; j < checkboxName.length; j++) {
-			if (checkboxName[j].checked === true) {
-				alert(checkboxName[j].value);
-			}
-		}
-
 		
-	}
-	</script> -->
+		
+	</script> 
+	
+	
+	<script>
+	/* set stt auto tang cho table load du lieu tu DB*/
+		var table = document.getElementById('dataTable');
+		var rowCount = table.rows.length;
+		var j =1;
+		/*set so thu tu auto tang*/
+		for(var i=0; i<rowCount; i++){
+			  var x = document.getElementById("dataTable").rows[j].cells;
+			    x[0].innerHTML = j; 
+			    
+			    j++;
+    
+		}
+		
+		
+	</script> 
+	
+	<script type="text/javascript">
+		/*function delete row*/
+		function delete_function(){
+			
+			var elem = $('#deleteRow');
+			alert(elem.parent()[0].sectionRowIndex);
+		}
+	
+	</script>
+
+
+
 
 </body>
 </html>
