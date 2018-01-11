@@ -6,6 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User Register</title>
+<style type="text/css">
+.error {
+	color: red;
+}
+</style>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap.min.css" />">
@@ -46,13 +51,14 @@
 </head>
 <body>
 	<div class="container">
-	<form action="actionCreateUser" style="margin-top: 20px;" method="post">
+	<form action="actionCreateUser" style="margin-top: 20px;" method="post" >
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 		<div class="row">
 			<div class="col-sm-2">Full name</div>
 			<div class="col-sm-10">
 				<input size="30" name="user_fullName">
+				<errors cssClass="error" name="user_fullName">
 			</div>
 		</div>
 		<br>
@@ -60,14 +66,15 @@
 			<div class="col-sm-2">Email</div>
 			<div class="col-sm-10">
 				<input size="30" name="user_mail">
+				<errors cssClass="error" name="user_mail">
 			</div>
 		</div>
 		<br>
 		<div class="row">
 			<div class="col-sm-2">Password</div>
 			<div class="col-sm-10">
-				<input size="30" type="password" name="user_passWord"> (at
-				least 6 characters and include number and symbol and Uppercase)
+				<input size="30" type="password" name="user_passWord"> 
+				<errors cssClass="error" name="user_passWord">
 			</div>
 		</div>
 		<br>
@@ -79,6 +86,7 @@
 						<input type="checkbox" value="${projectRole.role_id}"
 							style="margin-left: 10px;" name="role_id">${projectRole.role_name} <br>
 					</c:forEach>
+					<errors cssClass="error" name="role_id">
 				</div>
 			</div>
 

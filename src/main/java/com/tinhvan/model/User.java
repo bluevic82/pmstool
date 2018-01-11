@@ -1,5 +1,7 @@
 package com.tinhvan.model;
 
+
+
 public class User {
 	private int user_id;
 	private String user_fullName;
@@ -9,7 +11,7 @@ public class User {
 
 	public User() {
 		super();
-		
+
 	}
 
 	public int getUser_id() {
