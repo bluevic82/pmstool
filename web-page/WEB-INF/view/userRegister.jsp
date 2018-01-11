@@ -51,58 +51,60 @@
 </head>
 <body>
 	<div class="container">
-	<form action="actionCreateUser" style="margin-top: 20px;" method="post" >
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
-		<div class="row">
-			<div class="col-sm-2">Full name</div>
-			<div class="col-sm-10">
-				<input size="30" name="user_fullName">
-				<errors cssClass="error" name="user_fullName">
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-sm-2">Email</div>
-			<div class="col-sm-10">
-				<input size="30" name="user_mail">
-				<errors cssClass="error" name="user_mail">
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-sm-2">Password</div>
-			<div class="col-sm-10">
-				<input size="30" type="password" name="user_passWord"> 
-				<errors cssClass="error" name="user_passWord">
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-sm-2">Role</div>
-			<div class="col-sm-10">
-				<div class="col-sm-11">
-					<c:forEach var="projectRole" items="${projectRole}">
-						<input type="checkbox" value="${projectRole.role_id}"
-							style="margin-left: 10px;" name="role_id">${projectRole.role_name} <br>
-					</c:forEach>
-					<errors cssClass="error" name="role_id">
+		<form action="actionCreateUser" style="margin-top: 20px;"
+			method="post">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div class="row">
+				<div class="col-sm-2">Full name</div>
+				<div class="col-sm-10">
+					<input size="30" name="user_fullName">
+					<errors cssClass="error" name="user_fullName">
 				</div>
 			</div>
-
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-sm-2">Batch register</div>
-			<div class="col-sm-10">
-				<button value="actionCreateUser">Browser</button>
+			<br>
+			<div class="row">
+				<div class="col-sm-2">Email</div>
+				<div class="col-sm-10">
+					<input size="30" name="user_mail">
+					<errors cssClass="error" name="user_mail">
+				</div>
 			</div>
-		</div>
-		<br>
-		<div align="right">
-			<button style="background-color: green; color: white;">Save</button>
-		</div>
-	</form>
+			<br>
+			<div class="row">
+				<div class="col-sm-2">Password</div>
+				<div class="col-sm-10">
+					<input size="30" type="password" name="user_passWord">
+					<errors cssClass="error" name="user_passWord">
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-sm-2">Role</div>
+				<div class="col-sm-10">
+					<div class="col-sm-11">
+						<c:forEach var="projectRole" items="${projectRole}">
+							<input type="checkbox" value="${projectRole.role_id}"
+								style="margin-left: 10px;" name="role_id">${projectRole.role_name} <br>
+						</c:forEach>
+						<errors cssClass="error" name="role_id">
+					</div>
+				</div>
+
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-sm-2">Batch register</div>
+				<div class="col-sm-10">
+					<input type="file" name="fileName" accept=".csv"/>
+				</div>
+
+			</div>
+			<br>
+			<div align="right">
+				<button style="background-color: green; color: white;">Save</button>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

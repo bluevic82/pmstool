@@ -1,17 +1,22 @@
 package com.tinhvan.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.RoleDao;
@@ -41,7 +46,7 @@ public class UserSystemController {
 		return new ModelAndView("userRegister");
 	}
 
-	@RequestMapping(value = "/actionCreateUser")
+	@RequestMapping("/actionCreateUser")
 	public ModelAndView addUser(Model model, @ModelAttribute(value = "userInfo") @Validated User users,
 			BindingResult result) {
 
@@ -58,4 +63,24 @@ public class UserSystemController {
 		List<Role> list = roleDao.getAllRole();
 		return list;
 	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public String uploadPage(@RequestParam("fileName") MultipartFile file,ModelMap model)throws Exception{
+		if(!file.isEmpty()){
+			String name=file.getOriginalFilename();
+			long size=file.getSize();
+			
+		File f=new File("c:/temp/"+name);
+		if(!f.exists()){
+			f.getParentFile().mkdir();
+		}
+			model.addAttribute("name",name);
+			model.addAttribute("size",size);
+			
+		}else {
+			model.addAttribute("fail","bi loi");
+		}
+		
+		return "userRegister";
+		}
 }
