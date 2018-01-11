@@ -14,6 +14,11 @@ import com.tinhvan.dao.EffortDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.model.Effort;
 
+/**
+ * @purpose: calculate actual cost, over head, charge request.
+ * @author: DaiCQ
+ * @date: 2017/12/30
+ * **/
 @Controller
 public class EffortController {
 	@Autowired
@@ -42,7 +47,7 @@ public class EffortController {
 
 	public double OverheadCal(double charge, double actual) { // get overHead
 		double overHeadCal = ((actual / charge) * 100 - 100);
-		
+
 		if (overHeadCal < 0) {
 			return overHeadCal + 100;
 		}
