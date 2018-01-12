@@ -10,15 +10,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.tinhvan.controller",
-"com.tinhvan.validator" })
+@ComponentScan(basePackages = { "com.tinhvan.controller", "com.tinhvan.validator" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-	 @Bean
-	   public MessageSource messageSource() {
-	      ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-	      source.setBasename("messages");
-	      return source;
-	   }
-	
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+		source.setBasename("messages");
+		return source;
+	}
+
 }

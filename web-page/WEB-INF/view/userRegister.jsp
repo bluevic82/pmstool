@@ -84,8 +84,8 @@
 				<div class="col-sm-10">
 					<div class="col-sm-11">
 						<c:forEach var="projectRole" items="${projectRole}">
-							<input type="checkbox" value="${projectRole.role_id}"
-								style="margin-left: 10px;" name="role_id">${projectRole.role_name} <br>
+							<input type="radio" value="${projectRole.role_id}"
+								style="margin-left: 10px;" name="role_id" checked="checked">${projectRole.role_name} <br>
 						</c:forEach>
 						<errors cssClass="error" name="role_id">
 					</div>
@@ -96,7 +96,7 @@
 			<div class="row">
 				<div class="col-sm-2">Batch register</div>
 				<div class="col-sm-10">
-					<input type="file" name="fileName" accept=".csv"/>
+					<input type="file" name="fileName" accept=".csv" />
 				</div>
 
 			</div>

@@ -63,24 +63,24 @@ public class UserSystemController {
 		List<Role> list = roleDao.getAllRole();
 		return list;
 	}
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public String uploadPage(@RequestParam("fileName") MultipartFile file,ModelMap model)throws Exception{
-		if(!file.isEmpty()){
-			String name=file.getOriginalFilename();
-			long size=file.getSize();
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String uploadPage(@RequestParam("fileName") MultipartFile file, ModelMap model) throws Exception {
+		if (!file.isEmpty()) {
+			String name = file.getOriginalFilename();
+			long size = file.getSize();
+
+			File f = new File("c:/temp/" + name);
+			if (!f.exists()) {
+				f.getParentFile().mkdir();
+			}
+			model.addAttribute("name", name);
 			
-		File f=new File("c:/temp/"+name);
-		if(!f.exists()){
-			f.getParentFile().mkdir();
+
+		} else {
+			model.addAttribute("fail", "bi loi");
 		}
-			model.addAttribute("name",name);
-			model.addAttribute("size",size);
-			
-		}else {
-			model.addAttribute("fail","bi loi");
-		}
-		
+
 		return "userRegister";
-		}
+	}
 }
