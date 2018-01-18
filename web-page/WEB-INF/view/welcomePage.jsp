@@ -49,7 +49,7 @@
 				<tbody>
 				<c:forEach var="list" items="${list}">
 				<tr>   
-					<th scope="row"><a href="editproject/${list.project_id}">${list.project_id}</a></th>
+					<th scope="row"><a href="detailProject/${list.project_id}">${list.project_id}</a></th>
 					<th>${list.project_name}</th>
 					</tr>
 				 </c:forEach>

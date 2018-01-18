@@ -37,6 +37,7 @@
 			<form:hidden path="project_id"/>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
+		
 				<div class="col-sm-4">
 					<div>Project Name <form:input value="" name="project_name" path="project_name" size="30"/></div>
 				</div>

@@ -45,6 +45,8 @@ public class LoginController {
 	@Autowired
 	ScopeDao scopeDao;
 
+
+	//
 	@RequestMapping(value = { "/", "/welcome" })
 	public ModelAndView welcomePage(Model model) {
 		model.addAttribute("title", "OverView");

@@ -30,21 +30,22 @@
 
 <body onload="onload_function()">
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
-	<form action="saveReSourceMemberToDB" method="POST">
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
+
+	<input type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
 
 
-		<div class="container">
+	<div class="container">
 
-			<div>
-				Project name <input disabled="disabled" value="${nameOfProject}"
-					style="width: 300px">
-			</div>
-			<div class="row" style="margin-top: 30px;">
-				<div class="col-sm-6">
+		<div>
+			Project name <input disabled="disabled" value="${nameOfProject}"
+				style="width: 300px">
+		</div>
+		<div class="row" style="margin-top: 30px;">
+			<div class="col-sm-6">
 
-
+				<form action="saveReSourceMemberToDB" method="POST"
+					id="table_ResourceMember_Form">
 					<table class="table" style="background-color: #FFE7BA"
 						id="dataTable">
 						<thead>
@@ -55,6 +56,7 @@
 								<th scope="col"><div>Role</div></th>
 								<th scope="col"><div></div></th>
 								<th scope="col"><div></div></th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -95,60 +97,61 @@
 
 						</tbody>
 					</table>
-
-				</div>
-				<div class="col-sm-6">
-					<div class="row">
-						<div class="col-sm-6">
-							System member
-							<div class="card border-secondary"
-								style="overflow: scroll; height: 300px; width: 200px;">
-								<div class="card-body">
-									<c:forEach var="getAllUser" items="${getAllUser}">
-										<input type="checkbox" value="${getAllUser.user_fullName}"
-											name="checkboxName">${getAllUser.user_fullName}<br>
-									</c:forEach>
-								</div>
+				</form>
+			</div>
+			<div class="col-sm-6">
+				<div class="row">
+					<div class="col-sm-6">
+						System member
+						<div class="card border-secondary"
+							style="overflow: scroll; height: 300px; width: 200px;">
+							<div class="card-body">
+								<c:forEach var="getAllUser" items="${getAllUser}">
+									<input type="checkbox" value="${getAllUser.user_fullName}"
+										name="checkboxName">${getAllUser.user_fullName}<br>
+								</c:forEach>
+								
 							</div>
-						</div>
-						<div class="col-sm-6">
-							Roles
-
-							<div class="card border-secondary">
-								<div class="card-body">
-									<c:forEach var="roleUser" items="${roleUser}">
-										<input type="radio" value="${roleUser.role_name}"
-											name="radioRole"> ${roleUser.role_name}<br>
-									</c:forEach>
-								</div>
-							</div>
-
 						</div>
 					</div>
-					<br>
-					<!-- <div style="text-align: end">
+					<div class="col-sm-6">
+						Roles
+
+						<div class="card border-secondary">
+							<div class="card-body">
+								<c:forEach var="roleUser" items="${roleUser}">
+									<input type="radio" value="${roleUser.role_name}"
+										name="radioRole"> ${roleUser.role_name}<br>
+								</c:forEach>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<br>
+				<div style="text-align: end">
 					<input type="button" id="id_save_button"
 						onclick="saveToDB_function()"
 						style="background-color: green; color: white; float: left"
 						value="Save" />
-				</div> -->
-					<div style="text-align: end">
+				</div>
+				<!-- <div style="text-align: end">
 						<input type="submit"
 							style="background-color: green; color: white; float: left"
 							value="Save" />
-					</div>
-					<div style="text-align: end">
+					</div> -->
+				<div style="text-align: end">
 
-						<input type="button" onclick="addRowToTable_function()"
-							style="background-color: green; color: white;" value="Add" />
-					</div>
-
+					<input type="button" onclick="addRowToTable_function()"
+						style="background-color: green; color: white;" value="Add" />
 				</div>
-			</div>
 
+			</div>
 		</div>
+
+	</div>
+
 	</form>
-	<!-- </form> -->
 
 	<script type="text/javascript">
 		var table = document.getElementById("dataTable");
@@ -264,22 +267,74 @@
 
 						});
 
-		/* $(document).ready(function() {
+		$(document).ready(function() {
 			$('#id_save_button').click(function() {
+				var array_Infor_Member_Of_Project = [];
 
 				for (var i = 1; i < hang; i++) {
 
-					var array_Infor_Member_Of_Project = [];
 					var name = table.rows[i].cells[1].innerHTML;
 
 					var effort = table.rows[i].cells[2].childNodes[0].value;
 					//var role = table.rows[1].cells[3].val(); 
-					alert(name);
+					//alert(name);
+
+					var infor_Object = new Object();
+					infor_Object.member_project_name = name;
+					infor_Object.member_project_effort = effort;
+					//infor_Update.role = role;
+					array_Infor_Member_Of_Project.push(infor_Object);
 
 				}
 
+				
+				/*Submit form with Ajax*/
+				/* $.ajax({
+					contentType : 'application/json; charset=utf-8',
+					type : 'GET',
+					
+					url : '${pageContext.request.contextPath}/saveReSourceMemberToDB', //??? 
+							
+					data : array_Infor_Member_Of_Project, 
+					data : JSON.stringify(array_Infor_Member_Of_Project), // list of member
+					dataType : 'json',
+					success : function(data) {
+						
+						alert("done");
+					},
+					error : function(data) {
+						alert("Fail!");
+					},
+				}); */
+				
+				$.ajax({
+				       url: 'saveReSourceMemberToDB',
+				       method: 'POST',
+				       dataType:"json",
+				       contentType: "application/json",
+				       data: JSON.stringify(array_Infor_Member_Of_Project),
+				       timeout : 100000,
+				    success : function(data) {
+				     //console.log("SUCCESS: ", data);
+				     alert("done");
+				     //alert(data[1].member_project_name);
+				    // alert(date.email);
+				     
+				    },
+				    error : function(e) {
+				     /* console.log("ERROR: ", e);
+				     alert(e) */
+				     alert("loi");
+				    },
+				    done : function(e) {
+				     console.log("DONE");     
+				    }
+				   });
+				
+				//alert(array_Infor_Member_Of_Project[2].member_project_name);
+
 			});
-		}); */
+		});
 	</script>
 
 

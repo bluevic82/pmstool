@@ -1,15 +1,23 @@
 package com.tinhvan.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+/*import org.springframework.web.bind.annotation.ModelAttribute;
+ import org.springframework.web.bind.annotation.PathVariable;
+ import org.springframework.web.bind.annotation.RequestBody;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RequestMethod;*/
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+
+//import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.RoleDao;
@@ -46,11 +54,66 @@ public class UserResourceController {
 				listMemberOfProject);
 	}
 
-	@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
-	public String saveResourceMemberToDB() {
+	/*
+	 * @RequestMapping(value = "/submitForm.web", method = RequestMethod.POST)
+	 * public @ResponseBody MemberProject submittedFromData(
+	 * 
+	 * @RequestBody MemberProject memberProject, HttpServletRequest request) {
+	 * return memberProject; }
+	 */
 
-		return "index";
+	// @PostMapping(value = "/saveReSourceMemberToDB")
+	// @ResponseBody
+	/*
+	 * @RequestMapping(value = "/saveReSourceMemberToDB") public @ResponseBody
+	 * List<MemberProject> saveResourceMemberToDB(
+	 * 
+	 * @RequestBody List<MemberProject> list_MemberProject, HttpServletRequest
+	 * request) {
+	 * 
+	 * List<MemberProject> response_List = new ArrayList<MemberProject>();
+	 * for(int i = 0; i < list_MemberProject.size(); i++){ //test MemberProject
+	 * memberProject = new MemberProject();
+	 * memberProject.setMember_project_name(
+	 * list_MemberProject.get(i).getMember_project_name());
+	 * 
+	 * response_List.add(memberProject);
+	 * 
+	 * } return response_List;
+	 * 
+	 * }
+	 */
+
+	@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
+	public @ResponseBody List<MemberProject> saveResourceMemberToDB(
+			@RequestBody List<MemberProject> list_MemberProject) {
+
+		List<MemberProject> response_List = new ArrayList<MemberProject>();
+		for (int i = 0; i < list_MemberProject.size(); i++) {
+			System.out.println(list_MemberProject.get(i)
+					.getMember_project_name());
+			
+			
+			// test
+			MemberProject memberProject = new MemberProject();
+			memberProject.setMember_project_name(list_MemberProject.get(i)
+					.getMember_project_name());
+
+			response_List.add(memberProject);
+
+		}
+		return response_List;
+
 	}
+
+	/*
+	 * public static void main(String[] args ){ UserResourceController u=new
+	 * UserResourceController(); List<MemberProject> list= new ArrayList<>();
+	 * MemberProject m=new MemberProject(); m.setMember_project_name("aaaa");
+	 * list.add(m); System.out.println(u.saveResourceMemberToDB(list));
+	 * 
+	 * }
+	 */
 
 	@ModelAttribute("roleUser")
 	public List<Role> getRole() {
