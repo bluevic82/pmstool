@@ -14,7 +14,6 @@ public interface ProjectDao {
 	
 	public ProjectInfo getProjectById(int id);
 	public ProjectInfo getProjectById1(int id);
-	
 	public List<MemberProject> getPm(int id);
 	
 }
