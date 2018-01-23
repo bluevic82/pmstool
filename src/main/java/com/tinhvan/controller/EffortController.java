@@ -47,22 +47,11 @@ public class EffortController {
 	@RequestMapping(value = "/{id}/effortCalculate")
 	public ModelAndView effortCalculate(@PathVariable int id, ModelMap model) {
 		Effort effort = effortDao.getEffortById(id);
-		effort.setOver_head((double) Math.round(OverheadCal(
-				effort.getProject_charge_cost(),
-				effort.getProject_actual_cost()) * 100) / 100);
 		model.put("effort", effort);
-		// effort.set
 		return new ModelAndView("effortCanculate", "effort", effort);
 	}
 
-	public double OverheadCal(double charge, double actual) { // get overHead
-		double overHeadCal = ((actual / charge) * 100 - 100);
-
-		if (overHeadCal < 0) {
-			return overHeadCal + 100;
-		}
-		return overHeadCal;
-	}
+	
 
 
 }

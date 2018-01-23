@@ -44,7 +44,7 @@ public class EffortDaoImpl implements EffortDao {
 						effort.setProject_actual_cost(getSumEffortByPrjId(effort
 								.getProject_id()) / 30); // get MM
 						effort.setOver_head((double) Math
-								.round(effortController.OverheadCal(
+								.round(OverheadCal(
 										effort.getProject_charge_cost(),
 										effort.getProject_actual_cost()) * 100) / 100);
 
@@ -92,10 +92,16 @@ public class EffortDaoImpl implements EffortDao {
 
 		if (effort.getProject_charge_cost() == 0) {
 			effort.setChange_Request(0);
+			
 		} else {
 			effort.setChange_Request((double) Math
 					.round((((getSumEffortOfCategoryByProjectId(id, "CR")) / 30) / effort
 							.getProject_charge_cost()) * 100 * 100) / 100);
+			
+			effort.setOver_head((double) Math
+					.round(OverheadCal(
+							effort.getProject_charge_cost(),
+							effort.getProject_actual_cost()) * 100) / 100);
 		}
 		return effort;
 	}
@@ -159,6 +165,16 @@ public class EffortDaoImpl implements EffortDao {
 		}
 			
 		return sumEffortOfCategory;
+	}
+	
+	/*get overhead*/
+	public double OverheadCal(double charge, double actual) { // get overHead
+		double overHeadCal = ((actual / charge) * 100 - 100);
+
+		if (overHeadCal < 0) {
+			return overHeadCal + 100;
+		}
+		return overHeadCal;
 	}
 
 }

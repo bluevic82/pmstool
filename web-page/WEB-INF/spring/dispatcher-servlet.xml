@@ -38,7 +38,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/project_manager_system" />
 		<property name="username" value="root" />
-		<property name="password" value="1234567" />
+		<property name="password" value="Chudai@1995" />
 		
 	</bean>
 	
