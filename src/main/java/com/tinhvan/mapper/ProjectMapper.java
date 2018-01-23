@@ -17,6 +17,7 @@ public class ProjectMapper implements RowMapper {
 		projectInfo.setProject_technical(rs.getString(6));
 		projectInfo.setStatus(rs.getString(7));
 		projectInfo.setType_id(rs.getInt(8));
+		
 		return projectInfo;
 	}
 }
