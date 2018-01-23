@@ -1,6 +1,13 @@
 package com.tinhvan.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +25,13 @@ import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
+import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
+import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Scope;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
 /**
@@ -45,6 +55,8 @@ public class ProjectController {
 	ScopeDao scopeDao;
 	@Autowired
 	EffortDao effortDao;
+	@Autowired
+	TaskInfoDao taskInfoDao;
 
 
 	// get list project for menu
@@ -90,6 +102,83 @@ public class ProjectController {
 		model.put("command", projectDao.getProjectById(id));
 		return new ModelAndView("updateProject", "command", projectInfo);
 	}
+	
+	//mapping getdata project_it for view detail
+		@RequestMapping(value = "/detalproject/{id}")
+		public ModelAndView detailProject(@PathVariable int id, ModelMap model) {
+			ProjectInfo projectInfo = projectDao.getProjectById1(id);
+			int idT=projectInfo.getType_id();
+			int project_id = projectInfo.getProject_id();
+			List<MemberProject> pm = projectDao.getPm(project_id);
+			model.put("pm", pm);
+//			model.put("status",statusDao.getStatusById(idT));
+			List<TaskInfo> taskByIdPro = taskInfoDao.getTaskByIdPro(idT);
+			model.put("taskid", taskByIdPro);
+			List<Integer> listPercent= new ArrayList<Integer>();
+			
+			List<Map<Integer, String>> perr= new ArrayList<Map<Integer, String>>() ;
+			for (TaskInfo taskInfo : taskByIdPro) {
+				 String from = taskInfo.getTask_from();
+				 String to = taskInfo.getTask_to();
+					Date parse = null; 
+			        Date parse1 = null;
+			        Date parse2 = null;
+			        try {
+			        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			        Date date = new Date(); 
+			        String format = sdf.format(date);
+							parse = sdf.parse(from);
+							 parse1 = sdf.parse(to);
+							 parse2 = sdf.parse(format);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			        Calendar c1 = Calendar.getInstance();
+			        Calendar c2 = Calendar.getInstance();
+			        Calendar c3 = Calendar.getInstance();
+			        c1.setTime(parse);
+			        c2.setTime(parse1);
+			        c3.setTime(parse2);
+			         long noDay = (c2.getTime().getTime() - c1.getTime().getTime())
+			                / (24 * 3600 * 1000);
+			         long noDay1 = (c3.getTime().getTime() - c1.getTime().getTime())
+				                / (24 * 3600 * 1000);	        
+			         if(noDay>0 && noDay1>0) {
+			        	 Float target=(float) noDay;
+				         Float current=(float) noDay1;
+				         Float percent=  current/ target*100f;       
+				         listPercent.add(Math.round(percent));
+				         
+				         float tinh=taskInfo.getTask_done()-percent;
+				         
+			        	 if(tinh>0) {
+			        		 Map<Integer, String> map = new HashMap<Integer, String>();
+			        		 map.put(Math.round(tinh), "green");
+			        		 perr.add(map);
+			        		 
+			        	 }
+			        	 if(tinh<0) {
+			        		 Map<Integer, String> map = new HashMap<Integer, String>();
+			        		 float tinh1=percent-taskInfo.getTask_done();
+			        		 map.put(Math.round(tinh1), "red");
+			        		 perr.add(map);
+			        	 }
+			         }else {
+//			        	 listPercent.add(Math.round(taskInfo.getTask_done()));
+			        	 Map<Integer, String> map = new HashMap<Integer, String>();
+		        		
+		        		 map.put(Math.round(taskInfo.getTask_done()), "khong");
+		        		 perr.add(map);
+					}
+			        
+			        
+			}
+			
+			model.put("per", perr);
+			return new ModelAndView("detailProject","command",projectInfo);
+			
+		}
 
 	// mapping detail project
 	@RequestMapping(value = "/detailProject/{id}")

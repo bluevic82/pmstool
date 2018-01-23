@@ -44,6 +44,7 @@
 				   <th scope="col" >#</th>
 				   <th scope="col" >project name</th>
 				   <th scope="col" >PM</th>
+				   <th scope="col" >View</th>
 				</tr>
 			</thead>
 				<tbody>
@@ -51,6 +52,8 @@
 				<tr>   
 					<th scope="row"><a href="detailProject/${list.project_id}">${list.project_id}</a></th>
 					<th>${list.project_name}</th>
+					<th></th>
+					<th scope="row"><a href="detalproject/${list.project_id}">Detail</a></th>
 					</tr>
 				 </c:forEach>
 			 </tbody>

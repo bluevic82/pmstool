@@ -13,4 +13,5 @@ public interface TaskInfoDao {
 	public void updateTask(TaskInfo taskInfo);
 	
 	public TaskInfo getTaskById(int id);
+	public List<TaskInfo> getTaskByIdPro(int id);
 }

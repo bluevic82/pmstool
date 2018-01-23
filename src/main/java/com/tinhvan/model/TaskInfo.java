@@ -14,6 +14,7 @@ public class TaskInfo {
 	private int category_id;
 	private String task_priority;
 	private int project_id;
+	private String status;
 	public int getTask_id() {
 		return task_id;
 	}
@@ -91,6 +92,13 @@ public class TaskInfo {
 	}
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public TaskInfo() {
 		super();

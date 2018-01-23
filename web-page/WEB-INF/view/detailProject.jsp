@@ -63,21 +63,31 @@
 					<tr >
 						<td class="col-sm-2">Name</td>
 						<td class="col-sm-2"><input type="text" disabled
-							value="Namellllllllllllllllllllllllllllllllhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhlllllllllllllllllllllllllllllllllllllllllll" /></td>
+							value="${command.project_name}" /></td>
 						<td class="col-sm-2">Status</td>
-						<td class="col-sm-2"><input type="text" disabled value="Status" /></td>
+						<td class="col-sm-2"><input type="text" disabled value="${command.status}" /></td>
 					</tr>
 					<tr>
 						<td class="col-sm-2">From</td>
-						<td class="col-sm-2"><input type="text" disabled value="From" /></td>
+						<td class="col-sm-2"><input type="text" disabled value="${command.project_from}" /></td>
 						<td class="col-sm-2">To</td>
-						<td class="col-sm-2"><input type="text" disabled value="To" /></td>
+						<td class="col-sm-2"><input type="text" disabled value="${command.project_to}" /></td>
 					</tr>
 					<tr>
 						<td class="col-sm-2">PM</td>
-						<td class="col-sm-2"><input type="text" disabled value="PM" /></td>
+						<td class="col-sm-2">
+						
+						<select>
+						<c:forEach var="pm" items="${pm}">
+						
+						  <option value="${pm.member_project_name}">${pm.member_project_name}</option>
+						 
+						
+						</c:forEach>
+						</select>
+						</td>
 						<td class="col-sm-2">Technical</td>
-						<td class="col-sm-2"><input type="text" disabled value="Technical" /></td>
+						<td class="col-sm-2"><input type="text" disabled value="${command.project_technical}" /></td>
 					</tr>
 				</table>
 
@@ -85,7 +95,7 @@
 			<div class="col-sm-6" >
 				<div>
 					<label for="description" style="">Description</label>
-					<textarea name="description" cols="60" rows="3"></textarea>
+					<textarea name="description" cols="60" rows="3" disabled>${command.project_description}</textarea>
 				</div>
 			</div>
 		</div>
@@ -102,48 +112,44 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Function 1</td>
-						<td>10/01</td>
-						<td>10/20</td>
-						<td>-------------------------------------</td>
-						<td>close</td>
+				
+				
+				<c:forEach var="taskid" items="${taskid}" varStatus="status">
+						<tr>
+						<th scope="row">${taskid.task_id}</th>
+						<td>${taskid.task_subject}</td>
+						<td>${taskid.task_from}</td>
+						<td>${taskid.task_to}</td>
+						<td>
+						<div style="border: 1px solid black;width:402px;height:22px;">
+						<c:forEach items="${per[status.index]}" var="entry">
+						  	<c:if test = "${entry.value == 'green'}">
+						         <div style="width:${taskid.task_done*4}px;height:20px;background-color: #82FA58">${taskid.task_done-entry.key}%
+						 		 <div style="width:${entry.key*4}px;height:20px;background-color: ${entry.value};;float: right"><c:if test = "${entry.key != 0}">${entry.key}%</c:if></div>
+						 		</div>
+						     </c:if> 
+						     <c:if test = "${entry.value == 'red'}">
+						         <div style="width:${taskid.task_done*4}px;height:20px;background-color: #F7FE2E;float: left;">${taskid.task_done}%</div>
+						 		 <div style="width:${entry.key*4}px;height:20px;background-color: ${entry.value};display:inline-block"><c:if test = "${entry.key != 0}">${entry.key}%</c:if></div>
+						     </c:if> 
+						 
+						 	 <c:if test = "${entry.value == 'khong'}">
+						         <div style="width:${taskid.task_done*4}px;height:20px;background-color: #82FA58;float: left;">${taskid.task_done}%</div>
+						 		
+						     </c:if> 
+   						</c:forEach>	
+						</div>
+						</td>
+						<td>
+							${taskid.status}
+							
+						</td>
 					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Function 2</td>
-						<td>10/01</td>
-						<td>10/20</td>
-						<td>-------------------------------------</td>
-						<td>open</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Function 3</td>
-						<td>10/01</td>
-						<td>10/20</td>
-						<td>-------------------------------------</td>
-						<td>on-going</td>
-					</tr>
-					<tr>
-						<th scope="row">4</th>
-						<td>Function 4</td>
-						<td>10/01</td>
-						<td>10/20</td>
-						<td>-------------------------------------</td>
-						<td>close</td>
-					</tr>
-					<tr>
-						<th scope="row">5</th>
-						<td>Function 5</td>
-						<td>10/01</td>
-						<td>10/20</td>
-						<td>-------------------------------------</td>
-						<td>open</td>
-					</tr>
+				</c:forEach>	
 				</tbody>
 			</table>
+	
+			
 		</div>
 		</div>
 

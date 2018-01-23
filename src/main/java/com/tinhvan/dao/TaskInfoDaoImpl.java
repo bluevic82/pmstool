@@ -93,6 +93,42 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 		String sql = "SELECT * FROM task_info where TASK_ID = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<TaskInfo>(TaskInfo.class));
 	}
-
+@Override
+	public List<TaskInfo> getTaskByIdPro(int id) {
+		// TODO Auto-generated method stub
+		return jdbcTemplate.query("SELECT task_info.TASK_ID,task_info.TASK_SUBJECT,task_info.TYPE_ID,status_info.STATUS_TYPE," + 
+				"			task_info.TASK_DONE,task_info.TASK_FROM,task_info.TASK_TO," + 
+				"			task_info.TASK_Solution,task_info.TASK_DESCRIPTION,task_info.MEMBER_PROJECT_ID," + 
+				"			task_info.CATEGORY_ID,task_info.TASK_PRIORITY,task_info.PROJECT_ID" + 
+				"			FROM task_info " + 
+				"			INNER JOIN status_info " + 
+				"			ON task_info.STATUS_ID=status_info.STATUS_ID" + 
+				"			where task_info.PROJECT_ID="+id, new RowMapper<TaskInfo>() {
+			
+			
+			
+			
+			@Override
+			public TaskInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				TaskInfo taskInfo = new TaskInfo();
+				taskInfo.setTask_id(rs.getInt(1));
+				taskInfo.setTask_subject(rs.getString(2));
+				taskInfo.setType_id(rs.getInt(3));
+				taskInfo.setStatus(rs.getString(4));
+				taskInfo.setTask_done(rs.getInt(5));
+				taskInfo.setTask_from(rs.getString(6));
+				taskInfo.setTask_to(rs.getString(7));
+				taskInfo.setTask_solution(rs.getString(8));
+				taskInfo.setTask_description(rs.getString(9));
+				taskInfo.setMember_project_id(rs.getInt(10));
+				taskInfo.setCategory_id(rs.getInt(11));
+				taskInfo.setTask_priority(rs.getString(12));
+				taskInfo.setProject_id(rs.getInt(13));
+				return taskInfo;
+			}
+			
+		});
+	}
 	
 }

@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tinhvan.mapper.ProjectMapper;
+import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 
 @Repository
@@ -65,5 +67,71 @@ public class ProjectDaoImpl implements ProjectDao {
 		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<ProjectInfo>(ProjectInfo.class));
 	}
 	
+	@Override
+	public ProjectInfo getProjectById1(int id)  {
+		
+		String sql = "SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE,project_info.TYPE_ID" + 
+				"							FROM project_info " + 
+				"                                LEFT  JOIN status_info" + 
+				"								ON project_info.STATUS_ID=status_info.STATUS_ID" + 
+				"								where project_info.PROJECT_ID= ?";
+
+		ProjectInfo pj = (ProjectInfo)jdbcTemplate.queryForObject(
+				sql, new Object[] { id }, new ProjectMapper());
+
+		return pj;
+		
+		
+//		return jdbcTemplate.query("SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,"
+//				+ "project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,"
+//				+ "project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE" + 
+//				"							FROM project_info " + 
+//				"                                LEFT  JOIN status_info" + 
+//				"								ON project_info.STATUS_ID=status_info.STATUS_ID" + 
+//				"								where project_info.PROJECT_ID=3;", new RowMapper<ProjectInfo>() {
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			@Override
+//			public ProjectInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				ProjectInfo projectInfo = new ProjectInfo();
+//				projectInfo.setProject_id(rs.getInt(1));
+//				projectInfo.setProject_name(rs.getString(2));
+//				projectInfo.setProject_from(rs.getString(3));
+//				projectInfo.setProject_to(rs.getString(4));
+//				projectInfo.setProject_description(rs.getString(5));
+//				projectInfo.setProject_technical(rs.getString(6));
+//				projectInfo.setStatus(rs.getString(7));
+//				return projectInfo;
+//			}
+//		});
+		
+	}
+
+	@Override
+	public List<MemberProject> getPm(int id) {
+		return jdbcTemplate.query("SELECT member_project.MEMBER_PROJECT_NAME" + 
+				"							FROM project_info" + 
+				"                                LEFT  JOIN member_project" + 
+				"								ON project_info.PROJECT_ID= member_project.PROJECT_ID" + 
+				"								where project_info.PROJECT_ID="+id+" and member_project.ROLE_ID=2;", new RowMapper<MemberProject>() {
+
+			@Override
+			public MemberProject mapRow(ResultSet rs, int rowNum) throws SQLException {
+				MemberProject mb=new MemberProject();
+				mb.setMember_project_name(rs.getString(1));
+				return mb;
+			}
+		});
+	}
 	
 }

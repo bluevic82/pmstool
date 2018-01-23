@@ -11,6 +11,8 @@ public class ProjectInfo {
 	private int type_id;
 	private String project_description;
 	private String project_technical;
+	private String pm;
+	private String status;
 	
 	public int getProject_id() {
 		return project_id;
@@ -66,6 +68,19 @@ public class ProjectInfo {
 	public void setProject_technical(String project_technical) {
 		this.project_technical = project_technical;
 	}
+	public String getPm() {
+		return pm;
+	}
+	public void setPm(String pm) {
+		this.pm = pm;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	
 	
 }
