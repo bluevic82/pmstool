@@ -39,7 +39,6 @@ public class ProjectDaoImpl implements ProjectDao {
 				projectInfo.setType_id(rs.getInt(7));
 				projectInfo.setProject_description(rs.getString(8));
 				projectInfo.setProject_technical(rs.getString(9));
-				
 				return projectInfo;
 			}
 		});
