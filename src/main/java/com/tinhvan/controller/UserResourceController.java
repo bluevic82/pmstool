@@ -1,11 +1,10 @@
 package com.tinhvan.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 /*import org.springframework.web.bind.annotation.ModelAttribute;
  import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +14,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-
 //import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.RoleDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Role;
 import com.tinhvan.model.User;
 
@@ -39,9 +38,19 @@ public class UserResourceController {
 	UserDao userDao;
 	@Autowired
 	MemberProjectDao memberProjectDao;
+	@Autowired
+	ProjectDao projectDao;
 
-	@RequestMapping(value = "/{id}/{nameOfProject}/resource")
-	//
+	// get list project for menu
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject() {
+		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+		return list_Project_For_Menu;
+	}
+
+	
+	
+	@RequestMapping(value = "/{id}/{nameOfProject}/resource", method = RequestMethod.GET)
 	public ModelAndView resourceMember(@PathVariable int id,
 			@PathVariable(value = "nameOfProject") String nameOfProject,
 			ModelMap model) {
@@ -52,6 +61,14 @@ public class UserResourceController {
 		model.put("nameOfProject", nameOfProject);
 		return new ModelAndView("resourceMember", "listMemberOfProject",
 				listMemberOfProject);
+	}
+	
+	@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
+	public String saveResourceMemberToDB(
+			Model model,@ModelAttribute("listMemberOfProject") List<MemberProject> listMemberOfProject) {
+			
+		System.out.println(listMemberOfProject.size());
+		return "welcomePage";
 	}
 
 	/*
@@ -84,7 +101,7 @@ public class UserResourceController {
 	 * }
 	 */
 
-	@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
 	public @ResponseBody List<MemberProject> saveResourceMemberToDB(
 			@RequestBody List<MemberProject> list_MemberProject) {
 
@@ -92,8 +109,7 @@ public class UserResourceController {
 		for (int i = 0; i < list_MemberProject.size(); i++) {
 			System.out.println(list_MemberProject.get(i)
 					.getMember_project_name());
-			
-			
+
 			// test
 			MemberProject memberProject = new MemberProject();
 			memberProject.setMember_project_name(list_MemberProject.get(i)
@@ -104,7 +120,9 @@ public class UserResourceController {
 		}
 		return response_List;
 
-	}
+	}*/
+
+	
 
 	/*
 	 * public static void main(String[] args ){ UserResourceController u=new

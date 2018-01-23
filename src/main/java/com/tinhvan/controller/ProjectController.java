@@ -2,9 +2,6 @@ package com.tinhvan.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
@@ -49,76 +45,78 @@ public class ProjectController {
 	ScopeDao scopeDao;
 	@Autowired
 	EffortDao effortDao;
+
+
+	// get list project for menu
+				@ModelAttribute("list_Project_For_menu")
+				public List<ProjectInfo> getListProject() {
+					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+					return list_Project_For_Menu;
+				}
 	
-	//ffdg
-	
-	@RequestMapping(value = "/getProjectInfor")
-	public @ResponseBody List<ProjectInfo> get_Project_Infor(HttpServletRequest request, HttpServletResponse response){
-		
-		//String query = request.getParameter("query_list_project");
-		List<ProjectInfo> list_Project_Infor = projectDao.getAllProject();
-		return list_Project_Infor;
-	}
-	
-	
-	//mapping add project
+	// mapping add project
 	@RequestMapping(value = "/addProject")
 	public ModelAndView addProject() {
 
-		return new ModelAndView("addProject","command",new ProjectInfo());
+		return new ModelAndView("addProject", "command", new ProjectInfo());
 	}
-	//mapping Create Project
-	@RequestMapping(value="/actionCreateProject", method=RequestMethod.POST)
-	public ModelAndView addproject(Model model, @ModelAttribute(value="project") ProjectInfo project) {
+
+	// mapping Create Project
+	@RequestMapping(value = "/actionCreateProject", method = RequestMethod.POST)
+	public ModelAndView addproject(Model model,
+			@ModelAttribute(value = "project") ProjectInfo project) {
 		projectDao.addProject(project);
 		return new ModelAndView("redirect:/");
 	}
-	//mapping update project
-	/*@RequestMapping(value = "/updateProject")
-	public String updateProject() {
 
-		return "updateProject";
-	}*/
-	//mapping action update project
-	@RequestMapping(value="/actionUpdateProject", method=RequestMethod.POST)
-	public ModelAndView actionUpdateProject(Model model, @ModelAttribute(value = "project") ProjectInfo project) {
+	// mapping update project
+	/*
+	 * @RequestMapping(value = "/updateProject") public String updateProject() {
+	 * 
+	 * return "updateProject"; }
+	 */
+	// mapping action update project
+	@RequestMapping(value = "/actionUpdateProject", method = RequestMethod.POST)
+	public ModelAndView actionUpdateProject(Model model,
+			@ModelAttribute(value = "project") ProjectInfo project) {
 		projectDao.updateProject(project);
 		return new ModelAndView("redirect:/");
 	}
-	
-	//mapping getdata project_id for update Project
+
+	// mapping getdata project_id for update Project
 	@RequestMapping(value = "/editproject/{id}")
 	public ModelAndView editProject(@PathVariable int id, ModelMap model) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		model.put("command", projectDao.getProjectById(id));
-		return new ModelAndView("updateProject","command",projectInfo);
+		return new ModelAndView("updateProject", "command", projectInfo);
 	}
-	
-	//mapping detail project
-	@RequestMapping(value="/detailProject/{id}")
+
+	// mapping detail project
+	@RequestMapping(value = "/detailProject/{id}")
 	public String detailProject() {
-		
-		return"detailProject";
+
+		return "detailProject";
 	}
+
 	// get type project
 	@ModelAttribute("projectTypes")
 	public List<Type> getTypes() {
 		List<Type> list = typeDao.getAllType();
 		return list;
 	}
-	//get Status project
+
+	// get Status project
 	@ModelAttribute("projectStatus")
 	public List<Status> getStatus() {
 		List<Status> list = statusDao.getAllStatus();
 		return list;
 	}
-	//get Scope project
+
+	// get Scope project
 	@ModelAttribute("projectScope")
-	public List<Scope> getAllScope(){
+	public List<Scope> getAllScope() {
 		List<Scope> list = scopeDao.getAllScope();
 		return list;
 	}
-	
-	
-	
+
 }

@@ -30,11 +30,10 @@
 
 <body onload="onload_function()">
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
-
+<form action="saveReSourceMemberToDB" method="post" id="table_ResourceMember_Form">
 	<input type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
-
-
+		
 	<div class="container">
 
 		<div>
@@ -44,8 +43,7 @@
 		<div class="row" style="margin-top: 30px;">
 			<div class="col-sm-6">
 
-				<form action="saveReSourceMemberToDB" method="POST"
-					id="table_ResourceMember_Form">
+				
 					<table class="table" style="background-color: #FFE7BA"
 						id="dataTable">
 						<thead>
@@ -56,13 +54,13 @@
 								<th scope="col"><div>Role</div></th>
 								<th scope="col"><div></div></th>
 								<th scope="col"><div></div></th>
-								
+
 							</tr>
 						</thead>
 						<tbody>
 
 							<c:forEach var="listMemberOfProject"
-								items="${listMemberOfProject}">
+								items="${listMemberOfProject}" >
 
 								<tr id="row_function">
 									<th><div></div></th>
@@ -76,14 +74,15 @@
 
 
 									<th><div class="class_Role">${listMemberOfProject.role_name }
-											<div id="panel" style="height: 100%; display: none">
-												<select id="id_select_Role">
-													<option value="none">-----------</option>
-													<c:forEach var="roleUser" items="${roleUser}">
-														<option value="${roleUser.role_name}">${roleUser.role_name}</option>
-													</c:forEach>
-												</select>
-											</div>
+
+										</div>
+										<div id="panel" style="height: 100%; display: none">
+											<select id="id_select_Role">
+												<option value="none">-----------</option>
+												<c:forEach var="roleUser" items="${roleUser}">
+													<option value="${roleUser.role_name}">${roleUser.role_name}</option>
+												</c:forEach>
+											</select>
 										</div></th>
 
 									<th><input type="button" id="editRow"
@@ -97,7 +96,7 @@
 
 						</tbody>
 					</table>
-				</form>
+				
 			</div>
 			<div class="col-sm-6">
 				<div class="row">
@@ -110,7 +109,7 @@
 									<input type="checkbox" value="${getAllUser.user_fullName}"
 										name="checkboxName">${getAllUser.user_fullName}<br>
 								</c:forEach>
-								
+
 							</div>
 						</div>
 					</div>
@@ -129,17 +128,17 @@
 					</div>
 				</div>
 				<br>
-				<div style="text-align: end">
+				<!-- <div style="text-align: end">
 					<input type="button" id="id_save_button"
 						onclick="saveToDB_function()"
 						style="background-color: green; color: white; float: left"
 						value="Save" />
-				</div>
-				<!-- <div style="text-align: end">
+				</div> -->
+				<div style="text-align: end">
 						<input type="submit"
 							style="background-color: green; color: white; float: left"
 							value="Save" />
-					</div> -->
+					</div>
 				<div style="text-align: end">
 
 					<input type="button" onclick="addRowToTable_function()"
@@ -150,8 +149,7 @@
 		</div>
 
 	</div>
-
-	</form>
+</form>
 
 	<script type="text/javascript">
 		var table = document.getElementById("dataTable");
@@ -229,65 +227,48 @@
 		}
 
 		/*Edit row*/
-		$("#dataTable")
-				.on(
-						"click",
-						"#editRow",
-						function(e) {
-							e.preventDefault();
-							$(this).parent('th').parent('tr').find("#panel")
-									.slideToggle("fast");
-							var role;
+		$("#dataTable").on(
+				"click",
+				"#editRow",
+				function(e) {
+					e.preventDefault();
+					$(this).parent('th').parent('tr').find("#panel")
+							.slideToggle("fast");
+					var role;
 
-							$(this)
-									.parent('th')
-									.parent('tr')
-									.find("#id_select_Role")
-									.on(
-											'change',
-											function() {
-												var valueOfSelectRole = $(this)
-														.val();
-												var n = $(this).html();
-												var p = $(this)
-														.parent('div')
-														.parent('div')
-														.parent('th')
-														.parent('tr')
-														.find(".class_Role")
-														.html(
-																''
-																		+ valueOfSelectRole
-																		+ '<div id="panel" style="height: 100%; display: none">'
-																		+ '<select id="id_select_Role"><option value="none">-----------</option>'
-																		+ '<c:forEach var="roleUser" items="${roleUser}">'
-																		+ '<option value="${roleUser.role_name}">${roleUser.role_name}</option></c:forEach>'
-																		+ '</select></div>');
-											});
+					$(this).parent('th').parent('tr').find("#id_select_Role")
+							.on(
+									'change',
+									function() {
+										var valueOfSelectRole = $(this).val();
 
-						});
+										//var n = $(this).html();
+										$(this).parent('div').parent('th')
+												.parent('tr').find(
+														".class_Role").html(
+														valueOfSelectRole);
+
+									});
+
+				});
 
 		$(document).ready(function() {
 			$('#id_save_button').click(function() {
 				var array_Infor_Member_Of_Project = [];
 
 				for (var i = 1; i < hang; i++) {
-
 					var name = table.rows[i].cells[1].innerHTML;
-
 					var effort = table.rows[i].cells[2].childNodes[0].value;
-					//var role = table.rows[1].cells[3].val(); 
-					//alert(name);
+					var role = table.rows[i].cells[3].childNodes[0].innerHTML;
 
 					var infor_Object = new Object();
 					infor_Object.member_project_name = name;
 					infor_Object.member_project_effort = effort;
-					//infor_Update.role = role;
+					infor_Update.role = role;
 					array_Infor_Member_Of_Project.push(infor_Object);
 
 				}
 
-				
 				/*Submit form with Ajax*/
 				/* $.ajax({
 					contentType : 'application/json; charset=utf-8',
@@ -306,31 +287,31 @@
 						alert("Fail!");
 					},
 				}); */
-				
+
 				$.ajax({
-				       url: 'saveReSourceMemberToDB',
-				       method: 'POST',
-				       dataType:"json",
-				       contentType: "application/json",
-				       data: JSON.stringify(array_Infor_Member_Of_Project),
-				       timeout : 100000,
-				    success : function(data) {
-				     //console.log("SUCCESS: ", data);
-				     alert("done");
-				     //alert(data[1].member_project_name);
-				    // alert(date.email);
-				     
-				    },
-				    error : function(e) {
-				     /* console.log("ERROR: ", e);
-				     alert(e) */
-				     alert("loi");
-				    },
-				    done : function(e) {
-				     console.log("DONE");     
-				    }
-				   });
-				
+					url : 'saveReSourceMemberToDB',
+					method : 'POST',
+					dataType : "json",
+					contentType : "application/json",
+					data : JSON.stringify(array_Infor_Member_Of_Project),
+					timeout : 100000,
+					success : function(data) {
+						//console.log("SUCCESS: ", data);
+						alert("done");
+						//alert(data[1].member_project_name);
+						// alert(date.email);
+
+					},
+					error : function(e) {
+						/* console.log("ERROR: ", e);
+						alert(e) */
+						alert("loi");
+					},
+					done : function(e) {
+						console.log("DONE");
+					}
+				});
+
 				//alert(array_Infor_Member_Of_Project[2].member_project_name);
 
 			});

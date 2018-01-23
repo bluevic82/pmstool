@@ -50,6 +50,13 @@ public class TimeSheetController {
 	@Autowired
 	PreDefinedTaskDao definedTaskDao;
 	
+	// get list project for menu
+				@ModelAttribute("list_Project_For_menu")
+				public List<ProjectInfo> getListProject() {
+					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+					return list_Project_For_Menu;
+				}
+	
 	//Mapping view list TimeSheeet
 	@RequestMapping("/timeSheetList")
 	public ModelAndView listTimeSheet() {

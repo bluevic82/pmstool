@@ -49,11 +49,20 @@ public class TaskController {
 	@Autowired
 	TaskInfoDao taskInfoDao;
 	
+	// get list project for menu
+				@ModelAttribute("list_Project_For_menu")
+				public List<ProjectInfo> getListProject() {
+					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+					return list_Project_For_Menu;
+				}
+	
 	//Mapping view page create Task/Spec/Issue
-	@RequestMapping(value = "/createTask" )
-	public ModelAndView createTask(Model model) {
+	@RequestMapping(value = "{id}/createTask" )
+	public ModelAndView createTask(@PathVariable int id, Model model) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create Task/Spec/Issue");
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.addAttribute("project_Infor", projectInfo);// purpose: get project's name
 		return new ModelAndView("createTaskSpecIssue","command",new TaskInfo());
 	}
 	
@@ -80,9 +89,12 @@ public class TaskController {
 	}
 	
 	//Mapping get dataById for update Task/Spec/Issue
-	@RequestMapping(value = "/editTask/{id}")
+	@RequestMapping(value = "{id}/editTask")
 	public ModelAndView editTask(@PathVariable int id, ModelMap model) {
 		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.put("project_Infor", projectInfo);
+		
 		model.put("command", taskInfoDao.getTaskById(id));
 		return new ModelAndView("updateTaskSpecIssue","command",taskInfo);
 	}
@@ -93,6 +105,7 @@ public class TaskController {
 		List<TaskInfo> list = taskInfoDao.getAllTask();
 		return new ModelAndView("taskList","list",list);
 	}
+	
 
 	/*
 	 *@purpose: Methods Attributes

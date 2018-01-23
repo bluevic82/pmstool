@@ -16,13 +16,6 @@
 </head>
 
 
-<body onload="load_project_name_function()">
-
-
-
-<%-- <sql:query var="list_Project_Name">
-	SELECT * FROM project_info;
-</sql:query> --%>
 
 <div style="padding: 5px; margin-bottom: 20px"
 	class = "class_menu">
@@ -31,31 +24,34 @@
 		<!-- <div style="float: left;"> -->
 
 		<ul class="nav-menu">
-			<li><a href="${pageContext.request.contextPath}/welcome">Home</a></li>
+			
 			<li><a href="${pageContext.request.contextPath}/welcome">Over
 					View</a></li>
 			<li><a href="${pageContext.request.contextPath}/addProject">Add
 					Project</a></li>
 			<li><a href="#">Project ></a>
 				<ul>
-					<c:forEach var="list" items="${list}">
-						<li><a href="#">${list.project_name } ></a>
+					<c:forEach var="list_Project_For_menu" items="${list_Project_For_menu}">
+						<li><a href="#">${list_Project_For_menu.project_name } ></a>
 							<ul>
 								<li><a href="#">Setting ></a>
 									<ul>
 										<li><a
-											href="${pageContext.request.contextPath}/editproject/${list.project_id}">Update
+											href="${pageContext.request.contextPath}/editproject/${list_Project_For_menu.project_id}">Update
 												Project Information</a></li>
 										<li><a
-											href="${list.project_id}/${list.project_name}/resource">Resource</a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/createMileStone">Create
+											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/${list_Project_For_menu.project_name}/resource">Resource</a></li>
+										<li><%-- <a
+											href="${pageContext.request.contextPath}/${ list_Project_For_menu.project_id}/createMileStone">
+												Milestone</a> --%>
+												<a
+											href="${pageContext.request.contextPath}/createMileStone">
 												Milestone</a></li>
 									</ul></li>
 
-								<li><a href="${pageContext.request.contextPath}/createTask">Create
+								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createTask">Create
 										Task/Spec/Issue</a></li>
-								<li><a href="#">Update Task/Spec/Issue</a></li>
+								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/editTask">Update Task/Spec/Issue</a></li>
 
 								<li><a href="${pageContext.request.contextPath}/registerQA">Q&A
 										register/Update</a></li>
@@ -72,7 +68,7 @@
 					Management </a></li>
 			<li><a href="#">Users Management ></a>
 				<ul>
-					<li><a href="#">User Register</a></li>
+					<li><a href="${pageContext.request.contextPath}/user">User Register</a></li>
 					<li><a href="${pageContext.request.contextPath}/userInfo">User
 							Infor</a></li>
 					<li><a href="#">Permission Management</a></li>
@@ -106,40 +102,6 @@
 	</div>
 </div>
 
-
-</body>
-
-<script type="text/javascript">
-<!--
-
-//-->
-/*  function load_project_name_function(){
-	
- 	var query_list_project = "SELECT * FROM project_info";
-	$.ajax({
-		type: "post",
-		url: "/getProjectInfor",
-		cache: false,				
-		data: query_list_project,
-		success: function(response){
-			//for(var i = 0; i<response.)
-			
-			
-			//$('#result').html("");
-			//var obj = JSON.parse(response);
-			
-			
-			//$('#result').html("First Name:- " + obj.firstName +"</br>Last Name:- " + obj.lastName  + "</br>Email:- " + obj.email);
-		},
-		error: function(){						
-			alert('Error while request..');
-		}
-	}); 
-	
-}  */
-
-
-</script>
 
 
 <style>

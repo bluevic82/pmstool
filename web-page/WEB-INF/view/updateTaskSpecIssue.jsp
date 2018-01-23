@@ -41,11 +41,21 @@
 					<div>
 						Project Name <form:input value="" name="project_id" path="project_id" size="30" style="margin-left: 7px;"/>
 					</div>
+					<%-- <div>
+						Project Name <input disabled="disabled" value="${project_Infor.project_name }" size="30" style="margin-left: 7px;"/>
+					</div> --%>
 				</div>
 			</div>
 			<br>
 			<div>
 				Type <form:select name="type_id" path="type_id" style="margin-left: 63px">
+					<c:forEach var="taskTypes" items="${taskTypes}">
+						<option value="${taskTypes.type_id}">
+							${taskTypes.type_name}</option>
+					</c:forEach>
+				</form:select>
+				
+				&emsp;Spec <form:select name="type_id" path="type_id" style="margin-left: 63px">
 					<c:forEach var="taskTypes" items="${taskTypes}">
 						<option value="${taskTypes.type_id}">
 							${taskTypes.type_name}</option>

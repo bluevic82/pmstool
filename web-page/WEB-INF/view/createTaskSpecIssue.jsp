@@ -39,19 +39,24 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <input value="" name="project_id" size="30" style="margin-left: 7px;">
+						Project Name <input disabled="disabled" value="${project_Infor.project_name }" name="project_id" size="30" style="margin-left: 7px;">
 					</div>
 				</div>
 			</div>
 			<br>
-			<div>
+			<div >
 				Type <select name="type_id" style="margin-left: 63px">
 					<c:forEach var="taskTypes" items="${taskTypes}">
 						<option value="${taskTypes.type_id}">
 							${taskTypes.type_name}</option>
 					</c:forEach>
 				</select>
+				
 			</div>
+			
+				
+		
+			
 			<br>
 			
 			<div>

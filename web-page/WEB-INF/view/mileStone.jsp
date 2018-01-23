@@ -33,11 +33,16 @@
 </head>
 <body>
 	<div class="container">
-		<form action="actionCreateMileStone" name="milestone">
+		<form action="actionCreateMileStone" name="mileStone" >
+			<%-- <div>
+				<label>Project Name</label>
+				<input name="project_id" value = "${projectInfor.project_name }" disabled>
+			</div> --%>		
+			
 			<div>
 				<label>Project Name</label>
-				<input name="project_id">
-			</div>						
+				<input name="project_id" value = "">
+			</div>					
 			<div class="row">
 				<div class="col-sm-1">Milestone</div>
 				<div class="container1 col-sm-11">
