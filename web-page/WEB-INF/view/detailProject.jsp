@@ -36,46 +36,105 @@
 	<div class="container">
 
 		
-		<div class="row" style="margin-top: 30px;">
+		<div  class="row" style="margin-top: 30px;">
 			<div>Project information</div>
-		<!-- <div class="row">
-					<div class="col-sm-6" >
-							<div class="row">
-								<div class="col-sm-6">Name<input><br>
-							From<input><br>
-							PM<input><br></div>
-								<div class="col-sm-6">Status<input>
-							To <input>
-							Technical <input></div>
-							</div>
-					</div>
-					<div class="col-sm-6">
-						<div>
-							<label for="description">Description</label>
-					 		<textarea name="description"  cols="40" rows="3"></textarea>
-				 		</div>
-					</div>
-				</div>
-			<div style="margin-top: 50px;">Spec / Task list</div> -->
-		<div class="div_head">
-			<div  class="col-sm-6" style="float: left;" >
+			
+			
+			 <div class="col-md-3">
+			 	<table>
+			 		<tr>
+			 			<td WIDTH="100px">
+			 			   Name 
+			 			</td>
+			 			<td>
+			 				<input type="text" disabled value="${command.project_name}" />
+			 			</td>
+			 			</tr>
+			 			<tr>
+			 			<td>
+			 			   From  
+			 			</td>
+			 			<td>
+			 				<input type="text" disabled value="${command.project_from}" />
+			 			</td>
+			 			</tr>
+			 			<tr>
+			 			<td>
+			 			   PM 
+			 			</td>
+			 			<td>
+			 				<select style="width:100%">
+						<c:forEach var="pm" items="${pm}">
+						  <option value="${pm.member_project_name}">${pm.member_project_name}</option>
+						</c:forEach>
+						</select>
+			 			</td>
+			 		</tr>
+			 	</table>
+			 
+			 </div>
+			 <div class="col-md-3">
+			 	<table>
+			 		<tr>
+			 			<td WIDTH="100px" >
+			 			   Status 
+			 			</td>
+			 			<td>
+			 				<input type="text" disabled value="${command.status}" />
+			 			</td>
+			 			</tr>
+			 			<tr>
+			 			<td>
+			 			   To 
+			 			</td>
+			 			<td>
+			 				<input type="text" disabled value="${command.project_to}" />
+			 			</td>
+			 			</tr>
+			 			<tr>
+			 			<td>
+			 			   Technical 
+			 			</td>
+			 			<td>
+			 				<input type="text" disabled value="${command.project_technical}" />
+			 			</td>
+			 		</tr>
+			 	</table>
+			 </div>
+  		     <div class="col-md-6">
+  		     	<table>
+  		     			
+  		     		<tr >
+  		     			<td WIDTH="100px">
+			 			   Description 
+			 			</td>
+			 			<td rowspan="3">
+			 			<textarea style="height: 79px" name="description" cols="60" rows="3" disabled>${command.project_description}</textarea>
+			 			</td>
+  		     		</tr>
+  		     	</table>
+  		     </div>
+  		     
+		
+		
+			<%-- <div  class="col-sm-6" style="float: left;" >
 				<table class="table_head">
 					<tr >
-						<td class="col-sm-2">Name</td>
-						<td class="col-sm-2"><input type="text" disabled
+						<td>Name</td>
+						<td><input type="text" disabled
 							value="${command.project_name}" /></td>
-						<td class="col-sm-2">Status</td>
-						<td class="col-sm-2"><input type="text" disabled value="${command.status}" /></td>
+						<td>Status</td>
+						<td><input type="text" disabled value="${command.status}" /></td>
 					</tr>
 					<tr>
-						<td class="col-sm-2">From</td>
-						<td class="col-sm-2"><input type="text" disabled value="${command.project_from}" /></td>
-						<td class="col-sm-2">To</td>
-						<td class="col-sm-2"><input type="text" disabled value="${command.project_to}" /></td>
+						<td>From</td>
+						<td><input type="text" disabled value="${command.project_from}" /></td>
+						<td>To</td>
+						<td><input type="text" disabled value="${command.project_to}" /></td>
 					</tr>
 					<tr>
-						<td class="col-sm-2">PM</td>
-						<td class="col-sm-2">
+						<td>PM</td>
+						<td >
 						
 						<select>
 						<c:forEach var="pm" items="${pm}">
@@ -86,23 +145,24 @@
 						</c:forEach>
 						</select>
 						</td>
-						<td class="col-sm-2">Technical</td>
-						<td class="col-sm-2"><input type="text" disabled value="${command.project_technical}" /></td>
+						<td >Technical</td>
+						<td ><input type="text" disabled value="${command.project_technical}" /></td>
 					</tr>
 				</table>
 
 			</div>
 			<div class="col-sm-6" >
 				<div>
-					<label for="description" style="">Description</label>
+					<div>Description</div>
 					<textarea name="description" cols="60" rows="3" disabled>${command.project_description}</textarea>
 				</div>
 			</div>
-		</div>
-		<div class = "div_table">
+		</div> --%>
+		<div style="padding-top: 3cm;" class = "div_table">
+		Spec / Task list
 			<table class="table">
 				<thead class="thead-light">
-					<tr>
+					<tr style="background-color: #f2e3d5;">
 						<th scope="col">#</th>
 						<th scope="col">Spec / Task</th>
 						<th scope="col">start</th>
