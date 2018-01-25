@@ -33,17 +33,17 @@
 		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
 		name="url" value="jdbc:mysql://192.168.53.199:3306/project_manager_system"></property> 
 		<property name="username" value="BMS"></property> 
-		<property name="password" value="123456"></property> 
+		<property name="password" value="123456"></property>  -->
 		
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/project_manager_system" />
 		<property name="username" value="root" />
-		<property name="password" value="Chudai@1995" /> -->
+		<property name="password" value="Chudai@1995" />
 		
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/test_pms" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="" /> -->
 		
 	</bean>
 	
@@ -53,10 +53,10 @@
 	</bean>
 
 	<!-- bean transaction -->
-	<!-- <bean id="transactionManager"
+	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
-	</bean> -->
+	</bean>
 	
 	<!-- Config upload File -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -68,7 +68,7 @@
 	
 	<context:property-placeholder location="classpath:hibernate.properties" />
 	
-	 <bean id="sessionFactory"
+	<!--  <bean id="sessionFactory"
         class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
         <property name="hibernateProperties">
@@ -86,5 +86,5 @@
         class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager" /> -->
 </beans>

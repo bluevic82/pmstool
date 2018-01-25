@@ -125,15 +125,15 @@
 		</dependency>
 		<!-- hibernate -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
-		    <version>5.2.12.Final</version>
-		</dependency>
+		    <version>5.2.10.Final</version>
+		</dependency> -->
 
   
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-c3p0</artifactId>
 		    <version>5.2.12.Final</version>
@@ -143,6 +143,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>4.3.11.RELEASE</version>
-        </dependency>
+        </dependency> -->
 	</dependencies>
 </project>

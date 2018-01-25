@@ -128,17 +128,17 @@
 					</div>
 				</div>
 				<br>
-				<!-- <div style="text-align: end">
+				<div style="text-align: end">
 					<input type="button" id="id_save_button"
 						onclick="saveToDB_function()"
 						style="background-color: green; color: white; float: left"
 						value="Save" />
-				</div> -->
-				<div style="text-align: end">
+				</div>
+				<!-- <div style="text-align: end">
 						<input type="submit"
 							style="background-color: green; color: white; float: left"
 							value="Save" />
-					</div>
+					</div> -->
 				<div style="text-align: end">
 
 					<input type="button" onclick="addRowToTable_function()"
@@ -255,7 +255,11 @@
 		$(document).ready(function() {
 			$('#id_save_button').click(function() {
 				var array_Infor_Member_Of_Project = [];
-
+				/* var member_project_name;
+				var member_project_effort;
+				var role_name; */
+				
+				
 				for (var i = 1; i < hang; i++) {
 					var name = table.rows[i].cells[1].innerHTML;
 					var effort = table.rows[i].cells[2].childNodes[0].value;
@@ -264,11 +268,50 @@
 					var infor_Object = new Object();
 					infor_Object.member_project_name = name;
 					infor_Object.member_project_effort = effort;
-					infor_Update.role = role;
+					infor_Object.role_name = role;
+					//alert(infor_Object.member_project_name);
 					array_Infor_Member_Of_Project.push(infor_Object);
 
+					
 				}
+				
+				var bookingTableWrapper = 
+	            {
+	                
+	                    "member_project_name": "daiT",
+	                    "member_project_effort": "20"
+	               
+	            }
+				
+				
+				$.ajax({
+			        dataType: "json",
+			        url:"/test", 
+			        method: "POST",
+			        data: JSON.stringify(bookingTableWrapper)
+			    })
+			    
+			    alert("name = "+bookingTableWrapper.member_project_name);
+				
+				/* alert(array_Infor_Member_Of_Project[1].member_project_name);
+				//for (var i = 0; i < 5; i++) {
+					$.post({
+						url :'saveReSourceMemberToDB',
+						data : array_Infor_Member_Of_Project[1],
+						success : function(data) {
+							alert("done");			
+								//Set response		
+						},
+						error : function(data) {
+							alert("Fail!");
+						},
+						
+					}); */
+					
+	
 
+				//}
+				
 				/*Submit form with Ajax*/
 				/* $.ajax({
 					contentType : 'application/json; charset=utf-8',
@@ -288,7 +331,7 @@
 					},
 				}); */
 
-				$.ajax({
+				 /* $.ajax({
 					url : 'saveReSourceMemberToDB',
 					method : 'POST',
 					dataType : "json",
@@ -303,14 +346,14 @@
 
 					},
 					error : function(e) {
-						/* console.log("ERROR: ", e);
-						alert(e) */
+						// console.log("ERROR: ", e);
+						//alert(e) 
 						alert("loi");
 					},
 					done : function(e) {
 						console.log("DONE");
 					}
-				});
+				});  */
 
 				//alert(array_Infor_Member_Of_Project[2].member_project_name);
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 /*import org.springframework.web.bind.annotation.ModelAttribute;
  import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 //import org.springframework.http.MediaType;
+
 
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
@@ -63,13 +63,32 @@ public class UserResourceController {
 				listMemberOfProject);
 	}
 	
-	@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/saveReSourceMemberToDB", method = RequestMethod.POST)
 	public String saveResourceMemberToDB(
 			Model model,@ModelAttribute("listMemberOfProject") List<MemberProject> listMemberOfProject) {
 			
 		System.out.println(listMemberOfProject.size());
 		return "welcomePage";
+	}*/
+	
+	@PostMapping(value = "/saveReSourceMemberToDB")
+	   @ResponseBody
+	   public MemberProject save(@ModelAttribute MemberProject memberProject) {
+
+		  // System.out.println("name = " + employee.get(0).getFirstName() );
+		   System.out.println("name =  " + memberProject.getMember_project_name() );
+
+	        return memberProject;
+	   }
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public @ResponseBody String test(@ModelAttribute MemberProject bookingTableWrapper) {
+		//bookingTableWrapper.ge
+		System.out.println(bookingTableWrapper.getMember_project_name());
+		System.out.println(bookingTableWrapper.getMember_project_effort());
+
+	    return "whileSuccess";
 	}
+	
 
 	/*
 	 * @RequestMapping(value = "/submitForm.web", method = RequestMethod.POST)
