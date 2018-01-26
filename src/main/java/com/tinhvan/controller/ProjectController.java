@@ -112,7 +112,7 @@ public class ProjectController {
 			List<MemberProject> pm = projectDao.getPm(project_id);
 			model.put("pm", pm);
 //			model.put("status",statusDao.getStatusById(idT));
-			List<TaskInfo> taskByIdPro = taskInfoDao.getTaskByIdPro(idT);
+			List<TaskInfo> taskByIdPro = taskInfoDao.getTaskByIdPro(project_id);
 			model.put("taskid", taskByIdPro);
 			List<Integer> listPercent= new ArrayList<Integer>();
 			
@@ -143,15 +143,18 @@ public class ProjectController {
 			         long noDay = (c2.getTime().getTime() - c1.getTime().getTime())
 			                / (24 * 3600 * 1000);
 			         long noDay1 = (c3.getTime().getTime() - c1.getTime().getTime())
-				                / (24 * 3600 * 1000);	        
+				                / (24 * 3600 * 1000);	
+			         if(noDay1>noDay) {
+			        	 noDay1=noDay;
+			         }
 			         if(noDay>0 && noDay1>0) {
 			        	 Float target=(float) noDay;
 				         Float current=(float) noDay1;
-				         Float percent=  current/ target*100f;       
+				         Float percent=  current/ target*100f;      
+				       
 				         listPercent.add(Math.round(percent));
 				         
 				         float tinh=taskInfo.getTask_done()-percent;
-				         
 			        	 if(tinh>0) {
 			        		 Map<Integer, String> map = new HashMap<Integer, String>();
 			        		 map.put(Math.round(tinh), "green");
@@ -160,17 +163,26 @@ public class ProjectController {
 			        	 }
 			        	 if(tinh<0) {
 			        		 Map<Integer, String> map = new HashMap<Integer, String>();
+			        		
 			        		 float tinh1=percent-taskInfo.getTask_done();
+			        		 
 			        		 map.put(Math.round(tinh1), "red");
+			        		
 			        		 perr.add(map);
 			        	 }
+			        	 if(tinh==0) {
+//				        	 listPercent.add(Math.round(taskInfo.getTask_done()));
+				        	 Map<Integer, String> map = new HashMap<Integer, String>();
+			        		 map.put(Math.round(taskInfo.getTask_done()), "khong");
+			        		 perr.add(map);
+						}
 			         }else {
+
 //			        	 listPercent.add(Math.round(taskInfo.getTask_done()));
 			        	 Map<Integer, String> map = new HashMap<Integer, String>();
-		        		
 		        		 map.put(Math.round(taskInfo.getTask_done()), "khong");
 		        		 perr.add(map);
-					}
+					} 
 			        
 			        
 			}

@@ -133,5 +133,30 @@ public class ProjectDaoImpl implements ProjectDao {
 			}
 		});
 	}
+
+	@Override
+	public List<ProjectInfo> getAllProject1() {
+		return jdbcTemplate.query("SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE,project_info.TYPE_ID" + 
+				"									FROM project_info " + 
+				"				                            LEFT  JOIN status_info" + 
+				"											ON project_info.STATUS_ID=status_info.STATUS_ID" + 
+				"                                            where status_info.STATUS_TYPE='Open' or status_info.STATUS_TYPE='Pending'", new RowMapper<ProjectInfo>() {
+
+			@Override
+			public ProjectInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+				ProjectInfo projectInfo = new ProjectInfo();
+				projectInfo.setProject_id(rs.getInt(1));
+				projectInfo.setProject_name(rs.getString(2));
+				projectInfo.setProject_from(rs.getString(3));
+				projectInfo.setProject_to(rs.getString(4));
+				projectInfo.setProject_description(rs.getString(5));
+				projectInfo.setProject_technical(rs.getString(6));
+				projectInfo.setStatus(rs.getString(7));
+				projectInfo.setType_id(rs.getInt(8));
+				
+				return projectInfo;
+			}
+		});
+	}
 	
 }
