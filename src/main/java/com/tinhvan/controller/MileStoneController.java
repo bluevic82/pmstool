@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +29,7 @@ public class MileStoneController {
 	
 	@Autowired
 	MileStoneDao mileStoneDao;
-	@Autowired
+	@Autowired(required = true)
 	ProjectDao projectDao;
 	
 	// get list project for menu
@@ -46,14 +48,16 @@ public class MileStoneController {
 		return "mileStone";
 	}
 	
-	/*@RequestMapping(value = "/{id}/createMileStone", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/createMileStone", method = RequestMethod.GET)
 	public ModelAndView  createMileStone(@PathVariable int id, ModelMap model){
 			ProjectInfo projectInfor = projectDao.getProjectById(id);
 			model.put("projectInfor", projectInfor);
 			model.addAttribute("projectInfor", projectInfor);
-			return new ModelAndView("mileStone", "projectInfor", projectInfor);
+			System.out.println(projectInfor.getProject_id());
+			System.out.println(projectInfor.getProject_name());
+			return new ModelAndView("mileStone", "comand", new MileStone());
 		
-	}*/
+	}
 	
 	//Mapping button click create MileStone
 	@RequestMapping(value = "actionCreateMileStone")

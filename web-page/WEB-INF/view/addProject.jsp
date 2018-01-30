@@ -7,13 +7,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Add Project</title>
 	<jsp:include page="_menu.jsp" />
-  	 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   	<link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />" >
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
   	<script src="https://momentjs.com/downloads/moment.min.js"></script>
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css"/>
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
@@ -24,7 +24,7 @@
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-sm-4">
-					<div>Project Name <input value="" name="project_name" size="30"></div>
+					<div>Project Name <input value="" name="project_name" ></div>
 				</div>
 				<div class="col-sm-2">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->
@@ -43,7 +43,7 @@
 					</div> -->
 					
 				<div class="col-sm-3">
-					<div class="row">
+					<!-- <div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
 			                    <input type='text' class="form-control" name="project_from"/>
@@ -52,10 +52,11 @@
 			                    </div>
 			                </div>
 			            </div>
-			         </div>
+			         </div> -->
+			         From<input class="date" name="project_from" id="datetimepicker1"/><img  alt="" src="resources/image/Date-32.png">
 				</div>
 				<div class="col-sm-3">
-					<div class="row">
+					<!-- <div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
 			                    <input type='text' class="form-control" name="project_to"/>
@@ -64,7 +65,8 @@
 			                    </span>
 			                </div>
 			            </div>
-					</div>
+					</div> -->
+					To<input class="date" id="datetimepicker2"/><img  alt="" src="resources/image/Date-32.png">
 				</div>
 					
 				</div><br>

@@ -9,24 +9,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Update Project</title>
 	<jsp:include page="_menu.jsp" />
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />" >
-  
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   	<link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />" >
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
   	
   	<script src="https://momentjs.com/downloads/moment.min.js"></script>
-	<script src="/resources/js/bootstrap.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css.map">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css"/>
+	 
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
@@ -58,7 +49,7 @@
 					</div> -->
 					
 				<div class="col-sm-3">
-					<div class="row">
+					<%-- <div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
 			                    <form:input type='text' class="form-control" name="project_from" path="project_from"/>
@@ -67,10 +58,11 @@
 			                    </div>
 			                </div>
 			            </div>
-			         </div>
+			         </div> --%>
+			         From<input class="date" name="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png">
 				</div>
 				<div class="col-sm-3">
-					<div class="row">
+					<%-- <div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
 			                    <form:input type='text' class="form-control" name="project_to" path="project_to"/>
@@ -79,7 +71,8 @@
 			                    </span>
 			                </div>
 			            </div>
-					</div>
+					</div> --%>
+					To<input class="date" id="datetimepicker2"/><img  alt="" src="../resources/image/Date-32.png">
 				</div>
 					
 				</div><br>

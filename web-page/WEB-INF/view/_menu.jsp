@@ -45,10 +45,10 @@
 										<li><a
 											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/${list_Project_For_menu.project_name}/resource">Resource</a></li>
 										<li><%-- <a
-											href="${pageContext.request.contextPath}/${ list_Project_For_menu.project_id}/createMileStone">
+											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createMileStone">
 												Milestone</a> --%>
 												<a
-											href="${pageContext.request.contextPath}/createMileStone">
+											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createMileStone">
 												Milestone</a></li>
 									</ul></li>
 
