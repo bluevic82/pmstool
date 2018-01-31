@@ -59,7 +59,7 @@
 								<li><a href="${pageContext.request.contextPath}/registerQA">Q&A
 										register/Update</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/registerTimeSheet">Timesheet
+									href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/registerTimeSheet">Timesheet
 										register/Update</a></li>
 							</ul></li>
 					</c:forEach>
@@ -80,7 +80,7 @@
 				<ul>
 					<li><a href="#">Issue Management ></a>
 						<ul>
-							<li><a href="#">List Issue</a></li>
+							<li><a href="${pageContext.request.contextPath}/taskList">List Issue</a></li>
 						</ul></li>
 					<li><a href="#">Timesheet Management ></a>
 						<ul>
@@ -127,7 +127,7 @@ body {
 
 .nav-menu a {
 	color: #fff; /* White font for link color. */
-	border: 1px solid #F5F5F5;
+	/* border: 1px solid #F5F5F5; */
 	/* background-color: #000000; */
 }
 

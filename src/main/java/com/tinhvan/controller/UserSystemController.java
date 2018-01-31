@@ -75,7 +75,7 @@ public class UserSystemController {
 		return list;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+/*	@RequestMapping(method=RequestMethod.GET)
 	public String uploadPage(@RequestParam("fileName") MultipartFile file,ModelMap model)throws Exception{
 		if(!file.isEmpty()){
 			String name=file.getOriginalFilename();
@@ -93,5 +93,5 @@ public class UserSystemController {
 		}
 		
 		return "userRegister";
-		}
+		}*/
 }

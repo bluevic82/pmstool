@@ -16,4 +16,7 @@ public interface TimeSheetDao {
 	
 	public TimeSheetDetail getById(int id);
 	
+	/*Test Daik*/
+	public List<TimeSheetDetail> getListTimeSheetOfOneProject(int projectId);
+	
 }

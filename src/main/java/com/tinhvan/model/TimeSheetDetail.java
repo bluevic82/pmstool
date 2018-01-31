@@ -1,5 +1,6 @@
 package com.tinhvan.model;
 
+
 public class TimeSheetDetail {
 	private int detail_timesheet_id;
 	private String detail_timesheet_name;
@@ -11,6 +12,46 @@ public class TimeSheetDetail {
 	private String workcontent;
 	private int ts_id;
 	
+	/*Test DaiK*/
+	private String detail_timesheet_date;
+	private String pre_defined_name;
+	private String process_name;
+	private String type_name;
+	
+	
+	
+	public String getDetail_timesheet_date() {
+		return detail_timesheet_date;
+	}
+
+	public void setDetail_timesheet_date(String detail_timesheet_date) {
+		this.detail_timesheet_date = detail_timesheet_date;
+	}
+
+	public String getPre_defined_name() {
+		return pre_defined_name;
+	}
+
+	public void setPre_defined_name(String pre_defined_name) {
+		this.pre_defined_name = pre_defined_name;
+	}
+
+	public String getProcess_name() {
+		return process_name;
+	}
+
+	public void setProcess_name(String process_name) {
+		this.process_name = process_name;
+	}
+
+	public String getType_name() {
+		return type_name;
+	}
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
+	}
+
 	public TimeSheetDetail() {
 		
 	}
