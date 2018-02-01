@@ -22,5 +22,9 @@ public class ScopeProject {
 	public void setScope_project_id(int scope_project_id) {
 		this.scope_project_id = scope_project_id;
 	}
+	public ScopeProject() {
+		super();
+	}
+	
 	
 }

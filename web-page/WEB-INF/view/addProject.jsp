@@ -66,7 +66,7 @@
 			                </div>
 			            </div>
 					</div> -->
-					To<input class="date" id="datetimepicker2"/><img  alt="" src="resources/image/Date-32.png">
+					To<input class="date" name="project_to" id="datetimepicker2"/><img  alt="" src="resources/image/Date-32.png">
 				</div>
 					
 				</div><br>
@@ -82,9 +82,9 @@
 				<div class="row">
 					<div class="col-sm-1">Scope</div> 
 					<div class="col-sm-11" >
-						<c:forEach var="projectScope" items="${projectScope}">   
-							<input type="checkbox" name="" value="${projectScope.scope_id}" style="margin-left: 10px;">${projectScope.scope_name}
-						</c:forEach>  
+							<c:forEach var="projectScope" items="${projectScope}">   
+								<input type="checkbox" name="scope_project_id" value="${projectScope.scope_id}" style="margin-left: 10px;">${projectScope.scope_name}
+							</c:forEach>
 					</div>
 				</div><br>
 				<div>Charge Cost <input  name="project_charge_cost" style="margin-left: 10px"> (MM)</div><br>

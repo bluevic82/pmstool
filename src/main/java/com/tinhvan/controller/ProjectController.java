@@ -30,6 +30,7 @@ import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Scope;
+import com.tinhvan.model.ScopeProject;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
@@ -76,8 +77,10 @@ public class ProjectController {
 	// mapping Create Project
 	@RequestMapping(value = "/actionCreateProject", method = RequestMethod.POST)
 	public ModelAndView addproject(Model model,
-			@ModelAttribute(value = "project") ProjectInfo project) {
-		projectDao.addProject(project);
+			@ModelAttribute(value = "project") ProjectInfo project, @ModelAttribute(value = "scopeP") ScopeProject scopeP) {
+		projectDao.addProject(project,scopeP);
+		int maxs = projectDao.findProjectIdMax();
+		System.out.println("id project khi click add" + maxs);
 		return new ModelAndView("redirect:/");
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tinhvan.mapper.ProjectMapper;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.ScopeProject;
 
 @Repository
 @Transactional
@@ -44,12 +45,42 @@ public class ProjectDaoImpl implements ProjectDao {
 		});
 		
 	}
-
+	// implement add project
 	@Override
-	public void addProject(ProjectInfo project) {
+	public void addProject(ProjectInfo project, ScopeProject scopeP) {
+	/*public void addProject(ProjectInfo project, List scopeP) {*/
 		// TODO Auto-generated method stub
 		String sql="INSERT INTO project_info(PROJECT_NAME, PROJECT_FROM, PROJECT_TO, PROJECT_CHARGE_COST, STATUS_ID, TYPE_ID, PROJECT_DESCRIPTION, PROJECT_TECHNICAL)"+"VALUES (?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] {project.getProject_name(),project.getProject_from(),project.getProject_to(),project.getProject_charge_cost(),project.getStatus_id(),project.getType_id(),project.getProject_description(),project.getProject_technical()});
+		
+		int id = findProjectIdMax();
+		String sqlP = "INSERT INTO Scope_project(project_id, scope_id )" +"VALUES ("+ id +",?)"; 
+		jdbcTemplate.update(sqlP, new Object[] {scopeP.getScope_project_id()}); // khi add 1 thang scope
+		/*jdbcTemplate.batchUpdate(sqlP, new BatchPreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				// TODO Auto-generated method stub
+				ScopeProject scope = (ScopeProject) scopeP.get(i);
+				ps.setInt(1, scope.getScope_project_id());
+			}
+			
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return scopeP.size();
+			}
+		});*/
+	
+	}
+	
+
+	@Override
+	public int findProjectIdMax() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT MAX(project_id) FROM project_info";
+		int maxId = jdbcTemplate.queryForObject(sql, Integer.class);
+		return maxId;
 	}
 
 	@Override
