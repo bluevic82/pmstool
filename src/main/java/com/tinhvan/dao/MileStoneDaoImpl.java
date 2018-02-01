@@ -1,10 +1,12 @@
 package com.tinhvan.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -54,7 +56,30 @@ public class MileStoneDaoImpl implements MileStoneDao {
 			mileStone.getMilestone_date(),
 			mileStone.getMilestone_description(),
 			mileStone.getMilestone_id()
-		});
-		
+		});	
 	}
+	//method add multiple milestone
+			@Override
+			public void insertMilestone(List<MileStone> mileStone) {
+				// TODO Auto-generated method stub
+				String sql = "INSERT INTO milestone_info (PROJECT_ID, MILESTONE_DATE, MILESTONE_DESCRIPTION)"+" VALUES (?,?,?)";
+				jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+					
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						// TODO Auto-generated method stub
+						MileStone milestone = mileStone.get(i);
+						ps.setInt(1, milestone.getProject_id());
+						ps.setString(2, milestone.getMilestone_date());
+						ps.setString(3, milestone.getMilestone_description());
+						
+					}
+					
+					@Override
+					public int getBatchSize() {
+						// TODO Auto-generated method stub
+						return mileStone.size();
+					}
+				});			
+				}
 }

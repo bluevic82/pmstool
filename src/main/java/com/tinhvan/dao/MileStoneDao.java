@@ -12,4 +12,7 @@ public interface MileStoneDao {
 	
 	public void deleteMidelStone(MileStone MileStone);
 	
+	// update multiple mileStone
+	public void insertMilestone(List<MileStone> mileStone);
+	
 }
