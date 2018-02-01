@@ -22,8 +22,9 @@ import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.Process;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
-
+import com.tinhvan.model.TimeSheetDetail_List;
 
 /*
  * @Purpose: TimeSheet Controller using register/update TimeSheet
@@ -35,7 +36,7 @@ import com.tinhvan.model.TimeSheetDetail;
 
 @Controller
 public class TimeSheetController {
-	
+
 	@Autowired
 	TimeSheetDao timeSheetDao;
 	@Autowired
@@ -50,66 +51,78 @@ public class TimeSheetController {
 	ProcessDao processDao;
 	@Autowired
 	PreDefinedTaskDao definedTaskDao;
-	
+
 	// get list project for menu
-				@ModelAttribute("list_Project_For_menu")
-				public List<ProjectInfo> getListProject() {
-					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-					return list_Project_For_Menu;
-				}
-	
-	//Mapping view list TimeSheeet
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject() {
+		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+		return list_Project_For_Menu;
+	}
+
+	// Mapping view list TimeSheeet
 	@RequestMapping("/timeSheetList")
 	public ModelAndView listTimeSheet() {
 		List<TimeSheetDetail> list = timeSheetDao.getAllTimeSheet();
 		return new ModelAndView("timeSheetList", "list", list);
 	}
-	
-	//Mapping view Screen Register TimeSheet
-	@RequestMapping(value = {"/{id}/registerTimeSheet"}, method = RequestMethod.GET)
-	public ModelAndView regisTimeSheet( @PathVariable (value = "id")  int id, Model model) {
+
+	// Mapping view Screen Register TimeSheet
+	@RequestMapping(value = { "/{id}/registerTimeSheet" }, method = RequestMethod.GET)
+	public ModelAndView regisTimeSheet(@PathVariable(value = "id") int id,
+			Model model) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetOfOneProject(id);
-		model.addAttribute("list_TimeSheetOfOneProject", list_TimeSheetOfOneProject);
+
+		List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
+				.getListTimeSheetOfOneProject(id);	
+
+		model.addAttribute("list_TimeSheetOfOneProject",
+				list_TimeSheetOfOneProject);
 		model.addAttribute("projectInfo", projectInfo);
 		model.addAttribute("title", "Success");
 		model.addAttribute("message", "RegisterTimeSheet");
 
-		
-		
 		return new ModelAndView("timesheetRegister");
 	}
-	
+
+	/* Action save timesheet to DB */
+	@RequestMapping(value = "/actionSaveTimeSheet", method = RequestMethod.POST)
+	public ModelAndView actionSaveTimeSheet(
+			Model model,
+			@ModelAttribute(value = "list_TimeSheetOfOneProject") List<TimeSheetDetail> list_TimeSheetOfOneProject) {
+		System.out.println("size = " + list_TimeSheetOfOneProject.size());
+		return new ModelAndView("redirect:/taskList");
+	}
+
 	/*
-	 *@Purpose: Methods Attributes
+	 * @Purpose: Methods Attributes
 	 */
-	
-	//method get Name of Project
+
+	// method get Name of Project
 	@ModelAttribute("projectName")
-	public List<ProjectInfo> getAllProject(){
+	public List<ProjectInfo> getAllProject() {
 		List<ProjectInfo> list = projectDao.getAllProject();
 		return list;
 	}
-	
-	//method get all member project Timesheet of project
+
+	// method get all member project Timesheet of project
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
 		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
-	
-	//method get process of timesheet
+
+	// method get process of timesheet
 	@ModelAttribute("process")
-	public List<Process> getProcess(){
+	public List<Process> getProcess() {
 		List<Process> list = processDao.getAll();
 		return list;
 	}
-	
-	//method get status of timesheet
+
+	// method get status of timesheet
 	@ModelAttribute("timeSheetStatus")
-	public List<Status> getStatusOfTimeSheet(){
+	public List<Status> getStatusOfTimeSheet() {
 		List<Status> list = statusDao.getStatusOfTS();
 		return list;
 	}
-	
+
 }

@@ -22,7 +22,6 @@
 
 <div style="padding: 5px; margin-bottom: 20px"
 	class = "class_menu">
-
 	<div class="nav-bar">
 		<!-- <div style="float: left;"> -->
 

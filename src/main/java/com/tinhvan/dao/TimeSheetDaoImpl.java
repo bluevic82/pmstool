@@ -56,14 +56,11 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	public List<TimeSheetDetail> getListTimeSheetOfOneProject(int projectId) {
 		/* List TimeSheet of one Project */
 		List<TimeSheetDetail> list_TimeSheetOfOneProject = new ArrayList<TimeSheetDetail>();
-		
 
 		List<Integer> list_TimeSheetId = new ArrayList<Integer>();
 		list_TimeSheetId.addAll(getListTimeSheetId(projectId));// OK
 		System.out
 				.println("size list_TimeSheetId = " + list_TimeSheetId.size());
-
-		
 
 		for (int i = 0; i < list_TimeSheetId.size(); i++) {
 
@@ -76,27 +73,59 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 							.get(i)));
 			System.out.println("size listTimeSheetDetailOfTs_Id = "
 					+ listTimeSheetDetailOfTs_Id.size());
+			
+			
 
 			for (int j = 0; j < listTimeSheetDetailOfTs_Id.size(); j++) {
-				listTimeSheetDetailOfTs_Id.get(j).setPre_defined_name(
-						getPreDifinedName(listTimeSheetDetailOfTs_Id.get(j)
-								.getPre_defined_id()));
-				listTimeSheetDetailOfTs_Id.get(j).setProcess_name(
-						getProcessName(listTimeSheetDetailOfTs_Id.get(j)
-								.getProcess_id()));
-				listTimeSheetDetailOfTs_Id.get(j).setType_name(
-						getTypeName(listTimeSheetDetailOfTs_Id.get(j)
-								.getType_id()));
+
+				List<String> list_Name_Of_Id = new ArrayList<String>();
+
+				String pre_defined_name = getPreDifinedName(listTimeSheetDetailOfTs_Id
+						.get(j).getPre_defined_id());
+				String process_name = getProcessName(listTimeSheetDetailOfTs_Id
+						.get(j).getProcess_id());
+				String type_name = getTypeName(listTimeSheetDetailOfTs_Id
+						.get(j).getType_id());
+
+				System.out.println("value of timeSheetDetailOfTs_Id = "+ listTimeSheetDetailOfTs_Id.get(j)
+						.getDetail_timesheet_id());
 				
-				System.out.println("getPreDifinedName = "+listTimeSheetDetailOfTs_Id.get(j).getPre_defined_name());
+				String task_subject = null;
 				
-				list_TimeSheetOfOneProject.add(listTimeSheetDetailOfTs_Id.get(j));
+				try{
+					String sql_GetTaskSubject = "SELECT task_info.TASK_SUBJECT FROM task_info INNER JOIN detail_timesheet "
+							+ "ON task_info.TASK_ID = detail_timesheet.TASK_ID WHERE detail_timesheet.DETAIL_TIMESHEET_ID = ?";
+							
+					
+					task_subject = jdbcTemplate.queryForObject(
+							sql_GetTaskSubject,
+							new Object[] { listTimeSheetDetailOfTs_Id.get(j)
+									.getDetail_timesheet_id() }, String.class);
+				}
+				catch(Exception e){
+					 task_subject = null;
+				}
+
+				
+				
+				list_Name_Of_Id.add(pre_defined_name);
+				list_Name_Of_Id.add(process_name);
+				list_Name_Of_Id.add(type_name);
+				list_Name_Of_Id.add(task_subject);
+
+				listTimeSheetDetailOfTs_Id.get(j).setList_Name_Of_Id(
+						list_Name_Of_Id);
+				// requiredType, args);
+
+				list_TimeSheetOfOneProject.add(listTimeSheetDetailOfTs_Id
+						.get(j));
+
 			}
-				
 
 		}
-		
-		System.out.println("size of list_TimeSheetOfOneProject = "+list_TimeSheetOfOneProject.size());
+
+		System.out.println("size of list_TimeSheetOfOneProject = "
+				+ list_TimeSheetOfOneProject.size());
 
 		return list_TimeSheetOfOneProject;
 	}
@@ -130,28 +159,35 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		return List_timeSheetDetail_Of_timeSheetId;
 
 	}
+	
+	/* get list detailTimesheetId of one Ts_ID */
+/*	public List<Integer> getListDetailTimeSheetId(int timesheet_Id) {
+		String sql = "SELECT PRE_DEFINED_NAME FROM pre_defined WHERE PRE_DEFINED_ID = ?";
+		return  jdbcTemplate.queryForList(sql,
+				new Object[] { timesheet_Id }, Integer.class);
+
+	}*/
+
 
 	/* get PreDifined_Name by pre_defined_id */
 	public String getPreDifinedName(int pre_defined_id) {
 		String sql = "SELECT PRE_DEFINED_NAME FROM pre_defined WHERE PRE_DEFINED_ID = ?";
-			return (String) jdbcTemplate.queryForObject(sql,
-					new Object[] { pre_defined_id }, String.class);
-
+		return (String) jdbcTemplate.queryForObject(sql,
+				new Object[] { pre_defined_id }, String.class);
 
 	}
 
 	/* get Process_Name by process_id */
 	public String getProcessName(int process_id) {
 		String sql = "SELECT PROCESS_NAME FROM process WHERE PROCESS_ID = ?";
-			return jdbcTemplate.queryForObject(sql,
-					new Object[] { process_id }, new RowMapper<String>() {
-						public String mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							return rs.getString("PROCESS_NAME");
-						}
+		return jdbcTemplate.queryForObject(sql, new Object[] { process_id },
+				new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return rs.getString("PROCESS_NAME");
+					}
 
-					});
-		
+				});
 
 	}
 
@@ -167,4 +203,15 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 				});
 	}
+
+	/* get task_Name */
+	/*
+	 * public String getTaskName(int type_id) { String sql =
+	 * "SELECT TYPE_NAME FROM type WHERE TYPE_ID = ?"; return
+	 * jdbcTemplate.queryForObject(sql, new Object[] { type_id }, new
+	 * RowMapper<String>() { public String mapRow(ResultSet rs, int rowNum)
+	 * throws SQLException { return rs.getString("TYPE_NAME"); }
+	 * 
+	 * }); }
+	 */
 }
