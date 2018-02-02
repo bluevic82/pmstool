@@ -63,11 +63,7 @@
 			 			   PM 
 			 			</td>
 			 			<td>
-			 				<select style="width:100%">
-						<c:forEach var="pm" items="${pm}">
-						  <option value="${pm.member_project_name}">${pm.member_project_name}</option>
-						</c:forEach>
-						</select>
+			 				<input type="text" disabled value="${command.pm}" />
 			 			</td>
 			 		</tr>
 			 	</table>
@@ -158,7 +154,7 @@
 				</div>
 			</div>
 		</div> --%>
-		<div style="padding-top: 3cm;" class = "div_table">
+		<div style="padding-top: 20px;" class = "div_table">
 		Spec / Task list
 			<table class="table">
 				<thead class="thead-light">

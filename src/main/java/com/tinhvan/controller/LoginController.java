@@ -9,17 +9,33 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+<<<<<<< HEAD
+=======
+import javax.annotation.processing.RoundEnvironment;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+>>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.ScopeDao;
@@ -27,6 +43,7 @@ import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.TaskInfo;
 
@@ -54,16 +71,49 @@ public class LoginController {
 	QuestionAnswerDao qaDao;
 	@Autowired
 	ScopeDao scopeDao;
+	@Autowired
+	PermissionDao per;
 
 	//
+	
+	@RequestMapping("/permissionManager")
+	public String bomaytroll(Model model){
+		List<Permission> allPer = per.getAllPer();
+		model.addAttribute("listPer", allPer);
+		
+		return "permissionManager";
+	}
+	
+	
+	
+	
+	@RequestMapping(value="/updatePer",method = RequestMethod.POST)
+	public @ResponseBody void savePer(@RequestBody List<Permission> things, HttpServletRequest request){
+		
+		
+		for (Permission permission : things) {
+			per.updatePer(permission);
+		}
+			
+		
+	}
+	
+	
 	@RequestMapping(value = { "/", "/welcome" })
-	public ModelAndView welcomePage(Model model) {
+	public ModelAndView welcomePage(Model model,@RequestParam(value="name",defaultValue="") String sname,@RequestParam(value="pm",defaultValue="") String spm,@RequestParam(value="from",defaultValue="") String sfrom,@RequestParam(value="to",defaultValue="") String sto) {
 		model.addAttribute("title", "OverView");
 		model.addAttribute("message", "OverView");
+<<<<<<< HEAD
 		List<ProjectInfo> list = projectDao.getAllProject1();
 		List<Map<Integer, String>> pm = new ArrayList<Map<Integer, String>>();
 		List<Integer> tongPer = new ArrayList<Integer>();
 		List<Map<Integer, String>> thuaTHieu = new ArrayList<Map<Integer, String>>();
+=======
+		List<ProjectInfo> list = projectDao.getAllProject1(sname,spm,sfrom,sto);
+		List<Map<Integer, String>> pm= new ArrayList<Map<Integer, String>>() ;
+		List<Integer> tongPer=new ArrayList<Integer>();
+		List<Map<Integer, String>> thuaTHieu= new ArrayList<Map<Integer, String>>() ;
+>>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 		for (int i = 0; i < list.size(); i++) {
 			int idP = list.get(i).getProject_id();
 			List<MemberProject> mp = projectDao.getPm(idP);
@@ -75,6 +125,7 @@ public class LoginController {
 
 			}
 			pm.add(map);
+<<<<<<< HEAD
 
 			List<TaskInfo> taskByIdPro = taskInfoDao.getTaskByIdPro(idP);
 
@@ -149,29 +200,164 @@ public class LoginController {
 			perTask += Math.round((float) done / (float) tong * 100f);
 
 			if (nhanh > cham) {
+=======
+			
+			
+			
+
+			
+			
+			List<TaskInfo>	taskByIdPro = taskInfoDao.getTaskByIdPro(idP);
+			
+			float done=0;
+			float percent=0;
+			float perTask=0;
+			float currentask=0;
+			float tong=0;
+			float cham=0;
+			float nhanh=0;
+			
+			for (TaskInfo taskInfo : taskByIdPro) {
+				 String from = taskInfo.getTask_from();
+				 String to = taskInfo.getTask_to();
+				 int taskDone=taskInfo.getTask_done();
+				
+				
+					Date parse = null; 
+			        Date parse1 = null;
+			        Date parse2 = null;
+			        try {
+			        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			        Date date = new Date(); 
+			        String format = sdf.format(date);
+							parse = sdf.parse(from);
+							 parse1 = sdf.parse(to);
+							 parse2 = sdf.parse(format);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			        Calendar c1 = Calendar.getInstance();
+			        Calendar c2 = Calendar.getInstance();
+			        Calendar c3 = Calendar.getInstance();
+			        c1.setTime(parse);
+			        c2.setTime(parse1);
+			        c3.setTime(parse2);
+			         long noDay = (c2.getTime().getTime() - c1.getTime().getTime())
+			                / (24 * 3600 * 1000); 
+			         long noDay1 = (c3.getTime().getTime() - c1.getTime().getTime())
+				                / (24 * 3600 * 1000);	 
+			         if(noDay1>noDay) {
+			        	 noDay1=noDay;
+			         }
+			         float convert = (int) noDay;
+			         float convert1= (int) noDay1;
+			         
+			         
+//			         if(taskDone==100) {
+//			        	 done+=convert;
+//			         }
+			         
+			         
+			        
+			        	 float thuaThieu=(float)noDay/100f*(float)taskDone;
+			        	 done+=thuaThieu;
+			        	 
+			        	 
+			        	 
+			        	if((float)noDay1-thuaThieu>0) {
+			        		float a=noDay1-thuaThieu;
+			        		cham+=a;
+			        		
+			        	}
+			        	if((float)noDay1-thuaThieu<0) {
+			        		float a=thuaThieu-noDay1;
+			        		nhanh+=a;
+			        		
+			        	}
+			        	if((float)noDay1-thuaThieu==0) {
+			        		float a=noDay1-thuaThieu;
+			        		
+			        		
+			        	}
+			        	 
+				         percent+= convert1;   
+				         
+			         
+			         tong+=convert;
+			         
+			         
+			         
+			}
+			
+			perTask+=(float)done/(float)tong*100f;
+	
+			if(nhanh>cham) {
+>>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 				Map<Integer, String> map1 = new HashMap<Integer, String>();
 				nhanh = nhanh - cham;
 
 				map1.put(Math.round((float) nhanh / (float) tong * 100f), "green");
 				thuaTHieu.add(map1);
+<<<<<<< HEAD
 				tongPer.add(perTask);
 
+=======
+				tongPer.add(Math.round(perTask));
+				
+>>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 			}
 			if (nhanh < cham) {
 				Map<Integer, String> map1 = new HashMap<Integer, String>();
+<<<<<<< HEAD
 				cham = cham - nhanh;
 
 				map1.put(Math.round((float) cham / (float) tong * 100f), "red");
+=======
+				cham=cham-nhanh;
+				
+				map1.put(Math.round((float)cham/(float)tong*100f), "red");
+>>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 				thuaTHieu.add(map1);
-				tongPer.add(perTask);
+				tongPer.add(Math.round(perTask));
+				
 			}
 			if (nhanh == cham) {
 				Map<Integer, String> map1 = new HashMap<Integer, String>();
+<<<<<<< HEAD
 
 				map1.put(perTask, "khong");
 				thuaTHieu.add(map1);
 				tongPer.add(perTask);
 
+=======
+		
+				map1.put(Math.round(perTask), "khong");
+				thuaTHieu.add(map1);
+				tongPer.add(Math.round(perTask));
+				
+			}
+			
+			
+		
+			
+			
+			
+				
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+>>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 			}
 
 		}
@@ -201,6 +387,10 @@ public class LoginController {
 
 	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
 	public String logoutSuccessfulPage(Model model) {
+		
+		
+		
+		
 		model.addAttribute("title", "Logout");
 		return "logoutSuccessfulPage";
 	}
