@@ -22,17 +22,21 @@
 	<div class="container" style="margin: auto;">
 	
 		<div class="row" style="padding: 20px 60px 10px;">
-			<div class="col-sm-3">Name <input></div>
-			<div class="col-sm-2">PM <input size="10"></div>
-			<div class="col-sm-3">From <input ></div>
-			<div class="col-sm-3">To <input></div>
-			<div class="col-sm-1"><button style="background-color: green;">Search</button></div>
+		<form method="post" action="/Login/">
+			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+			<div class="col-sm-3">Name <input type="text" name="name" /></div>
+			<div class="col-sm-2">PM <input type="text" size="10" name="pm"/></div>
+			<div class="col-sm-3">From <input type="text" name="from"/></div>
+			<div class="col-sm-3">To <input type="text" name="to"/></div>
+			<div class="col-sm-1"><button type="submit" style="background-color: green;">Search</button></div>
+		</form>
+			
 		</div>
 		<div class="container" style="margin: auto;">
 		
 		</div>
 		<div class="row" style="padding: 20px 10px 0px;">
-			<div class=col-md-1 style="font-weight:bold;text-align: center;">#</div>
+			<div class=col-md-1 style="font-weight:bold;">#</div>
 			<div class=col-md-10></div>
 			<div class=col-md-1 style="font-weight:bold;text-align: center;">PM</div>
 		</div>
@@ -47,22 +51,22 @@
 			<div class=col-md-1 style="font-weight:bold"></div>
 		</div>
 			<div class="row" style="padding: 0px 10px 10px;">
-				<div class=col-md-1 style="height: 42px;text-align: center;" >${status.index}</div>
+				<div class=col-md-1 style="padding-top: 10px" >${status.index}</div>
 				<div class=col-md-10>
-					<div style="border: 2px solid black;width:904px;height: 44px;">
+					<div style="border: 2px solid black;width:100%;height: 44px;">
 					
 							<c:forEach items="${thuaTHieu[status.index]}" var="entry">
 									<c:if test = "${entry.value == 'green'}">
-								 		<div style="width:${(tongPer[status.index]-entry.key)*9}px;height:40px;background-color:  #82FA58;float: left;text-align: center;font-weight:bold;padding-top:10px;">${tongPer[status.index]-entry.key}%</div>
-								 		 <div style="width:${entry.key*9}px;height:40px;background-color: ${entry.value};display:inline-block;text-align: center;font-weight:bold;padding-top:10px;"><c:if test = "${entry.key != 0}">${entry.key}%</c:if></div>
+								 		<div style="width:${(tongPer[status.index]-entry.key)}%;height:40px;background-color:  #82FA58;float: left;text-align: center;font-weight:bold;padding-top:10px;">${tongPer[status.index]-entry.key}%</div>
+								 		 <div style="width:${entry.key}%;height:40px;background-color: ${entry.value};display:inline-block;text-align: center;font-weight:bold;padding-top:10px;"><c:if test = "${entry.key != 0}">${entry.key}%</c:if></div>
 								     </c:if> 
 								     <c:if test = "${entry.value == 'red'}">
-								         <div style="width:${tongPer[status.index]*9}px;height:40px;font-weight:bold;background-color: #F7FE2E;text-align: center;float: left;padding-top:10px;">${tongPer[status.index]}%</div>
-								 		 <div style="width:${entry.key*9}px;height:40px;background-color: ${entry.value};font-weight:bold;display:inline-block;text-align: center;padding-top:10px;"><c:if test = "${entry.key != 0}">${entry.key}%</c:if></div>
+								         <div style="width:${tongPer[status.index]}%;height:40px;font-weight:bold;background-color: #F7FE2E;text-align: center;float: left;padding-top:10px;">${tongPer[status.index]}%</div>
+								 		 <div style="width:${entry.key}%;height:40px;background-color: ${entry.value};font-weight:bold;display:inline-block;text-align: center;padding-top:10px;"><c:if test = "${entry.key != 0}">${entry.key}%</c:if></div>
 								     </c:if> 
 								 
 								 	 <c:if test = "${entry.value == 'khong'}">
-								         <div style="width:${tongPer[status.index]*9}px;height:40px;background-color: #82FA58;text-align: center;font-weight:bold;float: left;padding-top:10px;"><c:if test = "${tongPer[status.index] != 0}">${tongPer[status.index]}%</c:if></div>
+								         <div style="width:${tongPer[status.index]}%;height:40px;background-color: #82FA58;text-align: center;font-weight:bold;float: left;padding-top:10px;"><c:if test = "${tongPer[status.index] != 0}">${tongPer[status.index]}%</c:if></div>
 								 		
 								     </c:if> 
 							
@@ -73,11 +77,8 @@
 				
 								</div>
 						<div class=col-md-1 style="float: left ;height: 42px;">
-								<select style="width:130px;height: 40px;">
-									<c:forEach var="pmx" items="${pm[status.index]}">
-									  <option value="${pmx.value}">${pmx.value}</option>
-									</c:forEach>
-						</select>
+								<div style="width:150px;padding-top: 10px">${list.pm}</div>		
+							
 						</div>
 				</div>
 						

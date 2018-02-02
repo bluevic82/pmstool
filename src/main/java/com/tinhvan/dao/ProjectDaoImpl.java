@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tinhvan.mapper.ProjectMapper;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
-import com.tinhvan.model.ScopeProject;
 
 @Repository
 @Transactional
@@ -45,42 +44,12 @@ public class ProjectDaoImpl implements ProjectDao {
 		});
 		
 	}
-	// implement add project
+
 	@Override
-	public void addProject(ProjectInfo project, ScopeProject scopeP) {
-	/*public void addProject(ProjectInfo project, List scopeP) {*/
+	public void addProject(ProjectInfo project) {
 		// TODO Auto-generated method stub
 		String sql="INSERT INTO project_info(PROJECT_NAME, PROJECT_FROM, PROJECT_TO, PROJECT_CHARGE_COST, STATUS_ID, TYPE_ID, PROJECT_DESCRIPTION, PROJECT_TECHNICAL)"+"VALUES (?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] {project.getProject_name(),project.getProject_from(),project.getProject_to(),project.getProject_charge_cost(),project.getStatus_id(),project.getType_id(),project.getProject_description(),project.getProject_technical()});
-		
-		int id = findProjectIdMax();
-		String sqlP = "INSERT INTO Scope_project(project_id, scope_id )" +"VALUES ("+ id +",?)"; 
-		jdbcTemplate.update(sqlP, new Object[] {scopeP.getScope_project_id()}); // khi add 1 thang scope
-		/*jdbcTemplate.batchUpdate(sqlP, new BatchPreparedStatementSetter() {
-			
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				// TODO Auto-generated method stub
-				ScopeProject scope = (ScopeProject) scopeP.get(i);
-				ps.setInt(1, scope.getScope_project_id());
-			}
-			
-			@Override
-			public int getBatchSize() {
-				// TODO Auto-generated method stub
-				return scopeP.size();
-			}
-		});*/
-	
-	}
-	
-
-	@Override
-	public int findProjectIdMax() {
-		// TODO Auto-generated method stub
-		String sql = "SELECT MAX(project_id) FROM project_info";
-		int maxId = jdbcTemplate.queryForObject(sql, Integer.class);
-		return maxId;
 	}
 
 	@Override
@@ -101,11 +70,13 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Override
 	public ProjectInfo getProjectById1(int id)  {
 		
-		String sql = "SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE,project_info.TYPE_ID" + 
-				"							FROM project_info " + 
-				"                                LEFT  JOIN status_info" + 
-				"								ON project_info.STATUS_ID=status_info.STATUS_ID" + 
-				"								where project_info.PROJECT_ID= ?";
+		String sql = "SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE,project_info.TYPE_ID,member_project.MEMBER_PROJECT_NAME" + 
+				"											FROM project_info" + 
+				"				                                LEFT  JOIN status_info" + 
+				"												ON project_info.STATUS_ID=status_info.STATUS_ID" + 
+				"                                               LEFT JOIN member_project              " + 
+				"												ON 	project_info.PROJECT_ID = member_project.PROJECT_ID and(member_project.ROLE_ID=2)" + 
+				"												where project_info.PROJECT_ID= ?";
 
 		ProjectInfo pj = (ProjectInfo)jdbcTemplate.queryForObject(
 				sql, new Object[] { id }, new ProjectMapper());
@@ -166,12 +137,72 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 
 	@Override
-	public List<ProjectInfo> getAllProject1() {
-		return jdbcTemplate.query("SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE,project_info.TYPE_ID" + 
-				"									FROM project_info " + 
-				"				                            LEFT  JOIN status_info" + 
-				"											ON project_info.STATUS_ID=status_info.STATUS_ID" + 
-				"                                            where status_info.STATUS_TYPE='Open' or status_info.STATUS_TYPE='Pending'", new RowMapper<ProjectInfo>() {
+	public List<ProjectInfo> getAllProject1(String name,String pm,String from,String to) {
+		String sqlxx="";
+	
+		System.out.println(from);
+		if(!name.equals("") ||!from.equals("")||!to.equals("")||!pm.equals("")) {
+			
+			
+			
+			boolean x= false;
+			if(!name.equals("")) {
+				if(x==false) {
+					
+					sqlxx+="group by project_info.PROJECT_ID having project_info.PROJECT_NAME LIKE "+"'%"+name+"%'";
+					x=true;
+				}else {
+					sqlxx+="and project_info.PROJECT_NAME LIKE"+"'%"+name+"%'";
+				}	
+			}
+			if(!from.equals("")) {
+				
+				if(x==false) {
+					
+					sqlxx+="group by project_info.PROJECT_ID having project_info.PROJECT_FROM >="+"'"+from+"'";
+					
+					x=true;
+					
+				}else {
+					sqlxx+="and project_info.PROJECT_FROM>="+"'"+from+"'";
+					
+				}	
+			}
+			if(!to.equals("")) {			
+				if(x==false) {
+					
+					sqlxx+="group by project_info.PROJECT_ID having project_info.PROJECT_TO <="+"'"+to+"'";
+					x=true;
+				}else {
+					sqlxx+="and project_info.PROJECT_TO<="+"'"+to+"'";
+				}
+				
+			}
+			if(!pm.equals("")) {			
+				if(x==false) {
+					
+					sqlxx+="group by project_info.PROJECT_ID having member_project.MEMBER_PROJECT_NAME like"+"'%"+pm+"%'";
+					x=true;
+				}else {
+					sqlxx+="and member_project.MEMBER_PROJECT_NAME like"+"'%"+pm+"%'";
+				}
+				
+			}
+		}
+		
+		
+		
+		return jdbcTemplate.query("SELECT project_info.PROJECT_ID,project_info.PROJECT_NAME,project_info.PROJECT_FROM,project_info.PROJECT_TO,project_info.PROJECT_DESCRIPTION,project_info.PROJECT_TECHNICAL,status_info.STATUS_TYPE,project_info.TYPE_ID,member_project.MEMBER_PROJECT_NAME" + 
+				"													FROM project_info " + 
+				"								                            LEFT  JOIN status_info" + 
+				"															ON project_info.STATUS_ID=status_info.STATUS_ID" + 
+				"                                                            LEFT JOIN member_project" + 
+
+				"															ON 	project_info.PROJECT_ID = member_project.PROJECT_ID and(member_project.ROLE_ID=2)" + 
+		 
+				"				                                           where status_info.STATUS_TYPE='Open' or status_info.STATUS_TYPE='Pending'"+sqlxx, new RowMapper<ProjectInfo>() {
+			
+				
 
 			@Override
 			public ProjectInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -184,6 +215,7 @@ public class ProjectDaoImpl implements ProjectDao {
 				projectInfo.setProject_technical(rs.getString(6));
 				projectInfo.setStatus(rs.getString(7));
 				projectInfo.setType_id(rs.getInt(8));
+				projectInfo.setPm(rs.getString(9));
 				
 				return projectInfo;
 			}

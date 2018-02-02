@@ -9,19 +9,30 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.processing.RoundEnvironment;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.ScopeDao;
@@ -29,6 +40,7 @@ import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.TaskInfo;
 
@@ -56,14 +68,40 @@ public class LoginController {
 	QuestionAnswerDao qaDao;
 	@Autowired
 	ScopeDao scopeDao;
+	@Autowired
+	PermissionDao per;
 
 
 	//
+	
+	@RequestMapping("/permissionManager")
+	public String bomaytroll(Model model){
+		List<Permission> allPer = per.getAllPer();
+		model.addAttribute("listPer", allPer);
+		
+		return "permissionManager";
+	}
+	
+	
+	
+	
+	@RequestMapping(value="/updatePer",method = RequestMethod.POST)
+	public @ResponseBody void savePer(@RequestBody List<Permission> things, HttpServletRequest request){
+		
+		
+		for (Permission permission : things) {
+			per.updatePer(permission);
+		}
+			
+		
+	}
+	
+	
 	@RequestMapping(value = { "/", "/welcome" })
-	public ModelAndView welcomePage(Model model) {
+	public ModelAndView welcomePage(Model model,@RequestParam(value="name",defaultValue="") String sname,@RequestParam(value="pm",defaultValue="") String spm,@RequestParam(value="from",defaultValue="") String sfrom,@RequestParam(value="to",defaultValue="") String sto) {
 		model.addAttribute("title", "OverView");
 		model.addAttribute("message", "OverView");
-		List<ProjectInfo> list = projectDao.getAllProject1();
+		List<ProjectInfo> list = projectDao.getAllProject1(sname,spm,sfrom,sto);
 		List<Map<Integer, String>> pm= new ArrayList<Map<Integer, String>>() ;
 		List<Integer> tongPer=new ArrayList<Integer>();
 		List<Map<Integer, String>> thuaTHieu= new ArrayList<Map<Integer, String>>() ;
@@ -86,13 +124,13 @@ public class LoginController {
 			
 			List<TaskInfo>	taskByIdPro = taskInfoDao.getTaskByIdPro(idP);
 			
-			int done=0;
-			int percent=0;
-			int perTask=0;
-			int currentask=0;
-			int tong=0;
-			int cham=0;
-			int nhanh=0;
+			float done=0;
+			float percent=0;
+			float perTask=0;
+			float currentask=0;
+			float tong=0;
+			float cham=0;
+			float nhanh=0;
 			
 			for (TaskInfo taskInfo : taskByIdPro) {
 				 String from = taskInfo.getTask_from();
@@ -127,8 +165,10 @@ public class LoginController {
 			         if(noDay1>noDay) {
 			        	 noDay1=noDay;
 			         }
-			         int convert = (int) noDay;
-			         int convert1= (int) noDay1;
+			         float convert = (int) noDay;
+			         float convert1= (int) noDay1;
+			         
+			         
 //			         if(taskDone==100) {
 //			        	 done+=convert;
 //			         }
@@ -138,14 +178,16 @@ public class LoginController {
 			        	 float thuaThieu=(float)noDay/100f*(float)taskDone;
 			        	 done+=thuaThieu;
 			        	 
+			        	 
+			        	 
 			        	if((float)noDay1-thuaThieu>0) {
 			        		float a=noDay1-thuaThieu;
-			        		cham+=Math.round(a);
+			        		cham+=a;
 			        		
 			        	}
 			        	if((float)noDay1-thuaThieu<0) {
 			        		float a=thuaThieu-noDay1;
-			        		nhanh+=Math.round(a);
+			        		nhanh+=a;
 			        		
 			        	}
 			        	if((float)noDay1-thuaThieu==0) {
@@ -163,7 +205,7 @@ public class LoginController {
 			         
 			}
 			
-			perTask+=Math.round((float)done/(float)tong*100f);
+			perTask+=(float)done/(float)tong*100f;
 	
 			if(nhanh>cham) {
 				Map<Integer, String> map1 = new HashMap<Integer, String>();
@@ -171,23 +213,24 @@ public class LoginController {
 		
 				map1.put(Math.round((float)nhanh/(float)tong*100f), "green");
 				thuaTHieu.add(map1);
-				tongPer.add(perTask);
+				tongPer.add(Math.round(perTask));
 				
 			}
 			if(nhanh<cham) {
 				Map<Integer, String> map1 = new HashMap<Integer, String>();
 				cham=cham-nhanh;
-		
+				
 				map1.put(Math.round((float)cham/(float)tong*100f), "red");
 				thuaTHieu.add(map1);
-				tongPer.add(perTask);
+				tongPer.add(Math.round(perTask));
+				
 			}
 			if(nhanh==cham) {
 				Map<Integer, String> map1 = new HashMap<Integer, String>();
 		
-				map1.put(perTask, "khong");
+				map1.put(Math.round(perTask), "khong");
 				thuaTHieu.add(map1);
-				tongPer.add(perTask);
+				tongPer.add(Math.round(perTask));
 				
 			}
 			
@@ -237,6 +280,10 @@ public class LoginController {
 
 	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
 	public String logoutSuccessfulPage(Model model) {
+		
+		
+		
+		
 		model.addAttribute("title", "Logout");
 		return "logoutSuccessfulPage";
 	}
