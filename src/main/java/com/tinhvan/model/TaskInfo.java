@@ -15,6 +15,7 @@ public class TaskInfo {
 	private String task_priority;
 	private int project_id;
 	private String status;
+	
 	public int getTask_id() {
 		return task_id;
 	}

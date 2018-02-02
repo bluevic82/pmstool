@@ -22,12 +22,13 @@
 	</bean>
 
 	<!-- config database -->
-<!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
 		name="url" value="jdbc:mysql://192.168.53.138:3306/project_manager_system"></property> 
 		<property name="username" value="vivu"></property> 
 		<property name="password" value="123456"></property> 
 	</bean> -->
+	
 	<!-- config database -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
@@ -38,12 +39,8 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/project_manager_system" />
 		<property name="username" value="root" />
-		<property name="password" value="Chudai@1995" />
+		<property name="password" value="123456" />
 		
-		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/test_pms_dbv2" />
-		<property name="username" value="root" />
-		<property name="password" value="" /> -->
 		
 	</bean>
 	

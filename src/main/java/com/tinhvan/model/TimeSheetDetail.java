@@ -19,8 +19,6 @@ public class TimeSheetDetail {
 	private String detail_timesheet_date;
 	private List<String> list_Name_Of_Id = new ArrayList<String>();
 	
-	
-	
 	public List<String> getList_Name_Of_Id() {
 		return list_Name_Of_Id;
 	}

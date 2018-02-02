@@ -32,7 +32,7 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 					qa.setQ_a_question_jp(rs.getString(4));
 					qa.setQ_a_question_vi(rs.getString(5));
 					qa.setQ_a_answer_jp(rs.getString(6));
-					qa.setQ_a_answer_vi(rs.getString(7));
+					qa.setQ_a_answer_vi(rs.getString(7)); 
 					qa.setReferencepoint(rs.getString(8));
 					qa.setMember_from(rs.getInt(9));
 					qa.setMember_project_id(rs.getInt(10));

@@ -82,7 +82,20 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 
 	@Override
 	public void updateTask(TaskInfo task) {
-		String sql="update task_info set TASK_SUBJECT='"+task.getTask_subject()+"', TYPE_ID="+task.getType_id()+",  STATUS_ID="+task.getStatus_id()+",  TASK_DONE="+task.getTask_done()+",  TASK_FROM='"+task.getTask_from()+"',  TASK_TO='"+task.getTask_to()+"',  TASK_SOLUTION='"+task.getTask_solution()+"',  TASK_DESCRIPTION='"+task.getTask_description()+"',  MEMBER_PROJECT_ID="+task.getMember_project_id()+",  CATEGORY_ID="+task.getCategory_id()+",  TASK_PRIORITY='"+task.getTask_priority()+"',  PROJECT_ID="+task.getProject_id()+" where task_id="+task.getTask_id()+""; 
+		String sql="update task_info set "
+				+ "TASK_SUBJECT='"+task.getTask_subject()
+				+"', TYPE_ID="+task.getType_id()
+				+",  STATUS_ID="+task.getStatus_id()
+				+",  TASK_DONE="+task.getTask_done()
+				+",  TASK_FROM='"+task.getTask_from()
+				+"',  TASK_TO='"+task.getTask_to()
+				+"',  TASK_SOLUTION='"+task.getTask_solution()
+				+"',  TASK_DESCRIPTION='"+task.getTask_description()
+				+"',  MEMBER_PROJECT_ID="+task.getMember_project_id()
+				+",  CATEGORY_ID="+task.getCategory_id()
+				+",  TASK_PRIORITY='"+task.getTask_priority()
+				+"',  PROJECT_ID="+task.getProject_id()
+				+" where task_id="+task.getTask_id()+""; 
 		jdbcTemplate.update(sql);
 		
 	}

@@ -20,7 +20,7 @@ import com.tinhvan.model.ProjectInfo;
  * @purpose: calculate actual cost, over head, charge request.
  * @author: DaiCQ
  * @date: 2017/12/30
- * **/
+ **/
 
 @Controller
 public class EffortController {
@@ -28,14 +28,13 @@ public class EffortController {
 	ProjectDao projectDao;
 	@Autowired
 	EffortDao effortDao;
-	
-	
+
 	// get list project for menu
-				@ModelAttribute("list_Project_For_menu")
-				public List<ProjectInfo> getListProject() {
-					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-					return list_Project_For_Menu;
-				}
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject() {
+		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+		return list_Project_For_Menu;
+	}
 
 	@RequestMapping(value = "/effortManagement")
 	public ModelAndView EffortManagementPage(Model model) {
@@ -51,8 +50,5 @@ public class EffortController {
 		model.put("effort", effort);
 		return new ModelAndView("effortCanculate", "effort", effort);
 	}
-
-	
-
 
 }

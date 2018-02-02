@@ -34,8 +34,9 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 50px;">
-		<form  method="post" action="actionCreateTask" >
-		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+	
+	<form:form id="id_form" action="/Login/actionUpdateTask" method="post">
+		<input type="hidden"  name="${_csrf.parameterName}"  value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
@@ -53,10 +54,7 @@
 				</select>
 				
 			</div>
-			
-				
-		
-			
+											
 			<br>
 			
 			<div>
@@ -144,9 +142,9 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button type="submit" name="actionCreateTask" value="actionCreateTask" style="background-color: green; color: white;">Create</button>
+				<button type="submit" style="background-color: green; color: white;">Create</button>
 			</div>
-		</form>
+		</form:form>
 	</div>
 
     <script type="text/javascript">

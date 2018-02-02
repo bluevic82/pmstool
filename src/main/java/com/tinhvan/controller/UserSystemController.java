@@ -44,12 +44,12 @@ public class UserSystemController {
 	}
 
 	// get list project for menu
-				@ModelAttribute("list_Project_For_menu")
-				public List<ProjectInfo> getListProject() {
-					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-					return list_Project_For_Menu;
-				}
-	
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject() {
+		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+		return list_Project_For_Menu;
+	}
+
 	// mapping add userInfo
 	@RequestMapping(value = "/user")
 	public ModelAndView userRegister(Locale locale, Model model) {
@@ -74,24 +74,18 @@ public class UserSystemController {
 		List<Role> list = roleDao.getAllRole();
 		return list;
 	}
-	
-/*	@RequestMapping(method=RequestMethod.GET)
-	public String uploadPage(@RequestParam("fileName") MultipartFile file,ModelMap model)throws Exception{
-		if(!file.isEmpty()){
-			String name=file.getOriginalFilename();
-			long size=file.getSize();
-			
-		File f=new File("c:/temp/"+name);
-		if(!f.exists()){
-			f.getParentFile().mkdir();
-		}
-			model.addAttribute("name",name);
-			model.addAttribute("size",size);
-			
-		}else {
-			model.addAttribute("fail","bi loi");
-		}
-		
-		return "userRegister";
-		}*/
+
+	/*
+	 * @RequestMapping(method=RequestMethod.GET) public String
+	 * uploadPage(@RequestParam("fileName") MultipartFile file,ModelMap model)throws
+	 * Exception{ if(!file.isEmpty()){ String name=file.getOriginalFilename(); long
+	 * size=file.getSize();
+	 * 
+	 * File f=new File("c:/temp/"+name); if(!f.exists()){ f.getParentFile().mkdir();
+	 * } model.addAttribute("name",name); model.addAttribute("size",size);
+	 * 
+	 * }else { model.addAttribute("fail","bi loi"); }
+	 * 
+	 * return "userRegister"; }
+	 */
 }

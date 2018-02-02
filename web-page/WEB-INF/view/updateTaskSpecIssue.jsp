@@ -34,16 +34,13 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form action="/Login/actionUpdateTask" method="POST">
+		<form:form id="id_form" action="/Login/actionCreateTask" method="post">
 			<form:hidden path="task_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
 						Project Name <form:input value="" name="project_id" path="project_id" size="30" style="margin-left: 7px;"/>
 					</div>
-					<%-- <div>
-						Project Name <input disabled="disabled" value="${project_Infor.project_name }" size="30" style="margin-left: 7px;"/>
-					</div> --%>
 				</div>
 			</div>
 			<br>
@@ -154,26 +151,11 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button type="submit" name="" value="save" style="background-color: green; color: white;">Save</button>
+				<button type="submit" style="background-color: green; color: white;">Save</button>
 			</div>
 		</form:form>
 	</div>
-<%-- 	<div>
-		<form:form>
-			<form:input path="project_id"/>
-			<form:input path="type_id"/>
-			<form:input path="status_id"/>
-			<form:input path="done"/>
-			<form:input path="task_from"/>
-			<form:input path="task_to"/>
-			<form:input path="task_subject"/>
-			<form:input path="task_description"/>
-			<form:input path="task_solution"/>
-			<form:input path="member_project_id"/>
-			<form:input path="task_priority"/>
-			<form:input path="category_id"/>
-		</form:form>
-	</div> --%>
+	
     <script type="text/javascript">
        $(function () {
           $('#datetimepicker1').datetimepicker({

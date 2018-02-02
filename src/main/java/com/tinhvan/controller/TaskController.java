@@ -25,17 +25,15 @@ import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
-
-/*
- * @Purpose: Task Controller using create,update Task/Spec/Issue
- *  Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
- * @Author: NguyenManh
- * @Date: 2017/12/13
- * 
+/**
+ * @purpose: Task Controller using create,update Task/Spec/Issue
+ * 	Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
+ * @author: NguyenManh
+ * @date: 2017/12/13
  * **/
 @Controller
 public class TaskController {
-	
+
 	@Autowired
 	ProjectDao projectDao;
 	@Autowired
@@ -48,96 +46,97 @@ public class TaskController {
 	CategoryDao categoryDao;
 	@Autowired
 	TaskInfoDao taskInfoDao;
-	
+
 	// get list project for menu
-				@ModelAttribute("list_Project_For_menu")
-				public List<ProjectInfo> getListProject() {
-					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-					return list_Project_For_Menu;
-				}
-	
-	//Mapping view page create Task/Spec/Issue
-	@RequestMapping(value = "{id}/createTask" )
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject() {
+		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+		return list_Project_For_Menu;
+	}
+
+	// Mapping view page create Task/Spec/Issue
+	@RequestMapping(value = "{id}/createTask")
 	public ModelAndView createTask(@PathVariable int id, Model model) {
-		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create Task/Spec/Issue");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		model.addAttribute("project_Infor", projectInfo);// purpose: get project's name
-		return new ModelAndView("createTaskSpecIssue","command",new TaskInfo());
+		
+		// purpose: get project's name
+		model.addAttribute("project_Infor", projectInfo);
+		return new ModelAndView("createTaskSpecIssue", "command", new TaskInfo());
 	}
-	
-	//Mapping button click create Task/Spec/Issue
-	@RequestMapping(value = "/actionCreateTask", method=RequestMethod.POST)
+
+	// Mapping button click create Task/Spec/Issue
+	@RequestMapping(value = "/actionCreateTask", method = RequestMethod.POST)
 	public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
+		System.out.println("ActionCreateTaskrun");
 		taskInfoDao.addTask(task);
 		return new ModelAndView("redirect:/taskList");
 	}
 
-	//Mapping view page update Task/Spec/Issue
+	// Mapping view page update Task/Spec/Issue
 	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
 	public String updateTask(Model model) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Update Task/Spec/Issue");
 		return "updateTaskSpecIssue";
 	}
-	
-	//Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "/actionUpdateTask", method=RequestMethod.POST)
+
+	// Mapping button click save Task/Spec/Issue
+	@RequestMapping(value = "/actionUpdateTask", method = RequestMethod.POST)
 	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo task) {
 		taskInfoDao.updateTask(task);
 		return new ModelAndView("redirect:/taskList");
 	}
-	
-	//Mapping get dataById for update Task/Spec/Issue
+
+	// Mapping get dataById for update Task/Spec/Issue
 	@RequestMapping(value = "{id}/editTask")
 	public ModelAndView editTask(@PathVariable int id, ModelMap model) {
 		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		model.put("project_Infor", projectInfo);
-		
+
 		model.put("command", taskInfoDao.getTaskById(id));
-		return new ModelAndView("updateTaskSpecIssue","command",taskInfo);
+		return new ModelAndView("updateTaskSpecIssue", "command", taskInfo);
 	}
-		
-	//Mapping view list Task/Spec/Issue
-	@RequestMapping("/taskList" )
+
+	// Mapping view list Task/Spec/Issue
+	@RequestMapping("/taskList")
 	public ModelAndView listTask() {
 		List<TaskInfo> list = taskInfoDao.getAllTask();
-		return new ModelAndView("taskList","list",list);
+		return new ModelAndView("taskList", "list", list);
 	}
-	
 
 	/*
-	 *@purpose: Methods Attributes
+	 * @purpose: Methods Attributes
 	 */
 	@ModelAttribute("projectName")
 	public List<ProjectInfo> getAllProject() {
 		List<ProjectInfo> list = projectDao.getAllProject();
 		return list;
 	}
-	
-	//get type of Task/Spec/Issue
+
+	// get type of Task/Spec/Issue
 	@ModelAttribute("taskTypes")
 	public List<Type> getTypeOfTask() {
-		List<Type> list = typeDao.getAllType();
+		List<Type> list = typeDao.getTypeOfTask();
 		return list;
 	}
 
-	//get status of Task/Spec/Issue
+	// get status of Task/Spec/Issue
 	@ModelAttribute("taskStatus")
 	public List<Status> getStatusOfTask() {
 		List<Status> list = statusDao.getStatusOfTask();
 		return list;
 	}
-	
-	//get all member project in Task/Spec/Issue
+
+	// get all member project in Task/Spec/Issue
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
 		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
-	
-	//get category in Task/Spec/Issue
+
+	// get category in Task/Spec/Issue
 	@ModelAttribute("category")
 	public List<Category> getCategory() {
 		List<Category> list = categoryDao.getAllCategory();

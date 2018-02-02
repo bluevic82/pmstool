@@ -24,16 +24,13 @@ import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
-import com.tinhvan.model.TimeSheetDetail_List;
 
-/*
- * @Purpose: TimeSheet Controller using register/update TimeSheet
- *  Using method Attribute set data for Project Name, Member, Process, Status, Type
- * @Author: NguyenManh
- * @Date: 2017/12/27
- * 
+/**
+ * @purpose: TimeSheet Controller using register/update TimeSheet
+ * 	Using method Attribute set data for Project Name, Member, Process, Status, Type
+ * @author: NguyenManh
+ * @date: 2017/12/27
  * **/
-
 @Controller
 public class TimeSheetController {
 

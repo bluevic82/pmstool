@@ -21,12 +21,11 @@ import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
 
-/*
+/**
  * @purpose: QAController using QAResgister/Update
- * Using method Attribute set data for Status
+ * 	Using method Attribute set data for Status
  * @author: NguyenManh
  * @date: 2017/12/19
- * 
  * **/
 @Controller
 public class QAController {

@@ -27,10 +27,8 @@
 
 		<ul class="nav-menu">
 			
-			<li><a href="${pageContext.request.contextPath}/welcome">Over
-					View</a></li>
-			<li><a href="${pageContext.request.contextPath}/addProject">Add
-					Project</a></li>
+			<li><a href="${pageContext.request.contextPath}/welcome">Over View</a></li>
+			<li><a href="${pageContext.request.contextPath}/addProject">Add Project</a></li>
 			<li><a href="#">Project ></a>
 				<ul>
 					<c:forEach var="list_Project_For_menu" items="${list_Project_For_menu}">
@@ -38,36 +36,34 @@
 							<ul>
 								<li><a href="#">Setting ></a>
 									<ul>
-										<li><a
-											href="${pageContext.request.contextPath}/editproject/${list_Project_For_menu.project_id}">Update
+										<li><a href="${pageContext.request.contextPath}/editproject/${list_Project_For_menu.project_id}">Update
 												Project Information</a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/${list_Project_For_menu.project_name}/resource">Resource</a></li>
-										<li><%-- <a
-											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createMileStone">
-												Milestone</a> --%>
-												<a
-											href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createMileStone">
+										<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/${list_Project_For_menu.project_name}/resource">
+												Resource</a></li>
+										<li> <a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createMileStone">
 												Milestone</a></li>
-									</ul></li>
+									</ul>
+								</li>
 
 								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createTask">Create
 										Task/Spec/Issue</a></li>
-								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/editTask">Update Task/Spec/Issue</a></li>
+																
+								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createBug">Create
+										Bug</a></li>
 
 								<li><a href="${pageContext.request.contextPath}/registerQA">Q&A
 										register/Update</a></li>
-								<li><a
-									href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/registerTimeSheet">Timesheet
-										register/Update</a></li>
-							</ul></li>
+										
+								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/registerTimeSheet">
+										Timesheet register/Update</a></li>
+							</ul>
+						</li>
 					</c:forEach>
-
-
-				</ul></li>
-			<li><a
-				href="${pageContext.request.contextPath}/effortManagement">Effort
+				</ul>
+			</li>
+			<li><a href="${pageContext.request.contextPath}/effortManagement">Effort
 					Management </a></li>
+					
 			<li><a href="#">Users Management ></a>
 				<ul>
 					<li><a href="${pageContext.request.contextPath}/user">User Register</a></li>
@@ -77,9 +73,13 @@
 				</ul></li>
 			<li><a href="#"> Management ></a>
 				<ul>
-					<li><a href="#">Issue Management ></a>
+					<li><a href="#">Task/Spec/Issue Management ></a>
 						<ul>
-							<li><a href="${pageContext.request.contextPath}/taskList">List Issue</a></li>
+							<li><a href="${pageContext.request.contextPath}/taskList">List Task/Spec/Issue</a></li>
+						</ul></li>
+					<li><a href="#">Bug Management ></a>
+						<ul>
+							<li><a href="${pageContext.request.contextPath}/bugList">List Bug</a></li>
 						</ul></li>
 					<li><a href="#">Timesheet Management ></a>
 						<ul>
