@@ -35,7 +35,7 @@
 <body>
 	<div class="container" style="margin-top: 50px;">
 	
-	<form:form id="id_form" action="/Login/actionCreateTask" method="post">
+	<form:form id="id_form" action="/Login/actionCreateBug" method="post">
 		<input type="hidden"  name="${_csrf.parameterName}"  value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-sm-4">
@@ -47,9 +47,9 @@
 			<br>
 			<div >
 				Type <select name="type_id" style="margin-left: 63px">
-					<c:forEach var="taskTypes" items="${taskTypes}">
-						<option value="${taskTypes.type_id}">
-							${taskTypes.type_name}</option>
+					<c:forEach var="bugTypes" items="${bugTypes}">
+						<option value="${bugTypes.type_id}">
+							${bugTypes.type_name}</option>
 					</c:forEach>
 				</select>
 				
@@ -75,7 +75,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <input type='text' class="form-control" name="task_from"/>
+			                    <input type='text' class="form-control" name="bug_from"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -87,7 +87,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <input type='text' class="form-control" name="task_to"/>
+			                    <input type='text' class="form-control" name="bug_to"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -102,14 +102,14 @@
 			
 			<div>
 			  <div>
-			  	   Subject<input value="" name="task_subject" size="58" style="margin-left: 49px">
+			  	   Subject<input value="" name="bug_subject" size="58" style="margin-left: 49px">
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<textarea name="task_description" style="margin-left: 20px" cols="60" rows="3"></textarea>
+				<textarea name="bug_description" style="margin-left: 20px" cols="60" rows="3"></textarea>
 			</div>
 			<br>
 			
@@ -122,7 +122,7 @@
 					</c:forEach>
 				</select>	
 				&emsp;Priority
-				 	<select name="task_priority">
+				 	<select name="bug_priority">
 						<option>Highest</option>
 						<option>High</option>
 						<option>Medium</option>

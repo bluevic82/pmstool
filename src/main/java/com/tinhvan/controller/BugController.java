@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tinhvan.dao.BugInfoDao;
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.StatusDao;
-import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
+import com.tinhvan.model.BugInfo;
 import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
-import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
 /**
- * @purpose: Task Controller using create,update Task/Spec/Issue
- * 	Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
+ * @purpose: Bug Controller using create,update Bug Using method Attribute set
+ *           data for ProjectName, Type, Status, PIC, Category, Priority
  * @author: NguyenManh
- * @date: 2017/12/13
- * **/
+ * @date: 2018/02/02
+ **/
 @Controller
-public class TaskController {
+public class BugController {
 
 	@Autowired
 	ProjectDao projectDao;
@@ -45,7 +45,7 @@ public class TaskController {
 	@Autowired
 	CategoryDao categoryDao;
 	@Autowired
-	TaskInfoDao taskInfoDao;
+	BugInfoDao bugInfoDao;
 
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")
@@ -54,57 +54,57 @@ public class TaskController {
 		return list_Project_For_Menu;
 	}
 
-	// Mapping view page create Task/Spec/Issue
-	@RequestMapping(value = "{id}/createTask")
-	public ModelAndView createTask(@PathVariable int id, Model model) {
+	// Mapping view page create Bug
+	@RequestMapping(value = "{id}/createBug")
+	public ModelAndView createBug(@PathVariable int id, Model model) {
 		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "Create Task");
+		model.addAttribute("message", "Create Bug");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 
 		// purpose: get project's name
 		model.addAttribute("project_Infor", projectInfo);
-		return new ModelAndView("createTaskSpecIssue", "command", new TaskInfo());
+		return new ModelAndView("createBug", "command", new BugInfo());
 	}
 
-	// Mapping button click create Task/Spec/Issue
-	@RequestMapping(value = "/actionCreateTask", method = RequestMethod.POST)
-	public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo taskInfo) {
-		taskInfoDao.addTask(taskInfo);
-		return new ModelAndView("redirect:/taskList");
+	// Mapping button click create Bug
+	@RequestMapping(value = "/actionCreateBug", method = RequestMethod.POST)
+	public ModelAndView addBug(Model model, @ModelAttribute(value = "bug") BugInfo bugInfo) {
+		bugInfoDao.addBug(bugInfo);
+		return new ModelAndView("redirect:/bugList");
 	}
 
 
-	// Mapping view page update Task/Spec/Issue
-	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
-	public String updateTask(Model model) {
+	// Mapping view page update Bug
+	@RequestMapping(value = { "/updateBug" }, method = RequestMethod.GET)
+	public String updateBug(Model model) {
 		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "Update Task");
-		return "updateTask";
+		model.addAttribute("message", "Update Bug");
+		return "updateBug";
 	}
 
-	// Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "/actionUpdateTask", method = RequestMethod.POST)
-	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo taskInfo) {
-		taskInfoDao.updateTask(taskInfo);
-		return new ModelAndView("redirect:/taskList");
+	// Mapping button click save Bug
+	@RequestMapping(value = "/actionUpdateBug", method = RequestMethod.POST)
+	public ModelAndView UpdateBug(Model model, @ModelAttribute(value = "bug") BugInfo bugInfo) {
+		bugInfoDao.updateBug(bugInfo);
+		return new ModelAndView("redirect:/bugList");
 	}
 
-	// Mapping get dataById for update Task/Spec/Issue
-	@RequestMapping(value = "{id}/editTask")
-	public ModelAndView editTask(@PathVariable int id, ModelMap model) {
-		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
+	// Mapping get dataById for update Bug
+	@RequestMapping(value = "{id}/editBug")
+	public ModelAndView editBug(@PathVariable int id, ModelMap model) {
+		BugInfo bugInfo = bugInfoDao.getBugById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		model.put("project_Infor", projectInfo);
 
-		model.put("command", taskInfoDao.getTaskById(id));
-		return new ModelAndView("updateTask", "command", taskInfo);
+		model.put("command", bugInfoDao.getBugById(id));
+		return new ModelAndView("updateBug", "command", bugInfo);
 	}
 
-	// Mapping view list Task/Spec/Issue
-	@RequestMapping("/taskList")
+	// Mapping view list Bug
+	@RequestMapping("/bugList")
 	public ModelAndView listTask() {
-		List<TaskInfo> list = taskInfoDao.getAllTask();
-		return new ModelAndView("taskList", "list", list);
+		List<BugInfo> list = bugInfoDao.getAllBug();
+		return new ModelAndView("bugList", "list", list);
 	}
 
 	/*
@@ -116,10 +116,10 @@ public class TaskController {
 		return list;
 	}
 
-	// get type of Task/Spec/Issue
-	@ModelAttribute("taskTypes")
-	public List<Type> getTypeOfTask() {
-		List<Type> list = typeDao.getTypeOfTask();
+	// get type of Bug
+	@ModelAttribute("bugTypes")
+	public List<Type> getTypeOfBug() {
+		List<Type> list = typeDao.getTypeOfBug();
 		return list;
 	}
 
@@ -130,14 +130,14 @@ public class TaskController {
 		return list;
 	}
 
-	// get all member project in Task/Spec/Issue
+	// get all member project in Bug
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
 		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
 
-	// get category in Task/Spec/Issue
+	// get category in Bug
 	@ModelAttribute("category")
 	public List<Category> getCategory() {
 		List<Category> list = categoryDao.getAllCategory();

@@ -7,7 +7,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create Task/Spec/Issue</title>
+<title>Update Task/Spec/Issue</title>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />">
@@ -33,39 +33,46 @@
 
 </head>
 <body>
-	<div class="container" style="margin-top: 50px;">
-	
-	<form:form id="id_form" action="/Login/actionCreateTask" method="post">
-		<input type="hidden"  name="${_csrf.parameterName}"  value="${_csrf.token}"/>
+	<div class="container" style="margin-top: 10px;">
+		<form:form action="/Login/actionUpdateBug" method="POST">
+			<form:hidden path="task_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <input disabled="disabled" value="${project_Infor.project_name }" name="project_id" size="30" style="margin-left: 7px;">
+						Project Name <form:input value="" name="project_id" path="project_id" size="30" style="margin-left: 7px;"/>
 					</div>
+					<%-- <div>
+						Project Name <input disabled="disabled" value="${project_Infor.project_name }" size="30" style="margin-left: 7px;"/>
+					</div> --%>
 				</div>
 			</div>
 			<br>
-			<div >
-				Type <select name="type_id" style="margin-left: 63px">
-					<c:forEach var="taskTypes" items="${taskTypes}">
-						<option value="${taskTypes.type_id}">
-							${taskTypes.type_name}</option>
+			<div>
+				Type <form:select name="type_id" path="type_id" style="margin-left: 63px">
+					<c:forEach var="bugTypes" items="${bugTypes}">
+						<option value="${bugTypes.type_id}">
+							${bugTypes.type_name}</option>
 					</c:forEach>
-				</select>
+				</form:select>
 				
+				&emsp;Spec <form:select name="type_id" path="type_id" style="margin-left: 63px">
+					<c:forEach var="bugTypes" items="${bugTypes}">
+						<option value="${bugTypes.type_id}">
+							${bugTypes.type_name}</option>
+					</c:forEach>
+				</form:select>
 			</div>
-											
 			<br>
 			
 			<div>
 				Status
-				 <select name="status_id" style="margin-left: 52px">
+				 <form:select name="status_id" path="status_id" style="margin-left: 52px">
 					<c:forEach var="taskStatus" items="${taskStatus}">
 						<option value="${taskStatus.status_id}">
 							${taskStatus.status_name}</option>
 					</c:forEach>
-				</select>
-				&emsp; Done<input style="margin-left: 10px;" value="" name="bug_done">(%)
+				</form:select>
+				&emsp; Done<form:input style="margin-left: 10px;" value="" name="task_done" path="task_done"/>(%)
 			</div>
 			<br>
 			
@@ -75,7 +82,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <input type='text' class="form-control" name="task_from"/>
+			                    <form:input type='text' class="form-control" name="bug_from" path="bug_from"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -87,7 +94,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <input type='text' class="form-control" name="task_to"/>
+			                    <form:input type='text' class="form-control" name="bug_to" path="bug_to"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -102,51 +109,71 @@
 			
 			<div>
 			  <div>
-			  	   Subject<input value="" name="task_subject" size="58" style="margin-left: 49px">
+			  	   Subject<form:input value="" name="bug_subject" path="bug_subject" size="58" style="margin-left: 49px"/>
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<textarea name="task_description" style="margin-left: 20px" cols="60" rows="3"></textarea>
+				<form:textarea name="bug_description" path="bug_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
+			</div>
+			<br>
+			<div>
+				Solution
+				<form:textarea name="bug_solution" path="bug_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
 			</div>
 			<br>
 			
 			<div>
 				 PIC
-				 <select name="member_project_id" style="margin-left: 65px">
+				 <form:select name="member_project_id" path="member_project_id" style="margin-left: 65px">
 					<c:forEach var="pic" items="${pic}">
-						<option value="${pic.member_project_id}">
+						<option value="${pic.member_project_id}" >
 							${pic.member_project_name}</option>
 					</c:forEach>
-				</select>	
+				</form:select>	
 				&emsp;Priority
-				 	<select name="task_priority">
+				 	<form:select name="bug_priority" path="bug_priority">
 						<option>Highest</option>
 						<option>High</option>
 						<option>Medium</option>
 						<option>Low</option>
-					</select>
+					</form:select>
 			</div>
 			<br>
 			
 			<div>
 				 Category
-				 <select name="category_id" style="margin-left: 30px">
+				 <form:select name="category_id" path="category_id" style="margin-left: 30px">
 					<c:forEach var="category" items="${category}">
 						<option value="${category.category_id}">
 							${category.category_name}</option>
 					</c:forEach>
-				</select>
+				</form:select>
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button type="submit" style="background-color: green; color: white;">Create</button>
+				<button type="submit" name="" value="save" style="background-color: green; color: white;">Save</button>
 			</div>
 		</form:form>
 	</div>
-
+<%-- 	<div>
+		<form:form>
+			<form:input path="project_id"/>
+			<form:input path="type_id"/>
+			<form:input path="status_id"/>
+			<form:input path="done"/>
+			<form:input path="task_from"/>
+			<form:input path="task_to"/>
+			<form:input path="task_subject"/>
+			<form:input path="task_description"/>
+			<form:input path="task_solution"/>
+			<form:input path="member_project_id"/>
+			<form:input path="task_priority"/>
+			<form:input path="category_id"/>
+		</form:form>
+	</div> --%>
     <script type="text/javascript">
        $(function () {
           $('#datetimepicker1').datetimepicker({

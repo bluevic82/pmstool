@@ -15,11 +15,6 @@ public class TaskInfo {
 	private String task_priority;
 	private int project_id;
 	private String status;
-<<<<<<< HEAD
-	
-=======
-	private String pm;
->>>>>>> 7cf677e18260c226517ec01255d67d851d12afbb
 	public int getTask_id() {
 		return task_id;
 	}
@@ -98,7 +93,6 @@ public class TaskInfo {
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
 	}
-	
 	public String getStatus() {
 		return status;
 	}
@@ -106,15 +100,5 @@ public class TaskInfo {
 		this.status = status;
 	}
 	
-	public String getPm() {
-		return pm;
-	}
-	public void setPm(String pm) {
-		this.pm = pm;
-	}
-	public TaskInfo() {
-		super();
-	}
-		
 	
 }

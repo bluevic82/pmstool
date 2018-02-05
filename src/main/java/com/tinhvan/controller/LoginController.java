@@ -75,7 +75,7 @@ public class LoginController {
 	
 	
 	
-	@RequestMapping(value="/updatePer",method = RequestMethod.POST)
+//	@RequestMapping(value="/updatePer",method = RequestMethod.POST)
 
 	
 	

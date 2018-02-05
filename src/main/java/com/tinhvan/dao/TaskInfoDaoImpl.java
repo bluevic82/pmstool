@@ -20,9 +20,11 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+
 	@Override
 	public List<TaskInfo> getAllTask() {
 		// TODO Auto-generated method stub
+		
 		return jdbcTemplate.query("SELECT * FROM task_info", new RowMapper<TaskInfo>() {
 
 			@Override
@@ -50,7 +52,6 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 
 	@Override
 	public void addTask(TaskInfo task) {
-		// TODO Auto-generated method stub
 		String sql="INSERT INTO task_info ("
 				+ "TASK_SUBJECT, "
 				+ "TYPE_ID, "
@@ -65,10 +66,10 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 				+ "CATEGORY_ID, "
 				+ "PROJECT_ID)"+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] {
-				task.getTask_subject(), 
+				task.getTask_subject(),
 				task.getType_id(), 
 				task.getStatus_id(), 
-				task.getTask_done(), 
+				task.getTask_done(),
 				task.getTask_from(), 
 				task.getTask_to(), 
 				task.getTask_description(), 
@@ -84,7 +85,7 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 	public void updateTask(TaskInfo task) {
 		String sql="update task_info set "
 				+ "TASK_SUBJECT='"+task.getTask_subject()
-				+"', TYPE_ID="+task.getType_id()
+				+"', TASK_ID="+task.getType_id()
 				+",  STATUS_ID="+task.getStatus_id()
 				+",  TASK_DONE="+task.getTask_done()
 				+",  TASK_FROM='"+task.getTask_from()
@@ -106,7 +107,8 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 		String sql = "SELECT * FROM task_info where TASK_ID = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<TaskInfo>(TaskInfo.class));
 	}
-@Override
+
+	@Override
 	public List<TaskInfo> getTaskByIdPro(int id) {
 		// TODO Auto-generated method stub
 		return jdbcTemplate.query("SELECT task_info.TASK_ID,task_info.TASK_SUBJECT,task_info.TYPE_ID,status_info.STATUS_TYPE," + 

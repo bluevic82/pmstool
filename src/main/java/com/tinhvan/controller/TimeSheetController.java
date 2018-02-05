@@ -22,7 +22,6 @@ import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.Process;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
-import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
 
 /**
