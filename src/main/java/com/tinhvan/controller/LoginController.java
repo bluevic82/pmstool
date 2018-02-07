@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.ScopeDao;
@@ -39,8 +40,10 @@ import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.TaskInfo;
+
 
 /**
  * @Purpose: Controller
@@ -66,6 +69,8 @@ public class LoginController {
 	QuestionAnswerDao qaDao;
 	@Autowired
 	ScopeDao scopeDao;
+	@Autowired
+	PermissionDao per;
 	
 
 
@@ -76,13 +81,35 @@ public class LoginController {
 	
 	
 //	@RequestMapping(value="/updatePer",method = RequestMethod.POST)
-
-	
+	@RequestMapping("/permissionManager")
+		public String bomaytroll(Model model){
+			List<Permission> allPer = per.getAllPer();
+			model.addAttribute("listPer", allPer);
+			
+			return "permissionManager";
+		}
+		
+		
+		
+		
+		@RequestMapping(value="/updatePer",method = RequestMethod.POST)
+		public @ResponseBody void savePer(@RequestBody List<Permission> perrr, HttpServletRequest request){
+			
+			
+			for (Permission permission : perrr) {
+				per.updatePer(permission);
+			}
+				
+			
+		}
+		
 	
 	@RequestMapping(value = { "/", "/welcome" })
 	public ModelAndView welcomePage(Model model,@RequestParam(value="name",defaultValue="") String sname,@RequestParam(value="pm",defaultValue="") String spm,@RequestParam(value="from",defaultValue="") String sfrom,@RequestParam(value="to",defaultValue="") String sto) {
 		model.addAttribute("title", "OverView");
 		model.addAttribute("message", "OverView");
+		Boolean checker = per.checker("over_view");
+		if(checker==true) {
 		List<ProjectInfo> list = projectDao.getAllProject1(sname,spm,sfrom,sto);
 		List<Map<Integer, String>> pm= new ArrayList<Map<Integer, String>>() ;
 		List<Integer> tongPer=new ArrayList<Integer>();
@@ -241,6 +268,12 @@ public class LoginController {
 		model.addAttribute("pm",pm);
 		
 		return new ModelAndView("welcomePage","listP",list);
+		}else {
+			System.out.println("goodby");
+//			 String referer = request.getHeader("Referer");
+//			    return  new ModelAndView("redirect:"+ referer);
+			return new ModelAndView("403Page");
+		}
 	}
 	
 	// get list project for menu

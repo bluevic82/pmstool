@@ -28,14 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.EffortDao;
 import com.tinhvan.dao.MemberProjectDao;
-
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
-
+import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Scope;
 import com.tinhvan.model.Status;
@@ -65,7 +65,8 @@ public class ProjectController {
 	EffortDao effortDao;
 	@Autowired
 	TaskInfoDao taskInfoDao;
-
+	@Autowired
+	PermissionDao per;
 
 
 	// get list project for menu
@@ -115,8 +116,8 @@ public class ProjectController {
 	//mapping getdata project_it for view detail
 		@RequestMapping(value = "/detalproject/{id}")
 		public ModelAndView detailProject(@PathVariable int id, ModelMap model,HttpServletRequest request) {
-			
-				
+				Boolean checker = per.checker("pro_detail");
+				if(checker==true) {
 					ProjectInfo projectInfo = projectDao.getProjectById1(id);
 					System.out.println(projectInfo.getPm()+"hahahah");
 					int idT=projectInfo.getType_id();
@@ -201,6 +202,13 @@ public class ProjectController {
 					
 					model.put("per", perr);
 					return new ModelAndView("detailProject","command",projectInfo);
+				}else {
+					System.out.println("goodby");
+//					 String referer = request.getHeader("Referer");
+//					    return  new ModelAndView("redirect:"+ referer);
+					return new ModelAndView("403Page");
+				}
+			
 			
 			
 			
