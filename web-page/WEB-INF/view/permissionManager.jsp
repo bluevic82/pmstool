@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>permission manager</title>
 <jsp:include page="_menu.jsp" />
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -197,7 +199,7 @@
 			var qva_list = [];
 			
 			
-			$('input:checkbox[name=over_view]:checked'').each(function() {
+			$('input:checkbox[name=over_view]').each(function() {
 				  if (this.checked) {
 					  over_view.push(true);
 					  } else {
@@ -205,7 +207,7 @@
 					  }  
 				  
 		});
-		$('input:checkbox[name=pro_detail]:checked'').each(function() {
+		$('input:checkbox[name=pro_detail]').each(function() {
 			  if (this.checked) {
 				  pro_detail.push(true);
 				  } else {
@@ -213,7 +215,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=add_pro]:checked'').each(function() {
+		$('input:checkbox[name=add_pro]').each(function() {
 			  if (this.checked) {
 				  add_pro.push(true);
 				  } else {
@@ -221,7 +223,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=set_upd]:checked'').each(function() {
+		$('input:checkbox[name=set_upd]').each(function() {
 			  if (this.checked) {
 				  set_upd.push(true);
 				  } else {
@@ -229,7 +231,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=set_res]:checked'').each(function() {
+		$('input:checkbox[name=set_res]').each(function() {
 			  if (this.checked) {
 				  set_res.push(true);
 				  } else {
@@ -237,7 +239,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=cre_iss]:checked'').each(function() {
+		$('input:checkbox[name=cre_iss]').each(function() {
 			  if (this.checked) {
 				  cre_iss.push(true);
 				  } else {
@@ -245,7 +247,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=upd_iss]:checked'').each(function() {
+		$('input:checkbox[name=upd_iss]').each(function() {
 			  if (this.checked) {
 				  upd_iss.push(true);
 				  } else {
@@ -253,7 +255,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=set_reg]:checked'').each(function() {
+		$('input:checkbox[name=set_reg]').each(function() {
 			  if (this.checked) {
 				  set_reg.push(true);
 				  } else {
@@ -261,7 +263,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=eff_mana]:checked'').each(function() {
+		$('input:checkbox[name=eff_mana]').each(function() {
 			  if (this.checked) {
 				  eff_mana.push(true);
 				  } else {
@@ -269,7 +271,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=eff_can]:checked'').each(function() {
+		$('input:checkbox[name=eff_can]').each(function() {
 			  if (this.checked) {
 				  eff_can.push(true);
 				  } else {
@@ -277,7 +279,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=qva_upd]:checked'').each(function() {
+		$('input:checkbox[name=qva_upd]').each(function() {
 			  if (this.checked) {
 				  qva_upd.push(true);
 				  } else {
@@ -285,7 +287,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=tms_re]:checked'').each(function() {
+		$('input:checkbox[name=tms_re]').each(function() {
 			  if (this.checked) {
 				  tms_re.push(true);
 				  } else {
@@ -293,7 +295,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=user_reg]:checked'').each(function() {
+		$('input:checkbox[name=user_reg]').each(function() {
 			  if (this.checked) {
 				  user_reg.push(true);
 				  } else {
@@ -301,7 +303,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=iss_list]:checked'').each(function() {
+		$('input:checkbox[name=iss_list]').each(function() {
 			  if (this.checked) {
 				  iss_list.push(true);
 				  } else {
@@ -309,7 +311,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=tms_list]:checked'').each(function() {
+		$('input:checkbox[name=tms_list]').each(function() {
 			  if (this.checked) {
 				  tms_list.push(true);
 				  } else {
@@ -317,7 +319,7 @@
 				  }  
 			  
 	});
-		$('input:checkbox[name=qva_list]:checked'').each(function() {
+		$('input:checkbox[name=qva_list]').each(function() {
 			  if (this.checked) {
 				  qva_list.push(true);
 				  } else {
@@ -329,7 +331,8 @@
 		console.log(over_view);	
 			
 			
-			var perrr = [{per_id:1, over_view: over_view[0], pro_detail: pro_detail[0],add_pro:add_pro[0],set_upd:set_upd[0],
+			var perrr = [];
+			perrr.push({per_id:1, over_view: over_view[0], pro_detail: pro_detail[0],add_pro:add_pro[0],set_upd:set_upd[0],
             	set_res:set_res[0],cre_iss:cre_iss[0],upd_iss:upd_iss[0],set_reg:set_reg[0],eff_mana:eff_mana[0],eff_can:eff_can[0],qva_upd:qva_upd[0],
             	tms_re:tms_re[0],user_reg:user_reg[0],iss_list:iss_list[0],tms_list:tms_list[0],qva_list:qva_list[0]},
             	
@@ -346,14 +349,17 @@
                         	tms_re:tms_re[3],user_reg:user_reg[3],iss_list:iss_list[3],tms_list:tms_list[3],qva_list:qva_list[3]},
                         	{per_id:5, over_view: over_view[4], pro_detail: pro_detail[4],add_pro:add_pro[4],set_upd:set_upd[4],
                             	set_res:set_res[4],cre_iss:cre_iss[4],upd_iss:upd_iss[4],set_reg:set_reg[4],eff_mana:eff_mana[4],eff_can:eff_can[4],qva_upd:qva_upd[4],
-                            	tms_re:tms_re[4],user_reg:user_reg[4],iss_list:iss_list[4],tms_list:tms_list[4],qva_list:qva_list[4]}];
-			
+                            	tms_re:tms_re[4],user_reg:user_reg[4],iss_list:iss_list[4],tms_list:tms_list[4],qva_list:qva_list[4]});
 			
 	
 			
 			
 			
-		
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
 			
 			
 
@@ -367,9 +373,10 @@
 			$.ajax({
 			      type: "POST",
 			      contentType : 'application/json; charset=utf-8',
-			      dataType: "json",
+			      
 			      url: "${pageContext.request.contextPath}/updatePer",
-			      data:JSON.stringify(perrr),                                                                                                                               
+			      data:JSON.stringify(perrr
+			      ),                                                                                                                               
 			      success :function(result) {
 			    	  alert("saved");
 			     }, error : function(e) {
