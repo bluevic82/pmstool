@@ -1,29 +1,23 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Update Task/Spec/Issue</title>
 <jsp:include page="_menu.jsp" />
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://momentjs.com/downloads/moment.min.js"></script>
-	<script src="/resources/js/bootstrap.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css.map">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -34,12 +28,13 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form id="id_form" action="/Login/actionCreateTask" method="post">
+		<form:form id="id_form" action="/Login/actionUpdateTask" method="post">
 			<form:hidden path="task_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <form:input value="" name="project_id" path="project_id" size="30" style="margin-left: 7px;"/>
+						Project Name <input disabled="disabled" id="project_name" value="${project_Infor.project_name}" name="${project_Infor.project_id}" size="30" style="margin-left: 7px;">
+							<input type="hidden" id="project_id" value="${project_Infor.project_id}" name="project_id" >
 					</div>
 				</div>
 			</div>
@@ -52,12 +47,6 @@
 					</c:forEach>
 				</form:select>
 				
-				&emsp;Spec <form:select name="type_id" path="type_id" style="margin-left: 63px">
-					<c:forEach var="taskTypes" items="${taskTypes}">
-						<option value="${taskTypes.type_id}">
-							${taskTypes.type_name}</option>
-					</c:forEach>
-				</form:select>
 			</div>
 			<br>
 			
@@ -69,7 +58,7 @@
 							${taskStatus.status_name}</option>
 					</c:forEach>
 				</form:select>
-				&emsp; Done<form:input style="margin-left: 10px;" value="" name="task_done" path="task_done"/>(%)
+				&emsp; Done<form:input maxlength="3" id="done" style="margin-left: 10px;" value="" name="task_done" path="task_done"/>(%)
 			</div>
 			<br>
 			
@@ -79,7 +68,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <form:input type='text' class="form-control" name="task_from" path="task_from"/>
+			                    <form:input id="from" type='text' class="form-control" name="task_from" path="task_from"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -91,7 +80,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <form:input type='text' class="form-control" name="task_to" path="task_to"/>
+			                    <form:input id="to" type='text' class="form-control" name="task_to" path="task_to"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -106,19 +95,19 @@
 			
 			<div>
 			  <div>
-			  	   Subject<form:input value="" name="task_subject" path="task_subject" size="58" style="margin-left: 49px"/>
+			  	   Subject<form:input maxlength="199" id="subject" value="" name="task_subject" path="task_subject" size="58" style="margin-left: 49px"/>
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<form:textarea name="task_description" path="task_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
+				<form:textarea id="description" name="task_description" path="task_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
 			</div>
 			<br>
 			<div>
 				Solution
-				<form:textarea name="task_solution" path="task_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
+				<form:textarea id="solution" name="task_solution" path="task_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
 			</div>
 			<br>
 			
@@ -151,7 +140,7 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button type="submit" style="background-color: green; color: white;">Save</button>
+				<button id="btnSave" type="submit" style="background-color: green; color: white;">Save</button>
 			</div>
 		</form:form>
 	</div>
@@ -170,5 +159,64 @@
             });
          });
      </script> 
+     
+     <script type="text/javascript">
+		$("#btnSave").click(function(){
+			var done = $("#done").val();
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var subject = $("#subject").val();
+			var description = $("#description").val();
+			var solution = $("#solution").val();
+			
+ 			if (done.length == ""){
+					alert("% Done can not be empty");
+				return false;
+			}
+			if (!$.isNumeric(done)){
+					alert("You must enter the number for % Done");
+				return false;
+			}
+			if(done > 100){
+					alert("% Done can not enter the number greater than 100%");
+				return false;
+			}
+			if(done < 0){
+					alert("% Done can not enter the number less than < 0%");
+				return false;
+			}
+ 			if (from.length == ""){
+					alert("From can not be empty");
+				return false;
+			}
+ 			if (to.length == ""){
+					alert("To can not be empty");
+				return false;
+			}
+ 			if(from > to){
+					alert("From can not be greater than To");
+				return false;
+ 			}
+			if (to.length == ""){
+					alert("To can not be empty");
+				return false;
+			} 
+			
+			if (subject.length == ""){
+					alert("Subject can not be empty");
+				return false;
+			}
+			
+			if (description.length > 1000){
+					alert("Description can not be more than 1000 characters");
+				return false;
+			}
+			
+			if (solution.length == 1000){
+					alert("Solution can not be more than 1000 characters");
+				return false;
+			}
+		});
+	</script>
 </body>
 </html>

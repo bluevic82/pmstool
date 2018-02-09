@@ -20,13 +20,14 @@ import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 
 /**
- * @purpose: QAController using QAResgister/Update
- * 	Using method Attribute set data for Status
+ * @purpose: QAController using QAResgister/Update Using method Attribute set
+ *           data for Status
  * @author: NguyenManh
  * @date: 2017/12/19
- * **/
+ **/
 @Controller
 public class QAController {
 
@@ -38,13 +39,13 @@ public class QAController {
 	StatusDao statusDao;
 	@Autowired
 	MemberProjectDao memberProjectDao;
-	
+
 	// get list project for menu
-			@ModelAttribute("list_Project_For_menu")
-			public List<ProjectInfo> getListProject() {
-				List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-				return list_Project_For_Menu;
-			}
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject() {
+		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
+		return list_Project_For_Menu;
+	}
 
 	// Mapping view ListQuestion & Answer
 	@RequestMapping(value = "/qaList")
@@ -53,45 +54,50 @@ public class QAController {
 		return new ModelAndView("qaList", "list", list);
 	}
 
-	//Mapping view page register QA
-	@RequestMapping(value = { "/registerQA" }, method = RequestMethod.GET)
-	public String registerQA(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "register QA");
-		return "registerQandA";
+	// Mapping view page register QA
+	@RequestMapping(value = "{id}/registerQA")
+	public ModelAndView registerQA(@PathVariable int id, Model model) {
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+
+		/**
+		 * purpose: get project's name
+		 */
+		model.addAttribute("project_Infor", projectInfo);
+		return new ModelAndView("registerQandA", "command", new TaskInfo());
 	}
-	
-	//Mapping button click registerQA
-	@RequestMapping(value = "/actionRegisterQA", method=RequestMethod.POST)
+
+	// Mapping button click registerQA
+	@RequestMapping(value = "/actionRegisterQA", method = RequestMethod.POST)
 	public ModelAndView registerQA(Model model, @ModelAttribute(value = "addqa") QuestionAnwer questionAnwer) {
 		answerDao.registerQA(questionAnwer);
 		return new ModelAndView("redirect:/qaList");
 	}
-	
-	//Mapping view page update QA
+
+	// Mapping view page update QA
 	@RequestMapping(value = { "/updateQA" }, method = RequestMethod.GET)
 	public String updateQA(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "Update QA");
 		return "updateQandA";
 	}
-	
-	//Mapping button click save QA
-	@RequestMapping(value = "/actionUpdateQA", method=RequestMethod.POST)
+
+	// Mapping button click save QA
+	@RequestMapping(value = "/actionUpdateQA", method = RequestMethod.POST)
 	public ModelAndView updateQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer questionAnwer) {
 		answerDao.updateQA(questionAnwer);
 		return new ModelAndView("redirect:/qaList");
 	}
-	
-	//Mapping get dataById for update QA
-	@RequestMapping(value = "/editQA/{q_a_id}")
-	public ModelAndView editQA(@PathVariable int q_a_id, ModelMap model) {
-		QuestionAnwer questionAnwer = answerDao.getQAById(q_a_id);
-		model.put("command", answerDao.getQAById(q_a_id));
-		return new ModelAndView("updateQandA","command",questionAnwer);
-	}
 
-	/*	
+	// Mapping get dataById for update QA
+	@RequestMapping(value = "{q_a_id}/editQA/{pr_id}")
+	public ModelAndView editQA(@PathVariable int q_a_id, ModelMap model,@PathVariable int pr_id) {
+		QuestionAnwer questionAnwer = answerDao.getQAById(q_a_id);
+		ProjectInfo projectInfo = projectDao.getProjectById(pr_id);
+		model.put("project_infor", projectInfo);
+		
+		model.put("command", answerDao.getQAById(q_a_id));
+		return new ModelAndView("updateQandA", "command", questionAnwer);
+	}
+	
+	/*
 	 * @purpose: Methods Attributes
 	 */
 	@ModelAttribute("qaStatus")
@@ -105,17 +111,17 @@ public class QAController {
 		List<QuestionAnwer> list = answerDao.getAllQA();
 		return list;
 	}
-	
-	//get all member project in project this
+
+	// get all member project in project this
 	@ModelAttribute("pic")
 	public List<MemberProject> getPIC() {
 		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
-	
-	//method get Name of Project
+
+	// method get Name of Project
 	@ModelAttribute("projectName")
-	public List<ProjectInfo> getAllProject(){
+	public List<ProjectInfo> getAllProject() {
 		List<ProjectInfo> list = projectDao.getAllProject();
 		return list;
 	}

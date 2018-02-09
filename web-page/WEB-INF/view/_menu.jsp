@@ -51,7 +51,7 @@
 								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createBug">Create
 										Bug</a></li>
 
-								<li><a href="${pageContext.request.contextPath}/registerQA">Q&A
+								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/registerQA">Q&amp;A
 										register/Update</a></li>
 										
 								<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/registerTimeSheet">
@@ -87,7 +87,7 @@
 								href="${pageContext.request.contextPath}/timeSheetList">List
 									Timesheet</a></li>
 						</ul></li>
-					<li><a href="${pageContext.request.contextPath}/qaList">Q&A
+					<li><a href="${pageContext.request.contextPath}/qaList">Q&amp;A
 							List</a></li>
 
 				</ul></li>

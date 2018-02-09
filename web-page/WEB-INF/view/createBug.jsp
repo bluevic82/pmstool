@@ -1,18 +1,14 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create Task/Spec/Issue</title>
+<title>Create Bug</title>
 <jsp:include page="_menu.jsp" />
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -40,8 +36,9 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <input disabled="disabled" value="${project_Infor.project_name }" name="project_id" size="30" style="margin-left: 7px;">
-					</div>
+						Project Name <input disabled="disabled" value="${project_Infor.project_name}" name="project_name" size="30" style="margin-left: 7px;">
+						<input type="hidden" value="${project_Infor.project_id}" name="project_id" >
+					</div>	
 				</div>
 			</div>
 			<br>
@@ -65,7 +62,7 @@
 							${taskStatus.status_name}</option>
 					</c:forEach>
 				</select>
-				&emsp; Done<input style="margin-left: 10px;" value="" name="bug_done">(%)
+				&emsp; Done<input id="done" style="margin-left: 10px;" value="" name="bug_done">(%)
 			</div>
 			<br>
 			
@@ -75,7 +72,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <input type='text' class="form-control" name="bug_from"/>
+			                    <input id="from" type='text' class="form-control" name="bug_from"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -87,7 +84,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <input type='text' class="form-control" name="bug_to"/>
+			                    <input id="to" type='text' class="form-control" name="bug_to"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -102,14 +99,15 @@
 			
 			<div>
 			  <div>
-			  	   Subject<input value="" name="bug_subject" size="58" style="margin-left: 49px">
+			  	   Subject<input id="subject" value="" name="bug_subject" size="58" style="margin-left: 49px">
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<textarea name="bug_description" style="margin-left: 20px" cols="60" rows="3"></textarea>
+				<textarea name="bug_description" maxlength="999" placeholder="optional & can not be more than 1000 characters"
+				 style="margin-left: 20px" cols="60" rows="3"></textarea>
 			</div>
 			<br>
 			
@@ -142,7 +140,7 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button type="submit" style="background-color: green; color: white;">Create</button>
+				<button id="createBug" type="submit" style="background-color: green; color: white;">Create</button>
 			</div>
 		</form:form>
 	</div>
@@ -161,5 +159,52 @@
             });
          });
      </script> 
+     
+     <script type="text/javascript">
+		$("#createBug").click(function(){
+			var done = $("#done").val();
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var subject = $("#subject").val();
+			
+ 			if (done.length == ""){
+					alert("% Done can not be empty");
+				return false;
+			}
+			if (!$.isNumeric(done)){
+					alert("You must enter the number for % Done");
+				return false;
+			}
+			if(done > 100){
+					alert("% Done can not enter the number greater than 100%");
+				return false;
+			}
+			if(done < 0){
+					alert("% Done can not enter the number less than < 0%");
+				return false;
+			}
+ 			if (from.length == ""){
+					alert("From can not be empty");
+				return false;
+			}
+ 			if (to.length == ""){
+					alert("To can not be empty");
+				return false;
+			}
+ 			if(from > to){
+					alert("From can not be greater than To");
+				return false;
+ 			}
+			if (to.length == ""){
+					alert("To can not be empty");
+				return false;
+			} 
+			
+			if (subject.length == ""){
+					alert("Subject can not be empty");
+				return false;
+			}
+		});
+	</script>
 </body>
 </html>

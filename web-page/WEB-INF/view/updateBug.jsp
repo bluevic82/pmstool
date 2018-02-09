@@ -1,13 +1,13 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Update Task/Spec/Issue</title>
+<title>Update Bug</title>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />">
@@ -34,16 +34,14 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form action="/Login/actionUpdateBug" method="POST">
-			<form:hidden path="task_id"/>
+		<form:form id="id_form" action="/Login/actionUpdateBug" method="post">
+			<form:hidden path="bug_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <form:input value="" name="project_id" path="project_id" size="30" style="margin-left: 7px;"/>
+						Project Name <input disabled="disabled" value="${project_Infor.project_name}" name="" size="30" style="margin-left: 7px;"/>
+						<input type="hidden" id="project_id" value="${project_Infor.project_id}" name="project_id" >
 					</div>
-					<%-- <div>
-						Project Name <input disabled="disabled" value="${project_Infor.project_name }" size="30" style="margin-left: 7px;"/>
-					</div> --%>
 				</div>
 			</div>
 			<br>
@@ -54,13 +52,7 @@
 							${bugTypes.type_name}</option>
 					</c:forEach>
 				</form:select>
-				
-				&emsp;Spec <form:select name="type_id" path="type_id" style="margin-left: 63px">
-					<c:forEach var="bugTypes" items="${bugTypes}">
-						<option value="${bugTypes.type_id}">
-							${bugTypes.type_name}</option>
-					</c:forEach>
-				</form:select>
+			
 			</div>
 			<br>
 			
@@ -72,7 +64,7 @@
 							${taskStatus.status_name}</option>
 					</c:forEach>
 				</form:select>
-				&emsp; Done<form:input style="margin-left: 10px;" value="" name="task_done" path="task_done"/>(%)
+				&emsp; Done<form:input id="done" style="margin-left: 10px;" value="" name="bug_done" path="bug_done"/>(%)
 			</div>
 			<br>
 			
@@ -82,7 +74,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <form:input type='text' class="form-control" name="bug_from" path="bug_from"/>
+			                    <form:input id="from" type='text' class="form-control" name="bug_from" path="bug_from"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -94,7 +86,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <form:input type='text' class="form-control" name="bug_to" path="bug_to"/>
+			                    <form:input id="to" type='text' class="form-control" name="bug_to" path="bug_to"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -109,19 +101,19 @@
 			
 			<div>
 			  <div>
-			  	   Subject<form:input value="" name="bug_subject" path="bug_subject" size="58" style="margin-left: 49px"/>
+			  	   Subject<form:input maxlength="199" id="subject" value="" name="bug_subject" path="bug_subject" size="58" style="margin-left: 49px"/>
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<form:textarea name="bug_description" path="bug_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
+				<form:textarea id="description" name="bug_description" path="bug_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
 			</div>
 			<br>
 			<div>
 				Solution
-				<form:textarea name="bug_solution" path="bug_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
+				<form:textarea id="solution" name="bug_solution" path="bug_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
 			</div>
 			<br>
 			
@@ -154,26 +146,11 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button type="submit" name="" value="save" style="background-color: green; color: white;">Save</button>
+				<button id="btnSave" type="submit" style="background-color: green; color: white;">Save</button>
 			</div>
 		</form:form>
 	</div>
-<%-- 	<div>
-		<form:form>
-			<form:input path="project_id"/>
-			<form:input path="type_id"/>
-			<form:input path="status_id"/>
-			<form:input path="done"/>
-			<form:input path="task_from"/>
-			<form:input path="task_to"/>
-			<form:input path="task_subject"/>
-			<form:input path="task_description"/>
-			<form:input path="task_solution"/>
-			<form:input path="member_project_id"/>
-			<form:input path="task_priority"/>
-			<form:input path="category_id"/>
-		</form:form>
-	</div> --%>
+	
     <script type="text/javascript">
        $(function () {
           $('#datetimepicker1').datetimepicker({
@@ -188,5 +165,64 @@
             });
          });
      </script> 
+     
+          <script type="text/javascript">
+		$("#btnSave").click(function(){
+			var done = $("#done").val();
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var subject = $("#subject").val();
+			var description = $("#description").val();
+			var solution = $("#solution").val();
+			
+ 			if (done.length == ""){
+					alert("% Done can not be empty");
+				return false;
+			}
+			if (!$.isNumeric(done)){
+					alert("You must enter the number for % Done");
+				return false;
+			}
+			if(done > 100){
+					alert("% Done can not enter the number greater than 100%");
+				return false;
+			}
+			if(done < 0){
+					alert("% Done can not enter the number less than < 0%");
+				return false;
+			}
+ 			if (from.length == ""){
+					alert("From can not be empty");
+				return false;
+			}
+ 			if (to.length == ""){
+					alert("To can not be empty");
+				return false;
+			}
+ 			if(from > to){
+					alert("From can not be greater than To");
+				return false;
+ 			}
+			if (to.length == ""){
+					alert("To can not be empty");
+				return false;
+			} 
+			
+			if (subject.length == ""){
+					alert("Subject can not be empty");
+				return false;
+			}
+			
+			if (description.length > 1000){
+					alert("Description can not be more than 1000 characters");
+				return false;
+			}
+			
+			if (solution.length == 1000){
+					alert("Solution can not be more than 1000 characters");
+				return false;
+			}
+		});
+	</script>
 </body>
 </html>

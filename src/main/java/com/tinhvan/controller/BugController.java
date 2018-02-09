@@ -57,11 +57,13 @@ public class BugController {
 	// Mapping view page create Bug
 	@RequestMapping(value = "{id}/createBug")
 	public ModelAndView createBug(@PathVariable int id, Model model) {
-		model.addAttribute("title", "Welcome");
+		model.addAttribute("project_id", id);
 		model.addAttribute("message", "Create Bug");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 
-		// purpose: get project's name
+		/**
+		 * purpose: get project's name
+		 */
 		model.addAttribute("project_Infor", projectInfo);
 		return new ModelAndView("createBug", "command", new BugInfo());
 	}
@@ -90,10 +92,10 @@ public class BugController {
 	}
 
 	// Mapping get dataById for update Bug
-	@RequestMapping(value = "{id}/editBug")
-	public ModelAndView editBug(@PathVariable int id, ModelMap model) {
+	@RequestMapping(value = "{id}/editBug/{idP}")
+	public ModelAndView editBug(@PathVariable int id, ModelMap model,  @PathVariable int idP) {
 		BugInfo bugInfo = bugInfoDao.getBugById(id);
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		ProjectInfo projectInfo = projectDao.getProjectById(idP);
 		model.put("project_Infor", projectInfo);
 
 		model.put("command", bugInfoDao.getBugById(id));

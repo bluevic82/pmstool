@@ -30,7 +30,7 @@ import com.tinhvan.model.Type;
  * 	Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
  * @author: NguyenManh
  * @date: 2017/12/13
- * **/
+  */
 @Controller
 public class TaskController {
 
@@ -57,7 +57,7 @@ public class TaskController {
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask")
 	public ModelAndView createTask(@PathVariable int id, Model model) {
-		model.addAttribute("title", "Welcome");
+		model.addAttribute("project_id", id);
 		model.addAttribute("message", "Create Task");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 
@@ -88,16 +88,17 @@ public class TaskController {
 		taskInfoDao.updateTask(taskInfo);
 		return new ModelAndView("redirect:/taskList");
 	}
-
+	
 	// Mapping get dataById for update Task/Spec/Issue
-	@RequestMapping(value = "{id}/editTask")
-	public ModelAndView editTask(@PathVariable int id, ModelMap model) {
+	@RequestMapping(value = "{id}/editTask/{idP}")
+	public ModelAndView editTask(@PathVariable int id, ModelMap model, @PathVariable int idP) {
 		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		ProjectInfo projectInfo = projectDao.getProjectById(idP);
 		model.put("project_Infor", projectInfo);
 
 		model.put("command", taskInfoDao.getTaskById(id));
-		return new ModelAndView("updateTask", "command", taskInfo);
+		return new ModelAndView("updateTaskSpecIssue", "command", taskInfo);
+		//return new ModelAndView("updateTaskSpecIssue");
 	}
 
 	// Mapping view list Task/Spec/Issue

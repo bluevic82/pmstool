@@ -53,8 +53,8 @@
 				  <tbody>
 					 <c:forEach var="allQA" items="${allQA}">
 					  	<tr>   
-						  	<th scope="row"><a href="editQA/${allQA.q_a_id}">${allQA.q_a_id}</a></th>
-						  	<th scope="row"><a href="editQA/${allQA.q_a_id}">${allQA.q_a_title}</a></th>
+						  	<th scope="row"><a href="${allQA.q_a_id}/editQA/${allQA.project_id}">${allQA.q_a_id}</a></th>
+						  	<th scope="row"><a href="${allQA.q_a_id}/editQA/${allQA.project_id}">${allQA.q_a_title}</a></th>
 						  	<th>${allQA.member_project_id}</th>
 						  	<th>${allQA.q_a_dealine}</th>
 						  	<th>${allQA.status_id}</th>
