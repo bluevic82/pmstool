@@ -51,6 +51,27 @@ public class ProjectDaoImpl implements ProjectDao {
 		String sql="INSERT INTO project_info(PROJECT_NAME, PROJECT_FROM, PROJECT_TO, PROJECT_CHARGE_COST, STATUS_ID, TYPE_ID, PROJECT_DESCRIPTION, PROJECT_TECHNICAL)"+"VALUES (?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] {project.getProject_name(),project.getProject_from(),project.getProject_to(),project.getProject_charge_cost(),project.getStatus_id(),project.getType_id(),project.getProject_description(),project.getProject_technical()});
 	}
+	
+	
+
+	@Override
+	public void addScopeProject(int id, List<Integer> a) {
+		// TODO Auto-generated method stub
+		for(int i = 0; i < a.size(); i++ ) {
+			System.out.println(a.get(i));
+			String sql = "INSERT INTO scope_project(project_id, scope_id) VALUES ("+ id +",?)";
+			jdbcTemplate.update(sql, new Object[] {a.get(i)});
+		}
+		
+	}
+
+	@Override
+	public int findProjectIdMax() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT MAX(project_id) FROM project_info";
+		int maxId = jdbcTemplate.queryForObject(sql, Integer.class);
+		return maxId;
+	}
 
 	@Override
 	public void updateProject(ProjectInfo project) {
