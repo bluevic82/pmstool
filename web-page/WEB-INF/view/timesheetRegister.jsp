@@ -17,7 +17,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 <script src="https://momentjs.com/downloads/moment.min.js"></script>
-<script src="/resources/js/bootstrap.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -36,6 +35,10 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 </head>
 <body>
 	<div class="container">
@@ -51,7 +54,7 @@
 				style="margin-top: 2%">
 				<thead>
 					<tr>
-						<th scope="col">Choose</th>
+						<th scope="col"></th>
 						<th scope="col">Date *</th>
 						<th scope="col">Hour *</th>
 						<th scope="col">Pre-defined task</th>
@@ -67,13 +70,75 @@
 						<tr id="id_tr">
 							<td scope="col"><input id="id_checkbox" type="checkbox"
 								name="checkboxTS" /></td>
-							<td id="id_ts_Date">${list_TimeSheetOfOneProject.detail_timesheet_date }</td>
-							<td contenteditable="true" id="id_ts_Hour">${list_TimeSheetOfOneProject.hour}</td>
-							<td id="id_ts_Definded">${list_TimeSheetOfOneProject.list_Name_Of_Id[0]}</td>
-							<td id="id_ts_Process">${list_TimeSheetOfOneProject.list_Name_Of_Id[1]}</td>
-							<td id="id_ts_Type">${list_TimeSheetOfOneProject.list_Name_Of_Id[2]}</td>
-							<td id="id_ts_Requirement">${list_TimeSheetOfOneProject.list_Name_Of_Id[3]}</td>
-							<td contenteditable="true" id="id_ts_workContent">${list_TimeSheetOfOneProject.workcontent}</td>
+
+							<td id="id_ts_Date"><div
+									class="input-group date datetimepicker">
+									<input type="text" class="form-control"
+										name="name_timesheet_date"
+										value="${list_TimeSheetOfOneProject.detail_timesheet_date }" />
+									<div class="input-group-addon">
+										<div class="glyphicon glyphicon-calendar"></div>
+									</div>
+
+								</div></td>
+							<td id="id_ts_Hour"><input id="id_input_HOUR" type="text"
+								value="${list_TimeSheetOfOneProject.hour}" /></td>
+							<td id="id_ts_Definded">
+								<div class="class_DefindedName">
+									<div id="panel" style="height: 100%;">
+
+										<select id="">
+											<option value="none" id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[0]}</option>
+											<c:forEach var="pre_defined" items="${pre_defined}">
+												<option value="${pre_defined.pre_defined_id}">${pre_defined.pre_defined_name}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+
+
+							</td>
+							<td id="id_ts_Process">
+								<div class="class_DefindedName">
+									<div id="panel" style="height: 100%;">
+										<select id="">
+											<option value="none" id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[1]}</option>
+											<c:forEach var="process" items="${process}">
+												<option value="${process.process_id}">${process.process_name}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+							</td>
+							<td id="id_ts_Type">
+								<div class="class_DefindedName">
+									<div id="panel" style="height: 100%;">
+										<select id="">
+											<option value="none" id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[2]}</option>
+											<c:forEach var="timsheetTypes" items="${timsheetTypes}">
+												<option value="${timsheetTypes.type_id}">${timsheetTypes.type_name}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+							</td>
+
+							<td id="id_ts_Requirement">
+								<div class="class_DefindedName">
+									<div id="panel" style="height: 100%;">
+										<select id="">
+											<option value="none" id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[3]}</option>
+											<c:forEach var="Tasks" items="${Tasks}">
+												<option value="${Tasks.task_id}">${Tasks.task_subject}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+							</td>
+							<td id="id_ts_workContent"><input id="id_input_WorkContent"
+								type="text" value="${list_TimeSheetOfOneProject.workcontent}" />
+
+							</td>
 						</tr>
 					</c:forEach>
 
@@ -96,6 +161,18 @@
 
 	</div>
 </body>
+
+<style>
+#id_input_HOUR {
+	width: 50px;
+}
+
+#id_table {
+	border-style: solid;
+}
+</style>
+
+
 <script type="text/javascript">
 	var $TABLE = $('#id_table');
 
@@ -103,69 +180,147 @@
 	$('#id_buttonAdd')
 			.click(
 					function() {
-						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id = "id_tr"><td scope="col" ><div><input id = "id_checkbox" type="checkbox" name="checkboxTS"/><div></td>'
-								+ '<td id = "id_ts_Date"></td>'
-								+ '<td contenteditable="true" id = "id_ts_Hour"></td>'
-								+ '<td id = "id_ts_Definded"></td>'
-								+ '<td id = "id_ts_Process"></td>'
-								+ '<td id = "id_ts_Type"></td>'
-								+ '<td id="id_ts_Requirement"></td>'
-								+ '<td contenteditable="true" id="id_ts_workContent"></td>' + '</tr>';
+
+						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id = "id_tr"><td scope="col" >'
+								+ '<div><input id = "id_checkbox" type="checkbox" name="checkboxTS"/><div></td>'
+
+								+ '<td id = "id_ts_Date"><div class="input-group date datetimepicker">'
+								+ '<input type="text" class="form-control" name="name_timesheet_date"'
+								+ 'value="" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div</td>'
+
+								+ '<td id = "id_ts_Hour"><input id = "id_input_HOUR" type = "text" value = ""/></td>'
+
+								+ '<td id = "id_ts_Definded"><div class="class_DefindedName">'
+								+ '<div id="panel" style="height: 100%;"><select id="">'
+								+ ' <option value="none" id = "id_chooseOption"></option>'
+								+ ' <c:forEach var="pre_defined" items="${pre_defined}">'
+								+ '<option value="${pre_defined.pre_defined_id}">${pre_defined.pre_defined_name}</option>'
+								+ '</c:forEach></select></div></div></td>'
+
+								+ '<td id = "id_ts_Process"><div class="class_DefindedName"><div id="panel" style="height: 100%;">'
+								+ '<select id=""><option value="none" id = "id_chooseOption"></option>'
+								+ '<c:forEach var="process" items="${process}"><option value="${process.process_id}">${process.process_name}</option>'
+								+ '</c:forEach></select></div></div></td>'
+
+								+ '<td id = "id_ts_Type"><div class="class_DefindedName"><div id="panel" style="height: 100%;">'
+								+ '<select id=""><option value="none" id = "id_chooseOption"></option>'
+								+ '<c:forEach var="timsheetTypes" items="${timsheetTypes}">'
+								+ '<option value="${timsheetTypes.type_id}">${timsheetTypes.type_name}</option></c:forEach></select></div></div></td>'
+
+								+ '<td id="id_ts_Requirement"><div class="class_DefindedName"><div id="panel" style="height: 100%;"><select id="">'
+								+ '<option value="none" id = "id_chooseOption"></option><c:forEach var="Tasks" items="${Tasks}">'
+								+ '<option value="${Tasks.task_id}">${Tasks.task_subject}</option></c:forEach></select></div></div></td>'
+
+								+ '<td id="id_ts_workContent"><input id = "id_input_WorkContent" type = "text" value = "" /></td>'
+								+ '</tr>';
+
 					});
-	
+
 	/*delete timesheet*/
-	$('#id_buttonDelete')
-	.click(
-			function() {
-				var checkbox = document.getElementsByName('checkboxTS');
-				for (var i = 0; i < checkbox.length; i++) {
-					if (checkbox[i].checked === true) {
-						var temp = i+1;
-						var name = document.getElementById("id_table").rows[i].remove();
-						/* var temp = i+1;
-						document.getElementById("id_table").deleteRow(temp);
-						temp--; */
-						//checkbox[i]
-						//alert("check in i = "+i);
-					}
-					//alert('check i = '+i);
-				}
-				
-				//alert("delete timesheet");
-			});
-	
+	$('#id_buttonDelete').click(
+
+	function() {
+		var checkbox = document.getElementsByName('checkboxTS');
+		for (var i = 0; i < checkbox.length; i++) {
+
+			if (checkbox[i].checked === true) {
+				var temp = i + 1;
+				document.getElementById("id_table").rows[temp].remove();
+				temp--;
+				i--;
+
+			}
+
+		}
+
+	});
+
 	/*save timesheet*/
+	
+	var list = [];
+
+	var infor_Object = {
+		detail_timesheet_date : "date",
+		workcontent : "work content" 
+	}
+
+	list[0] = infor_Object;
+	list[1] = infor_Object;
+	alert(list[0].detail_timesheet_date);
+	
+	
+	
 	$('#id_buttonSave')
-	.click(
-			function() {
+			.click(
+					function() {
+						alert("save");
+						var table = document.getElementById("id_table");
+						var len = table.rows.length;
+						//alert(table.rows.length);
+
+						//alert(table.rows[1].find("#id_ts_Date").html);
+
+						for (var i = 1; i < len; i++) {
+
+							
+
+							//alert(table.rows[i].cells[1].childNodes[0].innerHTML);
+							if (table.rows[i].cells[1].childNodes[0].value == "") {
+								alert(" Date is empty!");
+
+							}
+							if (isNaN(table.rows[i].cells[2].childNodes[0].value)
+									|| table.rows[i].cells[2].childNodes[0].value == "") {
+
+								alert(" HOUR is empty or not number!");
+
+							}
+							
+							
+						}
+
+
+						var Object = {
+							detail_timesheet_date : "date",
+							workcontent : "work content"
+	
+						}
+						    var myList = new Array();
+						     myList.push(Object);
+						     //myList.push('bye');
+						     
+						      //alert(myList.length);
+						    alert(myList[0].detail_timesheet_date);
+
 				
-				document.getElementById("id_form").submit();
-			
-			});
+						    
+						
+					}); 
+
+	//document.getElementById("id_form").submit();
 
 	/*edit cols*/
-	$("#id_table").on("click", "#id_ts_Date", function(e) {
 
-		alert("edit date");
+	$("#id_table").on("click", ".datetimepicker", function(e) {
+
+		e.preventDefault();
+		$('.datetimepicker').datetimepicker({
+			format : "YYYY-MM-DD",
+		});
 	});
 
 	$("#id_table").on("click", "#id_ts_Definded", function(e) {
 
-		alert("edit Definded");
 	});
 	$("#id_table").on("click", "#id_ts_Process", function(e) {
 
-		alert("edit Process");
 	});
 	$("#id_table").on("click", "#id_ts_Type", function(e) {
 
-		alert("edit TypeName");
 	});
 	$("#id_table").on("click", "#id_ts_Requirement", function(e) {
 
-		alert("edit Requirement");
 	});
-	
 </script>
 </html>
 

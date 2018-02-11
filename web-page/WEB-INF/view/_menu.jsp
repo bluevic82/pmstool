@@ -38,7 +38,7 @@
 									<ul>
 										<li><a href="${pageContext.request.contextPath}/editproject/${list_Project_For_menu.project_id}">Update
 												Project Information</a></li>
-										<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/${list_Project_For_menu.project_name}/resource">
+										<li><a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/resource">
 												Resource</a></li>
 										<li> <a href="${pageContext.request.contextPath}/${list_Project_For_menu.project_id}/createMileStone">
 												Milestone</a></li>

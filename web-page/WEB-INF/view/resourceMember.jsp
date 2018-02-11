@@ -1,20 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Resource</title>
 <jsp:include page="_menu.jsp" />
-<link rel="stylesheet"
+<%-- <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap-reboot.min.css" />">
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap-grid.min.css" />">
 <link rel="stylesheet"
-	href="<c:url value="/resources/css/bootstrap-grid.css" />">
+	href="<c:url value="/resources/css/bootstrap-grid.css" />"> --%>
 <link rel="stylesheet" href="<c:url value="/resources/css/style.css" />">
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -26,77 +30,83 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
+
 </head>
 
 <body onload="onload_function()">
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
-<form action="saveReSourceMemberToDB" method="post" id="table_ResourceMember_Form">
-	<input type="hidden" name="${_csrf.parameterName}"
+	<!-- <form action="saveReSourceMemberToDB" method="post" id="table_ResourceMember_Form"> -->
+
+
+	<input id="id_csrf" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
-		
+
+
 	<div class="container">
 
 		<div>
-			Project name <input disabled="disabled" value="${nameOfProject}"
-				style="width: 300px">
+			Project name <input disabled="disabled" id="project_name"
+				value="${projectInfo.project_name}"
+				name="${projectInfo.project_id }" style="width: 300px"> <input
+				type="hidden" id="project_id" value="${projectInfo.project_id}"
+				name="project_id">
 		</div>
+
+
 		<div class="row" style="margin-top: 30px;">
 			<div class="col-sm-6">
 
-				
-					<table class="table" style="background-color: #FFE7BA"
-						id="dataTable">
-						<thead>
-							<tr style="background-color: #C1FFC1">
-								<th scope="col"><div>#</div></th>
-								<th scope="col"><div>Member</div></th>
-								<th scope="col"><div>Effort</div></th>
-								<th scope="col"><div>Role</div></th>
-								<th scope="col"><div></div></th>
-								<th scope="col"><div></div></th>
+
+				<table class="table" style="background-color: #FFE7BA"
+					id="dataTable">
+					<thead>
+						<tr style="background-color: #C1FFC1">
+							<th scope="col"><div>#</div></th>
+							<th scope="col"><div>Member</div></th>
+							<th scope="col"><div>Effort(%)</div></th>
+							<th scope="col"><div>Role</div></th>
+							<th scope="col"><div></div></th>
+							<th scope="col"><div></div></th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<c:forEach var="listMemberOfProject"
+							items="${listMemberOfProject}">
+
+							<tr id="row_function">
+								<th><div></div></th>
+
+								<th id="id_member_project_name"><input type="hidden" id="member_project_id"value="${listMemberOfProject.member_project_id}"name="member_project_id" /><input type="hidden" id="user_id" value="${listMemberOfProject.user_id}" name="user_id" /><div>${listMemberOfProject.member_project_name}</div></th>
+									
+								
+								<th><input type="text" id="id_input_Effort"
+									value="${listMemberOfProject.member_project_effort}"
+									style="width: 50px"></th>
+
+								<th id="id_cell_role"><input type="hidden" id="role_id" value="${listMemberOfProject.role_id}" name="role_id" /><div class="class_Role">${listMemberOfProject.role_name}</div><div id="panel" style="height: 100%; display: none"><select id="id_select_Role"><c:forEach var="roleUser" items="${roleUser}"><option id="role_select" value="${roleUser.role_id}">${roleUser.role_name}</option></c:forEach></select></div></th>
+									
+												
+						
+								<th><input type="button" id="editRow" value="Edit" /></th>
+
+								<th><input type="button" id="deleteRow" value="Delete" /></th>
 
 							</tr>
-						</thead>
-						<tbody>
 
-							<c:forEach var="listMemberOfProject"
-								items="${listMemberOfProject}" >
+						</c:forEach>
 
-								<tr id="row_function">
-									<th><div></div></th>
+					</tbody>
+				</table>
 
-									<th>${listMemberOfProject.member_project_name}</th>
-
-									<th><input type="text" id="id_input_Effort"
-										value="${listMemberOfProject.member_project_effort}"
-										style="width: 50px"></th>
-
-
-
-									<th><div class="class_Role">${listMemberOfProject.role_name }
-
-										</div>
-										<div id="panel" style="height: 100%; display: none">
-											<select id="id_select_Role">
-												<option value="none">-----------</option>
-												<c:forEach var="roleUser" items="${roleUser}">
-													<option value="${roleUser.role_name}">${roleUser.role_name}</option>
-												</c:forEach>
-											</select>
-										</div></th>
-
-									<th><input type="button" id="editRow"
-										onclick="edit_function()" value="Edit" /></th>
-
-									<th><input type="button" id="deleteRow"
-										onclick="delete_function()" value="Delete" /></th>
-								</tr>
-
-							</c:forEach>
-
-						</tbody>
-					</table>
-				
 			</div>
 			<div class="col-sm-6">
 				<div class="row">
@@ -107,7 +117,8 @@
 							<div class="card-body">
 								<c:forEach var="getAllUser" items="${getAllUser}">
 									<input type="checkbox" value="${getAllUser.user_fullName}"
-										name="checkboxName">${getAllUser.user_fullName}<br>
+										name="checkboxName">${getAllUser.user_fullName}
+										<input type="hidden" value="${getAllUser.user_id}" name="hidden_checkboxName"> <br>
 								</c:forEach>
 
 							</div>
@@ -120,8 +131,11 @@
 							<div class="card-body">
 								<c:forEach var="roleUser" items="${roleUser}">
 									<input type="radio" value="${roleUser.role_name}"
-										name="radioRole"> ${roleUser.role_name}<br>
+										name="radioRole"> ${roleUser.role_name}
+									<input type="hidden" value="${roleUser.role_id}"
+										name="hidden_radioRole"><br>	
 								</c:forEach>
+
 							</div>
 						</div>
 
@@ -129,16 +143,11 @@
 				</div>
 				<br>
 				<div style="text-align: end">
-					<input type="button" id="id_save_button"
-						onclick="saveToDB_function()"
-						style="background-color: green; color: white; float: left"
-						value="Save" />
+
+					<button id="id_save_button" type="submit"
+						style="background-color: green; color: white; float: left">Save</button>
 				</div>
-				<!-- <div style="text-align: end">
-						<input type="submit"
-							style="background-color: green; color: white; float: left"
-							value="Save" />
-					</div> -->
+
 				<div style="text-align: end">
 
 					<input type="button" onclick="addRowToTable_function()"
@@ -149,36 +158,83 @@
 		</div>
 
 	</div>
-</form>
+	<!-- </form> -->
 
 	<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+
+		var header = $("meta[name='_csrf_header']").attr("content");
+
 		var table = document.getElementById("dataTable");
 		var rowCount = table.rows.length;
 
 		/*set so thu tu auto tang*/
 		var hang = 1;
+
 		function onload_function() {
-			for (var i = 0; i < rowCount; i++) {
-				document.getElementById("dataTable").rows[hang].cells[0].innerHTML = hang;
+			var table = document.getElementById("dataTable");
+			var rowCount = table.rows.length;
+
+			for (var i = 1; i < rowCount; i++) {
+				table.rows[i].cells[0].innerHTML = hang;
 				hang++;
 
 			}
 		}
 
 		/*delete row*/
-		$("#dataTable").on("click", "#deleteRow", function(e) {
-			e.preventDefault();
-			$(this).parent('th').parent('tr').remove();
-			hang = 1;
-			onload_function();
-		});
+		$("#dataTable").on(
+				"click",
+				"#deleteRow",
+				function(e) {
+					e.preventDefault();
+					$(this).parent('th').parent('tr').remove();
+
+					//var $(this).parent('th').parent('tr').;
+
+					var member_project_id = $(this).parent('th').parent('tr')
+							.find("#member_project_id").val();
+					//alert(member_project_id);
+					//id_member_project_name
+
+			
+        					$.ajax({
+        						url : "deleteOneMemberProject",
+
+        						type : "POST",
+        						data : JSON.stringify(member_project_id),
+        						contentType : 'application/json;charset=UTF-8',
+        						dataType : 'json',
+
+        						beforeSend : function(xhr) {
+        							// here it is
+        							xhr.setRequestHeader(header, token);
+        						},
+
+        						success : function(data) {
+        							alert("delete done!");
+        						},
+        						error : function(data) {
+        							alert("error! ");
+        						}
+        					});
+        					
+        					hang = 1;
+        					onload_function();
+        					
+					
+				});
 
 		/*add row*/
 		function addRowToTable_function() {
 			var checkboxName = document.getElementsByName('checkboxName');
 			var radioRole = document.getElementsByName('radioRole');
+			var hidden_radioRole = document.getElementsByName('hidden_radioRole');
+			var hidden_checkboxName = document.getElementsByName('hidden_checkboxName');
 			var name;
+			var name_id;
 			var role;
+			var role_id;
 			var array_name_Of_Member_Add = [];
 			var soLuongMemberThemVao = 0;
 
@@ -186,13 +242,25 @@
 				if (radioRole[i].checked === true) {
 
 					role = radioRole[i].value;
+					role_id = hidden_radioRole[i].value;
+					
 				}
 			}
 
 			for (var j = 0; j < checkboxName.length; j++) {
 				if (checkboxName[j].checked === true) {
 					name = checkboxName[j].value;
-					array_name_Of_Member_Add[soLuongMemberThemVao] = name;
+					name_id = hidden_checkboxName[j].value;
+				
+					
+					var objectUser = {
+							name : name,
+							name_id : name_id
+							
+						}
+					
+					array_name_Of_Member_Add[soLuongMemberThemVao] = objectUser;
+					
 					soLuongMemberThemVao++;
 				}
 			}
@@ -203,18 +271,10 @@
 					document.getElementById("dataTable").insertRow(-1).innerHTML = '<tr id="row_function"><th><div>'
 							+ hang
 							+ '<div></th>'
-							+ '<th>'
-							+ array_name_Of_Member_Add[i]
-							+ '</th>'
+							+ '<th id="id_member_project_name"><input type="hidden" id="member_project_id"value="" name="member_project_id" /><input type="hidden" id="user_id" value="'+array_name_Of_Member_Add[i].name_id+'" name="user_id" /><div>'+array_name_Of_Member_Add[i].name+'</div></th>'
+							
 							+ '<th><input type="text" value = "" style="width: 50px"></th>'
-							+ '<th><div class="class_Role">'
-							+ role
-							+ '<div id="panel" style="height: 100%; display: none">'
-							+ '<select id="id_select_Role">'
-							+ '<option value="none">-----------</option>'
-							+ '<c:forEach var="roleUser" items="${roleUser}">'
-							+ '<option value="${roleUser.role_name}">${roleUser.role_name}</option></c:forEach></select></div>'
-							+ '</div></th>'
+							+ '<th id="id_cell_role"><input type="hidden" id="role_id" value="'+role_id+'" name="role_id" /><div class="class_Role">'+role+'</div><div id="panel" style="height: 100%; display: none"><select id="id_select_Role"><c:forEach var="roleUser" items="${roleUser}"><option id="role_select" value="${roleUser.role_id}">${roleUser.role_name}</option></c:forEach></select></div></th>'
 							+ '<th><input type="button" id="editRow" onclick="edit_function()"value="Edit" /></th>'
 							+ '<th><input type="button" id="deleteRow" onclick="delete_function()" value="Delete" /></th></tr>';
 					hang++;
@@ -226,6 +286,8 @@
 
 		}
 
+	
+
 		/*Edit row*/
 		$("#dataTable").on(
 				"click",
@@ -234,15 +296,24 @@
 					e.preventDefault();
 					$(this).parent('th').parent('tr').find("#panel")
 							.slideToggle("fast");
-					var role;
 
 					$(this).parent('th').parent('tr').find("#id_select_Role")
 							.on(
 									'change',
 									function() {
-										var valueOfSelectRole = $(this).val();
 
-										//var n = $(this).html();
+										//get role_name at choose
+										var valueOfSelectRole = $(this).find(
+												"option:selected").text();
+
+										//get role_id at choose
+										var role_id_choose = $(this).val();
+										
+										//set role_id at
+										$(this).parent('div').parent('th')
+												.parent('tr').find("#role_id")
+												.val(role_id_choose);
+
 										$(this).parent('div').parent('th')
 												.parent('tr').find(
 														".class_Role").html(
@@ -252,113 +323,107 @@
 
 				});
 
-		$(document).ready(function() {
-			$('#id_save_button').click(function() {
-				var array_Infor_Member_Of_Project = [];
-				/* var member_project_name;
-				var member_project_effort;
-				var role_name; */
-				
-				
-				for (var i = 1; i < hang; i++) {
-					var name = table.rows[i].cells[1].innerHTML;
-					var effort = table.rows[i].cells[2].childNodes[0].value;
-					var role = table.rows[i].cells[3].childNodes[0].innerHTML;
-
-					var infor_Object = new Object();
-					infor_Object.member_project_name = name;
-					infor_Object.member_project_effort = effort;
-					infor_Object.role_name = role;
-					//alert(infor_Object.member_project_name);
-					array_Infor_Member_Of_Project.push(infor_Object);
-
-					
-				}
-				
-				var bookingTableWrapper = 
-	            {
-	                
-	                    "member_project_name": "daiT",
-	                    "member_project_effort": "20"
-	               
-	            }
-				
-				
-				$.ajax({
-			        dataType: "json",
-			        url:"/test", 
-			        method: "POST",
-			        data: JSON.stringify(bookingTableWrapper)
-			    })
-			    
-			    alert("name = "+bookingTableWrapper.member_project_name);
-				
-				/* alert(array_Infor_Member_Of_Project[1].member_project_name);
-				//for (var i = 0; i < 5; i++) {
-					$.post({
-						url :'saveReSourceMemberToDB',
-						data : array_Infor_Member_Of_Project[1],
-						success : function(data) {
-							alert("done");			
-								//Set response		
-						},
-						error : function(data) {
-							alert("Fail!");
-						},
-						
-					}); */
-					
-	
-
-				//}
-				
-				/*Submit form with Ajax*/
-				/* $.ajax({
-					contentType : 'application/json; charset=utf-8',
-					type : 'GET',
-					
-					url : '${pageContext.request.contextPath}/saveReSourceMemberToDB', //??? 
+		$('#id_save_button')
+				.click(
+						function(e) {
+							var array_Infor_Member_Of_Project = new Array();
+							var _project_id = $("#project_id").val();
+							var _check_loi_effort = false;	
 							
-					data : array_Infor_Member_Of_Project, 
-					data : JSON.stringify(array_Infor_Member_Of_Project), // list of member
-					dataType : 'json',
-					success : function(data) {
-						
-						alert("done");
-					},
-					error : function(data) {
-						alert("Fail!");
-					},
-				}); */
+							for (var i = 1; i < hang; i++) {
+								var _member_project_name = table.rows[i].cells
+										.namedItem("id_member_project_name").childNodes[1].nextSibling.innerHTML;
+								
+								var _member_project_effort = table.rows[i].cells[2].childNodes[0].value;
+								
+								//validate effort
+								if(_member_project_effort == ""){
+									_member_project_effort=0;
+								}
+								if(_member_project_effort<0 || _member_project_effort >100 || (_member_project_effort != parseInt(_member_project_effort, 10)) ){
+									
+									//table.rows[i].cells[2].childNodes[0].value;
+									_check_loi_effort = true;
+									
+								}
+								//alert("_member_project_effort: "+Number.isInteger(_member_project_effort));
+								
+								
 
-				 /* $.ajax({
-					url : 'saveReSourceMemberToDB',
-					method : 'POST',
-					dataType : "json",
-					contentType : "application/json",
-					data : JSON.stringify(array_Infor_Member_Of_Project),
-					timeout : 100000,
-					success : function(data) {
-						//console.log("SUCCESS: ", data);
-						alert("done");
-						//alert(data[1].member_project_name);
-						// alert(date.email);
+								var _role_name = table.rows[i].cells
+										.namedItem("id_cell_role").childNodes[1].innerHTML;
 
-					},
-					error : function(e) {
-						// console.log("ERROR: ", e);
-						//alert(e) 
-						alert("loi");
-					},
-					done : function(e) {
-						console.log("DONE");
-					}
-				});  */
+								//var _role_id = table.rows[i].cells.namedItem("id_cell_role").childNodes[1].value;
+								//var member_project_id = table.rows[i].cells[1].find("#user_id").val();
 
-				//alert(array_Infor_Member_Of_Project[2].member_project_name);
+								var _member_project_id = table.rows[i].cells
+										.namedItem("id_member_project_name").childNodes[0].value;
 
-			});
-		});
+								var _user_id = table.rows[i].cells
+										.namedItem("id_member_project_name").childNodes[1].value;
+
+								var _role_id = table.rows[i].cells
+										.namedItem("id_cell_role").childNodes[0].value;
+								
+								
+
+								var infor_Object = {
+									member_project_name : _member_project_name,
+									member_project_effort : _member_project_effort,
+									role_name : _role_name,
+									project_id : _project_id,
+									user_id : _user_id,
+									member_project_id : _member_project_id,
+									role_id : _role_id
+								}
+
+								array_Infor_Member_Of_Project
+										.push(infor_Object);
+
+							}
+							if(_check_loi_effort){
+								alert("Error! Effort is number(Integer) and from 0 to 100. Please reset effort!");
+							} else{
+								//console.log(array_Infor_Member_Of_Project);
+
+								
+										$.ajax({
+											url : "actionSaveMemberToDB",
+
+											type : "POST",
+											data : JSON
+													.stringify(array_Infor_Member_Of_Project),
+											contentType : 'application/json;charset=UTF-8',
+											dataType : 'json',
+
+											beforeSend : function(xhr) {
+												// here it is
+												xhr.setRequestHeader(header, token);
+											},
+
+											success : function(data) {
+												alert("save completed!");
+												location.reload();
+											},
+											error : function(data) {
+												alert("error! ");
+											}
+										});
+							}
+
+							/* var csrfParameter = $(
+									"meta[name='_csrf_parameter']").attr(
+									"content"); */
+
+							/* var token = $("meta[name='_csrf']").attr("content");
+
+							var header = $("meta[name='_csrf_header']").attr(
+									"content"); */
+
+							
+
+						});
+		
 	</script>
 
 
