@@ -1,35 +1,47 @@
 package com.tinhvan.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.cj.api.mysqla.result.Resultset.Type;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.PreDefinedTaskDao;
 import com.tinhvan.dao.ProcessDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.StatusDao;
+import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TimeSheetDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
+import com.tinhvan.model.PreDefinedTask;
 import com.tinhvan.model.Process;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
 
-/**
- * @purpose: TimeSheet Controller using register/update TimeSheet
- * 	Using method Attribute set data for Project Name, Member, Process, Status, Type
- * @author: NguyenManh
- * @date: 2017/12/27
+/*
+ * @Purpose: TimeSheet Controller using register/update TimeSheet
+ *  Using method Attribute set data for Project Name, Member, Process, Status, Type
+ * @Author: NguyenManh
+ * @Date: 2017/12/27
+ * 
  * **/
+
 @Controller
 public class TimeSheetController {
 
@@ -47,6 +59,8 @@ public class TimeSheetController {
 	ProcessDao processDao;
 	@Autowired
 	PreDefinedTaskDao definedTaskDao;
+	@Autowired
+	TaskInfoDao TaskInfoDao;
 
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")
@@ -55,12 +69,7 @@ public class TimeSheetController {
 		return list_Project_For_Menu;
 	}
 
-	// Mapping view list TimeSheeet
-	@RequestMapping("/timeSheetList")
-	public ModelAndView listTimeSheet() {
-		List<TimeSheetDetail> list = timeSheetDao.getAllTimeSheet();
-		return new ModelAndView("timeSheetList", "list", list);
-	}
+	
 
 	// Mapping view Screen Register TimeSheet
 	@RequestMapping(value = { "/{id}/registerTimeSheet" }, method = RequestMethod.GET)
@@ -80,19 +89,49 @@ public class TimeSheetController {
 		return new ModelAndView("timesheetRegister");
 	}
 
-	/* Action save timesheet to DB */
+	/* Action save timesheet to DB 
 	@RequestMapping(value = "/actionSaveTimeSheet", method = RequestMethod.POST)
 	public ModelAndView actionSaveTimeSheet(
 			Model model,
 			@ModelAttribute(value = "list_TimeSheetOfOneProject") List<TimeSheetDetail> list_TimeSheetOfOneProject) {
-		System.out.println("size = " + list_TimeSheetOfOneProject.size());
 		return new ModelAndView("redirect:/taskList");
 	}
+	*/
+	
+	
+	
+	 
+	@RequestMapping(value="/actionSaveTimeSheet", method = RequestMethod.POST,  consumes="application/json",
+	         produces="application/json")
+    public @ResponseBody List<TimeSheetDetail>  actionSaveTimeSheet(@RequestBody TimeSheetDetail[] list_TimeSheetOfOneProject, HttpServletRequest request) {	
+		System.out.println("thanh cong!");
+		return null;
+	}
+
+	@RequestMapping(value = "actionSaveTimeSheet1", method = RequestMethod.POST, produces="application/json")
+	public @ResponseBody ArrayList<TimeSheetDetail> post(
+			@RequestBody final ArrayList<TimeSheetDetail> person) {
+
+		System.out.println("a =  " + person.size());
+		for (int i = 0; i < person.size(); i++) {
+			System.out.println("name " + i + " = "
+					+ person.get(i).getDetail_timesheet_date());
+		}
+		return person;
+	}
+
 
 	/*
 	 * @Purpose: Methods Attributes
 	 */
 
+	// Mapping view list TimeSheeet
+		@RequestMapping("/timeSheetList")
+		public ModelAndView listTimeSheet() {
+			List<TimeSheetDetail> list = timeSheetDao.getAllTimeSheet();
+			return new ModelAndView("timeSheetList", "list", list);
+		}
+		
 	// method get Name of Project
 	@ModelAttribute("projectName")
 	public List<ProjectInfo> getAllProject() {
@@ -120,5 +159,22 @@ public class TimeSheetController {
 		List<Status> list = statusDao.getStatusOfTS();
 		return list;
 	}
+	
+	@ModelAttribute("pre_defined")
+	public List<PreDefinedTask> getPreDefinedTasks(){
+		List<PreDefinedTask> list = definedTaskDao.getAll();
+		return list;
+	}
+	
+	@ModelAttribute("timsheetTypes")
+	public List<com.tinhvan.model.Type> getTypeOfTimeSheet() {
+		List<com.tinhvan.model.Type> list = typeDao.getAllTypeOfTimeSheet();
+		return list;
+	}
 
+	@ModelAttribute("Tasks")
+	public List<TaskInfo> getTaskInfos() {
+		List<TaskInfo> list = TaskInfoDao.getTaskInfo_By_Status_Open_And_OnGoing();
+		return list;
+	}
 }

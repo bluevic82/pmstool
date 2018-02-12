@@ -21,8 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
@@ -36,6 +39,7 @@ import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.Permission;
+import com.tinhvan.model.ProjectAndScope;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Scope;
 import com.tinhvan.model.Status;
@@ -80,37 +84,51 @@ public class ProjectController {
 	@RequestMapping(value = "/addProject")
 	public ModelAndView addProject() {
 
-		return new ModelAndView("addProject", "command", new ProjectInfo());
+		return new ModelAndView("addProject");
 	}
 
 	// mapping Create Project
-	@RequestMapping(value = "/actionCreateProject", method = RequestMethod.POST)
-	public ModelAndView addproject(Model model,
-			@ModelAttribute(value = "project") ProjectInfo project) {
-		projectDao.addProject(project);
-		return new ModelAndView("redirect:/");
-	}
+	@PostMapping(value = "/actionAdd")
+	public @ResponseBody ProjectAndScope actionAddProject(@RequestBody ProjectAndScope ps, HttpServletRequest request) {
 
-	// mapping update project
-	/*
-	 * @RequestMapping(value = "/updateProject") public String updateProject() {
-	 * 
-	 * return "updateProject"; }
-	 */
-	// mapping action update project
-	@RequestMapping(value = "/actionUpdateProject", method = RequestMethod.POST)
-	public ModelAndView actionUpdateProject(Model model,
-			@ModelAttribute(value = "project") ProjectInfo project) {
-		projectDao.updateProject(project);
-		return new ModelAndView("redirect:/");
+		System.out.println(ps.getProject_name());
+		System.out.println(ps.getType_id());
+		System.out.println(ps.getProject_from());
+		System.out.println(ps.getProject_to());
+		System.out.println(ps.getProject_technical());
+		System.out.println(ps.getProject_charge_cost());
+		System.out.println(ps.getScope_id());
+		System.out.println(ps.getStatus_id());
+		System.out.println(ps.getProject_description());
+		
+		final List<Integer> sp = new ArrayList<>();
+		sp.addAll(ps.getScope_id());
+		
+		System.out.println(sp);
+		
+		  ProjectInfo p = new ProjectInfo(); 
+		  p.setProject_name(ps.getProject_name());
+		  p.setType_id(ps.getType_id()); p.setProject_from(ps.getProject_from());
+		  p.setProject_to(ps.getProject_to());
+		  p.setProject_technical(ps.getProject_technical());
+		  p.setProject_charge_cost(ps.getProject_charge_cost());
+		  p.setStatus_id(ps.getStatus_id());
+		  p.setProject_description(ps.getProject_description());
+		  
+		projectDao.addProject(p);
+		int id = projectDao.findProjectIdMax();
+		projectDao.addScopeProject(id, sp);
+		
+		return ps;
 	}
 
 	// mapping getdata project_id for update Project
 	@RequestMapping(value = "/editproject/{id}")
 	public ModelAndView editProject(@PathVariable int id, ModelMap model) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		model.put("command", projectDao.getProjectById(id));
-		return new ModelAndView("updateProject", "command", projectInfo);
+		//model.put("command", projectDao.getProjectById(id));
+		//return new ModelAndView("updateProject", "command", projectInfo);
+		return null;
 	}
 	
 	//mapping getdata project_it for view detail

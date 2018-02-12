@@ -1,10 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 <title>Add Project</title>
 	<jsp:include page="_menu.jsp" />
   	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -20,59 +23,32 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form name="project" action="actionCreateProject" method="post">
+		<form id="project">
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-sm-4">
-					<div>Project Name <input value="" name="project_name" ></div>
+					<div>Project Name <input id="project_name" name="project_name" ></div>
 				</div>
 				<div class="col-sm-2">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->
 							Type
-           				      <select name="type_id" >
+           				      <select name="type_id" id="type_id">
 							       <c:forEach var="projectTypes" items="${projectTypes}">   
 							   			<option value="${projectTypes.type_id}" >${projectTypes.type_name}</option>
 							      </c:forEach>  
 						      </select>
 				</div>
-				<!-- <div class="col-sm-3">
-					<div>From <input name="project_from" class="datepicker"   size="15"></div>	
+				<div class="col-sm-3">
+			         From<input id="project_from" class="date" name="project_from"/><img  alt="" src="resources/image/Date-32.png">
 				</div>
 				<div class="col-sm-3">
-						<div>To <input name="project_to" class="datepicker" size="15"> </div>
-					</div> -->
-					
-				<div class="col-sm-3">
-					<!-- <div class="row">
-					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
-			                <div class='input-group date' id='datetimepicker1' >
-			                    <input type='text' class="form-control" name="project_from"/>
-			                    <div class="input-group-addon">
-			                    	<div class="glyphicon glyphicon-calendar"></div>
-			                    </div>
-			                </div>
-			            </div>
-			         </div> -->
-			         From<input class="date" name="project_from" id="datetimepicker1"/><img  alt="" src="resources/image/Date-32.png">
-				</div>
-				<div class="col-sm-3">
-					<!-- <div class="row">
-						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
-			                <div class='input-group date' id='datetimepicker2' >
-			                    <input type='text' class="form-control" name="project_to"/>
-			                    <span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
-			                </div>
-			            </div>
-					</div> -->
-					To<input class="date" name="project_to" id="datetimepicker2"/><img  alt="" src="resources/image/Date-32.png">
+					To<input id="project_to" class="date" name="project_to"/><img  alt="" src="resources/image/Date-32.png">
 				</div>
 					
 				</div><br>
 				<div>Technical
 					<!-- <input value="" name="" style="margin-left: 30px"> -->
-           				<select name="project_technical" style="margin-left: 30px">
+           				<select id="project_technical" name="project_technical" style="margin-left: 30px">
 						  <option value="PHP">PHP</option>
 						  <option value="Java">Java</option>
 						  <option value="IOS">IOS</option>
@@ -81,42 +57,113 @@
 				</div><br>
 				<div class="row">
 					<div class="col-sm-1">Scope</div> 
-					<div class="col-sm-11" >
+					<div class="col-sm-11">
 							<c:forEach var="projectScope" items="${projectScope}">   
-								<input type="checkbox" name="scope_project_id" value="${projectScope.scope_id}" style="margin-left: 10px;">${projectScope.scope_name}
+								<input id="scope_id" type="checkbox" name="scope_id" value="${projectScope.scope_id}" style="margin-left: 10px;">${projectScope.scope_name}
 							</c:forEach>
 					</div>
 				</div><br>
-				<div>Charge Cost <input  name="project_charge_cost" style="margin-left: 10px"> (MM)</div><br>
+				<div>Charge Cost <input id="project_charge_cost"  name="project_charge_cost" style="margin-left: 10px"> (MM)</div><br>
 				<div>Status 
-					<select name="status_id" style="margin-left: 45px">
+					<select id="status_id" name="status_id" style="margin-left: 45px">
 				    	<c:forEach var="projectStatus" items="${projectStatus}">   
 				   			<option value="${projectStatus.status_id}" >${projectStatus.status_type}</option>
 				     	</c:forEach>  
 			    	</select>
 				</div><br>
 				<div>Description
-				 <textarea name="project_description" style="margin-left: 15px" cols="60" rows="3"></textarea></div><br>
+				 <textarea id="project_description" name="project_description" style="margin-left: 15px" cols="60" rows="3"></textarea></div><br>
 				<div style="text-align: end;">
-					<button value="actionCreateProject" name="actionCreateProject" style="background-color: green; color: white;">Create</button>
+					<button id="buttonAdd" type="submit"  style="background-color: green; color: white;">Create</button>
 				</div>
 		</form>
 	</div>
 
  <script type="text/javascript">
        $(function () {
-          $('#datetimepicker1').datetimepicker({
+          $('#project_from').datetimepicker({
              format:"YYYY-MM-DD",
             });
          });
-     </script> 
-      <script type="text/javascript">
+</script> 
+<script type="text/javascript">
        $(function () {
-          $('#datetimepicker2').datetimepicker({
+          $('#project_to').datetimepicker({
              format:"YYYY-MM-DD",
             });
          });
-     </script> 
+</script> 
+<script type="text/javascript">
+$( document).ready(function() {
+	var checkBoxValues = [];
+	// SUBMIT FORM
+    $("#buttonAdd").click(function(event) {
+		//Prevent the form from submitting via the browser.
+		event.preventDefault(); 
+		ajaxPostProject();
+	});
+	
+    function ajaxPostProject(){
+    	
+    	// PREPARE FORM DATA
+	 	var project_name = $("#project_name").val();
+		var project_type = $("#type_id").val();
+		var project_from = $("#project_from").val();
+		var project_to = $("#project_to").val();
+		var project_tech = $("#project_technical").val();
+		var project_charge = $("#project_charge_cost").val();
+		var project_status = $("#status_id").val();
+		var project_des = $("#project_description").val();
+		$.each($("input[name='scope_id']:checked"), function(){
+            checkBoxValues.push($(this).val());
+        });
+        console.log(checkBoxValues);
+		
+		
+		var jsonObj = {"project_name" : project_name, "type_id" : project_type, "project_from" : project_from,
+			"project_to" : project_to, "project_technical" : project_tech, "project_charge_cost" : project_charge,
+			"status_id" : project_status, "project_description" : project_des, "scope_id" : checkBoxValues};
+        
+        var token = $("meta[name='_csrf']").attr(
+		"content");
+
+		var header = $("meta[name='_csrf_header']")
+		.attr("content");
+        
+    	// DO POST
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "actionAdd",
+			data : JSON.stringify(jsonObj),
+			dataType : 'json',
+			beforeSend: function(xhr) {
+	            // here it is
+	            xhr.setRequestHeader(header, token);
+	        },
+			success : function(result) {
+				},
+			error : function(e) {
+			}
+		});	
+    	// Reset FormData after Posting
+    	resetData();
+    }
+    
+    function resetData(){
+    	$("#project_name").val();
+    	$("#type_id").val();
+    	$("#project_from").val();
+    	$("#project_to").val();
+    	$("#project_technical").val();
+    	$("#project_charge_cost").val();
+    	$("#status_id").val();
+    	$("#project_description").val();
+    	$("#project_name").val();
+    	checkBoxValues = [];
+    }
+})
+</script>
 
 </body>
 </html>
