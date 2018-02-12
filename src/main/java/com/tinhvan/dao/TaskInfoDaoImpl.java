@@ -160,7 +160,6 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 			
 		});
 	}
-	
 	@Override
 	public List<TaskInfo> getTaskInfo_By_Status_Open_And_OnGoing() {
 

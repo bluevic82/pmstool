@@ -31,7 +31,7 @@ import com.tinhvan.model.Type;
  * 	Using method Attribute set data for ProjectName, Type, Status, PIC, Category, Priority
  * @author: NguyenManh
  * @date: 2017/12/13
-  */
+ * **/
 @Controller
 public class TaskController {
 
@@ -58,7 +58,7 @@ public class TaskController {
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask")
 	public ModelAndView createTask(@PathVariable int id, Model model) {
-		model.addAttribute("project_id", id);
+		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create Task");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 
@@ -89,7 +89,7 @@ public class TaskController {
 		taskInfoDao.updateTask(taskInfo);
 		return new ModelAndView("redirect:/taskList");
 	}
-	
+
 	// Mapping get dataById for update Task/Spec/Issue
 	@RequestMapping(value = "{id}/editTask/{idP}")
 	public ModelAndView editTask(@PathVariable int id, ModelMap model, @PathVariable int idP) {
@@ -103,16 +103,16 @@ public class TaskController {
 	}
 
 	// Mapping view list Task/Spec/Issue
-		@RequestMapping("/taskList")
-		public ModelAndView listTask(@RequestParam(value="projectName",required=false,defaultValue = "999999") int projectName,@RequestParam(value="type_id",required=false,defaultValue = "999999") int type_id,@RequestParam(value="status_id",required=false,defaultValue = "999999") int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "999999") int member_project_id,@RequestParam(value="task_priority",required=false,defaultValue = "") String task_priority) {
-			System.out.println(projectName);
-			System.out.println(type_id);
-			System.out.println(status_id);
-			System.out.println(member_project_id);
-			System.out.println(task_priority);
-			List<TaskInfo> list = taskInfoDao.getAllTask(projectName,type_id,status_id,member_project_id,task_priority);
-			return new ModelAndView("taskList", "list", list);
-		}
+	@RequestMapping("/taskList")
+	public ModelAndView listTask(@RequestParam(value="projectName",required=false,defaultValue = "999999") int projectName,@RequestParam(value="type_id",required=false,defaultValue = "999999") int type_id,@RequestParam(value="status_id",required=false,defaultValue = "999999") int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "999999") int member_project_id,@RequestParam(value="task_priority",required=false,defaultValue = "") String task_priority) {
+		System.out.println(projectName);
+		System.out.println(type_id);
+		System.out.println(status_id);
+		System.out.println(member_project_id);
+		System.out.println(task_priority);
+		List<TaskInfo> list = taskInfoDao.getAllTask(projectName,type_id,status_id,member_project_id,task_priority);
+		return new ModelAndView("taskList", "list", list);
+	}
 
 	/*
 	 * @purpose: Methods Attributes

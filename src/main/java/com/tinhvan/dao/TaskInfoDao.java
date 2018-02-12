@@ -15,6 +15,5 @@ public interface TaskInfoDao {
 	public TaskInfo getTaskById(int id);
 	
 	public List<TaskInfo> getTaskByIdPro(int id);
-	
 	public List<TaskInfo> getTaskInfo_By_Status_Open_And_OnGoing();
 }
