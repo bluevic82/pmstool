@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
@@ -102,16 +103,16 @@ public class TaskController {
 	}
 
 	// Mapping view list Task/Spec/Issue
-	@RequestMapping("/taskList")
-	public ModelAndView listTask(@RequestParam(value="projectName",required=false,defaultValue = "999999") int projectName,@RequestParam(value="type_id",required=false,defaultValue = "999999") int type_id,@RequestParam(value="status_id",required=false,defaultValue = "999999") int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "999999") int member_project_id,@RequestParam(value="task_priority",required=false,defaultValue = "") String task_priority) {
-		System.out.println(projectName);
-		System.out.println(type_id);
-		System.out.println(status_id);
-		System.out.println(member_project_id);
-		System.out.println(task_priority);
-		List<TaskInfo> list = taskInfoDao.getAllTask(projectName,type_id,status_id,member_project_id,task_priority);
-		return new ModelAndView("taskList", "list", list);
-	}
+		@RequestMapping("/taskList")
+		public ModelAndView listTask(@RequestParam(value="projectName",required=false,defaultValue = "999999") int projectName,@RequestParam(value="type_id",required=false,defaultValue = "999999") int type_id,@RequestParam(value="status_id",required=false,defaultValue = "999999") int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "999999") int member_project_id,@RequestParam(value="task_priority",required=false,defaultValue = "") String task_priority) {
+			System.out.println(projectName);
+			System.out.println(type_id);
+			System.out.println(status_id);
+			System.out.println(member_project_id);
+			System.out.println(task_priority);
+			List<TaskInfo> list = taskInfoDao.getAllTask(projectName,type_id,status_id,member_project_id,task_priority);
+			return new ModelAndView("taskList", "list", list);
+		}
 
 	/*
 	 * @purpose: Methods Attributes
