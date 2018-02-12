@@ -6,7 +6,7 @@ import com.tinhvan.model.TaskInfo;
 
 public interface TaskInfoDao {
 	
-	public List<TaskInfo> getAllTask();
+	public List<TaskInfo> getAllTask(int pn,int tp,int st, int pic,String pri);
 	
 	public void addTask(TaskInfo taskInfo);
 	

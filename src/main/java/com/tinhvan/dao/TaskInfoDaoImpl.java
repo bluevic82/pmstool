@@ -22,10 +22,30 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 	JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<TaskInfo> getAllTask() {
+	public List<TaskInfo> getAllTask(int pn,int tp,int st, int pic,String pri) {
 		// TODO Auto-generated method stub
+		String sqlxx="";
+		if(pn!=999999 ||tp!=999999||st!=999999||pic!=999999||!pri.equals("")) {
+			
+			sqlxx=" where task_info.PROJECT_ID="+pn+" and" + 
+					"					task_info.TYPE_ID="+tp+" and" + 
+					"					task_info.STATUS_ID="+st+" and" + 
+					"					member_project.MEMBER_PROJECT_ID="+pic+" and" + 
+					"					task_info.TASK_PRIORITY="+"'"+pri+"'";
+			
+		}
 		
-		return jdbcTemplate.query("SELECT * FROM task_info", new RowMapper<TaskInfo>() {
+		
+		
+		
+		return jdbcTemplate.query("SELECT task_info.TASK_ID,task_info.TASK_SUBJECT,member_project.MEMBER_PROJECT_NAME," + 
+				"task_info.TASK_PRIORITY,task_info.TASK_TO,status_info.STATUS_TYPE,task_info.TASK_DONE," + 
+				" task_info.TASK_DESCRIPTION FROM task_info" + 
+				" LEFT  JOIN status_info" + 
+				" ON task_info.STATUS_ID=status_info.STATUS_ID" + 
+				" LEFT JOIN member_project" + 
+				" ON task_info.MEMBER_PROJECT_ID = member_project.MEMBER_PROJECT_ID"+sqlxx
+				, new RowMapper<TaskInfo>() {
 
 			@Override
 			public TaskInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -33,17 +53,12 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 				TaskInfo taskInfo = new TaskInfo();
 				taskInfo.setTask_id(rs.getInt(1));
 				taskInfo.setTask_subject(rs.getString(2));
-				taskInfo.setType_id(rs.getInt(3));
-				taskInfo.setStatus_id(rs.getInt(4));
-				taskInfo.setTask_done(rs.getInt(5));
-				taskInfo.setTask_from(rs.getString(6));
-				taskInfo.setTask_to(rs.getString(7));
-				taskInfo.setTask_solution(rs.getString(8));
-				taskInfo.setTask_description(rs.getString(9));
-				taskInfo.setMember_project_id(rs.getInt(10));
-				taskInfo.setCategory_id(rs.getInt(11));
-				taskInfo.setTask_priority(rs.getString(12));
-				taskInfo.setProject_id(rs.getInt(13));
+				taskInfo.setMb(rs.getString(3));
+				taskInfo.setTask_priority(rs.getString(4));
+				taskInfo.setTask_to(rs.getString(5));
+				taskInfo.setStatus(rs.getString(6));
+				taskInfo.setTask_done(rs.getInt(7));
+				taskInfo.setTask_description(rs.getString(8));
 				return taskInfo;
 			}
 			
