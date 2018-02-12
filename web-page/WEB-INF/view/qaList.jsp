@@ -7,10 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>QA List</title>
 	<jsp:include page="_menu.jsp" />
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />" >
   	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>

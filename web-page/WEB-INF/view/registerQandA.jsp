@@ -10,16 +10,12 @@
 <title> Q&amp;A Register</title>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-reboot.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.min.css" />" >
-  	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-grid.css" />" >
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   	<link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />" >
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
   	
   	<script src="https://momentjs.com/downloads/moment.min.js"></script>
-	<script src="/resources/js/bootstrap.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
@@ -45,7 +41,7 @@
 		<br>
 		<div>
 			Reference point <input id="point" maxlength="249" name="referencepoint" style="margin-left: 10px;" size="50"/> 
-			<button id="btnBrowser" style="margin-left: 85px">Browse</button>
+			<button onchange="myFunction()" id="btnBrowser" style="margin-left: 85px">Browse</button>
 		</div>
 		<br>
 		<div class="row">
@@ -133,10 +129,35 @@
 	</script>
 	
 	<script type="text/javascript">
-		$("#btnBrowser").click(function(){
-				alert("Coding...");
-			return false;
-		});
+	function myFunction(){
+	    var x = document.getElementById("myFile");
+	    var txt = "";
+	    if ('files' in x) {
+	        if (x.files.length == 0) {
+	            txt = "Select one or more files.";
+	        } else {
+	            for (var i = 0; i < x.files.length; i++) {
+	                txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+	                var file = x.files[i];
+	                if ('name' in file) {
+	                    txt += "name: " + file.name + "<br>";
+	                }
+	                if ('size' in file) {
+	                    txt += "size: " + file.size + " bytes <br>";
+	                }
+	            }
+	        }
+	    } 
+	    else {
+	        if (x.value == "") {
+	            txt += "Select one or more files.";
+	        } else {
+	            txt += "The files property is not supported by your browser!";
+	            txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+	        }
+	    }
+	    document.getElementById("demo").innerHTML = txt;
+	}
 	</script>
 </body>
 </html>
