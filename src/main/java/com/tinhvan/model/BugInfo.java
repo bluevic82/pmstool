@@ -15,7 +15,21 @@ public class BugInfo {
 	private String bug_priority;
 	private int project_id;
 	private String status;
-	
+	private String pm;
+	private String mb;
+		
+	public String getPm() {
+		return pm;
+	}
+	public void setPm(String pm) {
+		this.pm = pm;
+	}
+	public String getMb() {
+		return mb;
+	}
+	public void setMb(String mb) {
+		this.mb = mb;
+	}
 	public int getBug_id() {
 		return bug_id;
 	}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.BugInfoDao;
@@ -23,6 +24,7 @@ import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 
 /**
@@ -92,7 +94,7 @@ public class BugController {
 	}
 
 	// Mapping get dataById for update Bug
-	@RequestMapping(value = "{id}/editBug/{idP}")
+	@RequestMapping(value = "/bugList/{id}/editBug/{idP}")
 	public ModelAndView editBug(@PathVariable int id, ModelMap model,  @PathVariable int idP) {
 		BugInfo bugInfo = bugInfoDao.getBugById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(idP);
@@ -104,11 +106,16 @@ public class BugController {
 
 	// Mapping view list Bug
 	@RequestMapping("/bugList")
-	public ModelAndView listTask() {
-		List<BugInfo> list = bugInfoDao.getAllBug();
+	public ModelAndView listBug(@RequestParam(value="projectName",required=false,defaultValue = "999999")
+		int projectName,@RequestParam(value="type_id",required=false,defaultValue = "999999") 
+		int type_id,@RequestParam(value="status_id",required=false,defaultValue = "999999") 
+		int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "999999") 
+		int member_project_id,@RequestParam(value="bug_priority",required=false,defaultValue = "") 
+		String bug_priority) {
+	
+		List<BugInfo> list = bugInfoDao.getAllBug(projectName,type_id,status_id,member_project_id,bug_priority);
 		return new ModelAndView("bugList", "list", list);
 	}
-
 	/*
 	 * @purpose: Methods Attributes
 	 */

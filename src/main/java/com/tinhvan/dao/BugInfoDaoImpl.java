@@ -21,10 +21,27 @@ public class BugInfoDaoImpl implements BugInfoDao{
 	JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<BugInfo> getAllBug() {
+	public List<BugInfo> getAllBug(int pn,int tp,int st, int pic,String pri) {
 		// TODO Auto-generated method stub
-		
-		return jdbcTemplate.query("SELECT * FROM bug_info", new RowMapper<BugInfo>() {
+		String sqlxx="";
+		if(pn!=999999 ||tp!=999999||st!=999999||pic!=999999||!pri.equals("")) {
+			
+			sqlxx=" where bug_info.PROJECT_ID="+pn+" and" + 
+					"					bug_info.TYPE_ID="+tp+" and" + 
+					"					bug_info.STATUS_ID="+st+" and" + 
+					"					member_project.MEMBER_PROJECT_ID="+pic+" and" + 
+					"					bug_info.BUG_PRIORITY="+"'"+pri+"'";
+			
+		}
+
+		return jdbcTemplate.query("SELECT bug_info.BUG_ID,bug_info.BUG_SUBJECT,member_project.MEMBER_PROJECT_NAME," + 
+				"bug_info.BUG_PRIORITY,bug_info.BUG_TO,status_info.STATUS_TYPE,bug_info.BUG_DONE," + 
+				" bug_info.BUG_DESCRIPTION,bug_info.PROJECT_ID FROM bug_info" + 
+				" LEFT JOIN status_info" + 
+				" ON bug_info.STATUS_ID=status_info.STATUS_ID" + 
+				" LEFT JOIN member_project" + 
+				" ON bug_info.MEMBER_PROJECT_ID = member_project.MEMBER_PROJECT_ID"+sqlxx
+				, new RowMapper<BugInfo>() {
 
 			@Override
 			public BugInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -32,17 +49,13 @@ public class BugInfoDaoImpl implements BugInfoDao{
 				BugInfo bugInfo = new BugInfo();
 				bugInfo.setBug_id(rs.getInt(1));
 				bugInfo.setBug_subject(rs.getString(2));
-				bugInfo.setType_id(rs.getInt(3));
-				bugInfo.setStatus_id(rs.getInt(4));
-				bugInfo.setBug_done(rs.getInt(5));
-				bugInfo.setBug_from(rs.getString(6));
-				bugInfo.setBug_to(rs.getString(7));
-				bugInfo.setBug_solution(rs.getString(8));
-				bugInfo.setBug_description(rs.getString(9));
-				bugInfo.setMember_project_id(rs.getInt(10));
-				bugInfo.setCategory_id(rs.getInt(11));
-				bugInfo.setBug_priority(rs.getString(12));
-				bugInfo.setProject_id(rs.getInt(13));
+				bugInfo.setMb(rs.getString(3));
+				bugInfo.setBug_priority(rs.getString(4));
+				bugInfo.setBug_to(rs.getString(5));
+				bugInfo.setStatus(rs.getString(6));
+				bugInfo.setBug_done(rs.getInt(7));
+				bugInfo.setBug_description(rs.getString(8));
+				bugInfo.setProject_id(rs.getInt(9));
 				return bugInfo;
 			}
 			
@@ -85,7 +98,7 @@ public class BugInfoDaoImpl implements BugInfoDao{
 	public void updateBug(BugInfo bugInfo) {
 		String sql="update bug_info set "
 				+ "BUG_SUBJECT='"+bugInfo.getBug_subject()
-				+"', BUG_ID="+bugInfo.getType_id()
+				+"', BUG_ID="+bugInfo.getBug_id()
 				+",  STATUS_ID="+bugInfo.getStatus_id()
 				+",  BUG_DONE="+bugInfo.getBug_done()
 				+",  BUG_FROM='"+bugInfo.getBug_from()

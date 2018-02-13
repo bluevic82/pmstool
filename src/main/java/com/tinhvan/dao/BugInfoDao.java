@@ -6,7 +6,7 @@ import com.tinhvan.model.BugInfo;
 
 public interface BugInfoDao {
 	
-	public List<BugInfo> getAllBug();
+	public List<BugInfo> getAllBug(int pn,int tp,int st, int pic,String pri);
 	
 	public void addBug(BugInfo bugInfo);
 	

@@ -34,10 +34,7 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 					"					task_info.TASK_PRIORITY="+"'"+pri+"'";
 			
 		}
-		
-		
-		
-		
+
 		return jdbcTemplate.query("SELECT task_info.TASK_ID,task_info.TASK_SUBJECT,member_project.MEMBER_PROJECT_NAME," + 
 				"task_info.TASK_PRIORITY,task_info.TASK_TO,status_info.STATUS_TYPE,task_info.TASK_DONE," + 
 				" task_info.TASK_DESCRIPTION,task_info.PROJECT_ID FROM task_info" + 

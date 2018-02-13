@@ -29,6 +29,8 @@
 <body>
 	<div class="container" style="margin-top: 20px;">
 		<div>
+			<form method="post" action="/Login/bugList/">
+			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			Project Name <select name="projectName">
 				<c:forEach var="projectName" items="${projectName}">
 					<option value="${projectName.project_id}">${projectName.project_name}</option>
@@ -60,6 +62,7 @@
 			</select>
 			<button name="actionSearchBug" value="actionSearchBug"
 				style="background-color: green; color: white; margin-left: 30px">Search</button>
+		</form>
 		</div>
 		<table style="margin-top: 50px;" class="table table-bordered">
 			<thead>
@@ -78,12 +81,12 @@
 				<c:forEach var="list" items="${list}">
 					<tr>
 						<th scope="row">
-						<a href="${list.bug_id}/editBug/${list.project_id}">${list.bug_id}</a></th>
-						<th><a href="${list.bug_id}/editBug/${list.project_id}">${list.bug_subject}</a></th>
-						<th>${list.member_project_id}</th>
+						<a href="/Login/bugList/${list.bug_id}/editBug/${list.project_id}">${list.bug_id}</a></th>
+						<th><a href="/Login/bugList/${list.bug_id}/editBug/${list.project_id}">${list.bug_subject}</a></th>
+						<th>${list.mb}</th>
 						<th>${list.bug_priority}</th>
 						<th>${list.bug_to}</th>
-						<th>${list.status_id}</th>
+						<th>${list.status}</th>
 						<th>${list.bug_done}</th>
 						<th>${list.bug_description}</th>
 					</tr>

@@ -21,9 +21,9 @@
 <body>
 	<div class="container" style="margin-top: 20px;">
 		<div>
-			Project Name 
 			<form method="post" action="/Login/taskList/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+			Project Name 
 			<select name="projectName">
 				<c:forEach var="projectName" items="${projectName}">
 					<option value="${projectName.project_id}">${projectName.project_name}</option>
