@@ -6,7 +6,7 @@ import com.tinhvan.model.QuestionAnwer;
 
 public interface QuestionAnswerDao {
 	
-	public List<QuestionAnwer> getAllQA();
+	public List<QuestionAnwer> getAllQA(int projectName, int status, int pic);
 	
 	public void registerQA(QuestionAnwer questionAnwer);
 	

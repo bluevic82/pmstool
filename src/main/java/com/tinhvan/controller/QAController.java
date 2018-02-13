@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MemberProjectDao;
@@ -46,11 +47,15 @@ public class QAController {
 		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
 		return list_Project_For_Menu;
 	}
-
+	
 	// Mapping view ListQuestion & Answer
 	@RequestMapping(value = "/qaList")
-	public ModelAndView listQA(Model model) {
-		List<QuestionAnwer> list = answerDao.getAllQA();
+	public ModelAndView listQA(
+			@RequestParam(value = "projectName", required = false, defaultValue = "999999") int projectName,
+			@RequestParam(value = "status", required = false, defaultValue = "999999") int status,
+			@RequestParam(value = "member_project_id", required = false, defaultValue = "999999") int member_project_id) {
+
+		List<QuestionAnwer> list = answerDao.getAllQA(projectName, status, member_project_id);
 		return new ModelAndView("qaList", "list", list);
 	}
 
@@ -87,7 +92,7 @@ public class QAController {
 	}
 
 	// Mapping get dataById for update QA
-	@RequestMapping(value = "{q_a_id}/editQA/{pr_id}")
+	@RequestMapping(value = "/qaList/{q_a_id}/editQA/{pr_id}")
 	public ModelAndView editQA(@PathVariable int q_a_id, ModelMap model,@PathVariable int pr_id) {
 		QuestionAnwer questionAnwer = answerDao.getQAById(q_a_id);
 		ProjectInfo projectInfo = projectDao.getProjectById(pr_id);
@@ -103,12 +108,6 @@ public class QAController {
 	@ModelAttribute("qaStatus")
 	public List<Status> getStatusOfQA() {
 		List<Status> list = statusDao.getStatusOfQA();
-		return list;
-	}
-
-	@ModelAttribute("allQA")
-	public List<QuestionAnwer> getQA() {
-		List<QuestionAnwer> list = answerDao.getAllQA();
 		return list;
 	}
 

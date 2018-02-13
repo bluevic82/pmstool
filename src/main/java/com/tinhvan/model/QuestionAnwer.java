@@ -14,7 +14,28 @@ public class QuestionAnwer {
 	private int status_id;
 	private int member_from;
 	private	String q_a_dealine;
+	private String status;
+	private String pm;
+	private String mb;
 	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPm() {
+		return pm;
+	}
+	public void setPm(String pm) {
+		this.pm = pm;
+	}
+	public String getMb() {
+		return mb;
+	}
+	public void setMb(String mb) {
+		this.mb = mb;
+	}
 	public int getProject_id() {
 		return project_id;
 	}

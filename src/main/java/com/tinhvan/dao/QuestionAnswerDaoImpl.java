@@ -21,25 +21,36 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 	JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<QuestionAnwer> getAllQA() {
-		// select all
-		return jdbcTemplate.query("SELECT * From anser_question", new RowMapper<QuestionAnwer>() {
-			public QuestionAnwer mapRow(ResultSet rs, int row) throws SQLException{
-				QuestionAnwer qa = new QuestionAnwer();
-					qa.setProject_id(rs.getInt(1));
-					qa.setQ_a_id(rs.getInt(2));
-					qa.setQ_a_title(rs.getString(3));
-					qa.setQ_a_question_jp(rs.getString(4));
-					qa.setQ_a_question_vi(rs.getString(5));
-					qa.setQ_a_answer_jp(rs.getString(6));
-					qa.setQ_a_answer_vi(rs.getString(7)); 
-					qa.setReferencepoint(rs.getString(8));
-					qa.setMember_from(rs.getInt(9));
-					qa.setMember_project_id(rs.getInt(10));
-					qa.setStatus_id(rs.getInt(11));
-					qa.setQ_a_dealine(rs.getString(12));
-				return qa;
-				}
+	public List<QuestionAnwer> getAllQA(int projectName, int status, int pic) {	
+		String sql = "";
+		String sql02 = "SELECT anser_question.Q_A_ID,anser_question.Q_A_TITLE,member_project.MEMBER_PROJECT_NAME,\r\n" + 
+				"				anser_question.Q_A_DEALINE,status_info.STATUS_TYPE, anser_question.PROJECT_ID FROM anser_question\r\n" + 
+				"				LEFT  JOIN status_info\r\n" + 
+				"				ON anser_question.STATUS_ID=status_info.STATUS_ID\r\n" + 
+				"				 LEFT JOIN member_project\r\n" + 
+				"				 ON anser_question.MEMBER_PROJECT_ID = member_project.MEMBER_PROJECT_ID";
+		
+		if (projectName!=999999 || status!=999999 || pic!=999999) {
+			sql=" where anser_question.PROJECT_ID="+projectName+" and" + 
+					"					anser_question.STATUS_ID="+status+" and" + 
+					"					member_project.MEMBER_PROJECT_ID="+pic+"'";
+		}
+		
+		return jdbcTemplate.query(sql02+sql
+				, new RowMapper<QuestionAnwer>() {
+
+			@Override
+			public QuestionAnwer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				QuestionAnwer anwer = new QuestionAnwer();
+				anwer.setQ_a_id(rs.getInt(1));
+				anwer.setQ_a_title(rs.getString(2));
+				anwer.setMb(rs.getString(3));
+				anwer.setQ_a_dealine(rs.getString(4));
+				anwer.setStatus(rs.getString(5));
+				return anwer;
+			}
+			
 		});
 	}
 
