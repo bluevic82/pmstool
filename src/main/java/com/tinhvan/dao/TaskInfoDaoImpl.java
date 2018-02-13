@@ -40,7 +40,7 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 		
 		return jdbcTemplate.query("SELECT task_info.TASK_ID,task_info.TASK_SUBJECT,member_project.MEMBER_PROJECT_NAME," + 
 				"task_info.TASK_PRIORITY,task_info.TASK_TO,status_info.STATUS_TYPE,task_info.TASK_DONE," + 
-				" task_info.TASK_DESCRIPTION FROM task_info" + 
+				" task_info.TASK_DESCRIPTION,task_info.PROJECT_ID FROM task_info" + 
 				" LEFT  JOIN status_info" + 
 				" ON task_info.STATUS_ID=status_info.STATUS_ID" + 
 				" LEFT JOIN member_project" + 
@@ -59,6 +59,7 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 				taskInfo.setStatus(rs.getString(6));
 				taskInfo.setTask_done(rs.getInt(7));
 				taskInfo.setTask_description(rs.getString(8));
+				taskInfo.setProject_id(rs.getInt(9));
 				return taskInfo;
 			}
 			
@@ -100,7 +101,7 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 	public void updateTask(TaskInfo task) {
 		String sql="update task_info set "
 				+ "TASK_SUBJECT='"+task.getTask_subject()
-				+"', TASK_ID="+task.getType_id()
+				+"', TASK_ID="+task.getTask_id()
 				+",  STATUS_ID="+task.getStatus_id()
 				+",  TASK_DONE="+task.getTask_done()
 				+",  TASK_FROM='"+task.getTask_from()

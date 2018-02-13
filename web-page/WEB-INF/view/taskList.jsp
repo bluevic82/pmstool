@@ -77,8 +77,8 @@
 				<c:forEach var="list" items="${list}">
 					<tr>
 						<th scope="row">
-						<a href="${list.task_id}/editTask/${list.project_id}">${list.task_id}</a></th>
-						<th><a href="${list.task_id}/editTask/${list.project_id}">${list.task_subject}</a></th>
+						<a href="/Login/taskList/${list.task_id}/editTask/${list.project_id}">${list.task_id}</a></th>
+						<th><a href="/Login/taskList/${list.task_id}/editTask/${list.project_id}">${list.task_subject}</a></th>
 						<th>${list.mb}</th>
 						<th>${list.task_priority}</th>
 						<th>${list.task_to}</th>
