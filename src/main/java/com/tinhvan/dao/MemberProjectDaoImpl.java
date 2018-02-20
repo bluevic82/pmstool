@@ -80,7 +80,6 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 			for(int i = 0 ; i < list_MemberProjects.size(); i++){
 				if(list_MemberProjects.get(i).getMember_project_id() == 0){
 					list_MemberProjects_toInsert.add(list_MemberProjects.get(i));
-					System.out.println(i);
 				}
 			}
 			//add new member to DB

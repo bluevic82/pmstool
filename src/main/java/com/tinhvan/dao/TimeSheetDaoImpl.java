@@ -1,17 +1,18 @@
 package com.tinhvan.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.tinhvan.model.TimeSheetDetail;
 
 @Transactional
@@ -25,12 +26,6 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	public List<TimeSheetDetail> getAllTimeSheet() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void saveTimeSheet(TimeSheetDetail timeSheetDetail) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -59,20 +54,13 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 		List<Integer> list_TimeSheetId = new ArrayList<Integer>();
 		list_TimeSheetId.addAll(getListTimeSheetId(projectId));// OK
-		System.out
-				.println("size list_TimeSheetId = " + list_TimeSheetId.size());
 
 		for (int i = 0; i < list_TimeSheetId.size(); i++) {
-
-			System.out.println("value list_TimeSheetId at i = "
-					+ list_TimeSheetId.get(i));
 
 			List<TimeSheetDetail> listTimeSheetDetailOfTs_Id = new ArrayList<TimeSheetDetail>();
 			listTimeSheetDetailOfTs_Id
 					.addAll(getListTimeSheetByTimeSheetId(list_TimeSheetId
 							.get(i)));
-			System.out.println("size listTimeSheetDetailOfTs_Id = "
-					+ listTimeSheetDetailOfTs_Id.size());
 			
 			
 
@@ -86,9 +74,6 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 						.get(j).getProcess_id());
 				String type_name = getTypeName(listTimeSheetDetailOfTs_Id
 						.get(j).getType_id());
-
-				System.out.println("value of timeSheetDetailOfTs_Id = "+ listTimeSheetDetailOfTs_Id.get(j)
-						.getDetail_timesheet_id());
 				
 				String task_subject = null;
 				
@@ -124,9 +109,6 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 		}
 
-		System.out.println("size of list_TimeSheetOfOneProject = "
-				+ list_TimeSheetOfOneProject.size());
-
 		return list_TimeSheetOfOneProject;
 	}
 
@@ -147,26 +129,10 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		List<TimeSheetDetail> List_timeSheetDetail_Of_timeSheetId = jdbcTemplate
 				.query(sql, new BeanPropertyRowMapper<TimeSheetDetail>(
 						TimeSheetDetail.class));
-		// Test
-		for (int i = 0; i < List_timeSheetDetail_Of_timeSheetId.size(); i++) {
-			System.out.println("HOUR of listTSByTSId = "
-					+ List_timeSheetDetail_Of_timeSheetId.get(i).getHour());
-			System.out.println("date of listTSByTSId = "
-					+ List_timeSheetDetail_Of_timeSheetId.get(i)
-							.getDetail_timesheet_date());
-		}
 
 		return List_timeSheetDetail_Of_timeSheetId;
 
 	}
-	
-	/* get list detailTimesheetId of one Ts_ID */
-/*	public List<Integer> getListDetailTimeSheetId(int timesheet_Id) {
-		String sql = "SELECT PRE_DEFINED_NAME FROM pre_defined WHERE PRE_DEFINED_ID = ?";
-		return  jdbcTemplate.queryForList(sql,
-				new Object[] { timesheet_Id }, Integer.class);
-
-	}*/
 
 
 	/* get PreDifined_Name by pre_defined_id */
@@ -202,6 +168,106 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 					}
 
 				});
+	}
+
+	@Override
+	public void updateListTimeSheetToDB(
+			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<TimeSheetDetail> list_TimeSheetDetails_toInsert = new ArrayList<TimeSheetDetail>();
+		for(int i = 0 ; i < list_TimeSheetDetails.size(); i++){
+			if(list_TimeSheetDetails.get(i).getDetail_timesheet_id() == 0){
+				list_TimeSheetDetails_toInsert.add(list_TimeSheetDetails.get(i));
+			}
+		}
+		//add new member to DB
+		createListTimeSheet(list_TimeSheetDetails_toInsert, list_TimeSheetDetails.get(0).getTs_id());//all same ts_id
+		
+		// Update member
+		String sql_update = "update detail_timesheet set DETAIL_TIMESHEET_DATE = ?, HOUR = ?, PRE_DEFINED_ID = ?, PROCESS_ID = ?, TYPE_ID = ?, TASK_ID = ?, WORKCONTENT = ? where DETAIL_TIMESHEET_ID = ?";
+		jdbcTemplate.batchUpdate(sql_update, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				//MemberProject memberProject = list_MemberProjects.get(i);
+				ps.setString(1, list_TimeSheetDetails.get(i).getDetail_timesheet_date());
+				ps.setFloat(2, list_TimeSheetDetails.get(i).getHour());
+				ps.setInt(3, list_TimeSheetDetails.get(i).getPre_defined_id());
+				ps.setInt(4, list_TimeSheetDetails.get(i).getProcess_id());
+				ps.setInt(5, list_TimeSheetDetails.get(i).getType_id());
+				ps.setInt(6, list_TimeSheetDetails.get(i).getTask_id());
+				ps.setString(7, list_TimeSheetDetails.get(i).getWorkcontent());
+				ps.setInt(8, list_TimeSheetDetails.get(i).getDetail_timesheet_id());
+				
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return list_TimeSheetDetails.size();
+			}
+		});
+		
+		
+	}
+
+	@Override
+	public void createListTimeSheet(
+			ArrayList<TimeSheetDetail> list_TimeSheetDetails, int _ts_id) {
+		// TODO Auto-generated method stub
+		
+		String sql_insert = "INSERT INTO detail_timesheet(DETAIL_TIMESHEET_DATE, HOUR, PRE_DEFINED_ID, PROCESS_ID, TYPE_ID, TASK_ID, WORKCONTENT, TS_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		jdbcTemplate.batchUpdate(sql_insert, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				//MemberProject memberProject = list_MemberProjects.get(i);
+				ps.setString(1, list_TimeSheetDetails.get(i).getDetail_timesheet_date());
+				ps.setFloat(2, list_TimeSheetDetails.get(i).getHour());
+				ps.setInt(3, list_TimeSheetDetails.get(i).getPre_defined_id());
+				ps.setInt(4, list_TimeSheetDetails.get(i).getProcess_id());
+				ps.setInt(5, list_TimeSheetDetails.get(i).getType_id());
+				ps.setInt(6, list_TimeSheetDetails.get(i).getTask_id());
+				ps.setString(7, list_TimeSheetDetails.get(i).getWorkcontent());
+				ps.setInt(8, _ts_id);
+
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return list_TimeSheetDetails.size();
+			}
+		});
+		
+	}
+
+	@Override
+	public void deleteListTimeSheet(
+			ArrayList<Integer> list_TimeSheetDetails_id) {
+		String sql_deleteList = "DELETE FROM detail_timesheet WHERE DETAIL_TIMESHEET_ID = ?";
+		jdbcTemplate.batchUpdate(sql_deleteList, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i)
+					throws SQLException {
+				// TODO Auto-generated method stub
+				ps.setInt(1, list_TimeSheetDetails_id.get(i));
+
+			}
+
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return list_TimeSheetDetails_id.size();
+			}
+		});
+		
 	}
 
 	/* get task_Name */

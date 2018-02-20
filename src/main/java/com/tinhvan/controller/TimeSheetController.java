@@ -3,21 +3,17 @@ package com.tinhvan.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.api.mysqla.result.Resultset.Type;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.PreDefinedTaskDao;
 import com.tinhvan.dao.ProcessDao;
@@ -88,38 +84,24 @@ public class TimeSheetController {
 
 		return new ModelAndView("timesheetRegister");
 	}
-
-	/* Action save timesheet to DB 
-	@RequestMapping(value = "/actionSaveTimeSheet", method = RequestMethod.POST)
-	public ModelAndView actionSaveTimeSheet(
-			Model model,
-			@ModelAttribute(value = "list_TimeSheetOfOneProject") List<TimeSheetDetail> list_TimeSheetOfOneProject) {
-		return new ModelAndView("redirect:/taskList");
+	
+	@RequestMapping(value = "/{id}/actionSaveTimeSheet", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<TimeSheetDetail> save( @RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
+		
+		//memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
+		timeSheetDao.updateListTimeSheetToDB(list_TimeSheetDetails);
+	
+		return list_TimeSheetDetails;
 	}
-	*/
 	
 	
+	@RequestMapping(value = "/{id}/actionDeleteListTimeSheet", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<Integer> deleteListTimeSheet(@RequestBody  final ArrayList<Integer> list_TimeSheetDetails_id) {
+		
+		timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_id);
 	
-	 
-	@RequestMapping(value="/actionSaveTimeSheet", method = RequestMethod.POST,  consumes="application/json",
-	         produces="application/json")
-    public @ResponseBody List<TimeSheetDetail>  actionSaveTimeSheet(@RequestBody TimeSheetDetail[] list_TimeSheetOfOneProject, HttpServletRequest request) {	
-		System.out.println("thanh cong!");
-		return null;
+		return list_TimeSheetDetails_id;
 	}
-
-	@RequestMapping(value = "actionSaveTimeSheet1", method = RequestMethod.POST, produces="application/json")
-	public @ResponseBody ArrayList<TimeSheetDetail> post(
-			@RequestBody final ArrayList<TimeSheetDetail> person) {
-
-		System.out.println("a =  " + person.size());
-		for (int i = 0; i < person.size(); i++) {
-			System.out.println("name " + i + " = "
-					+ person.get(i).getDetail_timesheet_date());
-		}
-		return person;
-	}
-
 
 	/*
 	 * @Purpose: Methods Attributes
