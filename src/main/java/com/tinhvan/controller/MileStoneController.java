@@ -42,13 +42,13 @@ public class MileStoneController {
 	}
 
 	// Mapping to view MileStone JSP
-	@RequestMapping(value = { "/createMileStone" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = { "/createMileStone" }, method = RequestMethod.GET)
 	public String createMileStone(Model model) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create MileStone");
 
 		return "mileStone";
-	}
+	}*/
 
 	@RequestMapping(value = "/{id}/createMileStone", method = RequestMethod.GET)
 	public ModelAndView createMileStone(@PathVariable int id, ModelMap model) {
@@ -69,17 +69,23 @@ public class MileStoneController {
 		return milestone;
 	}
 	// Mapping button click create MileStone
-		@RequestMapping(value = "/{id}/actionAddMileStone", method = RequestMethod.POST)
+		/*@RequestMapping(value = "/{id}/actionAddMileStone", method = RequestMethod.POST)
 		public @ResponseBody ArrayList<MileStone> save(@RequestBody final ArrayList<MileStone> milestone){
 			mileStoneDao.insertMilestone(milestone);	
 			return milestone;
-		}
+		}*/
 
 	// Mapping button click delete MileStone
-	@RequestMapping(value = "actionDeleteMileStone")
+	/*@RequestMapping(value = "/{id}/actionDeleteMileStone")
 	public ModelAndView deleteMileStone(Model model, @ModelAttribute(value = "milestone") MileStone mileStone) {
 		mileStoneDao.deleteMidelStone(mileStone);
 		return new ModelAndView("whileSuccess");
+	}*/
+	
+	@RequestMapping(value = "/{id}/actionDeleteMileStone", method = RequestMethod.POST)
+	public @ResponseBody int deleteMileStone(@RequestBody final Integer milestone_id){
+		mileStoneDao.deleteMidelStone(milestone_id);	
+		return milestone_id;
 	}
 
 }

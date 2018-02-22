@@ -3,6 +3,7 @@ package com.tinhvan.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,19 +50,21 @@ public class MileStoneDaoImpl implements MileStoneDao {
 	}
 
 	@Override
-	public void deleteMidelStone(MileStone mileStone) {
+	public void deleteMidelStone(int milestone_id) {
 		String sql = "DELETE FROM milestone_info WHERE MILESTONE_ID = ?";
-		jdbcTemplate.update(sql, new Object[] {
-			mileStone.getProject_id(),
-			mileStone.getMilestone_date(),
-			mileStone.getMilestone_description(),
-			mileStone.getMilestone_id()
-		});	
+		jdbcTemplate.update(sql, new Object[] {milestone_id});	
 	}
 	//method add multiple milestone
 	
 	@Override
 	public void updateMilestone(List<MileStone> mileStone) {
+		ArrayList<MileStone> mileStones_to_Insert = new ArrayList<MileStone>();
+		for(int i = 0; i< mileStone.size();i++){
+			if(mileStone.get(i).getMilestone_id()==0){
+				mileStones_to_Insert.add(mileStone.get(i));
+			}
+		}
+		insertMilestone(mileStones_to_Insert);
 		// TODO Auto-generated method stub
 		/*String sql = "INSERT INTO milestone_info (PROJECT_ID, MILESTONE_DATE, MILESTONE_DESCRIPTION)"+" VALUES (?,?,?)";*/
 		String sql = "update milestone_info set PROJECT_ID = ?, MILESTONE_DATE =?, MILESTONE_DESCRIPTION = ? where MILESTONE_ID = ?";

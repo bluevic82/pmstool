@@ -45,7 +45,7 @@
 	<div class="container">
 
 		<div>
-			Project Name<input style="margin-left: 50px"
+			Project Name<input style="margin-left: 50px; width: 20%; "
 				value="${projectInfor.project_name }" disabled="disabled">
 		</div>
 		<div>
@@ -69,7 +69,7 @@
 				<c:forEach var="ml" items="${ml}">
 				<tr id="id_tr">
 				<td><input type="hidden"
-				value="${ml.milestone_id}" name="milestone_id" width="100px;"></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="${ml.milestone_date}" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description" value="${ml.milestone_description}" /></td></tr>
+				value="${ml.milestone_id}" name="milestone_id" id="id_milestone_id" width="100px;"></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="${ml.milestone_date}"/><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description" value="${ml.milestone_description}" /></td></tr>
 				
 				</c:forEach>
 						<!-- <tr id="id_tr">
@@ -99,6 +99,15 @@
 		</div>
 	</div>
 </body>
+
+<style>
+#id_Date{
+	width: 20%; 
+}
+#button_delete{
+	
+}
+</style>
 <script type="text/javascript">
 $('.datetimepicker').datetimepicker({
 	format : "YYYY-MM-DD",
@@ -106,9 +115,47 @@ $('.datetimepicker').datetimepicker({
 </script>
 <script type="text/javascript">
 	var $TABLE = $('#id_table');
+	/* delete row milestone */
+	
+	$("#id_table").on("click", "#button_delete", function(e) {
+		e.preventDefault();
+		var milestone_id = $(this).parent('td').parent('tr').find('#id_milestone_id').val();
+		$(this).parent('td').parent('tr').remove();
+		
+		//submit by ajax to detele
+		var token = $("meta[name='_csrf']").attr("content");
+
+		var header = $("meta[name='_csrf_header']").attr(
+			"content"); 
+		//use ajax to submit
+		$.ajax({
+			url : "actionDeleteMileStone",
+
+			type : "POST",
+			data : JSON
+					.stringify(milestone_id),
+			contentType : 'application/json;charset=UTF-8',
+			dataType : 'json',
+
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+
+			success : function(data) {
+				//alert("delete completed!");
+			},
+			error : function(data) {
+				alert("error! ");
+			}
+		});	
+		
+		
+	}); 
+	
+	
 	/*add row milestone*/
 	$('#button_add').click(function() {
-						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id="id_tr"><td></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description"value="" /></td></tr>';
+						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id="id_tr"><td><input type="hidden" value="" name="milestone_id" id="id_milestone_id" width="100px;"></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description"value="" /></td></tr>';
 
 						$('.datetimepicker').datetimepicker({
 							format : "YYYY-MM-DD",
@@ -119,8 +166,8 @@ $('.datetimepicker').datetimepicker({
 	//---------------------
 	$('#id_buttonSave').click(
 					function() {
-						var m_id = $("#milestone_id").val();
-						if( m_id == null ){
+						//var m_id = $("#milestone_id").val();
+						/* if( m_id == null ){
 							var table = document.getElementById("id_table");
 							var p_id = $("#p_id").val();
 							var len = table.rows.length;	
@@ -169,8 +216,8 @@ $('.datetimepicker').datetimepicker({
 									alert("error! ");
 								}
 							});		
-						}
-						else{
+						} */
+						//else{
 							var table = document.getElementById("id_table");
 							var p_id = $("#p_id").val();
 							var len = table.rows.length;
@@ -223,7 +270,7 @@ $('.datetimepicker').datetimepicker({
 									alert("error! ");
 								}
 							});		
-						}
+						//}
 					});
 </script>
 </html>

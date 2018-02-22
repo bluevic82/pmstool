@@ -10,7 +10,7 @@ public interface MileStoneDao {
 	
 	public void addMileStone(MileStone mileStone);
 	
-	public void deleteMidelStone(MileStone MileStone);
+	public void deleteMidelStone(int milestone_id);
 	
 	// update multiple mileStone
 	public void insertMilestone(List<MileStone> mileStone);

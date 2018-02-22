@@ -30,6 +30,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
 </head>
 <body>
 	<div class="container">
@@ -50,8 +51,8 @@
     					<!-- <input type="text" name="mytext[]"> -->
     					<div>
     						<button class="add_form_field">+</button>
-							<div class="input-group date datetimepicker" >
-							<input type="text" class="form-control" name="milestone_date" />
+							<div class="input-group date datetimepicker">
+							<input type="text" class="form-control" name="milestone_date"/>
 							<div class="input-group-addon">
 								<div class="glyphicon glyphicon-calendar"></div>
 							</div>
