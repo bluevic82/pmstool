@@ -119,59 +119,111 @@ $('.datetimepicker').datetimepicker({
 	//---------------------
 	$('#id_buttonSave').click(
 					function() {
-						var table = document.getElementById("id_table");
-						var p_id = $("#p_id").val();
-						var len = table.rows.length;
-						var String_alert_err = "";
-						
-						// create arrayList object
-						var arrayList_Milestone = new Array();
-
-						for (var i = 1; i < len; i++) {
-							// set value of var
-							var _milestone_id = table.rows[i].cells[0].childNodes[0].value;
-							var _milestone_date = table.rows[i].cells[2].childNodes[0].childNodes[0].value;
-							var _milestone_des = table.rows[i].cells[3].childNodes[0].value;
-							var info_Object = {
-									project_id: p_id,
-									milestone_date: _milestone_date,
-									milestone_description : _milestone_des,
-									milestone_id : _milestone_id
-								} 
-
+						var m_id = $("#milestone_id").val();
+						if( m_id == null ){
+							var table = document.getElementById("id_table");
+							var p_id = $("#p_id").val();
+							var len = table.rows.length;	
 							
-							arrayList_Milestone.push(info_Object);
-						}
-						console.log(arrayList_Milestone);
-						
+							var arrayList_Milestone = new Array();
 
-					 	var token = $("meta[name='_csrf']").attr("content");
+							for (var i = 1; i < len; i++) {
+								// set value of var
+								var _milestone_date = table.rows[i].cells[2].childNodes[0].childNodes[0].value;
+								var _milestone_des = table.rows[i].cells[3].childNodes[0].value;
+								var info_Object = {
+										project_id: p_id,
+										milestone_date: _milestone_date,
+										milestone_description : _milestone_des,
+										} 
 
-						var header = $("meta[name='_csrf_header']").attr(
-							"content"); 
-						//use ajax to submit
-						$.ajax({
-							url : "actionSaveMileStone",
-
-							type : "POST",
-							data : JSON
-									.stringify(arrayList_Milestone),
-							contentType : 'application/json;charset=UTF-8',
-							dataType : 'json',
-
-							beforeSend : function(xhr) {
-								xhr.setRequestHeader(header, token);
-							},
-
-							success : function(data) {
-								alert("save completed!");
-								location.reload();
-							},
-							error : function(data) {
-								alert("error! ");
+								
+								arrayList_Milestone.push(info_Object);
 							}
-						});		
+							console.log(arrayList_Milestone);
+							
 
+						 	var token = $("meta[name='_csrf']").attr("content");
+
+							var header = $("meta[name='_csrf_header']").attr(
+								"content"); 
+							//use ajax to submit
+							$.ajax({
+								url : "actionAddMileStone",
+
+								type : "POST",
+								data : JSON
+										.stringify(arrayList_Milestone),
+								contentType : 'application/json;charset=UTF-8',
+								dataType : 'json',
+
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header, token);
+								},
+
+								success : function(data) {
+									alert("save completed!");
+									location.reload();
+								},
+								error : function(data) {
+									alert("error! ");
+								}
+							});		
+						}
+						else{
+							var table = document.getElementById("id_table");
+							var p_id = $("#p_id").val();
+							var len = table.rows.length;
+							var String_alert_err = "";
+							
+							// create arrayList object
+							var arrayList_Milestone = new Array();
+
+							for (var i = 1; i < len; i++) {
+								// set value of var
+								var _milestone_id = table.rows[i].cells[0].childNodes[0].value;
+								var _milestone_date = table.rows[i].cells[2].childNodes[0].childNodes[0].value;
+								var _milestone_des = table.rows[i].cells[3].childNodes[0].value;
+								var info_Object = {
+										project_id: p_id,
+										milestone_date: _milestone_date,
+										milestone_description : _milestone_des,
+										milestone_id : _milestone_id
+									} 
+
+								
+								arrayList_Milestone.push(info_Object);
+							}
+							console.log(arrayList_Milestone);
+							
+
+						 	var token = $("meta[name='_csrf']").attr("content");
+
+							var header = $("meta[name='_csrf_header']").attr(
+								"content"); 
+							//use ajax to submit
+							$.ajax({
+								url : "actionSaveMileStone",
+
+								type : "POST",
+								data : JSON
+										.stringify(arrayList_Milestone),
+								contentType : 'application/json;charset=UTF-8',
+								dataType : 'json',
+
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header, token);
+								},
+
+								success : function(data) {
+									alert("save completed!");
+									location.reload();
+								},
+								error : function(data) {
+									alert("error! ");
+								}
+							});		
+						}
 					});
 </script>
 </html>

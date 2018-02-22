@@ -59,7 +59,7 @@ public class MileStoneDaoImpl implements MileStoneDao {
 		});	
 	}
 	//method add multiple milestone
-
+	
 	@Override
 	public void updateMilestone(List<MileStone> mileStone) {
 		// TODO Auto-generated method stub
@@ -82,6 +82,30 @@ public class MileStoneDaoImpl implements MileStoneDao {
 				return mileStone.size();
 			}
 		});			
+	}
+
+	@Override
+	public void insertMilestone(List<MileStone> mileStone) {
+		// TODO Auto-generated method stub
+		String sql = "INSERT INTO milestone_info (PROJECT_ID, MILESTONE_DATE, MILESTONE_DESCRIPTION)"+" VALUES (?,?,?)";
+		/*String sql = "update milestone_info set PROJECT_ID = ?, MILESTONE_DATE =?, MILESTONE_DESCRIPTION = ? where MILESTONE_ID = ?";*/
+		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				// TODO Auto-generated method stub
+				ps.setInt(1, mileStone.get(i).getProject_id());
+				ps.setString(2, mileStone.get(i).getMilestone_date());
+				ps.setString(3, mileStone.get(i).getMilestone_description());
+			}
+			
+			@Override
+			public int getBatchSize() {
+				// TODO Auto-generated method stub
+				return mileStone.size();
+			}
+		});			
+		
 	}
 
 	@Override

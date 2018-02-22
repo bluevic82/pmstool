@@ -64,10 +64,16 @@ public class MileStoneController {
 
 	// Mapping button click create MileStone
 	@RequestMapping(value = "/{id}/actionSaveMileStone", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<MileStone> save(@RequestBody final ArrayList<MileStone> milestone){
+	public @ResponseBody ArrayList<MileStone> update(@RequestBody final ArrayList<MileStone> milestone){
 		mileStoneDao.updateMilestone(milestone);	
 		return milestone;
 	}
+	// Mapping button click create MileStone
+		@RequestMapping(value = "/{id}/actionAddMileStone", method = RequestMethod.POST)
+		public @ResponseBody ArrayList<MileStone> save(@RequestBody final ArrayList<MileStone> milestone){
+			mileStoneDao.insertMilestone(milestone);	
+			return milestone;
+		}
 
 	// Mapping button click delete MileStone
 	@RequestMapping(value = "actionDeleteMileStone")

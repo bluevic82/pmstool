@@ -13,6 +13,7 @@ public interface MileStoneDao {
 	public void deleteMidelStone(MileStone MileStone);
 	
 	// update multiple mileStone
+	public void insertMilestone(List<MileStone> mileStone);
 	public void updateMilestone(List<MileStone> mileStone);
 	public List<MileStone> getMileStoneByProjectId(int id);
 	
