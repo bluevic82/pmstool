@@ -237,6 +237,7 @@
 			var role_id;
 			var array_name_Of_Member_Add = [];
 			var soLuongMemberThemVao = 0;
+			var string_Alert_Exists_Error = "";
 
 			for (var i = 0; i < radioRole.length; i++) {
 				if (radioRole[i].checked === true) {
@@ -247,23 +248,47 @@
 				}
 			}
 
+			
 			for (var j = 0; j < checkboxName.length; j++) {
 				if (checkboxName[j].checked === true) {
 					name = checkboxName[j].value;
 					name_id = hidden_checkboxName[j].value;
+					var check_trung_user_id = false;
 				
-					
-					var objectUser = {
-							name : name,
-							name_id : name_id
-							
+					/* alert(table.rows[2].cells.namedItem("id_member_project_name").childNodes[1].value)  //OK;
+					alert(hang); //OK */ 
+					//check trùng lặp user_id
+					  for( var k = 1; k < hang; k ++){
+						if(name_id == table.rows[k].cells.namedItem("id_member_project_name").childNodes[1].value){
+							//alert("trung");
+							check_trung_user_id = true;
+							break;
 						}
-					
-					array_name_Of_Member_Add[soLuongMemberThemVao] = objectUser;
-					
-					soLuongMemberThemVao++;
+								
+					}
+					  if(check_trung_user_id == true){
+							string_Alert_Exists_Error = "  "+ name + string_Alert_Exists_Error;
+						}
+					  else{
+						  var objectUser = {
+									name : name,
+									name_id : name_id
+									
+								}
+							
+							array_name_Of_Member_Add[soLuongMemberThemVao] = objectUser;
+							
+							soLuongMemberThemVao++;
+					  }
+					  
 				}
+				
+				}
+			
+			if(string_Alert_Exists_Error!=""){
+				alert(string_Alert_Exists_Error + " are already existed!");
 			}
+			
 			if (role != null && name != null) {
 
 				for (var i = 0; i < array_name_Of_Member_Add.length; i++) {
@@ -361,6 +386,7 @@
 
 								var _user_id = table.rows[i].cells
 										.namedItem("id_member_project_name").childNodes[1].value;
+								
 
 								var _role_id = table.rows[i].cells
 										.namedItem("id_cell_role").childNodes[0].value;
