@@ -259,12 +259,15 @@
 						var check_hour = false;
 						var check_process = false;
 						var check_type = false;
+						var check_date = false;
 						var String_alert_err = "";
 						
 						// create arrayList object
 						var arrayList_Timesheet = new Array();
 
+						
 						for (var i = 1; i < len; i++) {
+							
 							if (isNaN(table.rows[i].cells[2].childNodes[0].value)
 									|| table.rows[i].cells[2].childNodes[0].value == "") {
 
@@ -278,6 +281,10 @@
 							if (table.rows[i].cells[5].childNodes[0].value == "") {
 								check_type = true;
 							}
+							if (table.rows[i].cells[1].childNodes[0].childNodes[0].value == ""){
+								check_date = true;
+							}
+							
 							
 							
 							// set value of var
@@ -309,7 +316,10 @@
 						console.log(arrayList_Timesheet);
 						
 						//alert invalid
-						if (check_hour || check_process || check_type) {
+						if (check_hour || check_process || check_type || check_date) {
+							if(check_date){
+								String_alert_err += "  ,Date ";
+							}
 
 							if (check_hour) {
 								String_alert_err += "  HOUR(is number) ";
@@ -320,6 +330,7 @@
 							if (check_type) {
 								String_alert_err += "  ,Type Of Word ";
 							}
+							
 							alert(String_alert_err + "is not empty!");
 						} else {
 							/* var csrfParameter = $(

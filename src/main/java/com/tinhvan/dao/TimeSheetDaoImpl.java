@@ -138,36 +138,53 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	/* get PreDifined_Name by pre_defined_id */
 	public String getPreDifinedName(int pre_defined_id) {
 		String sql = "SELECT PRE_DEFINED_NAME FROM pre_defined WHERE PRE_DEFINED_ID = ?";
-		return (String) jdbcTemplate.queryForObject(sql,
-				new Object[] { pre_defined_id }, String.class);
+		try{
+
+			return (String) jdbcTemplate.queryForObject(sql,
+					new Object[] { pre_defined_id }, String.class);
+		}
+		catch(Exception e){
+			return null;
+		}
 
 	}
 
 	/* get Process_Name by process_id */
 	public String getProcessName(int process_id) {
 		String sql = "SELECT PROCESS_NAME FROM process WHERE PROCESS_ID = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[] { process_id },
-				new RowMapper<String>() {
-					public String mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return rs.getString("PROCESS_NAME");
-					}
+		try{
+			return jdbcTemplate.queryForObject(sql, new Object[] { process_id },
+					new RowMapper<String>() {
+						public String mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							return rs.getString("PROCESS_NAME");
+						}
 
-				});
+					});
+		}catch(Exception e){
+			return null;
+		}
+		
 
 	}
 
 	/* get TypeName by type_id */
 	public String getTypeName(int type_id) {
 		String sql = "SELECT TYPE_NAME FROM type WHERE TYPE_ID = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[] { type_id },
-				new RowMapper<String>() {
-					public String mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						return rs.getString("TYPE_NAME");
-					}
+		try{
+			return jdbcTemplate.queryForObject(sql, new Object[] { type_id },
+					new RowMapper<String>() {
+						public String mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							return rs.getString("TYPE_NAME");
+						}
 
-				});
+					});
+		}
+		catch(Exception e){
+			return null;
+		}
+		
 	}
 
 	@Override
