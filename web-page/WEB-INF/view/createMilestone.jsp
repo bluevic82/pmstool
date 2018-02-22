@@ -1,0 +1,177 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MileStone</title>
+<jsp:include page="_menu.jsp" />
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
+</head>
+<body>
+	<div class="container">
+
+		<div>
+			Project Name<input style="margin-left: 50px"
+				value="${projectInfor.project_name }" disabled="disabled">
+		</div>
+		<div>
+			<input type="hidden"
+				value="${projectInfor.project_id}" name="project_id" id="p_id">
+		</div>
+		
+		<%-- <form:form id="id_form"> --%>
+			<div>Milestone</div>
+			<table id="id_table" class="table"
+				style="margin-top: 2%;">
+				<thead>
+					<tr>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody >
+				<c:forEach var="ml" items="${ml}">
+				<tr id="id_tr">
+				<td><input type="hidden"
+				value="${ml.milestone_id}" name="milestone_id" width="100px;"></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="${ml.milestone_date}" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description" value="${ml.milestone_description}" /></td></tr>
+				
+				</c:forEach>
+						<!-- <tr id="id_tr">
+							<td>MileStone</td>
+							<td></td>
+							<td id="id_Date"><div class="input-group date datetimepicker" >
+									<input id="d_dateTime" type="text" class="form-control"
+										name="milestone_date"
+										value="" />
+									<div class="input-group-addon">
+										<div class="glyphicon glyphicon-calendar"></div>
+									</div>
+								</div>
+							</td>
+							<td id="id_des">
+							<input id="id_description" class="form-control input-sm" type="text" name="milestone_description"
+								value="" />
+							</td>
+						</tr> -->
+				</tbody>
+				
+			</table>
+		<%-- </form:form> --%>
+		<button id="button_add">+</button>
+		<div align="right" style="padding-top: 5%">
+			<button type="submit" id="id_buttonSave">Save</button>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$('.datetimepicker').datetimepicker({
+	format : "YYYY-MM-DD",
+});
+</script>
+<script type="text/javascript">
+	var $TABLE = $('#id_table');
+	/*add row milestone*/
+	$('#button_add').click(function() {
+						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id="id_tr"><td></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description"value="" /></td></tr>';
+
+						$('.datetimepicker').datetimepicker({
+							format : "YYYY-MM-DD",
+						});
+					});
+	
+	
+	//---------------------
+	$('#id_buttonSave').click(
+					function() {
+						var table = document.getElementById("id_table");
+						var p_id = $("#p_id").val();
+						var len = table.rows.length;
+						var String_alert_err = "";
+						
+						// create arrayList object
+						var arrayList_Milestone = new Array();
+
+						for (var i = 1; i < len; i++) {
+							// set value of var
+							var _milestone_id = table.rows[i].cells[0].childNodes[0].value;
+							var _milestone_date = table.rows[i].cells[2].childNodes[0].childNodes[0].value;
+							var _milestone_des = table.rows[i].cells[3].childNodes[0].value;
+							var info_Object = {
+									project_id: p_id,
+									milestone_date: _milestone_date,
+									milestone_description : _milestone_des,
+									milestone_id : _milestone_id
+								} 
+
+							
+							arrayList_Milestone.push(info_Object);
+						}
+						console.log(arrayList_Milestone);
+						
+
+					 	var token = $("meta[name='_csrf']").attr("content");
+
+						var header = $("meta[name='_csrf_header']").attr(
+							"content"); 
+						//use ajax to submit
+						$.ajax({
+							url : "actionSaveMileStone",
+
+							type : "POST",
+							data : JSON
+									.stringify(arrayList_Milestone),
+							contentType : 'application/json;charset=UTF-8',
+							dataType : 'json',
+
+							beforeSend : function(xhr) {
+								xhr.setRequestHeader(header, token);
+							},
+
+							success : function(data) {
+								alert("save completed!");
+								location.reload();
+							},
+							error : function(data) {
+								alert("error! ");
+							}
+						});		
+
+					});
+</script>
+</html>

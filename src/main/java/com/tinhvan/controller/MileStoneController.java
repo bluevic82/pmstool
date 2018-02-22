@@ -1,5 +1,6 @@
 package com.tinhvan.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MileStoneDao;
@@ -50,21 +53,20 @@ public class MileStoneController {
 	@RequestMapping(value = "/{id}/createMileStone", method = RequestMethod.GET)
 	public ModelAndView createMileStone(@PathVariable int id, ModelMap model) {
 		ProjectInfo projectInfor = projectDao.getProjectById(id);
+		List<MileStone> m = mileStoneDao.getMileStoneByProjectId(id);
+		model.addAttribute("ml",m);
 		model.put("projectInfor", projectInfor);
 		model.addAttribute("projectInfor", projectInfor);
 		System.out.println(projectInfor.getProject_id());
 		System.out.println(projectInfor.getProject_name());
-		return new ModelAndView("mileStone", "comand", new MileStone());
-
+		return new ModelAndView("createMilestone");
 	}
 
 	// Mapping button click create MileStone
-	@RequestMapping(value = "actionCreateMileStone")
-	public ModelAndView addMileStone(Model model, @ModelAttribute(value = "mileStone") MileStone mileStone) {
-
-		System.out.println("milestone: project_id = " + mileStone.getProject_id());
-		mileStoneDao.addMileStone(mileStone);
-		return new ModelAndView("whileSuccess");
+	@RequestMapping(value = "/{id}/actionSaveMileStone", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<MileStone> save(@RequestBody final ArrayList<MileStone> milestone){
+		mileStoneDao.updateMilestone(milestone);	
+		return milestone;
 	}
 
 	// Mapping button click delete MileStone
