@@ -48,6 +48,7 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 				anwer.setMb(rs.getString(3));
 				anwer.setQ_a_dealine(rs.getString(4));
 				anwer.setStatus(rs.getString(5));
+				anwer.setProject_id(rs.getInt(6));
 				return anwer;
 			}
 			
@@ -106,7 +107,7 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 					questionAnwer.getQ_a_answer_jp(),
 					questionAnwer.getReferencepoint(),
 					questionAnwer.getMember_project_id(),
-					questionAnwer.getStatus_id(),
+					questionAnwer.getStatus(),
 					questionAnwer.getMember_from(),
 					questionAnwer.getQ_a_dealine(),
 					questionAnwer.getQ_a_id());
