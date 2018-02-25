@@ -180,8 +180,6 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 	}
 
-
-
 	@Override
 	public void updateListTimeSheetToDB( 
 			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
