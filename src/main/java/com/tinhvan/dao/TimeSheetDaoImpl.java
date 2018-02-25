@@ -1,6 +1,5 @@
 package com.tinhvan.dao;
 
-import java.security.Principal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,11 +14,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tinhvan.controller.TimeSheetController;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.TimeSheetDetail;
 import com.tinhvan.model.TimeSheet_Info;
-import com.tinhvan.model.User;
 
 @Transactional
 @Repository
@@ -224,10 +221,16 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	@Override
 	public void createListTimeSheet(ArrayList<TimeSheetDetail> list_TimeSheetDetails){
 		// TODO Auto-generated method stub
-		
+		System.out.println(member_project_id);
+			
+			/*if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(project_id, user_id) == null){
+				jdbcTemplate.execute("INSERT INTO member_project()");
+			}*/
+			
 			//get timesheet_id by project_id and member_project_id
 			//if timesheet_id ==0 => create timesheet at table timesheet_infor
 			if(getTimeSheet_idByProject_idAndMemberProjectId(project_id, member_project_id)==0){
+				
 				jdbcTemplate.execute("INSERT INTO timesheet_info(PROJECT_ID, MEMBER_PROECT_ID) VALUES ("+project_id+", "+member_project_id+")");
 			}
 			
@@ -265,17 +268,28 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	
 	//get timesheet_id by project_id and member_project_id
 	public int getTimeSheet_idByProject_idAndMemberProjectId(int project_id, int member_project_id){
-		int timeSheet_id = jdbcTemplate
-				.queryForObject("SELECT TS_ID FROM timesheet_info WHERE PROJECT_ID = " + project_id + " AND MEMBER_PROECT_ID = "+member_project_id+"", Integer.class);
-		return timeSheet_id;
+		System.out.println("pid = "+project_id+" and mem_id = "+ member_project_id);
+		try{
+			int timeSheet_id = jdbcTemplate
+					.queryForObject("SELECT TS_ID FROM timesheet_info WHERE PROJECT_ID = " + project_id + " AND MEMBER_PROECT_ID = "+member_project_id+"", Integer.class);
+			return timeSheet_id;
+		}
+		catch(Exception e){
+			return 0;
+		}
+		
 	}
 
 	@Override
 	public void deleteListTimeSheet(
-			ArrayList<Integer> list_TimeSheetDetails_id) {
+			ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
 		
-		
-		//int sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id = jdbcTemplate.execute("SELECT COUNT(detail_timesheet) WHERE TS_ID = "++"", Integer.class);
+		//if delete all data of table detail_timesheet => also delete at table timesheet_info 
+		int sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id = jdbcTemplate.queryForObject("SELECT COUNT(DETAIL_TIMESHEET_ID) FROM detail_timesheet WHERE TS_ID = "+list_TimeSheetDetails_Delete.get(0).getTs_id()+"", Integer.class);
+		System.out.println("size = "+sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id);
+		if(sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id == list_TimeSheetDetails_Delete.size()){
+			jdbcTemplate.execute("DELETE FROM timesheet_info WHERE TS_ID = "+list_TimeSheetDetails_Delete.get(0).getTs_id()+"");
+		}
 		
 		String sql_deleteList = "DELETE FROM detail_timesheet WHERE DETAIL_TIMESHEET_ID = ?";
 		jdbcTemplate.batchUpdate(sql_deleteList, new BatchPreparedStatementSetter() {
@@ -284,14 +298,14 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			public void setValues(PreparedStatement ps, int i)
 					throws SQLException {
 				// TODO Auto-generated method stub
-				ps.setInt(1, list_TimeSheetDetails_id.get(i));
+				ps.setInt(1, list_TimeSheetDetails_Delete.get(i).getDetail_timesheet_id());
 
 			}
 
 			@Override
 			public int getBatchSize() {
 				// TODO Auto-generated method stub
-				return list_TimeSheetDetails_id.size();
+				return list_TimeSheetDetails_Delete.size();
 			}
 		});
 		

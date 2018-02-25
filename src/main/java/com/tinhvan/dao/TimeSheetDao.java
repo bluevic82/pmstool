@@ -18,6 +18,6 @@ public interface TimeSheetDao {
 	public List<TimeSheetDetail> getListTimeSheetOfOneProject(int projectId, int user_id);
 	public void updateListTimeSheetToDB(ArrayList<TimeSheetDetail> list_TimeSheetDetails);
 	public void createListTimeSheet(ArrayList<TimeSheetDetail> list_TimeSheetDetails);
-	public void deleteListTimeSheet(ArrayList<Integer> list_TimeSheetDetails_id);
+	public void deleteListTimeSheet(ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete);
 	
 }

@@ -85,25 +85,35 @@ public class TimeSheetController {
 	public ModelAndView regisTimeSheet(@PathVariable(value = "id") int id,
 			Model model, Principal principal) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		System.out.println("user_mai = "+principal.getName());
-		//get userInfo by user_mail
-		//get_User_current_loged(principal);
-		List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
-				.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());	
+		//System.out.println("user_mail = "+principal.getName());
+		
+		//check role of user
+		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, get_User_current_loged(principal).getUser_id())==null){
+			String message = "Access denied for "+principal.getName()+"!";
+			model.addAttribute("message", message);
+			return new ModelAndView("403Page");
+		}
+		else{
+			//get userInfo by user_mail
+			//get_User_current_loged(principal);
+			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
+					.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());	
 
-		model.addAttribute("list_TimeSheetOfOneProject",
-				list_TimeSheetOfOneProject);
-		model.addAttribute("projectInfo", projectInfo);
-		model.addAttribute("title", "Success");
-		model.addAttribute("message", "RegisterTimeSheet");
+			model.addAttribute("list_TimeSheetOfOneProject",
+					list_TimeSheetOfOneProject);
+			model.addAttribute("projectInfo", projectInfo);
+			model.addAttribute("title", "Success");
+			model.addAttribute("message", "RegisterTimeSheet");
 
-		return new ModelAndView("timesheetRegister");
+			return new ModelAndView("timesheetRegister");
+		}
+		
+		
 	}
 	
 	@RequestMapping(value = "/{id}/actionSaveTimeSheet", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<TimeSheetDetail> save(@PathVariable int id, @RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails, Principal principal) {
-		System.out.println("prj_id = "+id);
-		//memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
+		//System.out.println("prj_id = "+id);
 		ArrayList<TimeSheetDetail> list_TimeSheetDetails_To_Insert = new ArrayList<TimeSheetDetail>();
 		for(int i=0;i<list_TimeSheetDetails.size();i++){
 			//System.out.println("timesheet_id = "+list_TimeSheetDetails.get(i).getDetail_timesheet_id());//OK
@@ -125,11 +135,11 @@ public class TimeSheetController {
 	
 	
 	@RequestMapping(value = "/{id}/actionDeleteListTimeSheet", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<Integer> deleteListTimeSheet(@RequestBody  final ArrayList<Integer> list_TimeSheetDetails_id) {
+	public @ResponseBody ArrayList<TimeSheetDetail> deleteListTimeSheet(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
 		
-		timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_id);
+		timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_Delete);
 	
-		return list_TimeSheetDetails_id;
+		return list_TimeSheetDetails_Delete;
 	}
 
 	/*

@@ -208,9 +208,33 @@
 
 			if (checkbox[i].checked === true) {
 				var temp = i + 1;
-				var detail_timesheet_id = table.rows[temp].cells[7].childNodes[1].value;
+				var _detail_timesheet_id = table.rows[temp].cells[7].childNodes[1].value;
+				var _detail_timesheet_date = table.rows[temp].cells[1].childNodes[0].childNodes[0].value;
+				var _hour = table.rows[temp].cells[2].childNodes[0].value;
+				var _pre_defined_id = table.rows[temp].cells[3].childNodes[0].value;
+				var _process_id = table.rows[temp].cells[4].childNodes[0].value;
+				var _type_id = table.rows[temp].cells[5].childNodes[0].value;
+				var _task_id = table.rows[temp].cells[6].childNodes[0].value;
+				var _workcontent = table.rows[temp].cells[7].childNodes[0].value;
+				var _ts_id = table.rows[temp].cells[0].childNodes[1].value;
+				
 				table.rows[temp].remove();
-				list_timesheet_id_delete.push(detail_timesheet_id);
+				//chi push nhung detail_timesheet_id da ton tai => da co trong database
+				if(_detail_timesheet_id!=""){
+					var infor_Object_Delete = {
+							detail_timesheet_id : _detail_timesheet_id,
+							detail_timesheet_date : _detail_timesheet_date,
+							hour : _hour,
+							pre_defined_id : _pre_defined_id,
+							process_id : _process_id,
+							type_id : _type_id,
+							task_id : _task_id,
+							workcontent : _workcontent,
+							ts_id : _ts_id
+						} 
+					list_timesheet_id_delete.push(infor_Object_Delete);
+				}
+				
 				temp--;
 				i--;
 

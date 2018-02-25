@@ -171,7 +171,7 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 			});
 		}
 		catch(Exception e){
-			//System.out.println("return null");
+			System.out.println("return null");
 			//System.out.println("rs = "+memberProject);
 			return null;
 			
