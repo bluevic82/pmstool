@@ -10,5 +10,6 @@ public interface MemberProjectDao {
 	public void updateMemberProjectBy_PrjId(List<MemberProject> list_MemberProjects, int project_id);
 	public void deleteOneMemberProject(int memberProject_id);
 	public void addListMemberProjectToDB(List<MemberProject> list_MemberProjects_toInsert, int project_id);
+	public MemberProject getMemberProjectByProject_Id_And_UserCurrentLogged(int project_id, int user_id);
 	
 }

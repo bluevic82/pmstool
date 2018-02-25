@@ -18,4 +18,6 @@ public interface UserDao {
 	
 	public List<User> gettAllUser();
 	
+	/*Test DaiK*/
+	public User getUserInfoByUserMail(String user_mail);
 }

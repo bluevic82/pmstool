@@ -1,5 +1,6 @@
 package com.tinhvan.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TimeSheetDao;
 import com.tinhvan.dao.TypeDao;
+import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.PreDefinedTask;
 import com.tinhvan.model.Process;
@@ -29,6 +31,7 @@ import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
+import com.tinhvan.model.User;
 
 /*
  * @Purpose: TimeSheet Controller using register/update TimeSheet
@@ -57,6 +60,8 @@ public class TimeSheetController {
 	PreDefinedTaskDao definedTaskDao;
 	@Autowired
 	TaskInfoDao TaskInfoDao;
+	@Autowired
+	UserDao userDao;
 
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")
@@ -64,17 +69,27 @@ public class TimeSheetController {
 		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
 		return list_Project_For_Menu;
 	}
-
 	
+	//Test DaiK
+		/*get user infor current logged*/
+		@ModelAttribute("user_current_logged")
+		public User get_User_current_loged(Principal principal){
+			String user_mail = principal.getName();
+			//user_current_loged.setUser_mail(principal.getName());
+			User user_current_loged = userDao.getUserInfoByUserMail(user_mail);
+			return user_current_loged;
+		}
 
 	// Mapping view Screen Register TimeSheet
 	@RequestMapping(value = { "/{id}/registerTimeSheet" }, method = RequestMethod.GET)
 	public ModelAndView regisTimeSheet(@PathVariable(value = "id") int id,
-			Model model) {
+			Model model, Principal principal) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
-
+		System.out.println("user_mai = "+principal.getName());
+		//get userInfo by user_mail
+		//get_User_current_loged(principal);
 		List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
-				.getListTimeSheetOfOneProject(id);	
+				.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());	
 
 		model.addAttribute("list_TimeSheetOfOneProject",
 				list_TimeSheetOfOneProject);
@@ -86,9 +101,23 @@ public class TimeSheetController {
 	}
 	
 	@RequestMapping(value = "/{id}/actionSaveTimeSheet", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<TimeSheetDetail> save( @RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
-		
+	public @ResponseBody ArrayList<TimeSheetDetail> save(@PathVariable int id, @RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails, Principal principal) {
+		System.out.println("prj_id = "+id);
 		//memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
+		ArrayList<TimeSheetDetail> list_TimeSheetDetails_To_Insert = new ArrayList<TimeSheetDetail>();
+		for(int i=0;i<list_TimeSheetDetails.size();i++){
+			//System.out.println("timesheet_id = "+list_TimeSheetDetails.get(i).getDetail_timesheet_id());//OK
+			if(list_TimeSheetDetails.get(i).getDetail_timesheet_id()==0){
+				list_TimeSheetDetails_To_Insert.add(list_TimeSheetDetails.get(i)); 
+			}
+		}
+		//System.out.println("prj_id = "+id);//OK
+		if(list_TimeSheetDetails_To_Insert.size()!=0){
+			//System.out.println("getUser_id = "+get_User_current_loged(principal).getUser_id());//OK
+			timeSheetDao.createListTimeSheet(list_TimeSheetDetails_To_Insert);
+			
+		}
+		
 		timeSheetDao.updateListTimeSheetToDB(list_TimeSheetDetails);
 	
 		return list_TimeSheetDetails;

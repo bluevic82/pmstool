@@ -15,9 +15,9 @@ public interface TimeSheetDao {
 	public TimeSheetDetail getById(int id);
 	
 	/*Test Daik*/
-	public List<TimeSheetDetail> getListTimeSheetOfOneProject(int projectId);
+	public List<TimeSheetDetail> getListTimeSheetOfOneProject(int projectId, int user_id);
 	public void updateListTimeSheetToDB(ArrayList<TimeSheetDetail> list_TimeSheetDetails);
-	public void createListTimeSheet(ArrayList<TimeSheetDetail> list_TimeSheetDetails, int _ts_id);
+	public void createListTimeSheet(ArrayList<TimeSheetDetail> list_TimeSheetDetails);
 	public void deleteListTimeSheet(ArrayList<Integer> list_TimeSheetDetails_id);
 	
 }

@@ -54,7 +54,7 @@
 		<div>
 			Project name <input disabled="disabled" id="project_name"
 				value="${projectInfo.project_name}"
-				name="${projectInfo.project_id }" style="width: 300px"> <input
+				name="${projectInfo.project_id }" style="width: 30%"> <input
 				type="hidden" id="project_id" value="${projectInfo.project_id}"
 				name="project_id">
 		</div>
@@ -113,7 +113,7 @@
 					<div class="col-sm-6">
 						System member
 						<div class="card border-secondary"
-							style="overflow: scroll; height: 300px; width: 200px;">
+							style="overflow: scroll; height: 300px;">
 							<div class="card-body">
 								<c:forEach var="getAllUser" items="${getAllUser}">
 									<input type="checkbox" value="${getAllUser.user_fullName}"

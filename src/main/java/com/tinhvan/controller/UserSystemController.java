@@ -1,6 +1,7 @@
 package com.tinhvan.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +26,7 @@ import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Role;
 import com.tinhvan.model.User;
+import com.tinhvan.model.UserInfo;
 import com.tinhvan.validator.UserValidator;
 
 @Controller
@@ -74,6 +76,8 @@ public class UserSystemController {
 		List<Role> list = roleDao.getAllRole();
 		return list;
 	}
+	
+	
 
 	/*
 	 * @RequestMapping(method=RequestMethod.GET) public String

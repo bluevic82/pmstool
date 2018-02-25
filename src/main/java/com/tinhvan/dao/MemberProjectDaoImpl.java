@@ -145,6 +145,58 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 		
 	}
 
+	@Override
+	public MemberProject getMemberProjectByProject_Id_And_UserCurrentLogged(int project_id, int user_id) {
+		// TODO Auto-generated method stub
+		String sql="SELECT * FROM member_project WHERE USER_ID = "+user_id+" AND PROJECT_ID = "+project_id+"";
+		
+		//Object[] params = new Object[] {project_id,  user_id};
+		try{
+			return jdbcTemplate.queryForObject(sql, new RowMapper<MemberProject>() {
+
+				@Override
+				public MemberProject mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					MemberProject memberProject = new MemberProject();
+					memberProject.setMember_project_id(rs.getInt(1));
+					memberProject.setUser_id(rs.getInt(2));
+					memberProject.setMember_project_name(rs
+							.getString(3));
+					memberProject.setRole_id(rs.getInt(4));
+					memberProject.setMember_project_effort(rs
+							.getInt(5));
+					memberProject.setProject_id(rs.getInt(6));
+					return memberProject;
+				}
+			});
+		}
+		catch(Exception e){
+			//System.out.println("return null");
+			//System.out.println("rs = "+memberProject);
+			return null;
+			
+		}
+		
+		/*return jdbcTemplate.query(sql, params,
+				new RowMapper<MemberProject>() {
+
+					@Override
+					public MemberProject mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						MemberProject memberProject = new MemberProject();
+						memberProject.setMember_project_id(rs.getInt(1));
+						memberProject.setUser_id(rs.getInt(2));
+						memberProject.setMember_project_name(rs
+								.getString(3));
+						memberProject.setRole_id(rs.getInt(4));
+						memberProject.setMember_project_effort(rs
+								.getInt(5));
+						memberProject.setProject_id(rs.getInt(6));
+						return memberProject;
+					}
+				});*/
+	}
+
 		
 		
 		
