@@ -159,10 +159,10 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 		});
 	}
 	@Override
-	public List<TaskInfo> getTaskInfo_By_Status_Open_And_OnGoing() {
+	public List<TaskInfo> getTaskInfo_By_Status_Open_And_OnGoing(int id) {
 
 		return jdbcTemplate
-				.query("SELECT TASK_ID,TASK_SUBJECT FROM task_info WHERE STATUS_ID= 4 OR STATUS_ID = 5",
+				.query("SELECT TASK_ID,TASK_SUBJECT FROM task_info WHERE (STATUS_ID= 4 OR STATUS_ID = 5) and project_id="+id+" ",
 						new RowMapper<TaskInfo>() {
 							public TaskInfo mapRow(ResultSet rs, int row)
 									throws SQLException {

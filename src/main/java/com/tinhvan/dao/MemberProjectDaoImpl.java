@@ -25,9 +25,9 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 	RoleDao roleDao;
 
 	@Override
-	public List<MemberProject> getAllMember() {
+	public List<MemberProject> getAllMember(int id) {
 
-		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT",
+		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT where project_id = " + id+ "",
 				new RowMapper<MemberProject>() {
 
 					@Override

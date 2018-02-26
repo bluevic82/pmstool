@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.MalformedObjectNameException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -174,8 +176,12 @@ public class TimeSheetController {
 
 	// method get all member project Timesheet of project
 	@ModelAttribute("pic")
-	public List<MemberProject> getPIC() {
-		List<MemberProject> list = memberProjectDao.getAllMember();
+	public List<MemberProject> getPIC(@PathVariable int id, Model model) {
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+
+		// purpose: get project's name
+		model.addAttribute("project_Infor", projectInfo);
+		List<MemberProject> list = memberProjectDao.getAllMember(id);
 		return list;
 	}
 
@@ -206,8 +212,12 @@ public class TimeSheetController {
 	}
 
 	@ModelAttribute("Tasks")
-	public List<TaskInfo> getTaskInfos() {
-		List<TaskInfo> list = TaskInfoDao.getTaskInfo_By_Status_Open_And_OnGoing();
+	public List<TaskInfo> getTaskInfos(@PathVariable int id, Model model) {
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+
+		// purpose: get project's name
+		model.addAttribute("project_Infor", projectInfo);
+		List<TaskInfo> list = TaskInfoDao.getTaskInfo_By_Status_Open_And_OnGoing(id);
 		return list;
 	}
 }
