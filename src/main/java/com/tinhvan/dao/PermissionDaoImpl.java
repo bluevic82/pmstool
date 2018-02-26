@@ -40,7 +40,13 @@ public class PermissionDaoImpl implements PermissionDao {
 		String[] rolo = roles.toArray(new String[roles.size()]);
 	
 		int role=Integer.parseInt(rolo[0]);
-		Permission per = getPer(role);
+		Permission per=new Permission();
+		try {
+			per = getPer(role);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		if(role==1) {
 			return true;
 			

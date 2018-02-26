@@ -51,8 +51,8 @@
 </head>
 <body>
 	<div class="container">
-		<form action="actionCreateUser" style="margin-top: 20px;"
-			method="post">
+		<form action="actionCreateUser?${_csrf.parameterName}=${_csrf.token}"
+			style="margin-top: 20px;" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 			<div class="row">
@@ -97,6 +97,13 @@
 				<div class="col-sm-2">Batch register</div>
 				<div class="col-sm-10">
 					<input type="file" name="fileName" accept=".csv" />
+					<c:forEach var="listcheckX" items="${listcheck}" varStatus="status">
+						<c:forEach var="thongbao" items="${listcheckX}">
+							<div class="error">${thongbao}</div>
+							<div>-------------------------</div>
+						</c:forEach>
+
+					</c:forEach>
 				</div>
 
 			</div>
@@ -106,5 +113,13 @@
 			</div>
 		</form>
 	</div>
+	<script type="text/javascript">
+		<c:if test="${check==true}">
+		alert("successful")
+		</c:if>
+		<c:if test="${check==false}">
+		alert("error")
+		</c:if>
+	</script>
 </body>
 </html>

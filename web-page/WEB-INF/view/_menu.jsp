@@ -4,6 +4,8 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <head>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -66,10 +68,21 @@
 					
 			<li><a href="#">Users Management ></a>
 				<ul>
-					<li><a href="${pageContext.request.contextPath}/user">User Register</a></li>
+					<li><a href="${pageContext.request.contextPath}/user">User
+							Register</a></li>
 					<li><a href="${pageContext.request.contextPath}/userInfo">User
 							Infor</a></li>
-					<li><a href="#">Permission Management</a></li>
+					<sec:authentication property="principal.authorities"
+						var="authorities" />
+					<c:forEach items="${authorities}" var="authority" varStatus="vs">
+
+						<c:if test="${authority.authority == '1'}">
+							<li><a
+								href="${pageContext.request.contextPath}/permissionManager">Permission
+									Management</a></li>
+						</c:if>
+					</c:forEach>
+
 				</ul></li>
 			<li><a href="#"> Management ></a>
 				<ul>

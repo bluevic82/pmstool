@@ -1,12 +1,17 @@
 package com.tinhvan.model;
 
-
+import com.opencsv.bean.CsvBindByName;
 
 public class User {
+	@CsvBindByName( required = false)
 	private int user_id;
+	@CsvBindByName(column = "user_fullName")
 	private String user_fullName;
+	@CsvBindByName(column = "user_mail")
 	private String user_mail;
+	@CsvBindByName(column = "user_passWord")
 	private String user_passWord;
+	@CsvBindByName(column = "role_id")
 	private int role_id;
 
 	public User() {

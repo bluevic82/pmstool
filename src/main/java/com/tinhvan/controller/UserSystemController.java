@@ -1,6 +1,11 @@
 package com.tinhvan.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,8 +18,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.RoleDao;
 import com.tinhvan.dao.UserDao;
@@ -66,14 +75,81 @@ public class UserSystemController {
 	}
 
 	@RequestMapping("/actionCreateUser")
-	public ModelAndView addUser(Model model, @ModelAttribute(value = "userInfo") @Validated User users,
-			BindingResult result) {
+	public ModelAndView addUser(@RequestParam(value = "fileName", required = false) MultipartFile file, Model model,
+			@ModelAttribute(value = "userInfo") @Validated User users, BindingResult result) {
+		
+	
+		
+		Boolean check1 = false;
+		List<List<String>> listcheck=new ArrayList();
+		
+		try {
+			InputStream is = file.getInputStream();
+			Reader reader = new BufferedReader(new InputStreamReader(is));
+			CsvToBean csvToBean = new CsvToBeanBuilder(reader).withType(User.class).withIgnoreLeadingWhiteSpace(true)
+					.build();
+			
+			List<User> Usercsvs = csvToBean.parse();
+			
+			for (int i = 0; i < Usercsvs.size(); i++) {
+				List<String> datacheck=new ArrayList();
+				boolean check = true;
+				List<User> gettAllUser = userDao.gettAllUser();
+				for (User user2 : gettAllUser) {
+					if (Usercsvs.get(i).getUser_mail().equals(user2.getUser_mail())) {
+						check = false;
+						datacheck.add("Email " + Usercsvs.get(i).getUser_mail() + " already exist");
+						break;
+					}	
+				}
+				if (Usercsvs.get(i).getUser_fullName() == null || Usercsvs.get(i).getUser_fullName() == "") {
+					check = false;
+					datacheck.add("UserName of account " + Usercsvs.get(i).getUser_mail() + " not be empty");
+				}
+				String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+				if (Usercsvs.get(i).getUser_mail() == null || Usercsvs.get(i).getUser_mail() == "" || !Usercsvs.get(i).getUser_mail().toString().matches(ePattern)==true) {
+					check = false;
+					datacheck.add("Email of account " + Usercsvs.get(i).getUser_mail() + " is invalid");
+				}
+				if (Usercsvs.get(i).getRole_id() < 1 || Usercsvs.get(i).getRole_id() > 6) {
+					check = false;
+					datacheck.add("Role of account " + Usercsvs.get(i).getUser_mail() + " is invalid");
+				}
+				String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}";
+				if (Usercsvs.get(i).getUser_passWord() == null || Usercsvs.get(i).getUser_passWord() == "" || !Usercsvs.get(i).getUser_passWord().toString().matches(pattern)==true) {
+					check = false;
+					datacheck.add("PassWord of account " + Usercsvs.get(i).getUser_mail() + " is invalid");
+				}
+				
+				listcheck.add(datacheck);
+				
+				if (check == true) {
+					User u = new User();
+					u.setRole_id(Usercsvs.get(i).getRole_id());
+					u.setUser_fullName(Usercsvs.get(i).getUser_fullName());
+					u.setUser_mail(Usercsvs.get(i).getUser_mail());
+					u.setUser_passWord(Usercsvs.get(i).getUser_passWord());
+					userDao.addUserSystem(u);
+					check1 = true;
+				}
+					
+				
 
-		if (result.hasErrors()) {
+				reader.close();
+			}
 
-			return new ModelAndView("403Page");
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		userDao.addUserSystem(users);
+
+		if (!result.hasErrors()) {
+			userDao.addUserSystem(users);
+			check1 = true;
+
+		}
+		
+		model.addAttribute("listcheck",listcheck);
+		model.addAttribute("check", check1);
 		return new ModelAndView("userRegister");
 	}
 
