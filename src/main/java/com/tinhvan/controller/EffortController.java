@@ -1,5 +1,6 @@
 package com.tinhvan.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.EffortDao;
 import com.tinhvan.dao.ProjectDao;
+import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.Effort;
 import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.User;
 
 /**
  * @purpose: calculate actual cost, over head, charge request.
@@ -28,12 +31,26 @@ public class EffortController {
 	ProjectDao projectDao;
 	@Autowired
 	EffortDao effortDao;
+	@Autowired
+	UserDao userDao;
 
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")
-	public List<ProjectInfo> getListProject() {
-		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-		return list_Project_For_Menu;
+	public List<ProjectInfo> getListProject(Principal principal) {
+		//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+		//User user = get_User_current_loged(principal);
+		User user = userDao.getUserInfoByUserMail(principal.getName());
+		
+		//check role: if user is Admin => list all projects 
+		if(user.getRole_id()==1){
+			return projectDao.getAllProject();
+		}
+		else{
+			//only get list projects that user access
+			//get List project_ids of user is PM
+			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+			
+		}
 	}
 
 	@RequestMapping(value = "/effortManagement")

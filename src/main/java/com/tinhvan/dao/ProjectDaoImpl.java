@@ -2,6 +2,7 @@ package com.tinhvan.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -258,5 +259,41 @@ public class ProjectDaoImpl implements ProjectDao {
 				return s;
 			}
 		} );
+	}
+	
+	
+	
+	@Override
+	public List<ProjectInfo> getListPRojectOfUserAccessed(int user_id) {
+		List<ProjectInfo> list_Project_Of_Usser_Accessed = new ArrayList<ProjectInfo>();
+		try{
+			List<Integer> list_Project_Ids = jdbcTemplate.queryForList("SELECT PROJECT_ID FROM member_project WHERE USER_ID = "+user_id+"", Integer.class);
+			//System.out.println(list_Project_Ids.size());
+			for(int i = 0;i<list_Project_Ids.size();i++){
+				list_Project_Of_Usser_Accessed.add(jdbcTemplate.queryForObject("SELECT * FROM project_info WHERE PROJECT_ID = "+list_Project_Ids.get(i)+"", new RowMapper<ProjectInfo>() {
+					@Override
+					public ProjectInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ProjectInfo projectInfo = new ProjectInfo();
+						projectInfo.setProject_id(rs.getInt(1));
+						projectInfo.setProject_name(rs.getString(2));
+						projectInfo.setProject_from(rs.getString(3));
+						projectInfo.setProject_to(rs.getString(4));
+						projectInfo.setProject_charge_cost(rs.getInt(5));
+						projectInfo.setStatus_id(rs.getInt(6));
+						projectInfo.setType_id(rs.getInt(7));
+						projectInfo.setProject_description(rs.getString(8));
+						projectInfo.setProject_technical(rs.getString(9));
+						
+						return projectInfo;
+					}
+				}));
+			}
+			return list_Project_Of_Usser_Accessed;
+		}
+		catch(Exception e){
+			return null;
+		}
+		
+		
 	}
 }

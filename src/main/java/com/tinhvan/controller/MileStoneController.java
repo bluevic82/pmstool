@@ -1,11 +1,11 @@
 package com.tinhvan.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MileStoneDao;
 import com.tinhvan.dao.ProjectDao;
+import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MileStone;
 import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.User;
 
 /**
  * @purpose: MileStoneController using Setting Milestone Using method Attribute
@@ -33,13 +35,26 @@ public class MileStoneController {
 	MileStoneDao mileStoneDao;
 	@Autowired(required = true)
 	ProjectDao projectDao;
-
+	@Autowired UserDao userDao;
+	
 	// get list project for menu
-	@ModelAttribute("list_Project_For_menu")
-	public List<ProjectInfo> getListProject() {
-		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-		return list_Project_For_Menu;
-	}
+		@ModelAttribute("list_Project_For_menu")
+		public List<ProjectInfo> getListProject(Principal principal) {
+			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+			//User user = get_User_current_loged(principal);
+			User user = userDao.getUserInfoByUserMail(principal.getName());
+			
+			//check role: if user is Admin => list all projects 
+			if(user.getRole_id()==1){
+				return projectDao.getAllProject();
+			}
+			else{
+				//only get list projects that user access
+				//get List project_ids of user is PM
+				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+				
+			}
+		}
 
 	// Mapping to view MileStone JSP
 	/*@RequestMapping(value = { "/createMileStone" }, method = RequestMethod.GET)

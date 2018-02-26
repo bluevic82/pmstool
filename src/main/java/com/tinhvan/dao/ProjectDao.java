@@ -21,4 +21,5 @@ public interface ProjectDao {
 	public List<ProjectInfo> getAllProject1(String name,String pm,String from,String to);
 	
 	public List<ScopeProject> getScope(int id);
+	public List<ProjectInfo> getListPRojectOfUserAccessed(int user_id);
 }

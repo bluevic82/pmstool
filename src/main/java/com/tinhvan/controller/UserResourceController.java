@@ -1,6 +1,7 @@
 package com.tinhvan.controller;
 
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +38,27 @@ public class UserResourceController {
 	UserDao userDao;
 	@Autowired
 	MemberProjectDao memberProjectDao;
-	@Autowired
-	ProjectDao projectDao;
-
+	
+	@Autowired ProjectDao projectDao;
+	
 	// get list project for menu
-	@ModelAttribute("list_Project_For_menu")
-	public List<ProjectInfo> getListProject() {
-		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-		return list_Project_For_Menu;
-	}
+		@ModelAttribute("list_Project_For_menu")
+		public List<ProjectInfo> getListProject(Principal principal) {
+			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+			//User user = get_User_current_loged(principal);
+			User user = userDao.getUserInfoByUserMail(principal.getName());
+			
+			//check role: if user is Admin => list all projects 
+			if(user.getRole_id()==1){
+				return projectDao.getAllProject();
+			}
+			else{
+				//only get list projects that user access
+				//get List project_ids of user is PM
+				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+				
+			}
+		}
 
 	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
 	public String resourceMember(@PathVariable int id, ModelMap model) {

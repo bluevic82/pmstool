@@ -1,6 +1,5 @@
 package com.tinhvan.controller;
 
-import java.io.File;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
@@ -8,16 +7,12 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.ProjectDao;
@@ -26,7 +21,6 @@ import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Role;
 import com.tinhvan.model.User;
-import com.tinhvan.model.UserInfo;
 import com.tinhvan.validator.UserValidator;
 
 @Controller
@@ -44,13 +38,25 @@ public class UserSystemController {
 	protected void initBinder(WebDataBinder binder) {
 		binder.addValidators(userValidator);
 	}
-
+	
 	// get list project for menu
-	@ModelAttribute("list_Project_For_menu")
-	public List<ProjectInfo> getListProject() {
-		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-		return list_Project_For_Menu;
-	}
+		@ModelAttribute("list_Project_For_menu")
+		public List<ProjectInfo> getListProject(Principal principal) {
+			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+			//User user = get_User_current_loged(principal);
+			User user = userDao.getUserInfoByUserMail(principal.getName());
+			
+			//check role: if user is Admin => list all projects 
+			if(user.getRole_id()==1){
+				return projectDao.getAllProject();
+			}
+			else{
+				//only get list projects that user access
+				//get List project_ids of user is PM
+				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+				
+			}
+		}
 
 	// mapping add userInfo
 	@RequestMapping(value = "/user")

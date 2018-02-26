@@ -1,5 +1,6 @@
 package com.tinhvan.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,23 +9,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,8 +32,8 @@ import com.tinhvan.dao.ScopeDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
+import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
-import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectAndScope;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Scope;
@@ -46,6 +41,7 @@ import com.tinhvan.model.ScopeProject;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
+import com.tinhvan.model.User;
 
 /**
  * @purpose: Project Controller using addProject, getProject
@@ -72,14 +68,26 @@ public class ProjectController {
 	TaskInfoDao taskInfoDao;
 	@Autowired
 	PermissionDao per;
-
-
+	@Autowired UserDao userDao;
+	
 	// get list project for menu
-				@ModelAttribute("list_Project_For_menu")
-				public List<ProjectInfo> getListProject() {
-					List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-					return list_Project_For_Menu;
-				}
+		@ModelAttribute("list_Project_For_menu")
+		public List<ProjectInfo> getListProject(Principal principal) {
+			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+			//User user = get_User_current_loged(principal);
+			User user = userDao.getUserInfoByUserMail(principal.getName());
+			
+			//check role: if user is Admin => list all projects 
+			if(user.getRole_id()==1){
+				return projectDao.getAllProject();
+			}
+			else{
+				//only get list projects that user access
+				//get List project_ids of user is PM
+				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+				
+			}
+		}
 	
 	// mapping add project
 	@RequestMapping(value = "/addProject")

@@ -1,5 +1,6 @@
 package com.tinhvan.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
+import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
+import com.tinhvan.model.User;
 
 /**
  * @purpose: QAController using QAResgister/Update Using method Attribute set
@@ -40,13 +43,26 @@ public class QAController {
 	StatusDao statusDao;
 	@Autowired
 	MemberProjectDao memberProjectDao;
-
+	@Autowired UserDao userDao;
+	
 	// get list project for menu
-	@ModelAttribute("list_Project_For_menu")
-	public List<ProjectInfo> getListProject() {
-		List<ProjectInfo> list_Project_For_Menu = projectDao.getAllProject();
-		return list_Project_For_Menu;
-	}
+		@ModelAttribute("list_Project_For_menu")
+		public List<ProjectInfo> getListProject(Principal principal) {
+			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+			//User user = get_User_current_loged(principal);
+			User user = userDao.getUserInfoByUserMail(principal.getName());
+			
+			//check role: if user is Admin => list all projects 
+			if(user.getRole_id()==1){
+				return projectDao.getAllProject();
+			}
+			else{
+				//only get list projects that user access
+				//get List project_ids of user is PM
+				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+				
+			}
+		}
 	
 	// Mapping view ListQuestion & Answer
 	@RequestMapping(value = "/qaList")
