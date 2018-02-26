@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
@@ -51,7 +52,10 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 				.passwordParameter("user_password")
 
 				// Cấu hình cho Logout Page.
-				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+				/*.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");*/
+				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/logoutSuccessfulPage").deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true);
 	}
 
 }

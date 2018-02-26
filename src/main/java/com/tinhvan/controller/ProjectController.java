@@ -42,6 +42,7 @@ import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectAndScope;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Scope;
+import com.tinhvan.model.ScopeProject;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
@@ -126,9 +127,17 @@ public class ProjectController {
 	@RequestMapping(value = "/editproject/{id}")
 	public ModelAndView editProject(@PathVariable int id, ModelMap model) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		//model.put("command", projectDao.getProjectById(id));
-		//return new ModelAndView("updateProject", "command", projectInfo);
-		return null;
+		List<ScopeProject> s = projectDao.getScope(id);
+		model.put("command", projectDao.getProjectById(id));
+		model.put("id", projectInfo);
+		model.put("scope", s);
+		System.out.println(s.size());
+			for (int i=0;i < s.size();i++)
+			{
+			  System.out.println("Value sid " + s.get(i).getScope_id());
+			  System.out.println("Value spid " + s.get(i).getScope_project_id());
+			}
+		return new ModelAndView("updateProject");
 	}
 	
 	//mapping getdata project_it for view detail

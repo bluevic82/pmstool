@@ -93,8 +93,11 @@
 				</ul></li>
 			<c:if test="${pageContext.request.userPrincipal.name != null}">
 
-				<li style="float: right;"><a
-					href="${pageContext.request.contextPath}/logout">Logout</a></li>
+				<li style="float: right;">
+				<%-- <a href="${pageContext.request.contextPath}/logout">Logout</a> --%>
+				<%-- <a href="${pageContext.request.contextPath}/logout?${_csrf.parameterName}=${_csrf.token}">Logout</a> --%>
+					<a href="${pageContext.request.contextPath}/logout">Logout</a>
+				</li>
 
 			</c:if>
 			<li style="float: right;"><a

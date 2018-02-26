@@ -3,8 +3,7 @@
 <title>Logout</title>
 </head>
 <body>
-    <jsp:include page="_menu.jsp" />
- 
     <h1>Logout Successful!</h1>
+    <div><a href="${pageContext.request.contextPath}/login">Login</a></div>
 </body>
 </html>

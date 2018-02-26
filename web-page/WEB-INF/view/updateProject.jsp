@@ -24,7 +24,7 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form name="project" action="/Login/actionUpdateProject" method="post">
+		<form:form>
 			<form:hidden path="project_id"/>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
@@ -49,30 +49,10 @@
 					</div> -->
 					
 				<div class="col-sm-3">
-					<%-- <div class="row">
-					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
-			                <div class='input-group date' id='datetimepicker1' >
-			                    <form:input type='text' class="form-control" name="project_from" path="project_from"/>
-			                    <div class="input-group-addon">
-			                    	<div class="glyphicon glyphicon-calendar"></div>
-			                    </div>
-			                </div>
-			            </div>
-			         </div> --%>
-			         From<input class="date" name="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png">
+			         From<form:input class="date" name="project_from" path="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png">
 				</div>
 				<div class="col-sm-3">
-					<%-- <div class="row">
-						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
-			                <div class='input-group date' id='datetimepicker2' >
-			                    <form:input type='text' class="form-control" name="project_to" path="project_to"/>
-			                    <span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
-			                </div>
-			            </div>
-					</div> --%>
-					To<input class="date" id="datetimepicker2"/><img  alt="" src="../resources/image/Date-32.png">
+					To<form:input class="date" id="datetimepicker2" name="project_to" path="project_to"/><img  alt="" src="../resources/image/Date-32.png">
 				</div>
 					
 				</div><br>
@@ -89,8 +69,8 @@
 					<div class="col-sm-1">Scope</div> 
 					<div class="col-sm-11" >
 						<c:forEach var="projectScope" items="${projectScope}">   
-							<input type="checkbox" name="" value="${projectScope.scope_id}"  style="margin-left: 10px;">${projectScope.scope_name}
-						</c:forEach>  
+							<input id="scope_all" type="checkbox" name="scope_id" value="${projectScope.scope_id}"  style="margin-left: 10px;">${projectScope.scope_name}
+						</c:forEach>
 					</div>
 				</div><br>
 				<div>Charge Cost <form:input  name="project_charge_cost" path="project_charge_cost" style="margin-left: 10px"/> (MM)</div><br>
@@ -110,19 +90,43 @@
 	</div>
 
  <script type="text/javascript">
-       $(function () {
-          $('#datetimepicker1').datetimepicker({
-             format:"YYYY-MM-DD",
-            });
+     $(function () {
+       $('#datetimepicker1').datetimepicker({
+         format:"YYYY-MM-DD",
          });
-     </script> 
-      <script type="text/javascript">
-       $(function () {
-          $('#datetimepicker2').datetimepicker({
-             format:"YYYY-MM-DD",
-            });
-         });
-     </script> 
-
+     });
+</script> 
+<script type="text/javascript">
+     $(function () {
+       $('#datetimepicker2').datetimepicker({
+         format:"YYYY-MM-DD",
+       });
+     });
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		//get value scope had add
+		var array_Scope = new Array(); 
+		var array_s_p = new Array();
+		<c:forEach var="scope" items="${scope}">   
+			array_Scope.push(${scope.scope_id});
+			array_s_p.push('${scope.scope_project_id}');
+			
+		</c:forEach>
+		console.log(array_Scope);
+		
+		//get all value scope
+		var arr_defaul_scope = 	new Array();
+		<c:forEach var="projectScope" items="${projectScope}">   
+			arr_defaul_scope.push('${projectScope.scope_id}');
+		</c:forEach>
+		console.log(arr_defaul_scope);
+		console.log($("#scope_all").val())
+	})
+</script>
+<script type="text/javascript">
+		
+</script>
 </body>
 </html>

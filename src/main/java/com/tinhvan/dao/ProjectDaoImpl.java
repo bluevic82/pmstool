@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tinhvan.mapper.ProjectMapper;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.ScopeProject;
 
 @Repository
 @Transactional
@@ -242,5 +243,20 @@ public class ProjectDaoImpl implements ProjectDao {
 			}
 		});
 	}
-	
+
+	@Override
+	public List<ScopeProject> getScope(int id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT scope_id, scope_proect_id from scope_project where PROJECT_ID = ?";
+		return jdbcTemplate.query(sql, new Object[] {id}, new RowMapper<ScopeProject>() {
+			@Override
+			public ScopeProject mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				ScopeProject s = new ScopeProject();
+				s.setScope_id(rs.getInt(1));
+				s.setScope_project_id(rs.getInt(2));
+				return s;
+			}
+		} );
+	}
 }

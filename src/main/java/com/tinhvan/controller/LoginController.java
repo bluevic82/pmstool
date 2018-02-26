@@ -13,7 +13,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.processing.RoundEnvironment;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -293,14 +295,18 @@ public class LoginController {
 		return "loginPage";
 	}
 
-	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-	public String logoutSuccessfulPage(Model model) {
-		
-		
-		
-		
-		model.addAttribute("title", "Logout");
-		return "logoutSuccessfulPage";
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logoutDo(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session= request.getSession(false);
+		    SecurityContextHolder.clearContext();
+		         session= request.getSession(false);
+		        if(session != null) {
+		            session.invalidate();
+		        }
+		        for(Cookie cookie : request.getCookies()) {
+		            cookie.setMaxAge(0);
+		        }
+		    return "logoutSuccessfulPage";
 	}
 
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
