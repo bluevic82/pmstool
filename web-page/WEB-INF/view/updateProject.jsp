@@ -68,9 +68,14 @@
 				<div class="row">
 					<div class="col-sm-1">Scope</div> 
 					<div class="col-sm-11" >
-						<c:forEach var="projectScope" items="${projectScope}">   
+					<%-- <c:forEach var="scope" items="${projectScope}"> --%>
+					
+						<c:forEach var="projectScope" items="${projectScope}"> 
+						
+							<%-- <input type="checkbox" name="over_view"  <c:if test="${scope.scope_id} == ${projectScope.scope_id}">checked="checked" </c:if>  />${projectScope.scope_name} --%>
 							<input id="scope_all" type="checkbox" name="scope_id" value="${projectScope.scope_id}"  style="margin-left: 10px;">${projectScope.scope_name}
 						</c:forEach>
+					<%-- 	</c:forEach> --%>
 					</div>
 				</div><br>
 				<div>Charge Cost <form:input  name="project_charge_cost" path="project_charge_cost" style="margin-left: 10px"/> (MM)</div><br>
@@ -119,10 +124,11 @@
 		//get all value scope
 		var arr_defaul_scope = 	new Array();
 		<c:forEach var="projectScope" items="${projectScope}">   
-			arr_defaul_scope.push('${projectScope.scope_id}');
+			arr_defaul_scope.push(${projectScope.scope_id});
+			
 		</c:forEach>
 		console.log(arr_defaul_scope);
-		console.log($("#scope_all").val())
+		console.log($("#scope_all").val());
 	})
 </script>
 <script type="text/javascript">

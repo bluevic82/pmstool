@@ -157,12 +157,8 @@ public class BugController {
 
 	// get all member project in Bug
 	@ModelAttribute("pic")
-	public List<MemberProject> getPIC(@PathVariable int id, Model model) {
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
-
-		// purpose: get project's name
-		model.addAttribute("project_Infor", projectInfo);
-		List<MemberProject> list = memberProjectDao.getAllMember(id);
+	public List<MemberProject> getPIC() {
+		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
 
@@ -171,5 +167,10 @@ public class BugController {
 	public List<Category> getCategory() {
 		List<Category> list = categoryDao.getAllCategory();
 		return list;
+	}
+	@ModelAttribute("picL")
+	public List<MemberProject> getPICL() {
+		List<MemberProject> listL = memberProjectDao.getMember();
+		return listL;
 	}
 }

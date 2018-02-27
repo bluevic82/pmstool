@@ -25,9 +25,9 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 	RoleDao roleDao;
 
 	@Override
-	public List<MemberProject> getAllMember(int id) {
+	public List<MemberProject> getAllMember() {
 
-		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT where project_id = " + id+ "",
+		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT",
 				new RowMapper<MemberProject>() {
 
 					@Override
@@ -195,6 +195,27 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 						return memberProject;
 					}
 				});*/
+	}
+
+	@Override
+	public List<MemberProject> getMember() {
+		// TODO Auto-generated method stub
+		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT",
+				new RowMapper<MemberProject>() {
+
+					@Override
+					public MemberProject mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						MemberProject mp = new MemberProject();
+						mp.setMember_project_id(rs.getInt(1));
+						mp.setUser_id(rs.getInt(2));
+						mp.setMember_project_name(rs.getString(3));
+						mp.setRole_id(rs.getInt(4));
+						mp.setMember_project_effort(rs.getInt(5));
+						mp.setProject_id(rs.getInt(6));
+						return mp;
+					}
+				});
 	}
 
 		

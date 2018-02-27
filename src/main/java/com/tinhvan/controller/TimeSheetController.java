@@ -176,12 +176,9 @@ public class TimeSheetController {
 
 	// method get all member project Timesheet of project
 	@ModelAttribute("pic")
-	public List<MemberProject> getPIC(@PathVariable int id, Model model) {
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
-
-		// purpose: get project's name
-		model.addAttribute("project_Infor", projectInfo);
-		List<MemberProject> list = memberProjectDao.getAllMember(id);
+	public List<MemberProject> getPIC() {
+		
+		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
 
@@ -218,6 +215,11 @@ public class TimeSheetController {
 		// purpose: get project's name
 		model.addAttribute("project_Infor", projectInfo);
 		List<TaskInfo> list = TaskInfoDao.getTaskInfo_By_Status_Open_And_OnGoing(id);
+		return list;
+	}
+	@ModelAttribute("picL")
+	public List<MemberProject> getPICL() {
+		List<MemberProject> list = memberProjectDao.getMember();
 		return list;
 	}
 }
