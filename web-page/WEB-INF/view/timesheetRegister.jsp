@@ -92,28 +92,28 @@
 								
 							<td id="id_ts_Definded"><select id="id_selectDefinded"><option
 										value="${list_TimeSheetOfOneProject.pre_defined_id}"
-										id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[0]}</option>
+										id="id_chooseOption">${list_TimeSheetOfOneProject.pre_defined_name}</option>
 									<c:forEach var="pre_defined" items="${pre_defined}">
 										<option value="${pre_defined.pre_defined_id}">${pre_defined.pre_defined_name}</option>
 									</c:forEach></select></td>
 									
 							<td id="id_ts_Process"><select id="id_selectProcess"><option
 										value="${list_TimeSheetOfOneProject.process_id}"
-										id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[1]}</option>
+										id="id_chooseOption">${list_TimeSheetOfOneProject.process_name}</option>
 									<c:forEach var="process" items="${process}">
 										<option value="${process.process_id}">${process.process_name}</option>
 									</c:forEach></select></td>
 
 							<td id="id_ts_Type"><select id="id_setType"><option
 										value="${list_TimeSheetOfOneProject.type_id}"
-										id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[2]}</option>
+										id="id_chooseOption">${list_TimeSheetOfOneProject.type_name}</option>
 									<c:forEach var="timsheetTypes" items="${timsheetTypes}">
 										<option value="${timsheetTypes.type_id}">${timsheetTypes.type_name}</option>
 									</c:forEach></select></td>
 
 							<td id="id_ts_Requirement"><select id="id_selectRequirement"><option
 										value="${list_TimeSheetOfOneProject.task_id }"
-										id="id_chooseOption">${list_TimeSheetOfOneProject.list_Name_Of_Id[3]}</option>
+										id="id_chooseOption">${list_TimeSheetOfOneProject.task_subject}</option>
 									<c:forEach var="Tasks" items="${Tasks}">
 										<option value="${Tasks.task_id}">${Tasks.task_subject}</option>
 									</c:forEach></select></td>
@@ -242,33 +242,39 @@
 
 		}
 		
-		var token = $("meta[name='_csrf']").attr("content");
-
-		var header = $("meta[name='_csrf_header']").attr(
-			"content"); 
+		if(list_timesheet_id_delete.length!=0){
 			
-			//use ajax to submit
-			$.ajax({
-				url : "actionDeleteListTimeSheet",
+			var token = $("meta[name='_csrf']").attr("content");
 
-				type : "POST",
-				data : JSON
-						.stringify(list_timesheet_id_delete),
-				contentType : 'application/json;charset=UTF-8',
-				dataType : 'json',
+			var header = $("meta[name='_csrf_header']").attr(
+				"content"); 
+				
+				//use ajax to submit
+				$.ajax({
+					url : "actionDeleteListTimeSheet",
 
-				beforeSend : function(xhr) {
-					// here it is
-					xhr.setRequestHeader(header, token);
-				},
+					type : "POST",
+					data : JSON
+							.stringify(list_timesheet_id_delete),
+					contentType : 'application/json;charset=UTF-8',
+					dataType : 'json',
 
-				success : function(data) {
-					alert("delete completed!");
-				},
-				error : function(data) {
-					alert("error! ");
-				}
-			});
+					beforeSend : function(xhr) {
+						// here it is
+						xhr.setRequestHeader(header, token);
+					},
+
+					success : function(data) {
+						alert("delete completed!");
+					},
+					error : function(data) {
+						alert("error! ");
+					}
+				});
+			
+		}
+		
+		
 		//console.log(list_timesheet_id_delete);
 
 	});

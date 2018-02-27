@@ -44,7 +44,7 @@ import com.tinhvan.model.User;
  * **/
 
 @Controller
-public class TimeSheetController {
+public class TimeSheetRegisterController {
 
 	@Autowired
 	TimeSheetDao timeSheetDao;
@@ -160,13 +160,7 @@ public class TimeSheetController {
 	 * @Purpose: Methods Attributes
 	 */
 
-	// Mapping view list TimeSheeet
-		@RequestMapping("/timeSheetList")
-		public ModelAndView listTimeSheet() {
-			List<TimeSheetDetail> list = timeSheetDao.getAllTimeSheet();
-			return new ModelAndView("timeSheetList", "list", list);
-		}
-		
+	
 	// method get Name of Project
 	@ModelAttribute("projectName")
 	public List<ProjectInfo> getAllProject() {

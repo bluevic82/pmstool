@@ -25,64 +25,87 @@
 <body>
 	<div class="container" style="margin-top: 20px;">
 		<div>
-			Project Name 
-			<select name="projectName">
-				<c:forEach var="projectName" items="${projectName}">
-					<option value="${projectName.project_id}">${projectName.project_name}</option>
+		<form method="post" action="/Login/timeSheetList/">
+			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+			Project Name <select name="projectName">
+				<option value="0"></option>
+				<c:forEach var="listProjects" items="${listProjects}">
+					<option value="${listProjects.project_id}">${listProjects.project_name}</option>
 				</c:forEach>
-			</select>
-			<label style="margin-left: 10px"> PIC </label> 
-			<select name="member_project_id" style="margin-left: 5px">
-				<c:forEach var="pic" items="${pic}">
-					<option value="${pic.member_project_id}">
-						${pic.member_project_name}</option>
+			</select> <label style="margin-left: 10px"> PIC </label> <select
+				name="member_project_id" style="margin-left: 5px">
+				<option value="0"></option>
+				<c:forEach var="list_PIC" items="${list_PIC}">
+					<option value="${list_PIC.member_project_id}">
+						${list_PIC.member_project_name}</option>
 				</c:forEach>
-			</select> 
-			<label style="margin-left: 10px"> Process </label> 
-			<select name="process_id" style="margin-left: 5px">
+			</select> <label style="margin-left: 10px"> Process </label> <select
+				name="process_id" style="margin-left: 5px">
+				<option value="0"></option>
 				<c:forEach var="process" items="${process}">
 					<option value="${process.process_id}">
 						${process.process_name}</option>
 				</c:forEach>
-			</select> 
-			<label style="margin-left: 10px"> Status </label> 
-			<select name="status_id" style="margin-left: 5px">
+			</select> <label style="margin-left: 10px"> Status </label> <select
+				name="status_id" style="margin-left: 5px">
+				<option value="0"></option>
 				<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
 					<option value="${timeSheetStatus.status_id}">
 						${timeSheetStatus.status_name}</option>
 				</c:forEach>
-			</select> 
-			<button name="actionSearchTask" value="actionSearchTask" style="background-color: green; color: white; margin-left: 30px">Search</button>
+			</select>
+			<button type="submit"  style="background-color: green; color: white; margin-left: 30px">Search</button>
+				</form>
 		</div>
 		<table style="margin-top: 50px;" class="table table-bordered">
 			<thead>
 				<tr>
 					<th scope="col" style="background-color: #3ADF00;">Member</th>
-					<th scope="col" style="background-color: #3ADF00;">TimeSheet Date</th>
+					<th scope="col" style="background-color: #3ADF00;">TimeSheet
+						Date</th>
 					<th scope="col" style="background-color: #3ADF00;">Hour</th>
-					<th scope="col" style="background-color: #3ADF00;">Pre-defined task</th>
+					<th scope="col" style="background-color: #3ADF00;">Pre-defined
+						task</th>
 					<th scope="col" style="background-color: #3ADF00;">Process</th>
-					<th scope="col" style="background-color: #3ADF00;">Type of work</th>
+					<th scope="col" style="background-color: #3ADF00;">Type of
+						work</th>
 					<th scope="col" style="background-color: #3ADF00;">Requirement</th>
-					<th scope="col" style="background-color: #3ADF00;">Work content</th>
+					<th scope="col" style="background-color: #3ADF00;">Work
+						content</th>
 					<th scope="col" style="background-color: #3ADF00;">Status</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="list" items="${list}">
+				<c:forEach var="listTimeSheetDetails"
+					items="${listTimeSheetDetails}">
+
+
 					<tr>
-						<th scope="row"><a href="editTask/${list.task_id}">${list.task_id}</a></th>
-						<th><a href="editTask/${list.task_id}">${list.task_subject}</a></th>
-						<th>${list.member_project_id}</th>
-						<th>${list.task_priority}</th>
-						<th>${list.task_to}</th>
-						<th>${list.status_id}</th>
-						<th>${list.task_done}</th>
-						<th>${list.task_description}</th>
+						<th>${listTimeSheetDetails.memberProject.member_project_name}</th>
+						<th>${listTimeSheetDetails.detail_timesheet_date}</th>
+						<th>${listTimeSheetDetails.hour}</th>
+						<th>${listTimeSheetDetails.pre_defined_name}</th>
+						<th>${listTimeSheetDetails.process_name}</th>
+						<th>${listTimeSheetDetails.type_name}</th>
+						<th>${listTimeSheetDetails.task_subject}</th>
+						<th>${listTimeSheetDetails.workcontent}</th>
+						<th><select style="margin-left: 5px">
+								<option>${listTimeSheetDetails.status_type}</option>
+								<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
+									<option value="${timeSheetStatus.status_id}">
+										${timeSheetStatus.status_name}</option>
+								</c:forEach>
+						</select></th>
 					</tr>
+
+
 				</c:forEach>
 			</tbody>
 		</table>
+		<div align="right" style="padding-top: 2%; padding-bottom: 5%">
+			<button id="id_buttonApprove">Approve</button>
+			<button type="submit" id="id_buttonSave" >Save</button>
+		</div>
 	</div>
 </body>
 </html>

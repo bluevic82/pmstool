@@ -219,7 +219,85 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 	}
 
 		
+	
+	@Override
+	public List<MemberProject> getListMemberProject_By_Current_User_Is_PM(
+			int user_id, int role_id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM member_project WHERE USER_ID = "+user_id+" AND ROLE_ID = "+role_id+"";
+		try{
+			return jdbcTemplate.query(sql, new RowMapper<MemberProject>() {
+				@Override
+				public MemberProject mapRow(ResultSet rs, int rowNum) throws SQLException {
+					MemberProject memberProject=new MemberProject();
+					memberProject.setMember_project_id(rs.getInt(1));
+					memberProject.setMember_project_name(rs.getString(3));
+					memberProject.setUser_id(rs.getInt(2));
+					memberProject.setRole_id(rs.getInt(4));
+					memberProject.setMember_project_effort(rs.getInt(5));
+					memberProject.setProject_id(rs.getInt(6));
+					
+					return memberProject;
+				}
+			});
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public MemberProject getMemberProjectByMem_id(int memberProject_id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM member_project WHERE MEMBER_PROJECT_ID = "+memberProject_id+"";
+		try{
+			return jdbcTemplate.queryForObject(sql, new RowMapper<MemberProject>() {
+				@Override
+				public MemberProject mapRow(ResultSet rs, int rowNum) throws SQLException {
+					MemberProject memberProject=new MemberProject();
+					memberProject.setMember_project_id(rs.getInt(1));
+					memberProject.setUser_id(rs.getInt(2));
+					memberProject.setMember_project_name(rs.getString(3));
+					memberProject.setRole_id(rs.getInt(4));
+					memberProject.setMember_project_effort(rs.getInt(5));
+					memberProject.setProject_id(rs.getInt(6));
+					
+					return memberProject;
+				}
+			});
+		}
+		catch(Exception e){
+			return null;
+		}
 		
+	}
+
+	@Override
+	public List<MemberProject> getListMemberProjectsByCurrentUserAssigned(
+			int user_id) {
+		// TODO Auto-generated method stub
+		
+		String sql = "SELECT * FROM member_project WHERE USER_ID = "+user_id+"";
+		try{
+			return jdbcTemplate.query(sql, new RowMapper<MemberProject>() {
+				@Override
+				public MemberProject mapRow(ResultSet rs, int rowNum) throws SQLException {
+					MemberProject memberProject=new MemberProject();
+					memberProject.setMember_project_id(rs.getInt(1));
+					memberProject.setUser_id(rs.getInt(2));
+					memberProject.setMember_project_name(rs.getString(3));
+					memberProject.setRole_id(rs.getInt(4));
+					memberProject.setMember_project_effort(rs.getInt(5));
+					memberProject.setProject_id(rs.getInt(6));
+					
+					return memberProject;
+				}
+			});
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
 		
 
 }

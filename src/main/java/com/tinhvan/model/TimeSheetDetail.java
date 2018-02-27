@@ -14,9 +14,78 @@ public class TimeSheetDetail {
 	private int task_id;
 	private String workcontent;
 	private int ts_id;
+	private int status_id;
 	
+	
+	private String status_type;
+	private String type_name;
+	private String pre_defined_name;
+	private String process_name;
+	private String task_subject;
+	private MemberProject memberProject;
+	
+
+	
+	public MemberProject getMemberProject() {
+		return memberProject;
+	}
+
+	public void setMemberProject(MemberProject memberProject) {
+		this.memberProject = memberProject;
+	}
+
+	public String getTask_subject() {
+		return task_subject;
+	}
+
+	public void setTask_subject(String task_subject) {
+		this.task_subject = task_subject;
+	}
+
+	public String getStatus_type() {
+		return status_type;
+	}
+
+	public void setStatus_type(String status_type) {
+		this.status_type = status_type;
+	}
+
+	public String getType_name() {
+		return type_name;
+	}
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
+	}
+
+	public String getPre_defined_name() {
+		return pre_defined_name;
+	}
+
+	public void setPre_defined_name(String pre_defined_name) {
+		this.pre_defined_name = pre_defined_name;
+	}
+
+	public String getProcess_name() {
+		return process_name;
+	}
+
+	public void setProcess_name(String process_name) {
+		this.process_name = process_name;
+	}
+
 	/*Test DaiK*/
 	private String detail_timesheet_date;
+	
+	
+	public int getStatus_id() {
+		return status_id;
+	}
+
+	public void setStatus_id(int status_id) {
+		this.status_id = status_id;
+	}
+
 	private List<String> list_Name_Of_Id = new ArrayList<String>();
 	
 	public List<String> getList_Name_Of_Id() {
