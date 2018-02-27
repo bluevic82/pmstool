@@ -1,5 +1,6 @@
 package com.tinhvan.controller;
 
+import java.io.File;
 import java.security.Principal;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MemberProjectDao;
@@ -117,6 +119,21 @@ public class QAController {
 		model.put("command", answerDao.getQAById(q_a_id));
 		return new ModelAndView("updateQandA", "command", questionAnwer);
 	}
+	
+	/*
+	 * @purpose: Upload File Refecence point
+	 */
+	
+	@RequestMapping(value="/uploadFile", method=RequestMethod.POST)
+	public String loadPageUpload(ModelMap model, 
+			@RequestParam("referencepoint")MultipartFile file) throws Exception{
+		if (!file.isEmpty()) {
+			String fileName= file.getOriginalFilename();
+			file.transferTo(new File("C:/temp/" + fileName));
+		}
+		return "qaList";
+	}
+	
 	
 	/*
 	 * @purpose: Methods Attributes
