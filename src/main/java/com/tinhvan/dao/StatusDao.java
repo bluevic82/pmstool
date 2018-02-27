@@ -10,6 +10,8 @@ public interface StatusDao {
 	
 	public List<Status> getStatusOfTask();
 	
+	public List<Status> getStatusOfBug();
+	
 	public List<Status> getStatusOfQA();
 	
 	public List<Status> getStatusOfTS();

@@ -24,14 +24,71 @@ public class BugInfoDaoImpl implements BugInfoDao{
 	public List<BugInfo> getAllBug(int pn,int tp,int st, int pic,String pri) {
 		// TODO Auto-generated method stub
 		String sqlxx="";
-		if(pn!=999999 ||tp!=999999||st!=999999||pic!=999999||!pri.equals("")) {
+		if(pn!=0 ||tp!=0||st!=0||pic!=0||!pri.equals("")) {
 			
-			sqlxx=" where bug_info.PROJECT_ID="+pn+" and" + 
-					"					bug_info.TYPE_ID="+tp+" and" + 
-					"					bug_info.STATUS_ID="+st+" and" + 
-					"					member_project.MEMBER_PROJECT_ID="+pic+" and" + 
-					"					bug_info.BUG_PRIORITY="+"'"+pri+"'";
-			
+			boolean x= false;
+			if(pn!=0) {
+				if(x==false) {
+					
+					sqlxx+=" where bug_info.PROJECT_ID="+pn;
+					x=true;
+				}else {
+					sqlxx+=" and bug_info.PROJECT_ID="+pn;
+				}	
+			}
+			if(tp!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where bug_info.TYPE_ID="+tp;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and bug_info.TYPE_ID="+tp;
+					
+				}	
+			}
+			if(st!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where bug_info.STATUS_ID="+st;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and bug_info.STATUS_ID="+st;
+					
+				}	
+			}
+			if(pic!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where member_project.MEMBER_PROJECT_ID="+pic;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and member_project.MEMBER_PROJECT_ID="+pic;
+					
+				}	
+			}
+			if(!pri.equals("")) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where bug_info.BUG_PRIORITY="+"'"+pri+"'";
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and bug_info.BUG_PRIORITY="+"'"+pri+"'";
+					
+				}	
+			}
+				
 		}
 
 		return jdbcTemplate.query("SELECT bug_info.BUG_ID,bug_info.BUG_SUBJECT,member_project.MEMBER_PROJECT_NAME," + 

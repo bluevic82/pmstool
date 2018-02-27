@@ -149,7 +149,7 @@ public class TaskController {
 
 	// get status of Bug
 	@ModelAttribute("taskStatus")
-	public List<Status> getStatusOfBug() {
+	public List<Status> getStatusOfTask() {
 		List<Status> list = statusDao.getStatusOfTask();
 		return list;
 	}

@@ -56,9 +56,9 @@
 			<div>
 				Status
 				 <select name="status_id" style="margin-left: 52px">
-					<c:forEach var="taskStatus" items="${taskStatus}">
-						<option value="${taskStatus.status_id}">
-							${taskStatus.status_name}</option>
+					<c:forEach var="bugStatus" items="${bugStatus}">
+						<option value="${bugStatus.status_id}">
+							${bugStatus.status_name}</option>
 					</c:forEach>
 				</select>
 				&emsp; Done<input id="done" style="margin-left: 10px;" value="" name="bug_done">(%)
