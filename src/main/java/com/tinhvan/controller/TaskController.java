@@ -120,10 +120,10 @@ public class TaskController {
 
 	// Mapping view list Task/Spec/Issue
 	@RequestMapping("/taskList")
-	public ModelAndView listTask(@RequestParam(value="projectName",required=false,defaultValue = "999999")
-		int projectName,@RequestParam(value="type_id",required=false,defaultValue = "999999") 
-		int type_id,@RequestParam(value="status_id",required=false,defaultValue = "999999") 
-		int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "999999") 
+	public ModelAndView listTask(@RequestParam(value="projectName",required=false,defaultValue = "0")
+		int projectName,@RequestParam(value="type_id",required=false,defaultValue = "0") 
+		int type_id,@RequestParam(value="status_id",required=false,defaultValue = "0") 
+		int status_id,@RequestParam(value="member_project_id",required=false,defaultValue = "0") 
 		int member_project_id,@RequestParam(value="task_priority",required=false,defaultValue = "") 
 		String task_priority) {
 	

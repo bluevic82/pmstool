@@ -14,23 +14,28 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 20px;">
+	<form method="post" action="/Login/qaList/">
+			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<div class="row">
 			<div class="col-sm-9">
 				<div>
 					Project Name
 						<select name="projectName">
+						<option value="0"></option>
 					    	<c:forEach var="projectName" items="${projectName}">   
 					   			<option value="${projectName.project_id}" >${projectName.project_name}</option>
 					     	</c:forEach>  
 			    		</select>
 					<label style="margin-left: 50px">Status</label>
 						<select name="status">
+						<option value="0"></option>
 					    	<c:forEach var="qaStatus" items="${qaStatus}">   
 					   			<option value="${qaStatus.status_id}" >${qaStatus.status_type}</option>
 					     	</c:forEach>  
 			    		</select>
 					<label style="margin-left: 50px">PIC</label>
 						<select name="member_project_id">
+						<option value="0"></option>
 					    	<c:forEach var="pic" items="${pic}">   
 					   			<option value="${pic.member_project_id}" >${pic.member_project_name}</option>
 					     	</c:forEach>  
@@ -61,10 +66,11 @@
 			</div>
 			<div class="col-sm-3">
 				<div style="text-align: end;">
-					<button style="background-color: #3ADF00">Search</button>
+					<button type="submit" style="background-color: #3ADF00">Search</button>
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
 </body>
 </html>
