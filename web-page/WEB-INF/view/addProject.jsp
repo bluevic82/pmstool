@@ -26,26 +26,45 @@
 		<form id="project">
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-xs-4">
 					<div>Project Name <input id="project_name" name="project_name" ></div>
 				</div>
-				<div class="col-sm-2">
+				<div class="col-xs-2">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->
-							Type
+							<div>Type
            				      <select name="type_id" id="type_id">
 							       <c:forEach var="projectTypes" items="${projectTypes}">   
 							   			<option value="${projectTypes.type_id}" >${projectTypes.type_name}</option>
 							      </c:forEach>  
-						      </select>
+						      </select></div>
 				</div>
-				<div class="col-sm-3">
-			         From<input id="project_from" class="date" name="project_from"/><img  alt="" src="resources/image/Date-32.png">
+				<div class="col-xs-3">
+			         <div>From<!-- <input id="project_from" class="date" name="project_from"/><img  alt="" src="resources/image/Date-32.png"> -->
+			         <div class="form-group">
+			                <div class='input-group date' id='project_from1' >
+			                    <input id="project_from" type='text' class="form-control" name="project_from"/>
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+			            </div>
+			            </div>
 				</div>
-				<div class="col-sm-3">
-					To<input id="project_to" class="date" name="project_to"/><img  alt="" src="resources/image/Date-32.png">
+				<div class="col-xs-3">
+					<div>To<!-- <input id="project_to" class="date" name="project_to"/><img  alt="" src="resources/image/Date-32.png"> -->
+					<div class="form-group">
+			                <div class='input-group date' id='project_to1' >
+			                    <input id="project_to" type='text' class="form-control" name="project_to"/>
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+			            </div>
+			          </div>
 				</div>
 					
 				</div><br>
+				
 				<div>Technical
 					<!-- <input value="" name="" style="margin-left: 30px"> -->
            				<select id="project_technical" name="project_technical" style="margin-left: 30px">
@@ -81,14 +100,14 @@
 
  <script type="text/javascript">
        $(function () {
-          $('#project_from').datetimepicker({
+          $('#project_from1').datetimepicker({
              format:"YYYY-MM-DD",
             });
          });
 </script> 
 <script type="text/javascript">
        $(function () {
-          $('#project_to').datetimepicker({
+          $('#project_to1').datetimepicker({
              format:"YYYY-MM-DD",
             });
          });
@@ -100,7 +119,23 @@ $( document).ready(function() {
     $("#buttonAdd").click(function(event) {
 		//Prevent the form from submitting via the browser.
 		event.preventDefault(); 
-		ajaxPostProject();
+		if($("#project_name").val() == ""){
+			alert("project not null");
+		}else if($("#project_from").val() == ""){
+			alert("From not null");
+		}else if($("#project_to").val() == ""){
+			alert("To not null");
+		}else if(!$.isNumeric($("#project_charge_cost").val())){
+			alert("charge must number");
+		}else if($("#project_charge_cost").val() == ""){
+			alert("charge not null");
+		}else if($("#project_charge_cost").val() == "0"){
+			alert("charge not 0");
+		}else if($("#project_name").val() != "" && $("#project_from").val() != "" && $("#project_charge_cost").val() != "" && $.isNumeric($("#project_charge_cost").val())){
+			ajaxPostProject();
+		}
+			
+			
 	});
 	
     function ajaxPostProject(){
@@ -129,39 +164,28 @@ $( document).ready(function() {
 
 		var header = $("meta[name='_csrf_header']")
 		.attr("content");
-        
-    	// DO POST
-    	$.ajax({
-			type : "POST",
-			contentType : "application/json",
-			url : "actionAdd",
-			data : JSON.stringify(jsonObj),
-			dataType : 'json',
-			beforeSend: function(xhr) {
-	            // here it is
-	            xhr.setRequestHeader(header, token);
-	        },
-			success : function(result) {
+	    	// DO POST
+	    	$.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "actionAdd",
+				data : JSON.stringify(jsonObj),
+				dataType : 'json',
+				beforeSend: function(xhr) {
+		            // here it is
+		            xhr.setRequestHeader(header, token);
+		        },
+				success : function(result) {
+				alert("add success");
+				location.href="${pageContext.request.contextPath}/welcome";
 				},
-			error : function(e) {
-			}
-		});	
-    	// Reset FormData after Posting
-    	resetData();
+				error : function(e) {
+					alert("add false");
+				}
+			});	
+
     }
     
-    function resetData(){
-    	$("#project_name").val();
-    	$("#type_id").val();
-    	$("#project_from").val();
-    	$("#project_to").val();
-    	$("#project_technical").val();
-    	$("#project_charge_cost").val();
-    	$("#status_id").val();
-    	$("#project_description").val();
-    	$("#project_name").val();
-    	checkBoxValues = [];
-    }
 })
 </script>
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -139,13 +140,17 @@ public class ProjectController {
 		model.put("command", projectDao.getProjectById(id));
 		model.put("id", projectInfo);
 		model.put("scope", s);
-		System.out.println(s.size());
-			for (int i=0;i < s.size();i++)
-			{
-			  System.out.println("Value sid " + s.get(i).getScope_id());
-			  System.out.println("Value spid " + s.get(i).getScope_project_id());
-			}
 		return new ModelAndView("updateProject");
+	}
+	@RequestMapping(value="actionUpdateP", method = RequestMethod.POST)
+	public ModelAndView update(@ModelAttribute(value = "project") ProjectInfo project) {
+		projectDao.updateProject(project);
+		return new ModelAndView("redirect:/");
+	}
+	
+	public @ResponseBody ArrayList<ScopeProject> updateS(@RequestBody final ArrayList<ScopeProject> scopeP){
+		
+		return scopeP;
 	}
 	
 	//mapping getdata project_it for view detail

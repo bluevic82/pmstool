@@ -24,13 +24,15 @@
 </head>
 <body>
 	<div class="container" style="margin-top: 10px;">
-		<form:form>
+		<form:form id="formProject" action="/Login/actionUpdateP" method="post">
 			<form:hidden path="project_id"/>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
 		
 				<div class="col-sm-4">
-					<div>Project Name <form:input value="" name="project_name" path="project_name" size="30"/></div>
+					<div>Project Name <form:input id="project_name" value="" name="project_name" path="project_name" size="30"/></div>
+					<input type="hidden"
+						value="${projectInfor.project_id}" name="project_id" id="p_id">
 				</div>
 				<div class="col-sm-2">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->
@@ -49,10 +51,26 @@
 					</div> -->
 					
 				<div class="col-sm-3">
-			         From<form:input class="date" name="project_from" path="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png">
+			         From<%-- <form:input class="date" name="project_from" path="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png"> --%>
+			         <div class="form-group">
+			                <div class='input-group date' id='datetimepicker1' >
+			                    <form:input id="project_from" type='text' class="form-control" name="project_from" path="project_from"/>
+			                    <div class="input-group-addon">
+			                    	<div class="glyphicon glyphicon-calendar"></div>
+			                    </div>
+			                </div>
+			            </div>
 				</div>
 				<div class="col-sm-3">
-					To<form:input class="date" id="datetimepicker2" name="project_to" path="project_to"/><img  alt="" src="../resources/image/Date-32.png">
+					To<%-- <form:input class="date" id="datetimepicker2" name="project_to" path="project_to"/><img  alt="" src="../resources/image/Date-32.png"> --%>
+					<div class="form-group">
+			                <div class='input-group date' id='datetimepicker2' >
+			                    <form:input id="project_to" type='text' class="form-control" name="project_to" path="project_to"/>
+			                    <div class="input-group-addon">
+			                    	<div class="glyphicon glyphicon-calendar"></div>
+			                    </div>
+			                </div>
+			            </div>
 				</div>
 					
 				</div><br>
@@ -68,17 +86,19 @@
 				<div class="row">
 					<div class="col-sm-1">Scope</div> 
 					<div class="col-sm-11" >
-					<%-- <c:forEach var="scope" items="${projectScope}"> --%>
 					
-						<c:forEach var="projectScope" items="${projectScope}"> 
-						
-							<%-- <input type="checkbox" name="over_view"  <c:if test="${scope.scope_id} == ${projectScope.scope_id}">checked="checked" </c:if>  />${projectScope.scope_name} --%>
+						<%-- <c:forEach var="projectScope" items="${projectScope}"> 
 							<input id="scope_all" type="checkbox" name="scope_id" value="${projectScope.scope_id}"  style="margin-left: 10px;">${projectScope.scope_name}
-						</c:forEach>
-					<%-- 	</c:forEach> --%>
+						</c:forEach> --%>
+						<input id="scope_all1" type="checkbox" name="scope_id" value="1"  style="margin-left: 10px;">BD
+						<input id="scope_all2" type="checkbox" name="scope_id" value="2"  style="margin-left: 10px;">DD
+						<input id="scope_all3" type="checkbox" name="scope_id" value="3"  style="margin-left: 10px;">coding
+						<input id="scope_all4" type="checkbox" name="scope_id" value="4"  style="margin-left: 10px;">UT
+						<input id="scope_all5" type="checkbox" name="scope_id" value="5"  style="margin-left: 10px;">IT
+						<input id="scope_all6" type="checkbox" name="scope_id" value="6"  style="margin-left: 10px;">ST
 					</div>
 				</div><br>
-				<div>Charge Cost <form:input  name="project_charge_cost" path="project_charge_cost" style="margin-left: 10px"/> (MM)</div><br>
+				<div>Charge Cost <form:input id="project_charge_cost"  name="project_charge_cost" path="project_charge_cost" style="margin-left: 10px"/> (MM)</div><br>
 				<div>Status 
 					<form:select name="status_id" path="status_id" style="margin-left: 45px">
 				    	<c:forEach var="projectStatus" items="${projectStatus}">   
@@ -89,7 +109,7 @@
 				<div>Description
 				 <form:textarea name="project_description" path="project_description" style="margin-left: 15px" cols="60" rows="3"></form:textarea></div><br>
 				<div style="text-align: end;">
-					<button value="actionCreateProject" type="submit" name="actionCreateProject" style="background-color: green; color: white;">Save</button>
+					<button id="updateProject" value="actionUpdateP" type="submit" name="actionUpdateP" style="background-color: green; color: white;">Save</button>
 				</div>
 		</form:form>
 	</div>
@@ -108,31 +128,95 @@
        });
      });
 </script>
+
+<script type="text/javascript">
+$("#updateProject").click(function() {
+ 
+	if($("#project_name").val() == ""){
+		alert("project not null");
+		return false;
+	}
+	if($("#project_from").val() == ""){
+		alert("From not null");
+		return false;
+	}
+	if($("#project_to").val() == ""){
+		alert("To not null");
+		return false;
+	}
+	if(!$.isNumeric($("#project_charge_cost").val())){
+		alert("charge must number");
+		return false;
+	}
+	if($("#project_charge_cost").val() == ""){
+		alert("charge not null");
+		return false;
+	}
+	if($("#project_charge_cost").val() == "0"){
+		alert("charge not 0");
+		return false;
+	}
+});
+</script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		
 		//get value scope had add
 		var array_Scope = new Array(); 
-		var array_s_p = new Array();
 		<c:forEach var="scope" items="${scope}">   
 			array_Scope.push(${scope.scope_id});
-			array_s_p.push('${scope.scope_project_id}');
-			
+			if($("#scope_all1").val() == ${scope.scope_id}){
+				
+				$("#scope_all1").prop( "checked", true );
+			}
+			if($("#scope_all2").val() == ${scope.scope_id}){
+				$("#scope_all2").prop( "checked", true );
+			} 
+			if($("#scope_all3").val() == ${scope.scope_id}){
+				$("#scope_all3").prop( "checked", true );
+			} 
+			if($("#scope_all4").val() == ${scope.scope_id}){
+				$("#scope_all4").prop( "checked", true );
+			} 
+			if($("#scope_all5").val() == ${scope.scope_id}){				
+				$("#scope_all5").prop( "checked", true );
+			}
+			if($("#scope_all6").val() == ${scope.scope_id}){
+				$("#scope_all6").prop( "checked", true );
+			} 	
 		</c:forEach>
 		console.log(array_Scope);
+		var arr_s = new Array();
+		var s1 = $("#scope_all1:checked").val();
+		var s2 = $("#scope_all2:checked").val();
+		var s3 = $("#scope_all3:checked").val();
+		var s4 = $("#scope_all4:checked").val();
+		var s5 = $("#scope_all5:checked").val();
+		var s6 = $("#scope_all6:checked").val();
 		
-		//get all value scope
-		var arr_defaul_scope = 	new Array();
-		<c:forEach var="projectScope" items="${projectScope}">   
-			arr_defaul_scope.push(${projectScope.scope_id});
-			
-		</c:forEach>
-		console.log(arr_defaul_scope);
-		console.log($("#scope_all").val());
-	})
-</script>
-<script type="text/javascript">
+		if(s1 != null){
+		arr_s.push(s1);
+		}
+		if(s2 != null){
+		arr_s.push(s2);
+		}
+		if(s3 != null){
+			arr_s.push(s3);
+		}
+		if(s4 != null){
+			arr_s.push(s4);
+		}
+		if(s5 != null){
+			arr_s.push(s5);
+		}
+		if(s6 != null){
+			arr_s.push(s6);
+		}
+		console.log("arr da tich:" + arr_s);
 		
+})
 </script>
+
 </body>
 </html>
