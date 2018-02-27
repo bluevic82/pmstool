@@ -30,10 +30,37 @@ public class QuestionAnswerDaoImpl implements QuestionAnswerDao{
 				"				 LEFT JOIN member_project\r\n" + 
 				"				 ON anser_question.MEMBER_PROJECT_ID = member_project.MEMBER_PROJECT_ID";
 		
-		if (projectName!=999999 || status!=999999 || pic!=999999) {
-			sql=" where anser_question.PROJECT_ID="+projectName+" and" + 
-					"					anser_question.STATUS_ID="+status+" and" + 
-					"					member_project.MEMBER_PROJECT_ID="+pic+"'";
+		if (projectName!=0 || status!=0 || pic!=0) {
+			
+			boolean x= false;
+			if(projectName!=0) {
+				if(x==false) {
+					
+					sql+=" where anser_question.PROJECT_ID="+projectName;
+					x=true;
+				}else {
+					sql+=" and anser_question.PROJECT_ID="+projectName;
+				}	
+			}
+			if(status!=0) {
+				if(x==false) {
+					
+					sql+=" where anser_question.STATUS_ID="+status;
+					x=true;
+				}else {
+					sql+=" and anser_question.STATUS_ID="+status;
+				}	
+			}
+			if(pic!=0) {
+				if(x==false) {
+					
+					sql+=" where member_project.MEMBER_PROJECT_ID="+pic;
+					x=true;
+				}else {
+					sql+=" and member_project.MEMBER_PROJECT_ID="+pic;
+				}	
+			}
+
 		}
 		
 		return jdbcTemplate.query(sql02+sql

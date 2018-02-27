@@ -25,14 +25,71 @@ public class TaskInfoDaoImpl implements TaskInfoDao {
 	public List<TaskInfo> getAllTask(int pn,int tp,int st, int pic,String pri) {
 		// TODO Auto-generated method stub
 		String sqlxx="";
-		if(pn!=999999 ||tp!=999999||st!=999999||pic!=999999||!pri.equals("")) {
+		if(pn!=0 ||tp!=0||st!=0||pic!=0||!pri.equals("")) {
 			
-			sqlxx=" where task_info.PROJECT_ID="+pn+" and" + 
-					"					task_info.TYPE_ID="+tp+" and" + 
-					"					task_info.STATUS_ID="+st+" and" + 
-					"					member_project.MEMBER_PROJECT_ID="+pic+" and" + 
-					"					task_info.TASK_PRIORITY="+"'"+pri+"'";
-			
+			boolean x= false;
+			if(pn!=0) {
+				if(x==false) {
+					
+					sqlxx+=" where task_info.PROJECT_ID="+pn;
+					x=true;
+				}else {
+					sqlxx+=" and task_info.PROJECT_ID="+pn;
+				}	
+			}
+			if(tp!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where task_info.TYPE_ID="+tp;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and task_info.TYPE_ID="+tp;
+					
+				}	
+			}
+			if(st!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where task_info.STATUS_ID="+st;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and task_info.STATUS_ID="+st;
+					
+				}	
+			}
+			if(pic!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where member_project.MEMBER_PROJECT_ID="+pic;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and member_project.MEMBER_PROJECT_ID="+pic;
+					
+				}	
+			}
+			if(!pri.equals("")) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where task_info.TASK_PRIORITY="+"'"+pri+"'";
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and task_info.TASK_PRIORITY="+"'"+pri+"'";
+					
+				}	
+			}
+				
 		}
 
 		return jdbcTemplate.query("SELECT task_info.TASK_ID,task_info.TASK_SUBJECT,member_project.MEMBER_PROJECT_NAME," + 

@@ -25,12 +25,14 @@
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			Project Name 
 			<select name="projectName">
+				<option value="0"></option>
 				<c:forEach var="projectName" items="${projectName}">
 					<option value="${projectName.project_id}">${projectName.project_name}</option>
 				</c:forEach>
 			</select>
 			<label style="margin-left: 10px"> Type </label> 
 			<select name="type_id" style="margin-left: 5px">
+				<option value="0"></option>
 				<c:forEach var="taskTypes" items="${taskTypes}">
 					<option value="${taskTypes.type_id}">
 						${taskTypes.type_name}</option>
@@ -38,6 +40,7 @@
 			</select> 
 			<label style="margin-left: 10px"> Status </label> 
 			<select name="status_id" style="margin-left: 5px">
+					<option value="0"></option>
 				<c:forEach var="taskStatus" items="${taskStatus}">
 					<option value="${taskStatus.status_id}">
 						${taskStatus.status_name}</option>
@@ -45,6 +48,7 @@
 			</select> 
 			<label style="margin-left: 10px"> PIC </label> 
 			<select name="member_project_id" style="margin-left: 5px">
+					<option value="0"></option>
 				<c:forEach var="pic" items="${pic}">
 					<option value="${pic.member_project_id}">
 						${pic.member_project_name}</option>
@@ -52,6 +56,7 @@
 			</select> 
 			<label style="margin-left: 10px"> Priority </label> 
 			<select name="task_priority" style="margin-left: 5px">
+				<option value=""></option>
 				<option value="Highest">Highest</option>
 				<option value="High">High</option>
 				<option value="Medium">Medium</option>
