@@ -26,7 +26,7 @@
 </head>
 <body>
 	<div class="container">
-	<form:form method="post" name="qa" action="/Login/actionUpdateQA">
+	<form:form method="post" name="qa" action="/Login/actionUpdateQA?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
 	<form:hidden path="q_a_id" />
 		<div >
 			Project Name <input disabled="disabled" value="${project_infor.project_name}" name="project_id" size="30" style="margin-left: 22px;"/>
@@ -38,8 +38,8 @@
 		</div>
 		<br>
 		<div>
-			Reference point <form:input id="point" path="referencepoint" maxlength="249" name="referencepoint" style="margin-left: 10px;" size="50"/> 
-			<button type="button" onchange="btnBrowser()" id="myFile" style="margin-left: 85px">Browse</button>
+			Reference point <form:input path="referencepoint" maxlength="249" style="margin-left: 10px;" size="50"/> 
+			<input type="file" name="i" id="referencepoint" style="margin-top: -25px; margin-left: 580px">
 		</div>
 		<br>
 		<div class="row">
@@ -86,7 +86,7 @@
 						<option value="${qaStatus.status_id}">${qaStatus.status_type}</option>
 					</c:forEach>
 				</select>
-				<form:button id="updateQA" name="actionUpdateQA" value="actionUpdateQA" style="background-color: green; color: white; margin-left: 1000px;">Save</form:button>
+				<form:button id="updateQA"  style="background-color: green; color: white; margin-left: 1000px;">Save</form:button>
 			</div><br>
 			</form:form>
 	</div>
@@ -103,7 +103,6 @@
      <script type="text/javascript">
 		$("#updateQA").click(function(){
 			var title = $("#title").val();
-			var point = $("#point").val();
 			var questionVi = $("#questionVi").val();
 			var questionJp = $("#questionJp").val();
 			var dealine = $("#dealine").val();
@@ -112,10 +111,6 @@
 			
  			if (title.length == ""){
 					alert("Title can not be empty");
-				return false;
-			}
-			if(point.length == ""){
-					alert("Reference point can not be empty");
 				return false;
 			}
  			if (questionVi.length == ""){

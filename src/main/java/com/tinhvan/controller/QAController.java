@@ -1,6 +1,7 @@
 package com.tinhvan.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,8 +91,25 @@ public class QAController {
 	}
 
 	// Mapping button click registerQA
-	@RequestMapping(value = "/actionRegisterQA", method = RequestMethod.POST)
-	public ModelAndView registerQA(Model model, @ModelAttribute(value = "addqa") QuestionAnwer questionAnwer) {
+	@RequestMapping("/actionRegisterQA")
+	public ModelAndView registerQA(Model model, @ModelAttribute(value = "qa" ) QuestionAnwer questionAnwer ,
+			@RequestParam(value="i", required = false)MultipartFile file) {
+			//upload file
+		if (!file.isEmpty()) {
+			String fileName= file.getOriginalFilename();
+			try {
+				file.transferTo(new File("D:/temp/" + fileName));
+				questionAnwer.setReferencepoint("D:/temp/" + fileName);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			questionAnwer.setReferencepoint("");
+		}
 		answerDao.registerQA(questionAnwer);
 		return new ModelAndView("redirect:/qaList");
 	}
@@ -105,7 +122,22 @@ public class QAController {
 
 	// Mapping button click save QA
 	@RequestMapping(value = "/actionUpdateQA", method = RequestMethod.POST)
-	public ModelAndView updateQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer questionAnwer) {
+	public ModelAndView updateQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer questionAnwer,
+			@RequestParam(value="i", required = false)MultipartFile file) {
+			//update file
+		if (!file.isEmpty()) {
+			String fileName= file.getOriginalFilename();
+			try {
+				file.transferTo(new File("D:/temp/" + fileName));
+				questionAnwer.setReferencepoint("D:/temp/" + fileName);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			questionAnwer.setReferencepoint("");
+		}
 		answerDao.updateQA(questionAnwer);
 		return new ModelAndView("redirect:/qaList");
 	}
@@ -120,29 +152,7 @@ public class QAController {
 		model.put("command", answerDao.getQAById(q_a_id));
 		return new ModelAndView("updateQandA", "command", questionAnwer);
 	}
-	
-	/*
-	 * @purpose: Upload File Refecence point
-	 */
-	
-	@RequestMapping(value="/uploadFile", method=RequestMethod.POST)
-	public String loadPageUpload(ModelMap model, 
-			@RequestParam("referencepoint")MultipartFile file) throws Exception{
-		if (!file.isEmpty()) {
-			String fileName= file.getOriginalFilename();
-			file.transferTo(new File("C:/temp/" + fileName));
-		}
-		return "qaList";
-	}
-	@RequestMapping(value="/uploadFiles", method=RequestMethod.POST, produces = "'multipart/form-data", consumes = "'multipart/form-data")
-	public String loadPageUpload(@RequestBody MultipartFile file) throws Exception{
-		if (!file.isEmpty()) {
-			String fileName= file.getOriginalFilename();
-			file.transferTo(new File("C:/temp/" + fileName));
-		}
-		return "qaList";
-	}
-	
+
 	/*
 	 * @purpose: Methods Attributes
 	 */

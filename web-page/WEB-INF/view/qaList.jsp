@@ -64,9 +64,9 @@
 				  </tbody>
 				</table>				
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<div style="text-align: end;">
-					<button type="submit" style="background-color: #3ADF00">Search</button>
+					<button type="submit"  style="background-color: green; color: white; margin-left: -30px">Search</button>
 				</div>
 			</div>
 		</div>
