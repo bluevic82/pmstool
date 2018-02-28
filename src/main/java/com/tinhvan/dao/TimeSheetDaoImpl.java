@@ -1,5 +1,6 @@
 package com.tinhvan.dao;
 
+import java.io.Console;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,23 +45,25 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			if(project_id!=0) {
 				if(x==false) {
 					
-					List<TimeSheet_Info> listTimeSheet_Infos = getListTimeSheet_InfosByProjectId(project_id);
-					sqlxx+=" where task_info.PROJECT_ID="+project_id;
+					//List<TimeSheet_Info> listTimeSheet_Infos = getListTimeSheet_InfosByProjectId(project_id);
+					sqlxx+=" d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.project_id= "+project_id;
 					x=true;
 				}else {
-					sqlxx+=" and task_info.PROJECT_ID="+project_id;
+					System.out.println("false");
+					//sqlxx+=" and task_info.PROJECT_ID="+project_id;
 				}	
 			}
 			if(member_project_id!=0) {
 				
 				if(x==false) {
 					
-					sqlxx+=" where task_info.TYPE_ID="+member_project_id;
+					
+					sqlxx+=" d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.MEMBER_PROECT_ID = "+member_project_id;
 					
 					x=true;
 					
 				}else {
-					sqlxx+=" and task_info.TYPE_ID="+member_project_id;
+					sqlxx+=" and t.MEMBER_PROECT_ID = "+member_project_id;
 					
 				}	
 			}
@@ -77,7 +80,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 					
 				}	
 			}
-			/*if(!status_name.equals("")) {
+			if(!status_name.equals(""))  {
 				
 				if(x==false) {
 					
@@ -89,14 +92,14 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 					sqlxx+=" and STATUS_ID="+"'"+status_name+"'";
 					
 				}	
-			}*/
+			}
 			
 				
 		}
 
 		
 		try {
-			return jdbcTemplate.query("SELECT * FROM detail_timesheet"+sqlxx,
+			return jdbcTemplate.query("SELECT * FROM detail_timesheet "+sqlxx,
 					new RowMapper<TimeSheetDetail>() {
 
 						@Override

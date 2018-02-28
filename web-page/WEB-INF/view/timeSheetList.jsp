@@ -52,7 +52,7 @@
 					</c:forEach>
 				</select> <label style="margin-left: 10px"> Status </label> <select
 					name="status_name" style="margin-left: 5px">
-					<option value="0"></option>
+					<option value=""></option>
 					<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
 						<option value="${timeSheetStatus.status_name}">
 							${timeSheetStatus.status_name}</option>

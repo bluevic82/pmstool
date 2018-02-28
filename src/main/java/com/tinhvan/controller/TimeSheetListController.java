@@ -100,7 +100,9 @@ public class TimeSheetListController {
 			int member_project_id,@RequestParam(value="process_id",required=false,defaultValue = "0") 
 			int process_id,@RequestParam(value="status_name",required=false,defaultValue = "") 
 			String status_name, Principal principal, Model model) {
+				
 				User user = userDao.getUserInfoByUserMail(principal.getName());
+				System.out.println(status_name);
 				//List<TimeSheetDetail_List> list_timeSheetDetail_Lists = new ArrayList<TimeSheetDetail_List>();
 				
 				//check role: if role = 1 or 2
@@ -109,9 +111,12 @@ public class TimeSheetListController {
 					
 					List<ProjectInfo> listAllProjectInfos = projectDao.getAllProject();
 					
+					
 					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, member_project_id, process_id, status_name);
 					List<MemberProject> list_PIC = memberProjectDao.getAllMember();
 					//List<Process> list_Process = processDao.getAll();
+					
+					//System.out.println(listAllTimeSheetDetails.get(2).getMemberProject().getMember_project_id());
 					
 					model.addAttribute("listTimeSheetDetails", listAllTimeSheetDetails);
 					model.addAttribute("listProjects", listAllProjectInfos);
