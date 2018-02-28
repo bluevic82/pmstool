@@ -149,12 +149,17 @@ public class TimeSheetListController {
 					
 				}
 				else if(user.getRole_id() == 2){
+					
+					
 					//if role = 2 => get list member_project of user 
 					List<MemberProject> listMemberProjectsAssigned = memberProjectDao.getListMemberProjectsByCurrentUserAssigned(user.getUser_id());
 					List<TimeSheetDetail> listTimeSheetDetails = new ArrayList<TimeSheetDetail>();
 					List<MemberProject> lisMemberProjectsAssignedNotPM = new ArrayList<MemberProject>();
 					List<MemberProject> lisMemberProjectsAssignedIsPM = new ArrayList<MemberProject>();
 					List<MemberProject> list_PIC = new ArrayList<MemberProject>();
+					
+					
+					
 					
 							for(int i=0;i<listMemberProjectsAssigned.size();i++){
 								//lisMemberProjectsAssignedIsPM.add(listMemberProjects.get(i));
@@ -177,17 +182,51 @@ public class TimeSheetListController {
 								listTimeSheetDetails.addAll(timeSheetDao.getListTimeSheetByTimeSheetId(listTimeSheet_Infos.get(i).getTs_id()));
 							}*/
 						
+							if(project_id!=0 ||member_project_id!=0||process_id!=0||status_name!="") {
+								List<TimeSheetDetail> listTimeSheetDetails1=timeSheetDao.getTimeSheetDetailsByOneOrAllConditionsOfPM(project_id, member_project_id, process_id, status_name);
+								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+								
+								//loc ra list timesheets trong project PM duoc assign
+								for(int i=0;i<listTimeSheetDetails1.size();i++){
+									//if(listTimeSheetDetails1)
+									boolean flag = false;
+									for(int j=0;j<listTimeSheetDetails.size();j++){
+										if(listTimeSheetDetails1.get(i).getDetail_timesheet_id()==listTimeSheetDetails.get(j).getDetail_timesheet_id()){
+											flag=true;
+										}
+										
+									}
+									if(flag==false){
+										listTimeSheetDetails1.remove(i);
+									}
+									
+								}
+								
+								
+								model.addAttribute("listTimeSheetDetails", listTimeSheetDetails1);
+								model.addAttribute("listProjects", listProjectInfos);
+								model.addAttribute("list_PIC", list_PIC);
+								//model.addAttribute("list_Process", list_Process);
+								/*model.addAttribute("listProjects", listAllProjectInfos);
+								model.addAttribute("list_PIC", list_PIC);
+								model.addAttribute("list_Process", list_Process);*/
+								//get list detail_timesheets by list timesheet_ids: have member_project_name
+								return new ModelAndView("timeSheetList");
+							}
+							else{
+								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+								model.addAttribute("listTimeSheetDetails", listTimeSheetDetails);
+								model.addAttribute("listProjects", listProjectInfos);
+								model.addAttribute("list_PIC", list_PIC);
+								//model.addAttribute("list_Process", list_Process);
+								/*model.addAttribute("listProjects", listAllProjectInfos);
+								model.addAttribute("list_PIC", list_PIC);
+								model.addAttribute("list_Process", list_Process);*/
+								//get list detail_timesheets by list timesheet_ids: have member_project_name
+								return new ModelAndView("timeSheetList");
+							}
 					
-					List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
-					model.addAttribute("listTimeSheetDetails", listTimeSheetDetails);
-					model.addAttribute("listProjects", listProjectInfos);
-					model.addAttribute("list_PIC", list_PIC);
-					//model.addAttribute("list_Process", list_Process);
-					/*model.addAttribute("listProjects", listAllProjectInfos);
-					model.addAttribute("list_PIC", list_PIC);
-					model.addAttribute("list_Process", list_Process);*/
-					//get list detail_timesheets by list timesheet_ids: have member_project_name
-					return new ModelAndView("timeSheetList");
+					
 				}
 				else{
 					String message = "Access denied for "+principal.getName()+"!";

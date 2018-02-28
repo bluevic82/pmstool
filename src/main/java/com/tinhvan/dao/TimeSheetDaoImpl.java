@@ -700,6 +700,116 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		
 	}
 
+	@Override
+	public List<TimeSheetDetail> getTimeSheetDetailsByOneOrAllConditionsOfPM(
+			int project_id, int member_project_id, int process_id,
+			String status_name) {
+		// TODO Auto-generated method stub
+		String sqlxx="";
+		if(project_id!=0 ||member_project_id!=0||process_id!=0||status_name!="") {
+			
+			boolean x= false;
+			if(project_id!=0) {
+				if(x==false) {
+					
+					//List<TimeSheet_Info> listTimeSheet_Infos = getListTimeSheet_InfosByProjectId(project_id);
+					sqlxx+=" d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.project_id= "+project_id;
+					x=true;
+				}else {
+					System.out.println("false");
+					//sqlxx+=" and task_info.PROJECT_ID="+project_id;
+				}	
+			}
+			if(member_project_id!=0) {
+				
+				if(x==false) {
+					
+					
+					sqlxx+=" d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.MEMBER_PROECT_ID = "+member_project_id ;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and t.MEMBER_PROECT_ID = "+member_project_id;
+					
+				}	
+			}
+			if(process_id!=0) {
+				
+				if(x==false) {
+					
+					sqlxx+=" where PROCESS_ID="+process_id;
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and PROCESS_ID="+process_id;
+					
+				}	
+			}
+			if(!status_name.equals(""))  {
+				
+				if(x==false) {
+					
+					sqlxx+=" where STATUS_ID="+"'"+status_name+"'";
+					
+					x=true;
+					
+				}else {
+					sqlxx+=" and STATUS_ID="+"'"+status_name+"'";
+					
+				}	
+			}
+			
+				
+		}
+
+		try {
+			return jdbcTemplate.query("SELECT * FROM detail_timesheet "+sqlxx,
+					new RowMapper<TimeSheetDetail>() {
+
+						@Override
+						public TimeSheetDetail mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							TimeSheetDetail timeSheetDetail = new TimeSheetDetail();
+							timeSheetDetail.setDetail_timesheet_id(rs.getInt(1));
+							timeSheetDetail.setDetail_timesheet_date(rs
+									.getString(2));
+							timeSheetDetail.setHour(rs.getFloat(3));
+							timeSheetDetail.setPre_defined_id(rs.getInt(4));
+							timeSheetDetail.setProcess_id(rs.getInt(5));
+							timeSheetDetail.setType_id(rs.getInt(6));
+							timeSheetDetail.setTask_id(rs.getInt(7));
+							timeSheetDetail.setWorkcontent(rs.getString(8));
+							timeSheetDetail.setTs_id(rs.getInt(9));
+							timeSheetDetail.setStatus_type(rs.getString(10));
+							
+							timeSheetDetail
+									.setPre_defined_name(getPreDifinedName(timeSheetDetail
+											.getPre_defined_id()));
+							timeSheetDetail
+									.setProcess_name(getProcessName(timeSheetDetail
+											.getProcess_id()));
+							timeSheetDetail
+									.setType_name(getTypeName(timeSheetDetail
+											.getType_id()));
+							timeSheetDetail
+									.setTask_subject(getTaskSubject(timeSheetDetail
+											.getTask_id()));
+							timeSheetDetail
+									.setMemberProject(getMemberProjectByTimeSheetId(timeSheetDetail
+											.getTs_id()));
+
+							
+							return timeSheetDetail;
+						}
+					});
+		} catch (Exception e) {
+			return null;
+		}
+		//return null;
+	}
+
 	/* get task_Name */
 	/*
 	 * public String getTaskName(int type_id) { String sql =
