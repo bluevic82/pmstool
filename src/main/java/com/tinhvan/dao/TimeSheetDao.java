@@ -9,7 +9,7 @@ import com.tinhvan.model.TimeSheet_Info;
 
 public interface TimeSheetDao {
 	
-	public List<TimeSheetDetail> getAllTimeSheet(int project_id, int member_project_id, int process_id, int status_id);
+	public List<TimeSheetDetail> getAllTimeSheet(int project_id, int member_project_id, int process_id, String status_name);
 	
 	public void approveTimeSheet(TimeSheetDetail timeSheetDetail);
 	
@@ -28,5 +28,6 @@ public interface TimeSheetDao {
 	public List<TimeSheet_Info> getListTimeSheet_InfosByProjectId(int project_id);
 	public List<TimeSheet_Info> getListTimeSheet_InfosByMemberProjectId(int member_project_id);
 	//public List<TimeSheetDetail> getAllTimeSheets
+	public void updateStatusOfListTimeSheetDetails(ArrayList<TimeSheetDetail> list_TimeSheetDetails);
 	
 }

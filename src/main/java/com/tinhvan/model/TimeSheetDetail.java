@@ -14,7 +14,6 @@ public class TimeSheetDetail {
 	private int task_id;
 	private String workcontent;
 	private int ts_id;
-	private int status_id;
 	
 	
 	private String status_type;
@@ -77,14 +76,6 @@ public class TimeSheetDetail {
 	/*Test DaiK*/
 	private String detail_timesheet_date;
 	
-	
-	public int getStatus_id() {
-		return status_id;
-	}
-
-	public void setStatus_id(int status_id) {
-		this.status_id = status_id;
-	}
 
 	private List<String> list_Name_Of_Id = new ArrayList<String>();
 	

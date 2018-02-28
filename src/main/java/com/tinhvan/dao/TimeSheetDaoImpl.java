@@ -34,11 +34,11 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	private int member_project_id;
 
 	@Override
-	public List<TimeSheetDetail> getAllTimeSheet(int project_id, int member_project_id, int process_id, int status_id) {
+	public List<TimeSheetDetail> getAllTimeSheet(int project_id, int member_project_id, int process_id, String status_name) {
 
 		
 		String sqlxx="";
-		if(project_id!=0 ||member_project_id!=0||process_id!=0||status_id!=0) {
+		if(project_id!=0 ||member_project_id!=0||process_id!=0||status_name!="") {
 			
 			boolean x= false;
 			if(project_id!=0) {
@@ -77,19 +77,19 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 					
 				}	
 			}
-			if(status_id!=0) {
+			/*if(!status_name.equals("")) {
 				
 				if(x==false) {
 					
-					sqlxx+=" where STATUS_ID="+status_id;
+					sqlxx+=" where STATUS_ID="+"'"+status_name+"'";
 					
 					x=true;
 					
 				}else {
-					sqlxx+=" and STATUS_ID="+status_id;
+					sqlxx+=" and STATUS_ID="+"'"+status_name+"'";
 					
 				}	
-			}
+			}*/
 			
 				
 		}
@@ -113,7 +113,8 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 							timeSheetDetail.setTask_id(rs.getInt(7));
 							timeSheetDetail.setWorkcontent(rs.getString(8));
 							timeSheetDetail.setTs_id(rs.getInt(9));
-							timeSheetDetail.setStatus_id(rs.getInt(10));
+							timeSheetDetail.setStatus_type(rs.getString(10));
+							
 							timeSheetDetail
 									.setPre_defined_name(getPreDifinedName(timeSheetDetail
 											.getPre_defined_id()));
@@ -130,9 +131,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 									.setMemberProject(getMemberProjectByTimeSheetId(timeSheetDetail
 											.getTs_id()));
 
-							timeSheetDetail
-									.setStatus_type(getStatusType(timeSheetDetail
-											.getStatus_id()));
+							
 							return timeSheetDetail;
 						}
 					});
@@ -288,7 +287,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 							timeSheetDetail.setTask_id(rs.getInt(7));
 							timeSheetDetail.setWorkcontent(rs.getString(8));
 							timeSheetDetail.setTs_id(rs.getInt(9));
-							timeSheetDetail.setStatus_id(rs.getInt(10));
+							timeSheetDetail.setStatus_type(rs.getString(10));
 							timeSheetDetail
 									.setPre_defined_name(getPreDifinedName(timeSheetDetail
 											.getPre_defined_id()));
@@ -304,10 +303,6 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 							timeSheetDetail
 									.setMemberProject(getMemberProjectByTimeSheetId(timeSheetDetail
 											.getTs_id()));
-
-							timeSheetDetail
-									.setStatus_type(getStatusType(timeSheetDetail
-											.getStatus_id()));
 							return timeSheetDetail;
 						}
 					});
@@ -324,7 +319,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
 		// TODO Auto-generated method stub
 
-		// Update member
+		
 		String sql_update = "update detail_timesheet set DETAIL_TIMESHEET_DATE = ?, HOUR = ?, PRE_DEFINED_ID = ?, PROCESS_ID = ?, TYPE_ID = ?, TASK_ID = ?, WORKCONTENT = ? where DETAIL_TIMESHEET_ID = ?";
 		jdbcTemplate.batchUpdate(sql_update,
 				new BatchPreparedStatementSetter() {
@@ -528,7 +523,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 	}
 
-	/* get Status_Type by Status_id */
+	/* get Status_Type by Status_id 
 	public String getStatusType(int status_id) {
 		String sql = "SELECT STATUS_TYPE FROM status_info WHERE STATUS_ID = ?";
 		try {
@@ -544,7 +539,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			return null;
 		}
 
-	}
+	}*/
 
 	/* get task_subject by task_id */
 	public String getTaskSubject(int task_id) {
@@ -669,6 +664,37 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public void updateStatusOfListTimeSheetDetails(
+			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
+		// TODO Auto-generated method stub
+		
+		String sql_update = "update detail_timesheet set STATUS_ID = ? where DETAIL_TIMESHEET_ID = ?";
+		jdbcTemplate.batchUpdate(sql_update,
+				new BatchPreparedStatementSetter() {
+
+					@Override
+					public void setValues(PreparedStatement ps, int i)
+							throws SQLException {
+						// TODO Auto-generated method stub
+						// MemberProject memberProject =
+						// list_MemberProjects.get(i);
+						ps.setString(1, list_TimeSheetDetails.get(i)
+								.getStatus_type());
+						ps.setFloat(2, list_TimeSheetDetails.get(i).getDetail_timesheet_id());
+
+					}
+
+					@Override
+					public int getBatchSize() {
+						// TODO Auto-generated method stub
+						return list_TimeSheetDetails.size();
+					}
+				});
+
+		
 	}
 
 	/* get task_Name */

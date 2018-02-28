@@ -98,8 +98,8 @@ public class TimeSheetListController {
 			public ModelAndView listTimeSheet(@RequestParam(value="projectName",required=false,defaultValue = "0")
 			int project_id,@RequestParam(value="member_project_id",required=false,defaultValue = "0") 
 			int member_project_id,@RequestParam(value="process_id",required=false,defaultValue = "0") 
-			int process_id,@RequestParam(value="status_id",required=false,defaultValue = "0") 
-			int status_id, Principal principal, Model model) {
+			int process_id,@RequestParam(value="status_name",required=false,defaultValue = "") 
+			String status_name, Principal principal, Model model) {
 				User user = userDao.getUserInfoByUserMail(principal.getName());
 				//List<TimeSheetDetail_List> list_timeSheetDetail_Lists = new ArrayList<TimeSheetDetail_List>();
 				
@@ -109,7 +109,7 @@ public class TimeSheetListController {
 					
 					List<ProjectInfo> listAllProjectInfos = projectDao.getAllProject();
 					
-					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, member_project_id, process_id, status_id);
+					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, member_project_id, process_id, status_name);
 					List<MemberProject> list_PIC = memberProjectDao.getAllMember();
 					//List<Process> list_Process = processDao.getAll();
 					
@@ -199,6 +199,16 @@ public class TimeSheetListController {
 				//List<TimeSheetDetail> list = timeSheetDao.getAllTimeSheet();
 				//return new ModelAndView("timeSheetList", "list", list);
 			}
+			
+			@RequestMapping(value = "timeSheetList/actionUpdateStatusTypeOfListTimesheets", method = RequestMethod.POST)
+			public @ResponseBody ArrayList<TimeSheetDetail> save(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
+				//System.out.println("prj_id = "+id);
+				
+				timeSheetDao.updateStatusOfListTimeSheetDetails(list_TimeSheetDetails);
+			
+				return list_TimeSheetDetails;
+			}
+			
 			
 			// method get Name of Project
 			@ModelAttribute("projectName")

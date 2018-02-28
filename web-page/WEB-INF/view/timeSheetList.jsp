@@ -21,45 +21,54 @@
 	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
 	<div class="container" style="margin-top: 20px;">
 		<div>
-		<form method="post" action="/Login/timeSheetList/">
-			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-			Project Name <select name="projectName">
-				<option value="0"></option>
-				<c:forEach var="listProjects" items="${listProjects}">
-					<option value="${listProjects.project_id}">${listProjects.project_name}</option>
-				</c:forEach>
-			</select> <label style="margin-left: 10px"> PIC </label> <select
-				name="member_project_id" style="margin-left: 5px">
-				<option value="0"></option>
-				<c:forEach var="list_PIC" items="${list_PIC}">
-					<option value="${list_PIC.member_project_id}">
-						${list_PIC.member_project_name}</option>
-				</c:forEach>
-			</select> <label style="margin-left: 10px"> Process </label> <select
-				name="process_id" style="margin-left: 5px">
-				<option value="0"></option>
-				<c:forEach var="process" items="${process}">
-					<option value="${process.process_id}">
-						${process.process_name}</option>
-				</c:forEach>
-			</select> <label style="margin-left: 10px"> Status </label> <select
-				name="status_id" style="margin-left: 5px">
-				<option value="0"></option>
-				<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
-					<option value="${timeSheetStatus.status_id}">
-						${timeSheetStatus.status_name}</option>
-				</c:forEach>
-			</select>
-			<button type="submit"  style="background-color: green; color: white; margin-left: 30px">Search</button>
-				</form>
+			<form method="post" action="/Login/timeSheetList/">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" /> Project Name <select name="projectName">
+					<option value="0"></option>
+					<c:forEach var="listProjects" items="${listProjects}">
+						<option value="${listProjects.project_id}">${listProjects.project_name}</option>
+					</c:forEach>
+				</select> <label style="margin-left: 10px"> PIC </label> <select
+					name="member_project_id" style="margin-left: 5px">
+					<option value="0"></option>
+					<c:forEach var="list_PIC" items="${list_PIC}">
+						<option value="${list_PIC.member_project_id}">
+							${list_PIC.member_project_name}</option>
+					</c:forEach>
+				</select> <label style="margin-left: 10px"> Process </label> <select  id="id_select_process"
+					name="process_id" style="margin-left: 5px">
+					<option value="0"></option>
+					<c:forEach var="process" items="${process}">
+						<option value="${process.process_id}">
+							${process.process_name}</option>
+					</c:forEach>
+				</select> <label style="margin-left: 10px"> Status </label> <select
+					name="status_name" style="margin-left: 5px">
+					<option value="0"></option>
+					<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
+						<option value="${timeSheetStatus.status_name}">
+							${timeSheetStatus.status_name}</option>
+					</c:forEach>
+				</select>
+				<button type="submit"
+					style="background-color: green; color: white; margin-left: 30px">Search</button>
+			</form>
 		</div>
-		<table style="margin-top: 50px;" class="table table-bordered">
+		
+		<table style="margin-top: 50px;" class="table table-bordered"
+			id="id_table">
 			<thead>
 				<tr>
+					<th scope="col" style="background-color: #3ADF00;"><input
+						type="checkbox" id="id_check_All" onclick="function_checkAll()" /></th>
 					<th scope="col" style="background-color: #3ADF00;">Member</th>
 					<th scope="col" style="background-color: #3ADF00;">TimeSheet
 						Date</th>
@@ -81,22 +90,21 @@
 
 
 					<tr>
+						<th><input type="checkbox" id="id_check_One" /></th>
 						<th>${listTimeSheetDetails.memberProject.member_project_name}</th>
-						<th>${listTimeSheetDetails.detail_timesheet_date}</th>
+						<th><input type="hidden" name="detail_timesheet_id" value="${listTimeSheetDetails.detail_timesheet_id}">${listTimeSheetDetails.detail_timesheet_date}</th>
 						<th>${listTimeSheetDetails.hour}</th>
 						<th>${listTimeSheetDetails.pre_defined_name}</th>
 						<th>${listTimeSheetDetails.process_name}</th>
 						<th>${listTimeSheetDetails.type_name}</th>
 						<th>${listTimeSheetDetails.task_subject}</th>
 						<th>${listTimeSheetDetails.workcontent}</th>
-						<th><select style="margin-left: 5px">
-								<option>${listTimeSheetDetails.status_type}</option>
-								<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
-									<option value="${timeSheetStatus.status_id}">
-										${timeSheetStatus.status_name}</option>
-								</c:forEach>
-						</select></th>
+						<th><select id="select_stt" style="margin-left: 5px"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
+							<option id="id_status_type_Request" value="Request">Request</option>
+							<option id="id_status_Approved" value="Approved">Approved</option>
+							<option id="id_status_Reject" value="Reject">Reject</option></select></th>
 					</tr>
+
 
 
 				</c:forEach>
@@ -104,8 +112,157 @@
 		</table>
 		<div align="right" style="padding-top: 2%; padding-bottom: 5%">
 			<button id="id_buttonApprove">Approve</button>
-			<button type="submit" id="id_buttonSave" >Save</button>
+			<button type="submit" id="id_buttonSave">Save</button>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	/* 
+	 if (document.getElementById("id_check_All").checked === true){
+	 alert("true");
+	 } */
+	 
+	// function function_select(){
+		 
+		/*  var y = $(this).innerHTML;
+		 alert(y); */
+		/*  var x = document.getElementById("mySelect").value;
+		    document.getElementById("demo").innerHTML = "You selected: " + x; */
+	// }
+	 
+	 /* function function_select(){
+		 $('#select_stt').change(function(){
+		    	alert("a");           
+		    });
+	 } */
+	 
+	 
+	 $("#id_table").on(
+				"change",
+				"#select_stt",
+				function(e) {
+					e.preventDefault();
+					/* alert($(this).val());	
+					alert($(this).text()); */
+					$(this).parent('th').find("#id_Get_status_type").text($(this).val());
+					$(this).parent('th').find("#id_Get_status_type").val($(this).val());
+					//	$(this).parent('th').find("#id_Get_status_tytpe").value = $(this).val();
+					
+					
+				});
+	 
+					
+	 
+	/*  $(function(){
+		    //$('.check').trigger('change'); //This event will fire the change event. 
+		    $('#select_stt').change(function(){
+		    	alert("a");           
+		    });
+		}); */
+	 
+	 
+	 
+	var table = document.getElementById("id_table");
+	var len = table.rows.length;
+	
+	function function_checkAll() {
+		
+		if (document.getElementById("id_check_All").checked === true) {
+
+			for (var i = 1; i < len; i++) {
+
+				table.rows[i].cells[0].childNodes[0].checked = true;
+				//alert("true");
+			}
+
+		}
+
+		else if (document.getElementById("id_check_All").checked === false) {
+
+			for (var i = 1; i < len; i++) {
+
+				table.rows[i].cells[0].childNodes[0].checked = false;
+				//alert("true");
+			}
+
+		}
+
+	}
+	 
+	 $('#id_buttonApprove')
+		.click(
+				function() {
+					 for(var i =1;i<len;i++){
+							
+							if(table.rows[i].cells[0].childNodes[0].checked===true){
+									table.rows[i].cells[9].childNodes[0].childNodes[0].innerHTML = "Approved";
+									table.rows[i].cells[9].childNodes[0].childNodes[0].value = "Approved";
+							}
+						}
+					
+				});
+	 
+	 $('#id_buttonSave')
+		.click(
+				function() {
+					// create arrayList object
+					var arrayList_Timesheet = new Array();
+					 for(var i =1;i<len;i++){
+							
+						// set value of var
+							var _detail_timesheet_id = table.rows[i].cells[2].childNodes[0].value;
+						 	//var test = $("#select_stt").val();
+							var _status_type = table.rows[i].cells[9].childNodes[0].childNodes[0].value;
+							//alert(_status_type);
+							//console.log(test);
+							
+							 var infor_Object = {
+									detail_timesheet_id : _detail_timesheet_id,
+									status_type : _status_type
+								} 
+
+							
+							arrayList_Timesheet.push(infor_Object);
+						}
+					
+					 if(arrayList_Timesheet.length!=0){
+						 
+						 var token = $("meta[name='_csrf']").attr("content");
+
+							var header = $("meta[name='_csrf_header']").attr("content");
+						 
+						 $.ajax({
+								url : "actionUpdateStatusTypeOfListTimesheets",
+
+								type : "POST",
+								data : JSON
+										.stringify(arrayList_Timesheet),
+								contentType : 'application/json;charset=UTF-8',
+								dataType : 'json',
+
+								beforeSend : function(xhr) {
+									// here it is
+									xhr.setRequestHeader(header, token);
+								},
+
+								success : function(data) {
+									alert("save completed!");
+									location.reload();
+								},
+								error : function(data) {
+									alert("error! ");
+								}
+							});
+					 }
+					 //submit with ajax 
+				});
+	 
+	 /* $('#select_stt').on('change', function () {
+		 alert("a");
+	     //var selectVal = $("#selectId option:selected").val();
+	}); */
+	 
+	 
+				
+</script>
 </html>
