@@ -150,6 +150,7 @@
 			var x = document.getElementById("myFile");
 			var txt = "";
 		}
+		 
 	</script>
 </body>
 </html>

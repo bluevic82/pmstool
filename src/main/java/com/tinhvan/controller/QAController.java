@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -133,7 +134,14 @@ public class QAController {
 		}
 		return "qaList";
 	}
-	
+	@RequestMapping(value="/uploadFiles", method=RequestMethod.POST, produces = "'multipart/form-data", consumes = "'multipart/form-data")
+	public String loadPageUpload(@RequestBody MultipartFile file) throws Exception{
+		if (!file.isEmpty()) {
+			String fileName= file.getOriginalFilename();
+			file.transferTo(new File("C:/temp/" + fileName));
+		}
+		return "qaList";
+	}
 	
 	/*
 	 * @purpose: Methods Attributes
