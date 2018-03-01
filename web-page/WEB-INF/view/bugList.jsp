@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>List Bug</title>
 <jsp:include page="_menu.jsp" />
  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -48,7 +48,7 @@
 			</select> 
 			<label style="margin-left: 10px"> PIC </label> 
 			<select name="member_project_id" style="margin-left: 5px">
-				<option value="0"></option>
+					<option value="0"></option>
 				<c:forEach var="pic" items="${pic}">
 					<option value="${pic.member_project_id}">
 						${pic.member_project_name}</option>
@@ -56,7 +56,7 @@
 			</select> 
 			<label style="margin-left: 10px"> Priority </label> 
 			<select name="bug_priority" style="margin-left: 5px">
-				<option value="0"></option>
+				<option value=""></option>
 				<option value="Highest">Highest</option>
 				<option value="High">High</option>
 				<option value="Medium">Medium</option>
@@ -96,4 +96,7 @@
 		</table>
 	</div>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>
