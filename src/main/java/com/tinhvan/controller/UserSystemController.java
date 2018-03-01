@@ -70,8 +70,14 @@ public class UserSystemController {
 	// mapping add userInfo
 	@RequestMapping(value = "/user")
 	public ModelAndView userRegister(Locale locale, Model model) {
+		Boolean checker = per.checker("user_reg");
+		if(checker==true) {
 		model.addAttribute("user", new User());
 		return new ModelAndView("userRegister");
+		}
+		else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	@RequestMapping("/actionCreateUser")
