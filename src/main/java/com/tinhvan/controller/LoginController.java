@@ -140,16 +140,10 @@ public class LoginController {
 			for (int j = 0; j < mp.size(); j++) {
 				
 				 map.put(j, mp.get(j).getMember_project_name());;
-				 
-				
+	
 			}
 			pm.add(map);
-			
-			
-			
 
-			
-			
 			List<TaskInfo>	taskByIdPro = taskInfoDao.getTaskByIdPro(idP);
 			
 			float done=0;
@@ -193,16 +187,14 @@ public class LoginController {
 			         if(noDay1>noDay) {
 			        	 noDay1=noDay;
 			         }
+			         if(noDay1<0) {
+			        	 noDay1=0;
+			        	 
+			         }
 			         float convert = (int) noDay;
 			         float convert1= (int) noDay1;
 			         
-			         
-//			         if(taskDone==100) {
-//			        	 done+=convert;
-//			         }
-			         
-			         
-			        
+	        
 			        	 float thuaThieu=(float)noDay/100f*(float)taskDone;
 			        	 done+=thuaThieu;
 			        	 
