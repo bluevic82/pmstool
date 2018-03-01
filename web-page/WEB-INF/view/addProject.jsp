@@ -131,6 +131,8 @@ $( document).ready(function() {
 			alert("charge not null");
 		}else if($("#project_charge_cost").val() == "0"){
 			alert("charge not 0");
+		}else if($("#project_from").val() > $("#project_to").val()){
+			alert("From do not bigger than To");
 		}else if($("#project_name").val() != "" && $("#project_from").val() != "" && $("#project_charge_cost").val() != "" && $.isNumeric($("#project_charge_cost").val())){
 			ajaxPostProject();
 		}

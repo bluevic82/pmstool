@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
@@ -47,6 +48,8 @@ public class QAController {
 	@Autowired
 	MemberProjectDao memberProjectDao;
 	@Autowired UserDao userDao;
+	@Autowired
+	PermissionDao per;
 	
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
@@ -81,6 +84,8 @@ public class QAController {
 	// Mapping view page register QA
 	@RequestMapping(value = "{id}/registerQA")
 	public ModelAndView registerQA(@PathVariable int id, Model model) {
+		Boolean checker = per.checker("qva_upd");
+		if(checker==true) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 
 		/**
@@ -88,6 +93,10 @@ public class QAController {
 		 */
 		model.addAttribute("project_Infor", projectInfo);
 		return new ModelAndView("registerQandA", "command", new TaskInfo());
+		}
+		else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// Mapping button click registerQA

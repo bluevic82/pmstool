@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tinhvan.dao.BugInfoDao;
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TypeDao;
@@ -52,6 +53,8 @@ public class BugController {
 	BugInfoDao bugInfoDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	PermissionDao per;
 
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
@@ -75,6 +78,8 @@ public class BugController {
 	// Mapping view page create Bug
 	@RequestMapping(value = "{id}/createBug")
 	public ModelAndView createBug(@PathVariable int id, Model model) {
+		Boolean checker = per.checker("cre_iss");
+		if(checker==true) {
 		model.addAttribute("project_id", id);
 		model.addAttribute("message", "Create Bug");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
@@ -84,6 +89,9 @@ public class BugController {
 		 */
 		model.addAttribute("project_Infor", projectInfo);
 		return new ModelAndView("createBug", "command", new BugInfo());
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// Mapping button click create Bug
@@ -112,12 +120,17 @@ public class BugController {
 	// Mapping get dataById for update Bug
 	@RequestMapping(value = "/bugList/{id}/editBug/{idP}")
 	public ModelAndView editBug(@PathVariable int id, ModelMap model,  @PathVariable int idP) {
+		Boolean checker = per.checker("upd_iss");
+		if(checker==true) {
 		BugInfo bugInfo = bugInfoDao.getBugById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(idP);
 		model.put("project_Infor", projectInfo);
 
 		model.put("command", bugInfoDao.getBugById(id));
 		return new ModelAndView("updateBug", "command", bugInfo);
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// Mapping view list Bug

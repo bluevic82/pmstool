@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.MileStoneDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MileStone;
@@ -36,6 +37,8 @@ public class MileStoneController {
 	@Autowired(required = true)
 	ProjectDao projectDao;
 	@Autowired UserDao userDao;
+	@Autowired
+	PermissionDao per;
 	
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
@@ -67,6 +70,8 @@ public class MileStoneController {
 
 	@RequestMapping(value = "/{id}/createMileStone", method = RequestMethod.GET)
 	public ModelAndView createMileStone(@PathVariable int id, ModelMap model) {
+		Boolean checker = per.checker("set_reg");
+		if(checker==true) {
 		ProjectInfo projectInfor = projectDao.getProjectById(id);
 		List<MileStone> m = mileStoneDao.getMileStoneByProjectId(id);
 		model.addAttribute("ml",m);
@@ -75,6 +80,9 @@ public class MileStoneController {
 		System.out.println(projectInfor.getProject_id());
 		System.out.println(projectInfor.getProject_name());
 		return new ModelAndView("createMilestone");
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// Mapping button click create MileStone

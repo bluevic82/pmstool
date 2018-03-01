@@ -144,6 +144,10 @@ $("#updateProject").click(function() {
 		alert("To not null");
 		return false;
 	}
+	if($("#project_from").val() > $("#project_to").val()){
+		alert("From do not bigger than To");
+		return false;
+	}
 	if(!$.isNumeric($("#project_charge_cost").val())){
 		alert("charge must number");
 		return false;

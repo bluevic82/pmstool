@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.EffortDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.Effort;
@@ -33,6 +34,8 @@ public class EffortController {
 	EffortDao effortDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	PermissionDao per;
 
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")
@@ -55,17 +58,27 @@ public class EffortController {
 
 	@RequestMapping(value = "/effortManagement")
 	public ModelAndView EffortManagementPage(Model model) {
+		Boolean checker = per.checker("eff_mana");
+		if(checker==true) {
 		model.addAttribute("message", "Effort Management!");
 
 		List<Effort> list = effortDao.getAllEfort();
 		return new ModelAndView("effortManagementPage", "list", list);
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	@RequestMapping(value = "/{id}/effortCalculate")
 	public ModelAndView effortCalculate(@PathVariable int id, ModelMap model) {
+		Boolean checker = per.checker("eff_can");
+		if(checker==true) {
 		Effort effort = effortDao.getEffortById(id);
 		model.put("effort", effort);
 		return new ModelAndView("effortCanculate", "effort", effort);
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 }

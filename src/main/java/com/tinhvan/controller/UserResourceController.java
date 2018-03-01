@@ -17,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.RoleDao;
 import com.tinhvan.dao.UserDao;
@@ -40,6 +41,8 @@ public class UserResourceController {
 	MemberProjectDao memberProjectDao;
 	
 	@Autowired ProjectDao projectDao;
+	@Autowired
+	PermissionDao per;
 	
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
@@ -62,6 +65,8 @@ public class UserResourceController {
 
 	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
 	public String resourceMember(@PathVariable int id, ModelMap model) {
+		Boolean checker = per.checker("set_res");
+		if(checker==true) {
 		List<MemberProject> listMemberOfProject = memberProjectDao
 				.getMemberProjectByProjectId1(id);
 
@@ -69,6 +74,9 @@ public class UserResourceController {
 		model.put("listMemberOfProject", listMemberOfProject);
 		model.put("projectInfo", projectInfo);
 		return "resourceMember";
+		}else {
+			return "403Page";
+		}
 	}
 
 

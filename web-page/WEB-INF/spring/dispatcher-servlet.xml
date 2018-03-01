@@ -20,25 +20,14 @@
 		<property name="prefix" value="/WEB-INF/view/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
-
-	<!-- config database -->
-	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://192.168.53.138:3306/project_manager_system"></property> 
-		<property name="username" value="vivu"></property> 
-		<property name="password" value="123456"></property> 
-	</bean> -->
 	
 	<!-- config database -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://192.168.53.199:3306/project_manager_system"></property> 
-		<property name="username" value="BMS"></property> 
-		<property name="password" value="123456"></property>  -->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/project_manager_system" />
 		<property name="username" value="root" />
 		<property name="password" value="Chudai@1995" />
+		
 		
 	</bean>
 	
@@ -60,25 +49,4 @@
 	<!-- import resources css,js,image -->
 	<mvc:resources location="/resources/lib/" mapping="/resources/**"></mvc:resources>
 	
-	<!-- <context:property-placeholder location="classpath:hibernate.properties" /> -->
-	
-	<!--  <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-            </props>
-        </property>
-        <property name="packagesToScan" value="com.tinhvan.model"></property>
-    </bean>
-    
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" /> -->
 </beans>

@@ -93,8 +93,13 @@ public class ProjectController {
 	// mapping add project
 	@RequestMapping(value = "/addProject")
 	public ModelAndView addProject() {
-
+		Boolean checker = per.checker("add_pro");
+		if(checker==true) {
 		return new ModelAndView("addProject");
+		}
+		else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// mapping Create Project
@@ -135,12 +140,18 @@ public class ProjectController {
 	// mapping getdata project_id for update Project
 	@RequestMapping(value = "/editproject/{id}")
 	public ModelAndView editProject(@PathVariable int id, ModelMap model) {
+		Boolean checker = per.checker("set_upd");
+		if(checker==true) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		List<ScopeProject> s = projectDao.getScope(id);
 		model.put("command", projectDao.getProjectById(id));
 		model.put("id", projectInfo);
 		model.put("scope", s);
 		return new ModelAndView("updateProject");
+		}
+		else {
+			return new ModelAndView("403Page");
+		}
 	}
 	@RequestMapping(value="actionUpdateP", method = RequestMethod.POST)
 	public ModelAndView update(@ModelAttribute(value = "project") ProjectInfo project) {

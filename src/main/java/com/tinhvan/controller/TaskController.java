@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
+import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
@@ -51,6 +52,8 @@ public class TaskController {
 	@Autowired
 	TaskInfoDao taskInfoDao;
 	@Autowired UserDao userDao;
+	@Autowired
+	PermissionDao per;
 	
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
@@ -74,6 +77,8 @@ public class TaskController {
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask")
 	public ModelAndView createTask(@PathVariable int id, Model model) {
+		Boolean checker = per.checker("cre_iss");
+		if(checker==true) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create Task");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
@@ -81,6 +86,9 @@ public class TaskController {
 		// purpose: get project's name
 		model.addAttribute("project_Infor", projectInfo);
 		return new ModelAndView("createTaskSpecIssue", "command", new TaskInfo());
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// Mapping button click create Task/Spec/Issue
@@ -109,6 +117,8 @@ public class TaskController {
 	// Mapping get dataById for update Task/Spec/Issue
 	@RequestMapping(value = "/taskList/{id}/editTask/{idP}")
 	public ModelAndView editTask(@PathVariable int id, ModelMap model, @PathVariable int idP) {
+		Boolean checker = per.checker("upd_iss");
+		if(checker==true) {
 		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(idP);
 		model.put("project_Infor", projectInfo);
@@ -116,6 +126,9 @@ public class TaskController {
 		model.put("command", taskInfoDao.getTaskById(id));
 		return new ModelAndView("updateTaskSpecIssue", "command", taskInfo);
 		//return new ModelAndView("updateTaskSpecIssue");
+		}else {
+			return new ModelAndView("403Page");
+		}
 	}
 
 	// Mapping view list Task/Spec/Issue
