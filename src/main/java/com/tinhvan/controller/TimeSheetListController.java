@@ -244,7 +244,7 @@ public class TimeSheetListController {
 				//return new ModelAndView("timeSheetList", "list", list);
 			}
 			
-			@RequestMapping(value = "timeSheetList/actionUpdateStatusTypeOfListTimesheets", method = RequestMethod.POST)
+			@RequestMapping(value = "/actionUpdateStatusTypeOfListTimesheets", method = RequestMethod.POST)
 			public @ResponseBody ArrayList<TimeSheetDetail> save(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
 				//System.out.println("prj_id = "+id);
 				

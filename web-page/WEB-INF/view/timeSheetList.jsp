@@ -232,7 +232,7 @@
 							var header = $("meta[name='_csrf_header']").attr("content");
 						 
 						 $.ajax({
-								url : "actionUpdateStatusTypeOfListTimesheets",
+								url : "/Login/actionUpdateStatusTypeOfListTimesheets",
 
 								type : "POST",
 								data : JSON
