@@ -42,6 +42,8 @@ public class UserSystemController {
 	ProjectDao projectDao;
 	@Autowired
 	private UserValidator userValidator;
+	@Autowired
+	PermissionDao per;
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
