@@ -118,6 +118,11 @@
 		</div>
 	</div>
 </body>
+
+<style>
+
+  
+</style>
 <script type="text/javascript">
 	 
 	 $("#id_table").on(

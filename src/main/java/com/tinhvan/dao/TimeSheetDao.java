@@ -29,6 +29,7 @@ public interface TimeSheetDao {
 	public List<TimeSheet_Info> getListTimeSheet_InfosByMemberProjectId(int member_project_id);
 	//public List<TimeSheetDetail> getAllTimeSheets
 	public void updateStatusOfListTimeSheetDetails(ArrayList<TimeSheetDetail> list_TimeSheetDetails);
-	public List<TimeSheetDetail> getTimeSheetDetailsByOneOrAllConditionsOfPM(int project_id, int member_project_id, int process_id, String status_name, int user_id_PM);
+	public List<TimeSheetDetail> getTimeSheetDetailsHaveConditionsOfPM(int project_id, int member_project_id, int process_id, String status_name, int user_id_PM);
+	public List<TimeSheetDetail> getTimeSheetDetailsNoConditionsOfPM(int user_id_PM);
 	
 }

@@ -60,8 +60,8 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			if (user_id_member_project != 0) {
 
 				if (x == false) {
-					
-					System.out.println("id = "+user_id_member_project);
+
+					System.out.println("id = " + user_id_member_project);
 
 					sqlxx += "inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "
 							+ user_id_member_project
@@ -70,7 +70,8 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 					x = true;
 
 				} else {
-					//sqlxx += " and t.MEMBER_PROECT_ID = " + member_project_id;
+					// sqlxx += " and t.MEMBER_PROECT_ID = " +
+					// member_project_id;
 
 				}
 			}
@@ -703,81 +704,83 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	}
 
 	@Override
-	public List<TimeSheetDetail> getTimeSheetDetailsByOneOrAllConditionsOfPM(
+	public List<TimeSheetDetail> getTimeSheetDetailsHaveConditionsOfPM(
 			int project_id, int user_id_member_project, int process_id,
 			String status_name, int user_id_PM) {
 		// TODO Auto-generated method stub
 		String sqlxx = "";
-		String sql_getListTS = "";
-		if (project_id != 0 || user_id_member_project != 0 || process_id != 0
-				|| status_name != "") {
 
-			boolean x = false;
-			if (project_id != 0) {
-				if (x == false) {
+		System.out.println("prj = "+project_id + "userM = "+ user_id_member_project +"process_id = "+ process_id + "status_name = "+ status_name + "user_id = "+ user_id_PM);
+		
+		boolean x = false;
+		if (project_id != 0) {
+			if (x == false) {
 
-					// List<TimeSheet_Info> listTimeSheet_Infos =
-					// getListTimeSheet_InfosByProjectId(project_id);
-					sqlxx += " d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.project_id= "
-							+ project_id;
-					x = true;
-				} else {
-					System.out.println("false");
-					// sqlxx+=" and task_info.PROJECT_ID="+project_id;
-				}
+				// List<TimeSheet_Info> listTimeSheet_Infos =
+				// getListTimeSheet_InfosByProjectId(project_id);
+				sqlxx += " d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.project_id= "
+						+ project_id;
+				x = true;
+			} else {
+				System.out.println("false");
+				// sqlxx+=" and task_info.PROJECT_ID="+project_id;
 			}
-			if (user_id_member_project != 0) {
-
-				if (x == false) {
-
-					sqlxx += " d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.MEMBER_PROECT_ID = "
-							+ member_project_id;
-
-					x = true;
-
-				} else {
-					sqlxx += " and t.MEMBER_PROECT_ID = " + member_project_id;
-
-				}
-			}
-			if (process_id != 0) {
-
-				if (x == false) {
-
-					sqlxx += " where PROCESS_ID=" + process_id;
-
-					x = true;
-
-				} else {
-					sqlxx += " and PROCESS_ID=" + process_id;
-
-				}
-			}
-			if (!status_name.equals("")) {
-
-				if (x == false) {
-
-					sqlxx += " where STATUS_ID=" + "'" + status_name + "'";
-
-					x = true;
-
-				} else {
-					sqlxx += " and STATUS_ID=" + "'" + status_name + "'";
-
-				}
-			}
-
-			
-			sql_getListTS = "SELECT * FROM detail_timesheet "+sqlxx+" ";
 		}
-		else{
-			
-			//sql search TS trong cac project ma user_id hien tai co role=2
-			sql_getListTS = "select * from detail_timesheet inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "+user_id_PM+" and member_project.ROLE_ID=2)) as result1 on (result1.ts_id = detail_timesheet.ts_id)";
+		if (user_id_member_project != 0) {
+
+			if (x == false) {
+
+				sqlxx += " d inner join timesheet_info t on d.TS_ID=t.TS_ID where t.MEMBER_PROECT_ID = "
+						+ member_project_id;
+
+				x = true;
+
+			} else {
+				sqlxx += " and t.MEMBER_PROECT_ID = " + member_project_id;
+
+			}
 		}
+		if (process_id != 0) {
+
+			if (x == false) {
+
+				sqlxx += " where PROCESS_ID=" + process_id;
+
+				x = true;
+
+			} else {
+				sqlxx += " and PROCESS_ID=" + process_id;
+
+			}
+		}
+		if (!status_name.equals("")) {
+
+			if (x == false) {
+
+				sqlxx += " where STATUS_ID=" + "'" + status_name + "'";
+
+				x = true;
+
+			} else {
+				sqlxx += " and STATUS_ID=" + "'" + status_name + "'";
+
+			}
+		}
+
+		/*
+		 * else{
+		 * 
+		 * //sql search TS trong cac project ma user_id hien tai co role=2
+		 * sql_getListTS =
+		 * "select * from detail_timesheet inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "
+		 * +user_id_PM+
+		 * " and member_project.ROLE_ID=2)) as result1 on (result1.ts_id = detail_timesheet.ts_id)"
+		 * ; }
+		 */
 
 		try {
-			return jdbcTemplate.query(sql_getListTS,
+			return jdbcTemplate.query("SELECT * FROM detail_timesheet " + sqlxx
+					+ " AND STATUS_ID='Request'",
 					new RowMapper<TimeSheetDetail>() {
 
 						@Override
@@ -819,6 +822,60 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			return null;
 		}
 		// return null;
+	}
+
+	@Override
+	public List<TimeSheetDetail> getTimeSheetDetailsNoConditionsOfPM(
+			int user_id_PM) {
+		// TODO Auto-generated method stub
+		String sql = "select * from detail_timesheet inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "
+				+ user_id_PM
+				+ " and member_project.ROLE_ID=2)) as result1 on (result1.ts_id = detail_timesheet.ts_id)";
+
+		try{
+			return jdbcTemplate.query(sql+" AND STATUS_ID='Request'",
+					new RowMapper<TimeSheetDetail>() {
+
+						@Override
+						public TimeSheetDetail mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							TimeSheetDetail timeSheetDetail = new TimeSheetDetail();
+							timeSheetDetail.setDetail_timesheet_id(rs.getInt(1));
+							timeSheetDetail.setDetail_timesheet_date(rs
+									.getString(2));
+							timeSheetDetail.setHour(rs.getFloat(3));
+							timeSheetDetail.setPre_defined_id(rs.getInt(4));
+							timeSheetDetail.setProcess_id(rs.getInt(5));
+							timeSheetDetail.setType_id(rs.getInt(6));
+							timeSheetDetail.setTask_id(rs.getInt(7));
+							timeSheetDetail.setWorkcontent(rs.getString(8));
+							timeSheetDetail.setTs_id(rs.getInt(9));
+							timeSheetDetail.setStatus_type(rs.getString(10));
+
+							timeSheetDetail
+									.setPre_defined_name(getPreDifinedName(timeSheetDetail
+											.getPre_defined_id()));
+							timeSheetDetail
+									.setProcess_name(getProcessName(timeSheetDetail
+											.getProcess_id()));
+							timeSheetDetail
+									.setType_name(getTypeName(timeSheetDetail
+											.getType_id()));
+							timeSheetDetail
+									.setTask_subject(getTaskSubject(timeSheetDetail
+											.getTask_id()));
+							timeSheetDetail
+									.setMemberProject(getMemberProjectByTimeSheetId(timeSheetDetail
+											.getTs_id()));
+
+							return timeSheetDetail;
+						}
+					});
+		}
+		catch(Exception e){
+			return null;
+		}
+		
 	}
 
 	/* get task_Name */
