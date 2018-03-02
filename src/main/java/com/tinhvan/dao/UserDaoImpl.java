@@ -124,4 +124,31 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 		}
 		
 	}
+
+	@Override
+	public User getUserInfoByUser_Id(int user_id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM user_info WHERE USER_ID =?";
+		Object[] params = new Object[] { user_id };
+		try{
+			return jdbcTemplate.queryForObject(sql, params, new RowMapper<User>(){
+
+				@Override
+				public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+					// TODO Auto-generated method stub
+					User user = new User();
+					user.setUser_id(rs.getInt(1));
+					user.setUser_fullName(rs.getString(2));
+					user.setUser_mail(rs.getString(3));
+					//not return user_pass
+					user.setRole_id(rs.getInt(5));
+					return user;
+				}
+				
+			});
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
 }

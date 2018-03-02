@@ -15,4 +15,6 @@ public interface StatusDao {
 	public List<Status> getStatusOfQA();
 	
 	public List<Status> getStatusOfTS();
+	
+	public Status getStatusByStatus_Id(int status_id);
 }

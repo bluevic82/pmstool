@@ -33,29 +33,30 @@
 			<form method="post" action="/Login/timeSheetList/">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" /> Project Name <select name="projectName">
+					
 					<option value="0"></option>
 					<c:forEach var="listProjects" items="${listProjects}">
-						<option value="${listProjects.project_id}">${listProjects.project_name}</option>
+						<option value="${listProjects.project_id}" <c:if test="${listProjects.project_id==project_searched.project_id}"> selected="selected"</c:if> >${listProjects.project_name}</option>
 					</c:forEach>
 				</select> <label style="margin-left: 10px"> PIC </label> <select
-					name="member_project_id" style="margin-left: 5px">
+					name="user_id" style="margin-left: 5px">
 					<option value="0"></option>
 					<c:forEach var="list_PIC" items="${list_PIC}">
-						<option value="${list_PIC.member_project_id}">
+						<option value="${list_PIC.user_id}" <c:if test="${list_PIC.user_id==PIC_searched.user_id}"> selected="selected"</c:if>>
 							${list_PIC.member_project_name}</option>
 					</c:forEach>
 				</select> <label style="margin-left: 10px"> Process </label> <select  id="id_select_process"
 					name="process_id" style="margin-left: 5px">
 					<option value="0"></option>
 					<c:forEach var="process" items="${process}">
-						<option value="${process.process_id}">
+						<option value="${process.process_id}" <c:if test="${process.process_id==process_searched.process_id}"> selected="selected"</c:if>>
 							${process.process_name}</option>
 					</c:forEach>
 				</select> <label style="margin-left: 10px"> Status </label> <select
 					name="status_name" style="margin-left: 5px">
 					<option value=""></option>
 					<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
-						<option value="${timeSheetStatus.status_name}">
+						<option value="${timeSheetStatus.status_name}" <c:if test="${timeSheetStatus.status_name==status_searched}"> selected="selected"</c:if>>
 							${timeSheetStatus.status_name}</option>
 					</c:forEach>
 				</select>
@@ -118,25 +119,6 @@
 	</div>
 </body>
 <script type="text/javascript">
-	/* 
-	 if (document.getElementById("id_check_All").checked === true){
-	 alert("true");
-	 } */
-	 
-	// function function_select(){
-		 
-		/*  var y = $(this).innerHTML;
-		 alert(y); */
-		/*  var x = document.getElementById("mySelect").value;
-		    document.getElementById("demo").innerHTML = "You selected: " + x; */
-	// }
-	 
-	 /* function function_select(){
-		 $('#select_stt').change(function(){
-		    	alert("a");           
-		    });
-	 } */
-	 
 	 
 	 $("#id_table").on(
 				"change",
@@ -151,15 +133,6 @@
 					
 					
 				});
-	 
-					
-	 
-	/*  $(function(){
-		    //$('.check').trigger('change'); //This event will fire the change event. 
-		    $('#select_stt').change(function(){
-		    	alert("a");           
-		    });
-		}); */
 	 
 	 
 	 
@@ -257,12 +230,6 @@
 					 }
 					 //submit with ajax 
 				});
-	 
-	 /* $('#select_stt').on('change', function () {
-		 alert("a");
-	     //var selectVal = $("#selectId option:selected").val();
-	}); */
-	 
 	 
 				
 </script>

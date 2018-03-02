@@ -35,4 +35,26 @@ public class ProcessDaoImpl implements ProcessDao {
 		});
 	}
 
+	@Override
+	public Process getProcessByProcessId(int process_id) {
+		// TODO Auto-generated method stub
+		try{
+			return jdbcTemplate.queryForObject("SELECT * FROM process where process_id="+process_id+"", new RowMapper<Process>() {
+
+				@Override
+				public Process mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Process pc = new Process();
+					pc.setProcess_id(rs.getInt(1));
+					pc.setProcess_name(rs.getString(2));
+					pc.setProcess_type(rs.getString(3));
+					return pc;
+				}			
+			});
+		}
+		catch(Exception e){
+			return null;
+		}
+		
+	}
+
 }

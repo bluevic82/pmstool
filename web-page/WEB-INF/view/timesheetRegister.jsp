@@ -86,7 +86,7 @@
 						<tr id="id_tr">
 							<td scope="col"><input id="id_checkbox" type="checkbox" name="checkboxTS" /><input type="hidden" value="${list_TimeSheetOfOneProject.ts_id}" name="ts_id"/></td>
 								
-							<td id="id_ts_Date"><div class="input-group date datetimepicker"><input type="text" class="form-control" value = "${list_TimeSheetOfOneProject.detail_timesheet_date }"/><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td>	
+							<td id="id_ts_Date">${list_TimeSheetOfOneProject.detail_timesheet_date }</td>	
 							<td id="id_ts_Hour"><input id="id_input_HOUR" type="text"
 								value="${list_TimeSheetOfOneProject.hour}" /></td>
 								
@@ -146,12 +146,6 @@
 
 </body>
 
-<script>
-	$('.datetimepicker').datetimepicker({
-		format : "YYYY-MM-DD",
-	});
-</script>
-
 <style>
 #id_input_HOUR {
 	width: 50px;
@@ -170,10 +164,24 @@
 	$('#id_buttonAdd')
 			.click(
 					function() {
+						
+						var date=new Date();
+						var day="";
+						var month="";
+						var year="";
+						if(date.getDate()<10){
+							day+=0+""+date.getDate();
+						}
+						if(date.getMonth()<10){
+							month += month+=0+""+date.getMonth();
+						}
+						
+						var today = date.getFullYear()+"-"+month+"-"+day;
 
+						
 						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id = "id_tr"><td scope="col"><input id="id_checkbox" type="checkbox" name="checkboxTS" /><input type="hidden" value="" name="ts_id"/></td>'
 
-								+ '<td id="id_ts_Date"><div class="input-group date datetimepicker"><input type="text" class="form-control" value = ""/><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td>'
+								+ '<td id="id_ts_Date">'+today+'</td>'
 
 								+ '<td id = "id_ts_Hour"><input id = "id_input_HOUR" type = "text" value = ""/></td>'
 
@@ -191,11 +199,8 @@
 								+ '<td id="id_ts_workContent"><input id="id_input_WorkContent" type="text" value="" /><input type="hidden" value="" name="detail_timesheet_id"/></td>'
 								
 								+ '</tr>';
-
-						$('.datetimepicker').datetimepicker({
-							format : "YYYY-MM-DD",
-						});
 					});
+	
 
 	/*delete timesheet*/
 	$('#id_buttonDelete').click(
@@ -204,18 +209,12 @@
 		var checkbox = document.getElementsByName('checkboxTS');
 		var list_timesheet_id_delete = new Array();
 		var table = document.getElementById("id_table");
+		
 		for (var i = 0; i < checkbox.length; i++) {
 
 			if (checkbox[i].checked === true) {
 				var temp = i + 1;
 				var _detail_timesheet_id = table.rows[temp].cells[7].childNodes[1].value;
-				var _detail_timesheet_date = table.rows[temp].cells[1].childNodes[0].childNodes[0].value;
-				var _hour = table.rows[temp].cells[2].childNodes[0].value;
-				var _pre_defined_id = table.rows[temp].cells[3].childNodes[0].value;
-				var _process_id = table.rows[temp].cells[4].childNodes[0].value;
-				var _type_id = table.rows[temp].cells[5].childNodes[0].value;
-				var _task_id = table.rows[temp].cells[6].childNodes[0].value;
-				var _workcontent = table.rows[temp].cells[7].childNodes[0].value;
 				var _ts_id = table.rows[temp].cells[0].childNodes[1].value;
 				
 				table.rows[temp].remove();
@@ -223,13 +222,6 @@
 				if(_detail_timesheet_id!=""){
 					var infor_Object_Delete = {
 							detail_timesheet_id : _detail_timesheet_id,
-							detail_timesheet_date : _detail_timesheet_date,
-							hour : _hour,
-							pre_defined_id : _pre_defined_id,
-							process_id : _process_id,
-							type_id : _type_id,
-							task_id : _task_id,
-							workcontent : _workcontent,
 							ts_id : _ts_id
 						} 
 					list_timesheet_id_delete.push(infor_Object_Delete);
@@ -279,6 +271,12 @@
 
 	});
 
+
+	/* function check_hour(p1, p2) {
+	   return p1 * p2;
+	} */
+	//document.getElementById("demo").innerHTML = myFunction(4, 3);
+	
 	/* save timesheet */
 	$('#id_buttonSave')
 			.click(
@@ -289,8 +287,15 @@
 						var check_hour = false;
 						var check_process = false;
 						var check_type = false;
-						var check_date = false;
 						var String_alert_err = "";
+						var check_hour_sum = false;
+						var rows_hour_error = "";
+						
+						var _detail_timesheet_date_of_check_hour = table.rows[1].cells[1].innerHTML;
+						var hour_check_sum = 0;
+						
+						
+						
 						
 						// create arrayList object
 						var arrayList_Timesheet = new Array();
@@ -298,29 +303,12 @@
 						
 						for (var i = 1; i < len; i++) {
 							
-							if (isNaN(table.rows[i].cells[2].childNodes[0].value)
-									|| table.rows[i].cells[2].childNodes[0].value == "") {
-
-								check_hour = true;
-
-							}
-
-							if (table.rows[i].cells[4].childNodes[0].value == "") {
-								check_process = true;
-							}
-							if (table.rows[i].cells[5].childNodes[0].value == "") {
-								check_type = true;
-							}
-							if (table.rows[i].cells[1].childNodes[0].childNodes[0].value == ""){
-								check_date = true;
-							}
-							
-							
 							
 							// set value of var
 							var _detail_timesheet_id = table.rows[i].cells[7].childNodes[1].value;
-							var _detail_timesheet_date = table.rows[i].cells[1].childNodes[0].childNodes[0].value;
-							var _hour = table.rows[i].cells[2].childNodes[0].value;
+							var _detail_timesheet_date = table.rows[i].cells[1].innerHTML;
+							//alert(_detail_timesheet_date);
+							var _hour = Number(table.rows[i].cells[2].childNodes[0].value);
 							var _pre_defined_id = table.rows[i].cells[3].childNodes[0].value;
 							var _process_id = table.rows[i].cells[4].childNodes[0].value;
 							var _type_id = table.rows[i].cells[5].childNodes[0].value;
@@ -342,27 +330,48 @@
 
 							
 							arrayList_Timesheet.push(infor_Object);
+							
+							
+							//var hour=table.rows[i].cells[2].childNodes[0].value;
+							
+							if (isNaN(_hour)|| _hour == 0) {
+								check_hour = true;
+
+							}
+							if(check_hour==false){
+								if(_detail_timesheet_date == _detail_timesheet_date_of_check_hour){
+							
+									hour_check_sum += _hour;
+									//alert("current hour = "+hour_check_sum);
+									if(hour_check_sum > 8){
+										//alert("loi");
+										check_hour_sum = true;
+									}
+								}
+								else{
+									hour_check_sum = 0;
+									_detail_timesheet_date_of_check_hour = _detail_timesheet_date;
+									
+								}
+							}
+							
+
+							if (_process_id == 0) {
+								check_process = true;
+							}
+							if (_type_id == 0) {
+								check_type = true;
+							}
+							/* if (table.rows[i].cells[1].childNodes[0].childNodes[0].value == ""){
+								check_date = true;
+							} */
+							
+							
 						}
 						console.log(arrayList_Timesheet);
 						
-						//alert invalid
-						if (check_hour || check_process || check_type || check_date) {
-							if(check_date){
-								String_alert_err += "  ,Date ";
-							}
-
-							if (check_hour) {
-								String_alert_err += "  HOUR(is number) ";
-							}
-							if (check_process) {
-								String_alert_err += "  ,Process ";
-							}
-							if (check_type) {
-								String_alert_err += "  ,Type Of Word ";
-							}
+						if(!check_hour_sum && !check_hour && !check_process && !check_type){
 							
-							alert(String_alert_err + "is not empty!");
-						} else {
 							/* var csrfParameter = $(
 							"meta[name='_csrf_parameter']").attr(
 							"content"); */
@@ -395,7 +404,35 @@
 									alert("error! ");
 								}
 							});
+							
 						}
+						else{
+							//alert invalid
+							if( check_hour_sum ==true){
+								if(check_hour_sum) {
+									alert("SUM HOUR of one day must <= 8(hour)!");
+								}
+							}
+							if (check_hour || check_process || check_type) {
+
+								 if (check_hour==true) {
+									String_alert_err += "  HOUR(is number) ";
+								} 
+								
+								if (check_process) {
+									String_alert_err += "  ,Process ";
+								}
+								if (check_type) {
+									String_alert_err += "  ,Type Of Word ";
+								}
+								
+								alert(String_alert_err + "is not empty!");
+								
+								
+							}
+							
+						}
+						 
 
 					});
 
@@ -413,5 +450,3 @@
 	}); */
 </script>
 </html>
-
-

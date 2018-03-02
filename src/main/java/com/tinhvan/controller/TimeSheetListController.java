@@ -96,8 +96,8 @@ public class TimeSheetListController {
 	// Mapping view list TimeSheeet
 			@RequestMapping("/timeSheetList")
 			public ModelAndView listTimeSheet(@RequestParam(value="projectName",required=false,defaultValue = "0")
-			int project_id,@RequestParam(value="member_project_id",required=false,defaultValue = "0") 
-			int member_project_id,@RequestParam(value="process_id",required=false,defaultValue = "0") 
+			int project_id,@RequestParam(value="user_id",required=false,defaultValue = "0") 
+			int user_id_member_project,@RequestParam(value="process_id",required=false,defaultValue = "0") 
 			int process_id,@RequestParam(value="status_name",required=false,defaultValue = "") 
 			String status_name, Principal principal, Model model) {
 				
@@ -112,11 +112,21 @@ public class TimeSheetListController {
 					List<ProjectInfo> listAllProjectInfos = projectDao.getAllProject();
 					
 					
-					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, member_project_id, process_id, status_name);
+					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, user_id_member_project, process_id, status_name);
 					List<MemberProject> list_PIC = memberProjectDao.getAllMember();
 					//List<Process> list_Process = processDao.getAll();
 					
-					//System.out.println(listAllTimeSheetDetails.get(2).getMemberProject().getMember_project_id());
+					//tra ve dieu kien tim kiem
+					model.addAttribute("project_searched", projectDao.getProjectById(project_id));
+					model.addAttribute("PIC_searched", userDao.getUserInfoByUser_Id(user_id_member_project));
+					model.addAttribute("process_searched", processDao.getProcessByProcessId(process_id));
+					model.addAttribute("status_searched", status_name);
+					
+					
+					
+					model.addAttribute("listTimeSheetDetails", listAllTimeSheetDetails);
+					model.addAttribute("listProjects", listAllProjectInfos);
+					model.addAttribute("list_PIC", list_PIC);
 					
 					model.addAttribute("listTimeSheetDetails", listAllTimeSheetDetails);
 					model.addAttribute("listProjects", listAllProjectInfos);
@@ -152,16 +162,16 @@ public class TimeSheetListController {
 					
 					
 					//if role = 2 => get list member_project of user 
-					List<MemberProject> listMemberProjectsAssigned = memberProjectDao.getListMemberProjectsByCurrentUserAssigned(user.getUser_id());
+					//List<MemberProject> listMemberProjectsAssigned = memberProjectDao.getListMemberProjectsByCurrentUserAssigned(user.getUser_id());
 					List<TimeSheetDetail> listTimeSheetDetails = new ArrayList<TimeSheetDetail>();
 					List<MemberProject> lisMemberProjectsAssignedNotPM = new ArrayList<MemberProject>();
 					List<MemberProject> lisMemberProjectsAssignedIsPM = new ArrayList<MemberProject>();
 					List<MemberProject> list_PIC = new ArrayList<MemberProject>();
 					
 					
+					listTimeSheetDetails = timeSheetDao.getTimeSheetDetailsByOneOrAllConditionsOfPM(project_id, user_id_member_project, process_id, status_name, user.getUser_id());
 					
-					
-							for(int i=0;i<listMemberProjectsAssigned.size();i++){
+							/*for(int i=0;i<listMemberProjectsAssigned.size();i++){
 								//lisMemberProjectsAssignedIsPM.add(listMemberProjects.get(i));
 								List<TimeSheet_Info> listTimeSheet_Infos = timeSheetDao.getListTimeSheet_InfosByProjectId(listMemberProjectsAssigned.get(i).getProject_id());
 								for(int j=0;j<listTimeSheet_Infos.size();j++){
@@ -170,7 +180,7 @@ public class TimeSheetListController {
 								
 								list_PIC.addAll(memberProjectDao.getMemberProjectByProjectId1(listMemberProjectsAssigned.get(i).getProject_id()));
 								
-							}
+							}*/
 							
 							/*
 							 * Loc user_id trung nhau trong list_PIC
@@ -181,9 +191,16 @@ public class TimeSheetListController {
 							/*for(int i=0;i<listTimeSheet_Infos.size();i++){
 								listTimeSheetDetails.addAll(timeSheetDao.getListTimeSheetByTimeSheetId(listTimeSheet_Infos.get(i).getTs_id()));
 							}*/
+					
+					
+					//tra ve dieu kien tim kiem
+					model.addAttribute("project_searched", projectDao.getProjectById(project_id));
+					model.addAttribute("PIC_searched", userDao.getUserInfoByUser_Id(user_id_member_project));
+					model.addAttribute("process_searched", processDao.getProcessByProcessId(process_id));
+					model.addAttribute("status_searched", status_name);
 						
-							if(project_id!=0 ||member_project_id!=0||process_id!=0||status_name!="") {
-								List<TimeSheetDetail> listTimeSheetDetails1=timeSheetDao.getTimeSheetDetailsByOneOrAllConditionsOfPM(project_id, member_project_id, process_id, status_name);
+							if(project_id!=0 ||user_id_member_project!=0||process_id!=0||status_name!="") {
+								List<TimeSheetDetail> listTimeSheetDetails1=timeSheetDao.getTimeSheetDetailsByOneOrAllConditionsOfPM(project_id, user_id_member_project, process_id, status_name, user.getUser_id());
 								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 								
 								//loc ra list timesheets trong project PM duoc assign

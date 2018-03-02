@@ -29,7 +29,7 @@
 </head>
 <body>
 	<h1>${message}</h1>
-	<div class="container">
+	<div class="container" style="overflow: scroll; height: 75%;">
 		<c:forEach var="list" items="${list}">
 			<div id="divMain_Effort" style="width: 1000px; height: 50px">
 
@@ -53,7 +53,7 @@
 
 
 			</div>
-			</br>
+			<br>
 			
 
 		</c:forEach>

@@ -31,12 +31,12 @@
 			
 			<li><a href="${pageContext.request.contextPath}/welcome">Over View</a></li>
 			<li><a href="${pageContext.request.contextPath}/addProject">Add Project</a></li>
-			<li><a href="#">Project ></a>
+			<li><a href="#">Projects</a>
 				<ul>
 					<c:forEach var="list_Project_For_menu" items="${list_Project_For_menu}">
 						<li><a href="#">${list_Project_For_menu.project_name } ></a>
 							<ul>
-								<li><a href="#">Setting ></a>
+								<li><a href="#">Settings</a>
 									<ul>
 										<li><a href="${pageContext.request.contextPath}/editproject/${list_Project_For_menu.project_id}">Update
 												Project Information</a></li>
@@ -66,7 +66,7 @@
 			<li><a href="${pageContext.request.contextPath}/effortManagement">Effort
 					Management </a></li>
 					
-			<li><a href="#">Users Management ></a>
+			<li><a href="#">Users Management</a>
 				<ul>
 					<li><a href="${pageContext.request.contextPath}/user">User
 							Register</a></li>
@@ -84,7 +84,7 @@
 					</c:forEach>
 
 				</ul></li>
-			<li><a href="#"> Management ></a>
+			<li><a href="#"> Managements</a>
 				<ul>
 					<li><a href="#">Task/Spec/Issue Management ></a>
 						<ul>

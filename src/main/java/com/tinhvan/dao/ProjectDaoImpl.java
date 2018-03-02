@@ -87,7 +87,13 @@ public class ProjectDaoImpl implements ProjectDao {
 	public ProjectInfo getProjectById(int id) {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * FROM project_info where PROJECT_ID = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<ProjectInfo>(ProjectInfo.class));
+		try{
+			return jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper<ProjectInfo>(ProjectInfo.class));
+		}
+		catch(Exception e){
+			return null;
+		}
+		
 	}
 	
 	@Override
