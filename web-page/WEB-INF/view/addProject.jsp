@@ -9,6 +9,7 @@
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 <title>Add Project</title>
+	<jsp:include page="_banner.jsp"></jsp:include>
 	<jsp:include page="_menu.jsp" />
   	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>

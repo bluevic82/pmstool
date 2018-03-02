@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>${title}</title>
+<jsp:include page="_banner.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
 
 <script src="https://momentjs.com/downloads/moment.min.js"></script>

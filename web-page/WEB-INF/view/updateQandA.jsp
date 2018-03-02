@@ -7,6 +7,7 @@
 <html>
 <head>
 <title> Q&amp;A Update</title>
+<jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>

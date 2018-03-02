@@ -3,15 +3,16 @@
 <%@page import="java.util.Base64"%>
 <%@page import="com.fasterxml.jackson.databind.deser.Deserializers.Base"%>
 <%@page import="org.springframework.util.Base64Utils"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
-<!-- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title> Q&amp;A Register</title>
+<jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />" >
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>

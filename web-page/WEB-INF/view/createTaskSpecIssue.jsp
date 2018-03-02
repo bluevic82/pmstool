@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Create Task/Spec/Issue</title>
+<jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

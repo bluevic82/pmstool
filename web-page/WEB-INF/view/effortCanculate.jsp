@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title> Effort Canculate</title>
-
+<jsp:include page="_banner.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   	<link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />" >

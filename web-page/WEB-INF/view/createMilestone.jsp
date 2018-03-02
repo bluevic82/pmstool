@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>MileStone</title>
+<jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
