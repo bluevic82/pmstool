@@ -71,15 +71,18 @@ public class QAController {
 		}
 	
 	// Mapping view ListQuestion & Answer
-	@RequestMapping(value = "/qaList")
-	public ModelAndView listQA(
-			@RequestParam(value = "projectName", required = false, defaultValue = "0") int projectName,
-			@RequestParam(value = "status", required = false, defaultValue = "0") int status,
-			@RequestParam(value = "member_project_id", required = false, defaultValue = "0") int member_project_id) {
+		@RequestMapping(value = "/qaList")
+		public ModelAndView listQA(
+				@RequestParam(value = "projectName", required = false, defaultValue = "0") int projectName,
+				@RequestParam(value = "status", required = false, defaultValue = "0") int status,
+				@RequestParam(value = "member_project_id", required = false, defaultValue = "0") int member_project_id, Model model) {
 
-		List<QuestionAnwer> list = answerDao.getAllQA(projectName, status, member_project_id);
-		return new ModelAndView("qaList", "list", list);
-	}
+			List<QuestionAnwer> list = answerDao.getAllQA(projectName, status, member_project_id);
+				model.addAttribute("pn", projectName);
+				model.addAttribute("st", status);
+				model.addAttribute("mp", member_project_id);
+			return new ModelAndView("qaList", "list", list);
+		}
 
 	// Mapping view page register QA
 	@RequestMapping(value = "{id}/registerQA")

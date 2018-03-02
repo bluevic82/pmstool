@@ -24,21 +24,21 @@
 						<select name="projectName">
 						<option value="0"></option>
 					    	<c:forEach var="projectName" items="${projectName}">   
-					   			<option value="${projectName.project_id}" >${projectName.project_name}</option>
+					   			<option value="${projectName.project_id}"<c:if test="${projectName.project_id==pn}">selected="selected"</c:if> >${projectName.project_name}</option>
 					     	</c:forEach>  
 			    		</select>
 					<label style="margin-left: 50px">Status</label>
 						<select name="status">
 						<option value="0"></option>
 					    	<c:forEach var="qaStatus" items="${qaStatus}">   
-					   			<option value="${qaStatus.status_id}" >${qaStatus.status_type}</option>
+					   			<option value="${qaStatus.status_id}" <c:if test="${qaStatus.status_id==st}">selected="selected"</c:if>>${qaStatus.status_type}</option>
 					     	</c:forEach>  
 			    		</select>
 					<label style="margin-left: 50px">PIC</label>
 						<select name="member_project_id">
 						<option value="0"></option>
 					    	<c:forEach var="pic" items="${pic}">   
-					   			<option value="${pic.member_project_id}" >${pic.member_project_name}</option>
+					   			<option value="${pic.member_project_id}"<c:if test="${pic.member_project_id==mp}">selected="selected"</c:if> >${pic.member_project_name}</option>
 					     	</c:forEach>  
 			    		</select>
 				</div>

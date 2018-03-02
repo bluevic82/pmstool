@@ -28,14 +28,14 @@
 			<select name="projectName">
 				<option value="0"></option>
 				<c:forEach var="projectName" items="${projectName}">
-					<option value="${projectName.project_id}">${projectName.project_name}</option>
+					<option value="${projectName.project_id}"<c:if test="${projectName.project_id==pn}">selected="selected"</c:if>>${projectName.project_name}</option>
 				</c:forEach>
 			</select>
 			<label style="margin-left: 10px"> Type </label> 
 			<select name="type_id" style="margin-left: 5px">
 				<option value="0"></option>
 				<c:forEach var="bugTypes" items="${bugTypes}">
-					<option value="${bugTypes.type_id}">
+					<option value="${bugTypes.type_id}"<c:if test="${bugTypes.type_id==ti}">selected="selected"</c:if>>
 						${bugTypes.type_name}</option>
 				</c:forEach>
 			</select> 
@@ -43,7 +43,7 @@
 			<select name="status_id" style="margin-left: 5px">
 					<option value="0"></option>
 				<c:forEach var="bugStatus" items="${bugStatus}">
-					<option value="${bugStatus.status_id}">
+					<option value="${bugStatus.status_id}" <c:if test="${bugStatus.status_id==si}">selected="selected"</c:if> >
 						${bugStatus.status_name}</option>
 				</c:forEach>
 			</select> 
@@ -51,17 +51,17 @@
 			<select name="member_project_id" style="margin-left: 5px">
 					<option value="0"></option>
 				<c:forEach var="pic" items="${pic}">
-					<option value="${pic.member_project_id}">
+					<option value="${pic.member_project_id}" <c:if test="${pic.member_project_id==mp}">selected="selected"</c:if>>
 						${pic.member_project_name}</option>
 				</c:forEach>
 			</select> 
 			<label style="margin-left: 10px"> Priority </label> 
 			<select name="bug_priority" style="margin-left: 5px">
-				<option value=""></option>
-				<option value="Highest">Highest</option>
-				<option value="High">High</option>
-				<option value="Medium">Medium</option>
-				<option value="Low">Low</option>
+				<option value="" ></option>
+				<option value="Highest" <c:if test="${bp=='Highest'}">selected="selected"</c:if>>Highest</option>
+				<option value="High" <c:if test="${bp=='High'}">selected="selected"</c:if>>High</option>
+				<option value="Medium" <c:if test="${bp=='Medium'}">selected="selected"</c:if>>Medium</option>
+				<option value="Low" <c:if test="${bp=='Low'}">selected="selected"</c:if>>Low</option>
 			</select>
 			<button type="submit"  style="background-color: green; color: white; margin-left: 30px">Search</button>
 			</form>

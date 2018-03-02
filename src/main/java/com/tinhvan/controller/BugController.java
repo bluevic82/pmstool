@@ -134,18 +134,21 @@ public class BugController {
 	}
 
 	// Mapping view list Bug
-	@RequestMapping("/bugList")
-	public ModelAndView listBug(@RequestParam(value="projectName",required=false,defaultValue = "0")
-			int projectName, @RequestParam(value = "type_id", required = false, defaultValue = "0") 
-			int type_id, @RequestParam(value = "status_id", required = false, defaultValue = "0") 
-			int status_id, @RequestParam(value = "member_project_id", required = false, defaultValue = "0") 
-			int member_project_id, @RequestParam(value = "bug_priority", required = false, defaultValue = "")
-			String bug_priority) {
-	
-		List<BugInfo> list = bugInfoDao.getAllBug(projectName,type_id,status_id,member_project_id,bug_priority);
-		return new ModelAndView("bugList", "list", list);
-	}
-	
+		@RequestMapping("/bugList")
+		public ModelAndView listBug(@RequestParam(value="projectName",required=false,defaultValue = "0")
+				int projectName, @RequestParam(value = "type_id", required = false, defaultValue = "0") 
+				int type_id, @RequestParam(value = "status_id", required = false, defaultValue = "0") 
+				int status_id, @RequestParam(value = "member_project_id", required = false, defaultValue = "0") 
+				int member_project_id, @RequestParam(value = "bug_priority", required = false, defaultValue = "")
+				String bug_priority, Model modelMap) {
+			List<BugInfo> list = bugInfoDao.getAllBug(projectName,type_id,status_id,member_project_id,bug_priority);
+				modelMap.addAttribute("pn",projectName);
+				modelMap.addAttribute("ti", type_id);
+				modelMap.addAttribute("si",status_id);
+				modelMap.addAttribute("mp", member_project_id);
+				modelMap.addAttribute("bp", bug_priority);
+			return new ModelAndView("bugList", "list", list);
+		}
 	/*
 	 * @purpose: Methods Attributes
 	 */
