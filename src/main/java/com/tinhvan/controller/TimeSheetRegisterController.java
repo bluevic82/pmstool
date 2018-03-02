@@ -122,7 +122,6 @@ public class TimeSheetRegisterController {
 			return new ModelAndView("timesheetRegister");
 		}
 		
-		
 	}
 	
 	@RequestMapping(value = "/{id}/actionSaveTimeSheet", method = RequestMethod.POST)
