@@ -17,10 +17,11 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet"
 	href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />">
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
-<script src="https://momentjs.com/downloads/moment.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -99,6 +100,11 @@
 			<button type="submit" id="id_buttonSave">Save</button>
 		</div>
 	</div>
+	
+	<input type="text"
+				value="${projectInfor.project_from}" name="from" id="from">
+	<input type="text"
+				value="${projectInfor.project_to}" name="to" id="to">
 </body>
 
 <style>
@@ -116,6 +122,7 @@ $('.datetimepicker').datetimepicker({
 </script>
 <script type="text/javascript">
 	var $TABLE = $('#id_table');
+	
 	/* delete row milestone */
 	
 	$("#id_table").on("click", "#button_delete", function(e) {
@@ -165,7 +172,7 @@ $('.datetimepicker').datetimepicker({
 	
 	
 	//---------------------
-	$('#id_buttonSave').click(
+	$('#id_buttonSave').click(		
 					function() {
 						//var m_id = $("#milestone_id").val();
 						/* if( m_id == null ){
@@ -223,7 +230,7 @@ $('.datetimepicker').datetimepicker({
 							var p_id = $("#p_id").val();
 							var len = table.rows.length;
 							var String_alert_err = "";
-							
+			
 							// create arrayList object
 							var arrayList_Milestone = new Array();
 
@@ -232,6 +239,15 @@ $('.datetimepicker').datetimepicker({
 								var _milestone_id = table.rows[i].cells[0].childNodes[0].value;
 								var _milestone_date = table.rows[i].cells[2].childNodes[0].childNodes[0].value;
 								var _milestone_des = table.rows[i].cells[3].childNodes[0].value;
+								from = $("#from").val();
+								to = $("#to").val();
+								if(_milestone_date < from){
+									alert("milestone " + _milestone_date+ " is not smaller than start project!");
+								}else if (_milestone_date > to) {
+									alert("milestone " + _milestone_date+ " is not bigger than end project!");
+								}else if (_milestone_date >= from && _milestone_date <= to) {
+									
+								
 								var info_Object = {
 										project_id: p_id,
 										milestone_date: _milestone_date,
@@ -239,8 +255,8 @@ $('.datetimepicker').datetimepicker({
 										milestone_id : _milestone_id
 									} 
 
-								
 								arrayList_Milestone.push(info_Object);
+							}
 							}
 							console.log(arrayList_Milestone);
 							
@@ -249,29 +265,30 @@ $('.datetimepicker').datetimepicker({
 
 							var header = $("meta[name='_csrf_header']").attr(
 								"content"); 
-							//use ajax to submit
-							$.ajax({
-								url : "actionSaveMileStone",
+							if(len == (arrayList_Milestone.length+1)){
+									//use ajax to submit 
+											$.ajax({
+												url : "actionSaveMileStone",
 
-								type : "POST",
-								data : JSON
-										.stringify(arrayList_Milestone),
-								contentType : 'application/json;charset=UTF-8',
-								dataType : 'json',
+												type : "POST",
+												data : JSON
+														.stringify(arrayList_Milestone),
+												contentType : 'application/json;charset=UTF-8',
+												dataType : 'json',
 
-								beforeSend : function(xhr) {
-									xhr.setRequestHeader(header, token);
-								},
+												beforeSend : function(xhr) {
+													xhr.setRequestHeader(header, token);
+												},
 
-								success : function(data) {
-									alert("save completed!");
-									location.reload();
-								},
-								error : function(data) {
-									alert("error! ");
-								}
-							});		
-						//}
+												success : function(data) {
+													alert("save completed!");
+													location.reload();
+												},
+												error : function(data) {
+													alert("error! ");
+												}
+											});		
+							}
 					});
 </script>
 </html>
