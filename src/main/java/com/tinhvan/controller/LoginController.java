@@ -124,11 +124,19 @@ public class LoginController {
 		
 	
 	@RequestMapping(value = { "/", "/welcome" })
-	public ModelAndView welcomePage(Model model,@RequestParam(value="name",defaultValue="") String sname,@RequestParam(value="pm",defaultValue="") String spm,@RequestParam(value="from",defaultValue="") String sfrom,@RequestParam(value="to",defaultValue="") String sto) {
+	public ModelAndView welcomePage(Model model,
+			@RequestParam(value="name",defaultValue="") String sname,
+			@RequestParam(value="pm",defaultValue="") String spm,
+			@RequestParam(value="from",defaultValue="") String sfrom,
+			@RequestParam(value="to",defaultValue="") String sto) {
 		model.addAttribute("title", "OverView");
 		model.addAttribute("message", "OverView");
 		Boolean checker = per.checker("over_view");
 		if(checker==true) {
+			model.addAttribute("sname", sname);
+			model.addAttribute("spm", spm);
+			model.addAttribute("sfrom", sfrom);
+			model.addAttribute("sto", sto);
 		List<ProjectInfo> list = projectDao.getAllProject1(sname,spm,sfrom,sto);
 		List<Map<Integer, String>> pm= new ArrayList<Map<Integer, String>>() ;
 		List<Integer> tongPer=new ArrayList<Integer>();

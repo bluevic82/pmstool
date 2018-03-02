@@ -120,7 +120,7 @@ public class UserSystemController {
 					check = false;
 					datacheck.add("Email of account " + Usercsvs.get(i).getUser_mail() + " is invalid");
 				}
-				if (Usercsvs.get(i).getRole_id() < 1 || Usercsvs.get(i).getRole_id() > 6) {
+				if (Usercsvs.get(i).getRole_id() < 2 || Usercsvs.get(i).getRole_id() > 6) {
 					check = false;
 					datacheck.add("Role of account " + Usercsvs.get(i).getUser_mail() + " is invalid");
 				}

@@ -20,24 +20,23 @@
 </head>
 <body>
 	<h3>${message}</h3>
-	<div class="container" style="margin: auto;">
+	<div class="container-fluid" style="margin: auto;">
 	
-		<div class="row" style="padding: 20px 60px 10px;">
+		<div class="row" style="padding: 20px 120px 0px;">
 		<form method="post" action="/Login/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-			<div class="col-sm-3">Name <input type="text" name="name" /></div>
-			<div class="col-sm-2">PM <input type="text" size="10" name="pm"/></div>
-			<div class="col-sm-3">From <input type="text" name="from"/></div>
-			<div class="col-sm-3">To <input type="text" name="to"/></div>
+			<div class="col-sm-3">Name <input type="text" name="name" value="${sname}" /></div>
+			<div class="col-sm-2">PM <input type="text" size="10" name="pm" value="${spm}"/></div>
+			<div class="col-sm-3">From <input type="text" name="from" value="${sfrom}"/></div>
+			<div class="col-sm-3">To <input type="text" name="to" value="${sto}"/></div>
 			<div class="col-sm-1"><button type="submit" style="background-color: green;">Search</button></div>
 		</form>
-			
 		</div>
 		<div class="container" style="margin: auto;">
 		
 		</div>
-		<div class="row" style="padding: 20px 10px 0px;">
-			<div class=col-md-1 style="font-weight:bold;">#</div>
+		<div class="row" style="padding: 20px 0px 0px;">
+			<div class=col-md-1 style="font-weight:bold;"><div style="float: right;">#</div></div>
 			<div class=col-md-10></div>
 			<div class=col-md-1 style="font-weight:bold;text-align: center;">PM</div>
 		</div>
@@ -46,13 +45,13 @@
 		
 			<c:forEach var="list" items="${listP}" varStatus="status">
 			
-			<div class="row" style="padding: 0px 10px 0px;">
+			<div class="row" style="padding: 0px 0px 0px;">
 			<div class=col-md-1 style="font-weight:bold"></div>
 			<div class=col-md-10><a href="detalproject/${list.project_id}">${list.project_name}</a></div>
 			<div class=col-md-1 style="font-weight:bold"></div>
 		</div>
-			<div class="row" style="padding: 0px 10px 10px;">
-				<div class=col-md-1 style="padding-top: 10px" >${status.index}</div>
+			<div class="row" style="padding: 0px 0px 3px;">
+				<div class=col-md-1 style="padding-top: 10px" ><div style="float: right;">${status.index}</div></div>
 				<div class=col-md-10>
 					<div style="border: 2px solid black;width:100%;height: 44px;">
 					
