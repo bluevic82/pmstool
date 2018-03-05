@@ -74,5 +74,6 @@
 		</div>
 		</form>
 	</div>
+		<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 </html>

@@ -112,5 +112,6 @@
 		alert("error")
 		</c:if>
 	</script>
+<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 </html>

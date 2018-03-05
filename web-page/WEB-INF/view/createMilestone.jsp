@@ -106,6 +106,7 @@
 				value="${projectInfor.project_from}" name="from" id="from">
 	<input type="text"
 				value="${projectInfor.project_to}" name="to" id="to">
+						<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
 
 <style>

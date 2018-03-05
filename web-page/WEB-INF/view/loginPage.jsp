@@ -2,6 +2,7 @@
  
 <html>
 <head><title>Login</title></head>
+<jsp:include page="_banner.jsp"></jsp:include>
 <body>
    <h1>Login</h1>
      
@@ -32,5 +33,6 @@
          </tr>
       </table>
   </form>
+  		<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 </html>

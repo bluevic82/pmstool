@@ -7,4 +7,4 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
-	<img alt="" src="../resources/image/nen02.png" width="100%" height="200px" >
+	<img alt="" src="../resources/image/banner01.jpg" width="100%" height="25%" >

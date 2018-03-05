@@ -223,6 +223,6 @@ $("#updateProject").click(function() {
 		
 })
 </script>
-
+	<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
 </html>

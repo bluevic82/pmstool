@@ -192,6 +192,6 @@ $( document).ready(function() {
     
 })
 </script>
-
+		<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 </html>

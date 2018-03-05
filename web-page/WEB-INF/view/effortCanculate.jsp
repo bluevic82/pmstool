@@ -39,5 +39,7 @@
 		</div><br>
 	
 	</div>
+
 </body>
+<jsp:include page="_bottom1.jsp"></jsp:include>
 </html>

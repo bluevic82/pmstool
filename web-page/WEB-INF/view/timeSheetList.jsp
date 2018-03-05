@@ -118,6 +118,7 @@
 			<button type="submit" id="id_buttonSave">Save</button>
 		</div>
 	</div>
+		<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 
 <style>

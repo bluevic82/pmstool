@@ -97,6 +97,7 @@
 			</tbody>
 		</table>
 	</div>
+			<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 <script type="text/javascript">
 
