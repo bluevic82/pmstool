@@ -24,9 +24,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<%-- <h4 style="color: #0033CC;">${projectInfor.project_name} > Setting > Update Project Information</h4> --%>
+<h4>${projectInfo.project_name} > Setting > Update Project Information</h4>
 	<div class="container" style="margin-top: 10px;">
-		<form:form id="formProject" action="/Login/actionUpdateP" method="post">
+		<form:form id="formProject" action="/Login/actionUpdateP" method="post" modelAttribute="projectInfo">
 			<form:hidden path="project_id"/>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
@@ -34,7 +34,7 @@
 				<div class="col-sm-4">
 					<div>Project Name <form:input id="project_name" value="" name="project_name" path="project_name" size="30"/></div>
 					<input type="hidden"
-						value="${projectInfor.project_id}" name="project_id" id="p_id">
+						value="${projectInfo.project_id}" name="project_id" id="p_id">
 				</div>
 				<div class="col-sm-2">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->

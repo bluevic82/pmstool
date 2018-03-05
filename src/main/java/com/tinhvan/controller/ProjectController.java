@@ -145,7 +145,7 @@ public class ProjectController {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		List<ScopeProject> s = projectDao.getScope(id);
 		model.put("command", projectDao.getProjectById(id));
-		model.put("id", projectInfo);
+		model.put("projectInfo", projectInfo);
 		model.put("scope", s);
 		return new ModelAndView("updateProject");
 		}
