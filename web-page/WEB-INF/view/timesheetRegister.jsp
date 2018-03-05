@@ -55,12 +55,12 @@
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
-
+<h4 style="padding-bottom: 2%">${projectInfo.project_name } > Timesheet Register/Update</h4>
 
 	<div class="container">
 
 		<div>
-			Project Name<input style="margin-left: 50px"
+			Project Name<input style="margin-left: 50px; "
 				value="${projectInfo.project_name }" disabled="disabled">
 		</div>
 
@@ -153,6 +153,17 @@
 
 #id_table {
 	border-style: solid;
+}
+
+/* input, select{
+	border: hidden;
+} */
+
+#id_ts_Date{
+	background-color: #EEEEEE;
+}
+#id_input_HOUR, #id_selectDefinded, #id_selectProcess, #id_setType, #id_selectRequirement, #id_input_WorkContent{
+	border: hidden;
 }
 </style>
 

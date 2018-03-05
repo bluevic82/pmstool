@@ -42,6 +42,8 @@
 </head>
 
 <body onload="onload_function()">
+<h4 style="padding-bottom: 4%">${projectInfo.project_name} > Setting > Resource</h4>
+
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
 	<!-- <form action="saveReSourceMemberToDB" method="post" id="table_ResourceMember_Form"> -->
 
@@ -160,6 +162,8 @@
 
 	</div>
 	<!-- </form> -->
+	
+	
 
 	<script type="text/javascript">
 		var token = $("meta[name='_csrf']").attr("content");

@@ -20,6 +20,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
+<h4 style="padding-bottom: 2%">Bug Management > List </h4>
 	<div class="container" style="margin-top: 20px;">
 		<div>
 			<form method="post" action="/Login/bugList/">

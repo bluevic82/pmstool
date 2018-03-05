@@ -28,6 +28,7 @@
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
+<h4 style="padding-bottom: 2%">Timesheet Management > List</h4>
 	<div class="container" style="margin-top: 20px;">
 		<div>
 			<form method="post" action="/Login/timeSheetList/">
@@ -101,7 +102,7 @@
 						<th>${listTimeSheetDetails.type_name}</th>
 						<th>${listTimeSheetDetails.task_subject}</th>
 						<th>${listTimeSheetDetails.workcontent}</th>
-						<th><select id="select_stt" style="margin-left: 5px"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
+						<th><select id="select_stt" style="margin-left: 5px; border: hidden;"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
 							<option id="id_status_type_Request" value="Request">Request</option>
 							<option id="id_status_Approved" value="Approved">Approved</option>
 							<option id="id_status_Reject" value="Reject">Reject</option></select></th>

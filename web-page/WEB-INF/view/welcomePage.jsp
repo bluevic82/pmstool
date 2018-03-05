@@ -19,7 +19,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-	<h3>${message}</h3>
+	<h4>${message}</h4>
 	<div class="container-fluid" style="margin: auto;">
 	
 		<div class="row" style="padding: 20px 120px 0px;">

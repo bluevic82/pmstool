@@ -34,7 +34,7 @@
 			<li><a href="#">Projects</a>
 				<ul>
 					<c:forEach var="list_Project_For_menu" items="${list_Project_For_menu}">
-						<li><a href="#">${list_Project_For_menu.project_name } ></a>
+						<li><a href="#">${list_Project_For_menu.project_name }</a>
 							<ul>
 								<li><a href="#">Settings</a>
 									<ul>
@@ -86,15 +86,15 @@
 				</ul></li>
 			<li><a href="#"> Managements</a>
 				<ul>
-					<li><a href="#">Task/Spec/Issue Management ></a>
+					<li><a href="#">Task/Spec/Issue Managements</a>
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/taskList">List Task/Spec/Issue</a></li>
 						</ul></li>
-					<li><a href="#">Bug Management ></a>
+					<li><a href="#">Bug Managements</a>
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/bugList">List Bug</a></li>
 						</ul></li>
-					<li><a href="#">Timesheet Management ></a>
+					<li><a href="#">Timesheet Managements</a>
 						<ul>
 							<li><a
 								href="${pageContext.request.contextPath}/timeSheetList">List

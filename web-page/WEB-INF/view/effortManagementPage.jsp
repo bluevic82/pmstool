@@ -28,14 +28,14 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-	<h1>${message}</h1>
+<h4 style="padding-bottom: 4%">Effort Management</h4>
 	<div class="container" style="overflow: scroll; height: 75%;">
 		<c:forEach var="list" items="${list}">
 			<div id="divMain_Effort" style="width: 1000px; height: 50px">
 
 				<div
 					style="width: 200px; height: 50px; background-color: Gainsboro; float: left; text-align: center"><b>
-					<a href="${list.project_id}/effortCalculate">${list.project_name}</a></b>
+					<a href="effortCalculate/${list.project_id}">${list.project_name}</a></b>
 				</div>
 				<div
 					style="width: 100px; height: 50px; background-color: green; float: left">

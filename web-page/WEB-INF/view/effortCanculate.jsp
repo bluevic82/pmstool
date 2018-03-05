@@ -5,10 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title> Effort Canculate</title>
-<jsp:include page="_banner.jsp"></jsp:include>
+<jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  	<link rel="stylesheet" href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />" >
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" >
   	<script src="https://momentjs.com/downloads/moment.min.js"></script>
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
@@ -19,6 +19,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
+<h4 style="padding-bottom: 4%">${effort.project_name} > Effort Calculate</h4>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-6">Project Name<input style="margin-left: 50px" size="40" disabled value ="${effort.project_name}"></div>

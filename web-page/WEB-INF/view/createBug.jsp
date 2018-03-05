@@ -28,6 +28,7 @@
 
 </head>
 <body>
+<h4 style="padding-bottom: 2%">${project_Infor.project_name} > Create Bug</h4>
 	<div class="container" style="margin-top: 50px;">
 	
 	<form:form id="id_form" action="/Login/actionCreateBug" method="post">

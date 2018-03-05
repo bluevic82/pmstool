@@ -23,6 +23,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
+<h4 style="padding-bottom: 4%">Add project</h4>
 	<div class="container" style="margin-top: 10px;">
 		<form id="project">
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>

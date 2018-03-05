@@ -63,14 +63,14 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 					System.out.println("id = " + user_id_member_project);
 
-					sqlxx += "inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "
+					sqlxx += " inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "
 							+ user_id_member_project
 							+ ")) as result1 on (result1.ts_id = detail_timesheet.ts_id)";
 
 					x = true;
 
 				} else {
-					// sqlxx += " and t.MEMBER_PROECT_ID = " +
+					sqlxx += " and t.USER_ID = " + user_id_member_project;
 					// member_project_id;
 
 				}
@@ -710,8 +710,10 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		// TODO Auto-generated method stub
 		String sqlxx = "";
 
-		System.out.println("prj = "+project_id + "userM = "+ user_id_member_project +"process_id = "+ process_id + "status_name = "+ status_name + "user_id = "+ user_id_PM);
-		
+		System.out.println("prj = " + project_id + "userM = "
+				+ user_id_member_project + "process_id = " + process_id
+				+ "status_name = " + status_name + "user_id = " + user_id_PM);
+
 		boolean x = false;
 		if (project_id != 0) {
 			if (x == false) {
@@ -832,8 +834,8 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 				+ user_id_PM
 				+ " and member_project.ROLE_ID=2)) as result1 on (result1.ts_id = detail_timesheet.ts_id)";
 
-		try{
-			return jdbcTemplate.query(sql+" AND STATUS_ID='Request'",
+		try {
+			return jdbcTemplate.query(sql + " AND STATUS_ID='Request'",
 					new RowMapper<TimeSheetDetail>() {
 
 						@Override
@@ -871,11 +873,10 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 							return timeSheetDetail;
 						}
 					});
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return null;
 		}
-		
+
 	}
 
 	/* get task_Name */

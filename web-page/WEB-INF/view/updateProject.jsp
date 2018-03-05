@@ -24,6 +24,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
+<%-- <h4 style="color: #0033CC;">${projectInfor.project_name} > Setting > Update Project Information</h4> --%>
 	<div class="container" style="margin-top: 10px;">
 		<form:form id="formProject" action="/Login/actionUpdateP" method="post">
 			<form:hidden path="project_id"/>

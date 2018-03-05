@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Resource</title>
-<jsp:include page="_banner.jsp"></jsp:include>
+<jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap.min.css" />">
@@ -31,7 +31,7 @@
 
 <body onload="onload_function()">
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
-
+<h4>Overview > ${command.project_name}</h4>
 
 
 	<div class="container">

@@ -28,6 +28,7 @@
 
 </head>
 <body>
+<h4 style="padding-bottom: 4%">${project_Infor.project_name} > Update Task/Spec/Issue</h4>
 	<div class="container" style="margin-top: 10px;">
 		<form:form id="id_form" action="/Login/actionUpdateTask" method="post">
 			<form:hidden path="task_id"/>
