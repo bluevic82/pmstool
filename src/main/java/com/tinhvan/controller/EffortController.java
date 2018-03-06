@@ -69,7 +69,7 @@ public class EffortController {
 		}
 	}
 
-	@RequestMapping(value = "/{id}/effortCalculate")
+	@RequestMapping(value = "/effortCalculate/{id}")
 	public ModelAndView effortCalculate(@PathVariable int id, ModelMap model) {
 		Boolean checker = per.checker("eff_can");
 		if(checker==true) {
