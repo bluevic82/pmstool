@@ -24,8 +24,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<h4>${project_Infor.project_name} > Create Task/Spec/Issue</h4>
-	<div class="container" style="margin-top: 50px;">
+<h6 style="margin-left: 20px"> ${project_Infor.project_name} > Create Task/Spec/Issue</h6>
+	<div class="container" style="margin-top: 30px;">
 	
 	<form:form id="id_form" action="/Login/actionCreateTask" method="post">
 		<input type="hidden"  name="${_csrf.parameterName}"  value="${_csrf.token}"/>

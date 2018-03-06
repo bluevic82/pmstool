@@ -20,12 +20,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<h4 style="padding-bottom: 2%">Task/Spec/Issue Management > List</h4>
-	<div class="container" style="margin-top: 20px;">
+<h6 style="margin-left: 20px">Task/Spec/Issue Management > <a href="${pageContext.request.contextPath}/taskList"> List</a></h6>
+	<div class="container" style="margin-top: 10px;">
 		<div>
 			<form method="post" action="/Login/taskList/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-			Project Name 
+			<label style="margin-left: 10px"> Project Name </label>  
 			<select name="projectName">
 				<option value="0"></option>
 				<c:forEach var="projectName" items="${projectName}">
@@ -67,7 +67,7 @@
 			<button type="submit"  style="background-color: green; color: white; margin-left: 30px">Search</button>
 			</form>
 		</div>
-		<table style="margin-top: 50px;" class="table table-bordered">
+		<table style="margin-top: 30px;" class="table table-bordered">
 			<thead>
 				<tr>
 					<th scope="col" style="background-color: #3ADF00;">ID</th>

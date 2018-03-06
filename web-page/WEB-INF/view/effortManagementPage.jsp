@@ -28,7 +28,7 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-<h4 style="padding-bottom: 4%">Effort Management</h4>
+	<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/effortManagement">Effort Management</a></h6>
 	<div class="container" style="overflow: scroll; height: 75%;">
 		<c:forEach var="list" items="${list}">
 			<div id="divMain_Effort" style="width: 1000px; height: 50px">

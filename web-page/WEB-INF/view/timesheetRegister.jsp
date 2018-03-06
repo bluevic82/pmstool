@@ -55,7 +55,7 @@
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
-<h4 style="padding-bottom: 2%">${projectInfo.project_name } > Timesheet Register/Update</h4>
+<h6 style="margin-left: 20px">${projectInfo.project_name } > Timesheet Register/Update</h6>
 
 	<div class="container">
 

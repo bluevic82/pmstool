@@ -40,7 +40,7 @@
 
 </head>
 <body>
-<h4 style="padding-bottom: 2%">Users Management > User Register</h4>
+<h6 style="margin-left:  20px">Users Management > User Register</h6>
 	<div class="container">
 		<form action="actionCreateUser?${_csrf.parameterName}=${_csrf.token}"
 			style="margin-top: 20px;" method="post" enctype="multipart/form-data">

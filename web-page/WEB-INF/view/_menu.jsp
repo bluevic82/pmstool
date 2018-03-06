@@ -22,12 +22,12 @@
 
 
 <div style="background-color: #3366CC;">
-<div style="padding: 5px; margin-bottom: 20px"
+<div style="padding: 0px; margin-bottom: 1px; "
 	class = "class_menu">
 	<div class="nav-bar">
 		<!-- <div style="float: left;"> -->
 
-		<ul class="nav-menu">
+		<ul class="nav-menu" style=" font-size: 14px">
 			
 			<li><a href="${pageContext.request.contextPath}/welcome">Over View</a></li>
 			<li><a href="${pageContext.request.contextPath}/addProject">Add Project</a></li>

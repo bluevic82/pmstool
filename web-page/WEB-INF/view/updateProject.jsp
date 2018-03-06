@@ -24,8 +24,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<h4>${projectInfo.project_name} > Setting > Update Project Information</h4>
-	<div class="container" style="margin-top: 10px;">
+<h6 style="margin-left: 20px">${projectInfo.project_name} > Setting > Update Project Information</h6>
+	<div class="container" style="margin-top: 20px;">
 		<form:form id="formProject" action="/Login/actionUpdateP" method="post" modelAttribute="projectInfo">
 			<form:hidden path="project_id"/>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
@@ -36,7 +36,7 @@
 					<input type="hidden"
 						value="${projectInfo.project_id}" name="project_id" id="p_id">
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-3">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->
 							Type
            				      <form:select name="type_id" path="type_id">

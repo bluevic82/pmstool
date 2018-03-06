@@ -28,8 +28,8 @@
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
-<h4 style="padding-bottom: 2%">Timesheet Management > List</h4>
-	<div class="container" style="margin-top: 20px;">
+<h6 style="margin-left: 20px">Timesheet Management > <a href="${pageContext.request.contextPath}/timeSheetList"> List</a></h6>
+	<div class="container" style="margin-top: 10px;">
 		<div>
 			<form method="post" action="/Login/timeSheetList/">
 				<input type="hidden" name="${_csrf.parameterName}"
@@ -66,7 +66,7 @@
 			</form>
 		</div>
 		
-		<table style="margin-top: 50px;" class="table table-bordered"
+		<table style="margin-top: 30px;" class="table table-bordered"
 			id="id_table">
 			<thead>
 				<tr>

@@ -20,7 +20,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<h4 style="padding-bottom: 2%">Permission management</h4>
+<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/permissionManager">Permission management</a></h6>
 	<sec:authentication property="principal.authorities"
 						var="authorities" />
 					<c:forEach items="${authorities}" var="authority" varStatus="vs">

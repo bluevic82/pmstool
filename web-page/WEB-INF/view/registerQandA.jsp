@@ -33,8 +33,8 @@
 	
 </head>
 <body>
-<h4>${project_Infor.project_name} > Q&A Register/Update</h4>
-	<div class="container">	
+<h6 style="margin-left: 20px">${project_Infor.project_name} > Q&A Register/Update</h6>
+	<div class="container" style="margin-top: 30px">	
 		<form:form name="qa" id="id_form" action="/Login/actionRegisterQA?${_csrf.parameterName}=${_csrf.token}"  method="post" enctype="multipart/form-data"> 
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<div >

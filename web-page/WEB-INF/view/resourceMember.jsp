@@ -42,7 +42,7 @@
 </head>
 
 <body onload="onload_function()">
-<h4 style="padding-bottom: 4%">${projectInfo.project_name} > Setting > Resource</h4>
+<h6 style="margin-left: 20px">${projectInfo.project_name} > Setting > Resource</h6>
 
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
 	<!-- <form action="saveReSourceMemberToDB" method="post" id="table_ResourceMember_Form"> -->

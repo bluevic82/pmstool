@@ -44,7 +44,7 @@
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
-<h4 style="padding-bottom: 4%">${projectInfor.project_name } > Setting > Milestone</h4>
+<h6 style="margin-left: 20px">${projectInfor.project_name } > Setting > Milestone</h6>
 	<div class="container">
 
 		<div>

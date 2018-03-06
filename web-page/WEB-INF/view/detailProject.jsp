@@ -31,7 +31,7 @@
 
 <body onload="onload_function()">
 	<!-- <form action='saveReSourceMemberToDB' method='POST'> -->
-<h4>Overview > ${command.project_name}</h4>
+	<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/welcome">OverView / </a>${command.project_name}</h6>
 
 
 	<div class="container">
@@ -162,9 +162,9 @@
 					<tr style="background-color: #f2e3d5;">
 						<th scope="col">#</th>
 						<th scope="col">Spec / Task</th>
-						<th scope="col">start</th>
-						<th scope="col">end</th>
-						<th scope="col">flow chart</th>
+						<th scope="col">Start</th>
+						<th scope="col">End</th>
+						<th scope="col">Flow chart</th>
 						<th scope="col">Status</th>
 					</tr>
 				</thead>

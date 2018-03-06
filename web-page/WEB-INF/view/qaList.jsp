@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>QA List</title>
+<title>Q&amp;A List</title>
 <jsp:include page="_banner.jsp"></jsp:include>
 	<jsp:include page="_menu.jsp" />
   	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -14,14 +14,14 @@
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 <body>
-<h4 style="padding-bottom: 2%">Q&A List</h4>
-	<div class="container" style="margin-top: 20px;">
+<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/qaList">Q&amp;A List</a></h6>
+	<div class="container" style="margin-top: 10px;">
 	<form method="post" action="/Login/qaList/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<div class="row">
 			<div class="col-sm-9">
 				<div>
-					Project Name
+					<label style="margin-left: 10px">Project Name</label>
 						<select name="projectName">
 						<option value="0"></option>
 					    	<c:forEach var="projectName" items="${projectName}">   
@@ -43,7 +43,7 @@
 					     	</c:forEach>  
 			    		</select>
 				</div>
-				<table style="margin-top: 50px;" class="table table-bordered">
+				<table style="margin-top: 30px;" class="table table-bordered">
 				  <thead>
 				    <tr>
 				      <th scope="col" style="background-color: #3ADF00;">ID</th>

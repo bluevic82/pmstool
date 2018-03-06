@@ -19,10 +19,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-	<h4>${message}</h4>
+	<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/welcome">${message}</a></h6>
 	<div class="container-fluid" style="margin: auto;">
 	
-		<div class="row" style="padding: 20px 120px 0px;">
+		<div class="row" style="padding: 10px 180px 1px;">
 		<form method="post" action="/Login/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="col-sm-3">Name <input type="text" name="name" value="${sname}" /></div>
@@ -32,10 +32,11 @@
 			<div class="col-sm-1"><button type="submit" style="background-color: green;">Search</button></div>
 		</form>
 		</div>
+		</div>
 		<div class="container" style="margin: auto;">
 		
-		</div>
-		<div class="row" style="padding: 20px 0px 0px;">
+		
+		<div class="row" style="padding: 10px 0px 0px;">
 			<div class=col-md-1 style="font-weight:bold;"><div style="float: right;">#</div></div>
 			<div class=col-md-10></div>
 			<div class=col-md-1 style="font-weight:bold;text-align: center;">PM</div>
@@ -83,7 +84,7 @@
 				</div>
 						
 			</c:forEach>
-			
+			</div>
 			<!-- <div class=col-lg-1 style="font-weight:bold">#</div>
 			<div class=col-lg-10>
 					<div style="border: 1px solid black;width:902px;">
@@ -181,8 +182,7 @@
 				 </c:forEach>
 			 
 		</table> --%>
-					
-	</div>
+	
 	<jsp:include page="_bottom.jsp"></jsp:include>
 </body>
 </html>
