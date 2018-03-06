@@ -21,7 +21,7 @@
 </head>
 
 
-<div style="background-color: #3366CC;">
+<div style="background-color: #7f7f7f;">
 <div style="padding: 0px; margin-bottom: 1px; "
 	class = "class_menu">
 	<div class="nav-bar">
@@ -84,7 +84,7 @@
 					</c:forEach>
 
 				</ul></li>
-			<li><a href="#"> Managements</a>
+			<li><a href="#"> Statistics</a>
 				<ul>
 					<li><a href="#">Task/Spec/Issue Managements</a>
 						<ul>
@@ -133,15 +133,16 @@ body {
 
 /* Navigation Bar */
 .nav-bar {
-	background: linear-gradient(to bottom, #3366CC, #3366CC);
+	background: linear-gradient(to bottom, #7f7f7f, #7f7f7f);
 	/* Green gradient - light to dark. */
 	font-size: 14px;
 	font-family: Arial, sans-serif;
 	text-align: left; /* May want to align center */
+	height: 30px;
 }
 
 .nav-menu a {
-	color: #fff; /* White font for link color. */
+	color: #e1e1e1; /* White font for link color. */
 	/* border: 1px solid #F5F5F5; */
 	/* background-color: #000000; */
 }
@@ -150,6 +151,7 @@ body {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	padding-left: 10px
 }
 
 .nav-menu li {
@@ -157,8 +159,8 @@ body {
 }
 
 .nav-menu a {
-	padding: 5px 10px;
-	margin: 5px 10px;
+	padding: 5px 5px;
+	margin: 5px 5px;
 	display: block;
 	text-decoration: none;
 	border-radius: .2em; /* Nice little rounded corners. */
@@ -191,7 +193,7 @@ body {
 }
 
 .nav-menu>li>a {
-	
+	padding: 0px 0px 5px 5px;
 }
 
 .nav-menu>li>a:hover {
@@ -204,7 +206,7 @@ body {
 	width: auto;
 	/* Change auto value with 200px if you want a bigger menu */
 	display: none;
-	background: #3366CC; /* Dark green. */
+	background: #7f7f7f; /* Dark green. */
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -230,7 +232,7 @@ body {
 .nav-menu>li>ul>li>ul {
 	text-align: left;
 	display: none;
-	background: #3366CC; /* Light green. */
+	background: #7f7f7f; /* Light green. */
 	position: absolute;
 	left: 100%;
 	top: 0;
@@ -260,7 +262,7 @@ body {
 .nav-menu>li>ul>li>ul>li>ul {
 	text-align: left;
 	display: none;
-	background: #3366CC; /* Light green. */
+	background: #7f7f7f; /* Light green. */
 	position: absolute;
 	left: 100%;
 	top: 0;
