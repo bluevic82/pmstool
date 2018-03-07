@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Update Bug</title>
-<jsp:include page="_banner1.jsp"></jsp:include>
+<jsp:include page="_banner2.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -221,6 +221,6 @@
 			}
 		});
 	</script>
-		<jsp:include page="_bottom1.jsp"></jsp:include>
+		<jsp:include page="_bottom2.jsp"></jsp:include>
 </body>
 </html>

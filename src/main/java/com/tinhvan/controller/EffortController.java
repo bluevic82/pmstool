@@ -65,7 +65,7 @@ public class EffortController {
 		List<Effort> list = effortDao.getAllEfort();
 		return new ModelAndView("effortManagementPage", "list", list);
 		}else {
-			return new ModelAndView("403Page");
+			return new ModelAndView("403Page2");
 		}
 	}
 

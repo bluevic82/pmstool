@@ -79,7 +79,7 @@ public class UserSystemController {
 		return new ModelAndView("userRegister");
 		}
 		else {
-			return new ModelAndView("403Page");
+			return new ModelAndView("403Page2");
 		}
 	}
 

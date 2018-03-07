@@ -70,8 +70,8 @@
 				<ul>
 					<li><a href="${pageContext.request.contextPath}/user">User
 							Register</a></li>
-					<li><a href="${pageContext.request.contextPath}/userInfo">User
-							Infor</a></li>
+					<%-- <li><a href="${pageContext.request.contextPath}/userInfo">User
+							Infor</a></li> --%>
 					<sec:authentication property="principal.authorities"
 						var="authorities" />
 					<c:forEach items="${authorities}" var="authority" varStatus="vs">
@@ -114,7 +114,7 @@
 
 			</c:if>
 			<li style="float: right;"><a
-				href="${pageContext.request.contextPath}/admin">Admin</a></li>
+				href="${pageContext.request.contextPath}/admin">User</a></li>
 
 		</ul>
 	</div>
@@ -193,7 +193,7 @@ body {
 }
 
 .nav-menu>li>a {
-	padding: 0px 0px 5px 5px;
+	padding: 0px 0px 0px 0px;
 }
 
 .nav-menu>li>a:hover {

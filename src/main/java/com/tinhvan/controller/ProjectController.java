@@ -98,7 +98,7 @@ public class ProjectController {
 		return new ModelAndView("addProject");
 		}
 		else {
-			return new ModelAndView("403Page");
+			return new ModelAndView("403Page2");
 		}
 	}
 
