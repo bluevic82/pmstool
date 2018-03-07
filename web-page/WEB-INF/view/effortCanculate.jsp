@@ -19,8 +19,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<h4 style="padding-bottom: 4%">${effort.project_name} > Effort Calculate</h4>
-	<div class="container">
+<h6 style="margin-left: 20px">${effort.project_name} > Effort Calculate</h6>
+	<div class="container" style="margin-top: 20px">
 		<div class="row">
 			<div class="col-sm-6">Project Name<input style="margin-left: 50px" size="40" disabled value ="${effort.project_name}"></div>
 			<div class="col-sm-6">Status<input style="margin-left: 50px" disabled value = "${effort.status_type }"></div>
