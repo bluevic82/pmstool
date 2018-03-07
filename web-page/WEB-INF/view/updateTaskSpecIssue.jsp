@@ -28,8 +28,8 @@
 
 </head>
 <body>
-<h4 style="padding-bottom: 4%">${project_Infor.project_name} > Update Task/Spec/Issue</h4>
-	<div class="container" style="margin-top: 10px;">
+<h6 style="margin-left: 20px">${project_Infor.project_name} > Update Task/Spec/Issue</h6>
+	<div class="container" style="margin-top: 20px;">
 		<form:form id="id_form" action="/Login/actionUpdateTask" method="post">
 			<form:hidden path="task_id"/>
 			<div class="row">

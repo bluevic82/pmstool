@@ -29,7 +29,8 @@
 
 </head>
 <body>
-	<div class="container" style="margin-top: 10px;">
+<h6 style="margin-left: 20px">${project_Infor.project_name} > Update Bug</h6>
+	<div class="container" style="margin-top: 20px;">
 		<form:form id="id_form" action="/Login/actionUpdateBug" method="post">
 			<form:hidden path="bug_id"/>
 			<div class="row">

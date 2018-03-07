@@ -26,7 +26,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-	<div class="container">
+<h6 style="margin-left: 20px">${project_infor.project_name} > Update Q&amp;A</h6>
+	<div class="container" style="margin-top: 20px">
 	<form:form method="post" name="qa" action="/Login/actionUpdateQA?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data">
 	<form:hidden path="q_a_id" />
 		<div >
