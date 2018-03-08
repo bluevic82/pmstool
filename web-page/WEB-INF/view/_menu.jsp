@@ -32,9 +32,10 @@
 			<li><a href="${pageContext.request.contextPath}/welcome">Over View</a></li>
 			<li><a href="${pageContext.request.contextPath}/addProject">Add Project</a></li>
 			<li><a href="#">Projects</a>
-				<ul>
+				<ul >
 					<c:forEach var="list_Project_For_menu" items="${list_Project_For_menu}">
-						<li><a href="#">${list_Project_For_menu.project_name }</a>
+					
+						<li class="col-sm-6"><a href="#">${list_Project_For_menu.project_name }</a>
 							<ul>
 								<li><a href="#">Settings</a>
 									<ul>
@@ -62,12 +63,13 @@
 						</li>
 					</c:forEach>
 				</ul>
+		
 			</li>
 			<li><a href="${pageContext.request.contextPath}/effortManagement">Effort
 					Management </a></li>
 					
 			<li><a href="#">Users Management</a>
-				<ul>
+				<ul class="maxblock">
 					<li><a href="${pageContext.request.contextPath}/user">User
 							Register</a></li>
 					<%-- <li><a href="${pageContext.request.contextPath}/userInfo">User
@@ -85,7 +87,7 @@
 
 				</ul></li>
 			<li><a href="#"> Statistics</a>
-				<ul>
+				<ul class="maxblock">
 					<li><a href="#">Task/Spec/Issue Managements</a>
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/taskList">List Task/Spec/Issue</a></li>
@@ -211,17 +213,23 @@ body {
 	top: 100%;
 	left: 0;
 	padding-bottom: 5px;
-	min-width: 150px;
+	width: 500px;
 	border-radius: 0 0 .5em .5em;
 	z-index: 9999999;
+	
+	
+}
+.maxblock{
+	max-width: 150px;
 }
 
 .nav-menu>li:hover>ul {
-	display: block;
+	display: inline-block;
+	text-align: center;
 }
 
 .nav-menu ul li a {
-	
+	background-color: #4F4F4F;
 }
 
 .nav-menu ul li a:hover {
@@ -244,6 +252,7 @@ body {
 
 .nav-menu>li>ul>li:hover>ul {
 	display: block;
+	
 }
 
 .nav-menu ul ul li {
@@ -251,7 +260,8 @@ body {
 }
 
 .nav-menu ul ul li a {
-	
+	background-color: #363636;
+	text-align: center;
 }
 
 .nav-menu ul ul li a:hover {
@@ -281,7 +291,8 @@ body {
 }
 
 .nav-menu ul ul ul li a {
-	
+	background-color: #000000;
+	text-align: center;
 }
 
 .nav-menu ul ul ul li a:hover {
