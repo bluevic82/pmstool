@@ -41,6 +41,7 @@ import com.tinhvan.model.Scope;
 import com.tinhvan.model.ScopeProject;
 import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
+import com.tinhvan.model.TimeSheetDetail;
 import com.tinhvan.model.Type;
 import com.tinhvan.model.User;
 
@@ -70,6 +71,8 @@ public class ProjectController {
 	@Autowired
 	PermissionDao per;
 	@Autowired UserDao userDao;
+	
+	List<ScopeProject> scope_For_Update = new ArrayList<ScopeProject>();
 	
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
@@ -140,10 +143,13 @@ public class ProjectController {
 	// mapping getdata project_id for update Project
 	@RequestMapping(value = "/editproject/{id}")
 	public ModelAndView editProject(@PathVariable int id, ModelMap model) {
+		System.out.println("lai the nua");
 		Boolean checker = per.checker("set_upd");
 		if(checker==true) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		scope_For_Update.clear();
 		List<ScopeProject> s = projectDao.getScope(id);
+		scope_For_Update = (ArrayList<ScopeProject>) s;
 		model.put("command", projectDao.getProjectById(id));
 		model.put("projectInfo", projectInfo);
 		model.put("scope", s);
@@ -153,11 +159,54 @@ public class ProjectController {
 			return new ModelAndView("403Page");
 		}
 	}
-	@RequestMapping(value="actionUpdateP", method = RequestMethod.POST)
+	/*@RequestMapping(value="actionUpdateP", method = RequestMethod.POST)
 	public ModelAndView update(@ModelAttribute(value = "project") ProjectInfo project) {
+		System.out.println("size scope = "+scope_For_Update.size());
+		
 		projectDao.updateProject(project);
 		return new ModelAndView("redirect:/");
+	}*/
+	
+	@RequestMapping(value = "/{id}/actionUpdateP", method = RequestMethod.POST)
+	public @ResponseBody ProjectAndScope updateProject(@RequestBody ProjectAndScope projectAndScope, HttpServletRequest request) {
+		
+		
+		
+		
+		ProjectInfo p = new ProjectInfo(); 
+			p.setProject_id(projectAndScope.getProject_id());
+			p.setProject_name(projectAndScope.getProject_name());
+			p.setType_id(projectAndScope.getType_id()); 
+			p.setProject_from(projectAndScope.getProject_from());
+			p.setProject_to(projectAndScope.getProject_to());
+			p.setProject_technical(projectAndScope.getProject_technical());
+			p.setProject_charge_cost(projectAndScope.getProject_charge_cost());
+			p.setStatus_id(projectAndScope.getStatus_id());
+			p.setProject_description(projectAndScope.getProject_description());
+			
+			projectDao.updateProject(p);
+		
+		
+		final List<Integer> sp = new ArrayList<>();
+		sp.addAll(projectAndScope.getScope_id());
+		System.out.println(sp);
+		
+		
+		
+		
+		//delete: liScopeProjects_delete
+			scopeDao.deleteListScopeProjectByProject_id(p.getProject_id());
+		//update: liScopeProjectsChoose
+			//scopeDao.updateScopeProject(liScopeProjectsChoose);
+		//create: 
+			
+			scopeDao.createListScopeProject(p.getProject_id(), sp);
+		
+	
+		return projectAndScope;
 	}
+	
+	
 	
 	public @ResponseBody ArrayList<ScopeProject> updateS(@RequestBody final ArrayList<ScopeProject> scopeP){
 		

@@ -22,28 +22,33 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<meta name="_csrf" content="${_csrf.token}" />
+	<meta name="_csrf_header" content="${_csrf.headerName}" />
+	<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
 <h6 style="margin-left: 20px">${projectInfo.project_name} > Setting > Update Project Information</h6>
 	<div class="container" style="margin-top: 20px;">
-		<form:form id="formProject" action="/Login/actionUpdateP" method="post" modelAttribute="projectInfo">
-			<form:hidden path="project_id"/>
+		<%-- <form:form id="formProject" modelAttribute="projectInfo">
+			<form:hidden path="project_id"/> --%>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
 		
 				<div class="col-sm-4">
-					<div>Project Name <form:input id="project_name" value="" name="project_name" path="project_name" size="30"/></div>
+					<!-- <div>Project Name input id="project_name" value="" name="project_name"  size="30"/></div> -->
+					<input type="text" id="project_name" value = "${projectInfo.project_name}" name="project_name"  size="30"/>
 					<input type="hidden"
 						value="${projectInfo.project_id}" name="project_id" id="p_id">
 				</div>
 				<div class="col-sm-3">
 					<!-- <div>Type <input value="" name="" size="10"></div> -->
 							Type
-           				      <form:select name="type_id" path="type_id">
+           				      <select name="type_id" id="id_type_id">
 							       <c:forEach var="projectTypes" items="${projectTypes}">   
-							   			<option value="${projectTypes.type_id}" >${projectTypes.type_name}</option>
+							   			<option value="${projectTypes.type_id}" <c:if test="${projectTypes.type_id==projectInfo.type_id}"> selected="selected"</c:if> >${projectTypes.type_name}</option>
 							      </c:forEach>  
-						      </form:select>
+						      </select>
 				</div>
 				<!-- <div class="col-sm-3">
 					<div>From <input name="project_from" class="datepicker"   size="15"></div>	
@@ -56,7 +61,7 @@
 			         From<%-- <form:input class="date" name="project_from" path="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png"> --%>
 			         <div class="form-group">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <form:input id="project_from" type='text' class="form-control" name="project_from" path="project_from"/>
+			                    <input id="project_from" type='text' class="form-control" name="project_from" value="${projectInfo.project_from }"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -67,7 +72,7 @@
 					To<%-- <form:input class="date" id="datetimepicker2" name="project_to" path="project_to"/><img  alt="" src="../resources/image/Date-32.png"> --%>
 					<div class="form-group">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <form:input id="project_to" type='text' class="form-control" name="project_to" path="project_to"/>
+			                    <input id="project_to" type='text' class="form-control" name="project_to" value="${projectInfo.project_to }"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -78,12 +83,12 @@
 				</div><br>
 				<div>Technical
 					<!-- <input value="" name="" style="margin-left: 30px"> -->
-           				<form:select name="project_technical" path="project_technical" style="margin-left: 30px">
-						  <option value="PHP">PHP</option>
-						  <option value="Java">Java</option>
-						  <option value="IOS">IOS</option>
-						  <option value="Android">Android</option>
-						</form:select>
+           				<select id="id_project_technical" name="project_technical" style="margin-left: 30px">
+						  <option value="PHP" <c:if test="${projectInfo.project_technical=='PHP'}"> selected="selected"</c:if>>PHP</option>
+						  <option value="Java" <c:if test="${projectInfo.project_technical=='Java'}"> selected="selected"</c:if>>Java</option>
+						  <option value="IOS" <c:if test="${projectInfo.project_technical=='IOS'}"> selected="selected"</c:if>>IOS</option>
+						  <option value="Android" <c:if test="${projectInfo.project_technical=='Android'}"> selected="selected"</c:if>>Android</option>
+						</select>
 				</div><br>
 				<div class="row">
 					<div class="col-sm-1">Scope</div> 
@@ -92,28 +97,31 @@
 						<%-- <c:forEach var="projectScope" items="${projectScope}"> 
 							<input id="scope_all" type="checkbox" name="scope_id" value="${projectScope.scope_id}"  style="margin-left: 10px;">${projectScope.scope_name}
 						</c:forEach> --%>
-						<input id="scope_all1" type="checkbox" name="scope_id" value="1"  style="margin-left: 10px;">BD
-						<input id="scope_all2" type="checkbox" name="scope_id" value="2"  style="margin-left: 10px;">DD
-						<input id="scope_all3" type="checkbox" name="scope_id" value="3"  style="margin-left: 10px;">coding
-						<input id="scope_all4" type="checkbox" name="scope_id" value="4"  style="margin-left: 10px;">UT
-						<input id="scope_all5" type="checkbox" name="scope_id" value="5"  style="margin-left: 10px;">IT
-						<input id="scope_all6" type="checkbox" name="scope_id" value="6"  style="margin-left: 10px;">ST
+						<input id="scope_all1" type="checkbox" name="scope_id1" value="1"  style="margin-left: 10px;">BD
+						<input id="scope_all2" type="checkbox" name="scope_id1" value="2"  style="margin-left: 10px;">DD
+						<input id="scope_all3" type="checkbox" name="scope_id1" value="3"  style="margin-left: 10px;">coding
+						<input id="scope_all4" type="checkbox" name="scope_id1" value="4"  style="margin-left: 10px;">UT
+						<input id="scope_all5" type="checkbox" name="scope_id1" value="5"  style="margin-left: 10px;">IT
+						<input id="scope_all6" type="checkbox" name="scope_id1" value="6"  style="margin-left: 10px;">ST
 					</div>
 				</div><br>
-				<div>Charge Cost <form:input id="project_charge_cost"  name="project_charge_cost" path="project_charge_cost" style="margin-left: 10px"/> (MM)</div><br>
+				<div>Charge Cost <input id="project_charge_cost"  name="project_charge_cost" style="margin-left: 10px" value="${projectInfo.project_charge_cost }"/> (MM)</div><br>
 				<div>Status 
-					<form:select name="status_id" path="status_id" style="margin-left: 45px">
+					<select id="id_status_id" name="status_id"  style="margin-left: 45px">
 				    	<c:forEach var="projectStatus" items="${projectStatus}">   
-				   			<option value="${projectStatus.status_id}" >${projectStatus.status_type}</option>
+				   			<option value="${projectStatus.status_id}" <c:if test="${projectInfo.status_id==projectStatus.status_id}"> selected="selected"</c:if> >${projectStatus.status_type}</option>
 				     	</c:forEach>  
-			    	</form:select>
+			    	</select>
 				</div><br>
 				<div>Description
-				 <form:textarea name="project_description" path="project_description" style="margin-left: 15px" cols="60" rows="3"></form:textarea></div><br>
+				 <textarea id="id_project_description" name="project_description" style="margin-left: 15px" cols="60" rows="3">${projectInfo.project_description }</textarea></div><br>
 				<div style="text-align: end;">
-					<button id="updateProject" value="actionUpdateP" type="submit" name="actionUpdateP" style="background-color: green; color: white;">Save</button>
+					
+					<button id="updateProject" style="background-color: green; color: white;">Save</button>
+					
+					<!-- <button onclick="function_submit()" id="updateProject" value="actionUpdateP" name="actionUpdateP" style="background-color: green; color: white;">Save</button> -->
 				</div>
-		</form:form>
+		<%-- </form:form> --%>
 	</div>
 
  <script type="text/javascript">
@@ -131,39 +139,6 @@
      });
 </script>
 
-<script type="text/javascript">
-$("#updateProject").click(function() {
- 
-	if($("#project_name").val() == ""){
-		alert("project not null");
-		return false;
-	}
-	if($("#project_from").val() == ""){
-		alert("From not null");
-		return false;
-	}
-	if($("#project_to").val() == ""){
-		alert("To not null");
-		return false;
-	}
-	if($("#project_from").val() > $("#project_to").val()){
-		alert("From do not bigger than To");
-		return false;
-	}
-	if(!$.isNumeric($("#project_charge_cost").val())){
-		alert("charge must number");
-		return false;
-	}
-	if($("#project_charge_cost").val() == ""){
-		alert("charge not null");
-		return false;
-	}
-	if($("#project_charge_cost").val() == "0"){
-		alert("charge not 0");
-		return false;
-	}
-});
-</script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -193,7 +168,8 @@ $("#updateProject").click(function() {
 			} 	
 		</c:forEach>
 		console.log(array_Scope);
-		var arr_s = new Array();
+		
+		var arr_s = [];
 		var s1 = $("#scope_all1:checked").val();
 		var s2 = $("#scope_all2:checked").val();
 		var s3 = $("#scope_all3:checked").val();
@@ -221,8 +197,95 @@ $("#updateProject").click(function() {
 		}
 		console.log("arr da tich:" + arr_s);
 		
+		
+		
 })
 </script>
+
+
+
+<script type="text/javascript">
+
+
+/* function function_submit(){ */
+	
+	
+	
+
+
+ $("#updateProject").click(function() { 
+ 
+ 	
+	axjaxUpdate()
+	
+	
+ });
+ function axjaxUpdate(){
+	//submit by ajax
+		
+		
+		
+			var arr_sp = [];
+			$.each($("input[name='scope_id1']:checked"), function(){
+				arr_sp.push($(this).val());
+	        });
+	        console.log(arr_sp);
+	
+		// PREPARE FORM DATA
+			var project_id = $("#p_id").val();
+		 	var project_name = $("#project_name").val();
+			var project_type = $("#id_type_id").val();//ok
+			var project_from = $("#project_from").val();
+			var project_to = $("#project_to").val();
+			var project_tech = $("#id_project_technical").val();
+			var project_charge = $("#project_charge_cost").val();
+			var project_status = $("#id_status_id").val();
+			var project_des = $("#id_project_description").html();
+			
+
+			var object_Scope_And_Project = {
+					project_id : project_id,
+					project_name : project_name,
+					type_id : project_type,
+					project_from : project_from,
+					project_to : project_to,
+					project_technical : project_tech,
+					project_charge_cost : project_charge,
+					status_id : project_status,
+					project_description : project_des,
+					scope_id : arr_sp
+				} ;
+			console.log(object_Scope_And_Project);
+			
+		/* alert(object_Scope_And_Project.Scope_id.length); */
+		  var token = $("meta[name='_csrf']").attr(
+			"content");
+
+			var header = $("meta[name='_csrf_header']")
+			.attr("content");
+		    	// DO POST
+		    	$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : "actionUpdateP",
+					data : JSON.stringify(object_Scope_And_Project),
+					dataType : 'json',
+					beforeSend: function(xhr) {
+			            // here it is
+			            xhr.setRequestHeader(header, token);
+			        },
+					success : function(result) {
+					alert("update success");
+					location.href="${pageContext.request.contextPath}/welcome"; 
+					},
+					error : function(e) {
+						alert("update false");
+					}
+				});	  
+ };
+</script>
+
+
 	<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
 </html>
