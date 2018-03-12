@@ -3,15 +3,19 @@ package com.tinhvan.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.CategoryDao;
@@ -92,12 +96,11 @@ public class TaskController {
 	}
 
 	// Mapping button click create Task/Spec/Issue
-	@RequestMapping(value = "/actionCreateTask", method = RequestMethod.POST)
-	public ModelAndView addTask(Model model, @ModelAttribute(value = "task") TaskInfo taskInfo) {
+	@RequestMapping(value = "/{id}/actionCreateTask", method = RequestMethod.POST)
+	public @ResponseBody TaskInfo actionCreate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
 		taskInfoDao.addTask(taskInfo);
-		return new ModelAndView("redirect:/taskList");
+		return taskInfo;
 	}
-
 
 	// Mapping view page update Task/Spec/Issue
 	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
@@ -112,6 +115,10 @@ public class TaskController {
 	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo taskInfo) {
 		taskInfoDao.updateTask(taskInfo);
 		return new ModelAndView("redirect:/taskList");
+	
+/*	public @ResponseBody TaskInfo actionUpdate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
+		taskInfoDao.updateTask(taskInfo);
+		return taskInfo;*/
 	}
 
 	// Mapping get dataById for update Task/Spec/Issue
