@@ -63,9 +63,9 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 					System.out.println("id = " + user_id_member_project);
 
-					sqlxx += " inner join (select TS_id, m.project_id, member_project_id,user_id,member_project_name,role_id from timesheet_info t inner join member_project m on t.project_id = m.project_id  where m.member_project_id in (select member_project_id from member_project where member_project.USER_ID = "
-							+ user_id_member_project
-							+ ")) as result1 on (result1.ts_id = detail_timesheet.ts_id)";
+					sqlxx += " where detail_timesheet.TS_ID = (select TS_ID from timesheet_info t inner join member_project m "
+							+ "on t.MEMBER_PROECT_ID = m.MEMBER_PROJECT_ID in (select MEMBER_PROJECT_ID from member_project where USER_ID = "
+							+ user_id_member_project + ") GROUP BY t.TS_ID)";
 
 					x = true;
 

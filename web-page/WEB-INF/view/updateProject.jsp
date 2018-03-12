@@ -37,7 +37,7 @@
 		
 				<div class="col-sm-4">
 					<!-- <div>Project Name input id="project_name" value="" name="project_name"  size="30"/></div> -->
-					<input type="text" id="project_name" value = "${projectInfo.project_name}" name="project_name"  size="30"/>
+					Project's Name <input type="text" id="project_name" value = "${projectInfo.project_name}" name="project_name"  size="30"/>
 					<input type="hidden"
 						value="${projectInfo.project_id}" name="project_id" id="p_id">
 				</div>
