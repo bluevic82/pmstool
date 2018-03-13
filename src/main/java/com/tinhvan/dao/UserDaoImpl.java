@@ -82,20 +82,26 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 	public List<User> gettAllUser() {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * From user_info";
-		return jdbcTemplate.query(sql, new RowMapper<User>() {
-			
-			@Override
-			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
-				User user = new User();
-				user.setUser_id(rs.getInt(1));
-				user.setUser_fullName(rs.getString(2));
-				user.setUser_mail(rs.getString(3));
-				user.setUser_passWord(rs.getString(4));
-				user.setRole_id(rs.getInt(5));
-				return user;
-			}
-		} );
+		try{
+			return jdbcTemplate.query(sql, new RowMapper<User>() {
+				
+				@Override
+				public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+					// TODO Auto-generated method stub
+					User user = new User();
+					user.setUser_id(rs.getInt(1));
+					user.setUser_fullName(rs.getString(2));
+					user.setUser_mail(rs.getString(3));
+					user.setUser_passWord(rs.getString(4));
+					user.setRole_id(rs.getInt(5));
+					return user;
+				}
+			} );
+		}
+		catch(Exception e){
+			return null;
+		}
+		
 	}
 
 	@Override
@@ -150,5 +156,31 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 		catch(Exception e){
 			return null;
 		}
+	}
+
+	@Override
+	public List<User> getAllUser_Except_Admin() {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+				String sql = "SELECT * From user_info where role_id != 1";
+				try{
+					return jdbcTemplate.query(sql, new RowMapper<User>() {
+						
+						@Override
+						public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+							// TODO Auto-generated method stub
+							User user = new User();
+							user.setUser_id(rs.getInt(1));
+							user.setUser_fullName(rs.getString(2));
+							user.setUser_mail(rs.getString(3));
+							user.setUser_passWord(rs.getString(4));
+							user.setRole_id(rs.getInt(5));
+							return user;
+						}
+					} );
+				}
+				catch(Exception e){
+					return null;
+				}
 	}
 }

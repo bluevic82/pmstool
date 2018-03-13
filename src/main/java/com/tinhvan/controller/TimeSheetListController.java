@@ -304,11 +304,16 @@ public class TimeSheetListController {
 			
 			public List<MemberProject> locTrungUser(List<MemberProject> listMemberProjects_Loc){
 				for(int i=0;i<listMemberProjects_Loc.size();i++){
-					for(int j=i++;j<listMemberProjects_Loc.size();j++){
+					/*for(int j=i++;j<listMemberProjects_Loc.size();j++){
 						if(listMemberProjects_Loc.get(i).getUser_id()==listMemberProjects_Loc.get(j).getUser_id()){
 							listMemberProjects_Loc.remove(j);
 						}
-					}
+					}*/
+					/*for(int j=listMemberProjects_Loc.size()-1;j>=i++;j--){
+						if(listMemberProjects_Loc.get(i).getUser_id()==listMemberProjects_Loc.get(j).getUser_id()){
+							listMemberProjects_Loc.remove(j);
+						}
+					}*/
 				}
 				return listMemberProjects_Loc;
 			}

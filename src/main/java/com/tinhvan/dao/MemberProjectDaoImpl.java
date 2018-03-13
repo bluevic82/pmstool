@@ -27,49 +27,61 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 	@Override
 	public List<MemberProject> getAllMember() {
 
-		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT",
-				new RowMapper<MemberProject>() {
+		try{
+			return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT",
+					new RowMapper<MemberProject>() {
 
-					@Override
-					public MemberProject mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						MemberProject mp = new MemberProject();
-						mp.setMember_project_id(rs.getInt(1));
-						mp.setUser_id(rs.getInt(2));
-						mp.setMember_project_name(rs.getString(3));
-						mp.setRole_id(rs.getInt(4));
-						mp.setMember_project_effort(rs.getInt(5));
-						mp.setProject_id(rs.getInt(6));
-						return mp;
-					}
-				});
+						@Override
+						public MemberProject mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							MemberProject mp = new MemberProject();
+							mp.setMember_project_id(rs.getInt(1));
+							mp.setUser_id(rs.getInt(2));
+							mp.setMember_project_name(rs.getString(3));
+							mp.setRole_id(rs.getInt(4));
+							mp.setMember_project_effort(rs.getInt(5));
+							mp.setProject_id(rs.getInt(6));
+							return mp;
+						}
+					});
+		}
+		catch(Exception e){
+			return null;
+		}
+		
 	}
 
 	@Override
 	public List<MemberProject> getMemberProjectByProjectId1(int id) {
 		Object[] params = new Object[] { id };
-		return jdbcTemplate.query(
-				"SELECT * FROM MEMBER_PROJECT WHERE PROJECT_ID = ?", params,
-				new RowMapper<MemberProject>() {
+		try{
+			return jdbcTemplate.query(
+					"SELECT * FROM MEMBER_PROJECT WHERE PROJECT_ID = ?", params,
+					new RowMapper<MemberProject>() {
 
-					@Override
-					public MemberProject mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						MemberProject listMemberOfProject = new MemberProject();
-						listMemberOfProject.setMember_project_id(rs.getInt(1));
-						listMemberOfProject.setUser_id(rs.getInt(2));
-						listMemberOfProject.setMember_project_name(rs
-								.getString(3));
-						listMemberOfProject.setRole_id(rs.getInt(4));
-						listMemberOfProject.setMember_project_effort(rs
-								.getInt(5));
-						listMemberOfProject.setProject_id(rs.getInt(6));
-						listMemberOfProject.setRole_name(roleDao
-								.getRoleNameByRoleId(listMemberOfProject
-										.getRole_id()));
-						return listMemberOfProject;
-					}
-				});
+						@Override
+						public MemberProject mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							MemberProject listMemberOfProject = new MemberProject();
+							listMemberOfProject.setMember_project_id(rs.getInt(1));
+							listMemberOfProject.setUser_id(rs.getInt(2));
+							listMemberOfProject.setMember_project_name(rs
+									.getString(3));
+							listMemberOfProject.setRole_id(rs.getInt(4));
+							listMemberOfProject.setMember_project_effort(rs
+									.getInt(5));
+							listMemberOfProject.setProject_id(rs.getInt(6));
+							listMemberOfProject.setRole_name(roleDao
+									.getRoleNameByRoleId(listMemberOfProject
+											.getRole_id()));
+							return listMemberOfProject;
+						}
+					});
+		}
+		catch(Exception e){
+			return null;
+		}
+		
 	}
 
 	

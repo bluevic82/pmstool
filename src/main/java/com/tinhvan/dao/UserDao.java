@@ -21,4 +21,5 @@ public interface UserDao {
 	/*Test DaiK*/
 	public User getUserInfoByUserMail(String user_mail);
 	public User getUserInfoByUser_Id(int user_id);
+	public List<User> getAllUser_Except_Admin();
 }

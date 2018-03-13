@@ -111,7 +111,7 @@ public class UserResourceController {
 
 	@ModelAttribute("getAllUser")
 	public List<User> getAllUser() {
-		List<User> us = userDao.gettAllUser();
+		List<User> us = userDao.getAllUser_Except_Admin();
 		return us;
 	}
 

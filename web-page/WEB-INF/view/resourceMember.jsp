@@ -114,10 +114,10 @@
 			<div class="col-sm-6">
 				<div class="row">
 					<div class="col-sm-6">
-						System member
+						<b>System member</b>
 						<div class="card border-secondary"
-							style="overflow: scroll; height: 300px;">
-							<div class="card-body">
+							style="overflow: scroll; height: 300px; border: solid; border-width: 1px">
+							<div class="card-body" style="padding: 5px 10px 10px 5px">
 								<c:forEach var="getAllUser" items="${getAllUser}">
 									<input type="checkbox" value="${getAllUser.user_fullName}"
 										name="checkboxName">${getAllUser.user_fullName}
@@ -128,10 +128,10 @@
 						</div>
 					</div>
 					<div class="col-sm-6">
-						Roles
+						<b>Roles</b>
 
-						<div class="card border-secondary">
-							<div class="card-body">
+						<div class="card border-secondary" style="border: solid; border-width: 1px">
+							<div class="card-body" style="padding: 5px 10px 10px 5px">
 								<c:forEach var="roleUser" items="${roleUser}">
 									<input type="radio" value="${roleUser.role_name}"
 										name="radioRole"> ${roleUser.role_name}
@@ -368,7 +368,7 @@
 								
 								//validate effort
 								if(_member_project_effort == ""){
-									_member_project_effort=0;
+									_member_project_effort=100;
 								}
 								if(_member_project_effort<0 || _member_project_effort >100 || (_member_project_effort != parseInt(_member_project_effort, 10)) ){
 									
@@ -412,6 +412,7 @@
 										.push(infor_Object);
 
 							}
+							
 							if(_check_loi_effort){
 								alert("Error! Effort is number(Integer) and from 0 to 100. Please reset effort!");
 							} else{
