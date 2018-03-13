@@ -52,7 +52,7 @@
 			<div class=col-md-1 style="font-weight:bold"></div>
 		</div>
 			<div class="row" style="padding: 0px 0px 3px;">
-				<div class=col-md-1 style="padding-top: 10px" ><div style="float: right;">${status.index}</div></div>
+				<div class=col-md-1 style="padding-top: 10px" ><div style="float: right;">${status.index +1}</div></div>
 				<div class=col-md-10>
 					<div style="border: 2px solid black;width:100%;height: 44px;">
 					

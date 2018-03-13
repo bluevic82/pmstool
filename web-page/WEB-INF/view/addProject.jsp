@@ -29,74 +29,152 @@
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-xs-4">
-					<div>Project Name <input id="project_name" name="project_name" ></div>
+					<div class="row">
+						<div class="col-xs-4">
+							Project Name
+						</div>
+						<div class="col-xs-4"> 
+							<input id="project_name" name="project_name" >
+						</div>
+						<div class="col-xs-4"> 
+						</div>
+					</div>
 				</div>
-				<div class="col-xs-2">
-					<!-- <div>Type <input value="" name="" size="10"></div> -->
-							<div>Type
-           				      <select name="type_id" id="type_id">
+				<div class="col-xs-4">
+					<div class="row">
+						<div class="col-xs-2">
+							Type
+						</div>
+						<div class="col-xs-4"> 
+							<select name="type_id" id="type_id" style="width: 170px; height: 26px!important;">
 							       <c:forEach var="projectTypes" items="${projectTypes}">   
-							   			<option value="${projectTypes.type_id}" >${projectTypes.type_name}</option>
+							   			<option value="${projectTypes.type_id}">${projectTypes.type_name}</option>
 							      </c:forEach>  
-						      </select></div>
-				</div>
-				<div class="col-xs-3">
-			         <div>From<!-- <input id="project_from" class="date" name="project_from"/><img  alt="" src="resources/image/Date-32.png"> -->
-			         <div class="form-group">
-			                <div class='input-group date' id='project_from1' >
-			                    <input id="project_from" type='text' class="form-control" name="project_from"/>
-			                    <span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
-			                </div>
-			            </div>
-			            </div>
-				</div>
-				<div class="col-xs-3">
-					<div>To<!-- <input id="project_to" class="date" name="project_to"/><img  alt="" src="resources/image/Date-32.png"> -->
-					<div class="form-group">
-			                <div class='input-group date' id='project_to1' >
-			                    <input id="project_to" type='text' class="form-control" name="project_to"/>
-			                    <span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
-			                </div>
-			            </div>
-			          </div>
-				</div>
+						      </select>
+						</div>
+						<div class="col-xs-6"> 
+						</div>
 					
-				</div><br>
-				
-				<div>Technical
-					<!-- <input value="" name="" style="margin-left: 30px"> -->
-           				<select id="project_technical" name="project_technical" style="margin-left: 30px">
-						  <option value="PHP">PHP</option>
-						  <option value="Java">Java</option>
-						  <option value="IOS">IOS</option>
-						  <option value="Android">Android</option>
-						</select>
+					</div>
+				</div>
+				<div class="col-xs-4"></div>
 				</div><br>
 				<div class="row">
-					<div class="col-sm-1">Scope</div> 
-					<div class="col-sm-11">
-							<c:forEach var="projectScope" items="${projectScope}">   
-								<input id="scope_id" type="checkbox" name="scope_id" value="${projectScope.scope_id}" style="margin-left: 10px;">${projectScope.scope_name}
-							</c:forEach>
+					<div class="col-xs-4">
+						<div class="row">
+						<div class="col-xs-4"> From</div>
+					         <div class="form-group col-xs-6">
+					                <div class='input-group date' id='project_from1' >
+					                   <input id="project_from" type='text' class="form-control" name="project_from"/>
+					                    <span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+					                </div>
+					            </div>
+					            <div class="col-xs-2"></div>
+						</div>
+					</div>
+					<div class="col-xs-4">
+					<div class="row">
+						<div class="col-xs-2">To</div>
+							<div class="form-group col-xs-6">
+					                <div class='input-group date' id='project_to1' >
+					                    <input id="project_to" type='text' class="form-control" name="project_to"/>
+					                    <span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+					                </div>
+					            </div>
+					             <div class="col-xs-4"></div>
+						</div>	
+					</div>
+					<div class="col-xs-4"></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Technical
+							</div>
+							<div class="col-xs-4">
+								<select id="project_technical" name="project_technical" style="width: 170px; height: 26px!important;" >
+								  <option value="PHP">PHP</option>
+								  <option value="Java">Java</option>
+								  <option value="IOS">IOS</option>
+								  <option value="Android">Android</option>
+								</select>
+							</div>
+							<div class="col-xs-4"></div>
+						</div>
+					</div>
+					<div class="col-xs-4">
+					</div>
+					<div class="col-xs-4"></div>
+				</div><br>
+				<div class="row">
+					<div class="col-xs-1">
+						Scope
+					</div>
+					<div class="col-xs-11">
+						<div style="margin-left: 30px;">
+								<c:forEach var="projectScope" items="${projectScope}" >   
+									<input id="scope_id" type="checkbox" name="scope_id" value="${projectScope.scope_id}" >${projectScope.scope_name}
+								</c:forEach>
+								</div>
 					</div>
 				</div><br>
-				<div>Charge Cost <input id="project_charge_cost"  name="project_charge_cost" style="margin-left: 10px"> (MM)</div><br>
-				<div>Status 
-					<select id="status_id" name="status_id" style="margin-left: 45px">
-				    	<c:forEach var="projectStatus" items="${projectStatus}">   
-				   			<option value="${projectStatus.status_id}" >${projectStatus.status_type}</option>
-				     	</c:forEach>  
-			    	</select>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Charge Cost
+							</div>
+							<div class="col-xs-8">
+								<input id="project_charge_cost"  name="project_charge_cost"> (MM)
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-xs-8">
+					</div>
 				</div><br>
-				<div>Description
-				 <textarea id="project_description" name="project_description" style="margin-left: 15px" cols="60" rows="3"></textarea></div><br>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Status
+							</div>
+							<div class="col-xs-8">
+								<select id="status_id" name="status_id" style="width: 170px; height: 26px!important;">
+							    	<c:forEach var="projectStatus" items="${projectStatus}">   
+							   			<option value="${projectStatus.status_id}" >${projectStatus.status_type}</option>
+							     	</c:forEach>  
+						    	</select>
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-xs-8">
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Description
+							</div>
+							<div class="col-xs-8">
+								<textarea id="project_description" name="project_description" cols="60" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-8">
+					</div>
+				</div><br>
 				<div style="text-align: end;">
 					<button id="buttonAdd" type="submit"  style="background-color: green; color: white;">Create</button>
 				</div>
+				
 		</form>
 	</div>
 
@@ -116,7 +194,7 @@
 </script> 
 <script type="text/javascript">
 $( document).ready(function() {
-	var checkBoxValues = [];
+
 	// SUBMIT FORM
     $("#buttonAdd").click(function(event) {
 		//Prevent the form from submitting via the browser.
@@ -143,7 +221,7 @@ $( document).ready(function() {
 	});
 	
     function ajaxPostProject(){
-    	
+    	var checkBoxValues = [];
     	// PREPARE FORM DATA
 	 	var project_name = $("#project_name").val();
 		var project_type = $("#type_id").val();

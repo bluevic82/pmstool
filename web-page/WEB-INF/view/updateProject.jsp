@@ -29,99 +29,162 @@
 </head>
 <body>
 <h6 style="margin-left: 20px">${projectInfo.project_name} > Setting > Update Project Information</h6>
-	<div class="container" style="margin-top: 20px;">
-		<%-- <form:form id="formProject" modelAttribute="projectInfo">
-			<form:hidden path="project_id"/> --%>
-			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+	<div class="container" style="margin-top: 10px;">
+		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="row">
-		
-				<div class="col-sm-4">
-					<!-- <div>Project Name input id="project_name" value="" name="project_name"  size="30"/></div> -->
-					Project's Name <input type="text" id="project_name" value = "${projectInfo.project_name}" name="project_name"  size="30"/>
-					<input type="hidden"
-						value="${projectInfo.project_id}" name="project_id" id="p_id">
+				<div class="col-xs-4">
+					<div class="row">
+						<div class="col-xs-4">
+							Project Name
+						</div>
+						<div class="col-xs-4"> 
+							<input type="text" id="project_name" value = "${projectInfo.project_name}" name="project_name"  size="30"/>
+							<input type="hidden"value="${projectInfo.project_id}" name="project_id" id="p_id">
+						</div>
+						<div class="col-xs-4"> 
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-3">
-					<!-- <div>Type <input value="" name="" size="10"></div> -->
+				<div class="col-xs-4">
+					<div class="row">
+						<div class="col-xs-2">
 							Type
-           				      <select name="type_id" id="id_type_id">
+						</div>
+						<div class="col-xs-4"> 
+						       <select name="type_id" id="id_type_id" style="width: 170px; height: 26px!important;">
 							       <c:forEach var="projectTypes" items="${projectTypes}">   
 							   			<option value="${projectTypes.type_id}" <c:if test="${projectTypes.type_id==projectInfo.type_id}"> selected="selected"</c:if> >${projectTypes.type_name}</option>
 							      </c:forEach>  
 						      </select>
-				</div>
-				<!-- <div class="col-sm-3">
-					<div>From <input name="project_from" class="datepicker"   size="15"></div>	
-				</div>
-				<div class="col-sm-3">
-						<div>To <input name="project_to" class="datepicker" size="15"> </div>
-					</div> -->
+						</div>
+						<div class="col-xs-6"> 
+						</div>
 					
-				<div class="col-sm-3">
-			         From<%-- <form:input class="date" name="project_from" path="project_from" id="datetimepicker1"/><img  alt="" src="../resources/image/Date-32.png"> --%>
-			         <div class="form-group">
-			                <div class='input-group date' id='datetimepicker1' >
-			                    <input id="project_from" type='text' class="form-control" name="project_from" value="${projectInfo.project_from }"/>
-			                    <div class="input-group-addon">
-			                    	<div class="glyphicon glyphicon-calendar"></div>
-			                    </div>
-			                </div>
-			            </div>
+					</div>
 				</div>
-				<div class="col-sm-3">
-					To<%-- <form:input class="date" id="datetimepicker2" name="project_to" path="project_to"/><img  alt="" src="../resources/image/Date-32.png"> --%>
-					<div class="form-group">
-			                <div class='input-group date' id='datetimepicker2' >
-			                    <input id="project_to" type='text' class="form-control" name="project_to" value="${projectInfo.project_to }"/>
-			                    <div class="input-group-addon">
-			                    	<div class="glyphicon glyphicon-calendar"></div>
-			                    </div>
-			                </div>
-			            </div>
-				</div>
-					
-				</div><br>
-				<div>Technical
-					<!-- <input value="" name="" style="margin-left: 30px"> -->
-           				<select id="id_project_technical" name="project_technical" style="margin-left: 30px">
-						  <option value="PHP" <c:if test="${projectInfo.project_technical=='PHP'}"> selected="selected"</c:if>>PHP</option>
-						  <option value="Java" <c:if test="${projectInfo.project_technical=='Java'}"> selected="selected"</c:if>>Java</option>
-						  <option value="IOS" <c:if test="${projectInfo.project_technical=='IOS'}"> selected="selected"</c:if>>IOS</option>
-						  <option value="Android" <c:if test="${projectInfo.project_technical=='Android'}"> selected="selected"</c:if>>Android</option>
-						</select>
+				<div class="col-xs-4"></div>
 				</div><br>
 				<div class="row">
-					<div class="col-sm-1">Scope</div> 
-					<div class="col-sm-11" >
-					
-						<%-- <c:forEach var="projectScope" items="${projectScope}"> 
-							<input id="scope_all" type="checkbox" name="scope_id" value="${projectScope.scope_id}"  style="margin-left: 10px;">${projectScope.scope_name}
-						</c:forEach> --%>
-						<input id="scope_all1" type="checkbox" name="scope_id1" value="1"  style="margin-left: 10px;">BD
-						<input id="scope_all2" type="checkbox" name="scope_id1" value="2"  style="margin-left: 10px;">DD
-						<input id="scope_all3" type="checkbox" name="scope_id1" value="3"  style="margin-left: 10px;">coding
-						<input id="scope_all4" type="checkbox" name="scope_id1" value="4"  style="margin-left: 10px;">UT
-						<input id="scope_all5" type="checkbox" name="scope_id1" value="5"  style="margin-left: 10px;">IT
-						<input id="scope_all6" type="checkbox" name="scope_id1" value="6"  style="margin-left: 10px;">ST
+					<div class="col-xs-4">
+						<div class="row">
+						<div class="col-xs-4"> From</div>
+					             <div class="form-group col-xs-6">
+					                <div class='input-group date' id='datetimepicker1' >
+					                    <input id="project_from" type='text' class="form-control" name="project_from" value="${projectInfo.project_from }"/>
+					                    <div class="input-group-addon">
+					                    	<div class="glyphicon glyphicon-calendar"></div>
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="col-xs-2"></div>
+						</div>
+					</div>
+					<div class="col-xs-4">
+					<div class="row">
+						<div class="col-xs-2">To</div>
+					            <div class="form-group col-xs-6">
+					                <div class='input-group date' id='datetimepicker2' >
+					                    <input id="project_to" type='text' class="form-control" name="project_to" value="${projectInfo.project_to }"/>
+					                    <div class="input-group-addon">
+					                    	<div class="glyphicon glyphicon-calendar"></div>
+					                    </div>
+					                </div>
+					            </div>
+					             <div class="col-xs-4"></div>
+						</div>	
+					</div>
+					<div class="col-xs-4"></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Technical
+							</div>
+							<div class="col-xs-4">
+								<select id="id_project_technical" name="project_technical" style="width: 170px; height: 26px!important;">
+								  <option value="PHP" <c:if test="${projectInfo.project_technical=='PHP'}"> selected="selected"</c:if>>PHP</option>
+								  <option value="Java" <c:if test="${projectInfo.project_technical=='Java'}"> selected="selected"</c:if>>Java</option>
+								  <option value="IOS" <c:if test="${projectInfo.project_technical=='IOS'}"> selected="selected"</c:if>>IOS</option>
+								  <option value="Android" <c:if test="${projectInfo.project_technical=='Android'}"> selected="selected"</c:if>>Android</option>
+								</select>
+							</div>
+							<div class="col-xs-4"></div>
+						</div>
+					</div>
+					<div class="col-xs-4">
+					</div>
+					<div class="col-xs-4"></div>
+				</div><br>
+				<div class="row">
+					<div class="col-xs-1">
+						Scope
+					</div>
+					<div class="col-xs-11">
+						<div style="margin-left: 30px;">
+									<input id="scope_all1" type="checkbox" name="scope_id1" value="1"  style="margin-left: 10px;">BD
+									<input id="scope_all2" type="checkbox" name="scope_id1" value="2"  style="margin-left: 10px;">DD
+									<input id="scope_all3" type="checkbox" name="scope_id1" value="3"  style="margin-left: 10px;">coding
+									<input id="scope_all4" type="checkbox" name="scope_id1" value="4"  style="margin-left: 10px;">UT
+									<input id="scope_all5" type="checkbox" name="scope_id1" value="5"  style="margin-left: 10px;">IT
+									<input id="scope_all6" type="checkbox" name="scope_id1" value="6"  style="margin-left: 10px;">ST
+								</div>
 					</div>
 				</div><br>
-				<div>Charge Cost <input id="project_charge_cost"  name="project_charge_cost" style="margin-left: 10px" value="${projectInfo.project_charge_cost }"/> (MM)</div><br>
-				<div>Status 
-					<select id="id_status_id" name="status_id"  style="margin-left: 45px">
-				    	<c:forEach var="projectStatus" items="${projectStatus}">   
-				   			<option value="${projectStatus.status_id}" <c:if test="${projectInfo.status_id==projectStatus.status_id}"> selected="selected"</c:if> >${projectStatus.status_type}</option>
-				     	</c:forEach>  
-			    	</select>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Charge Cost
+							</div>
+							<div class="col-xs-8">
+								<input id="project_charge_cost"  name="project_charge_cost" value="${projectInfo.project_charge_cost }"/> (MM)
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-xs-8">
+					</div>
 				</div><br>
-				<div>Description
-				 <textarea id="id_project_description" name="project_description" style="margin-left: 15px" cols="60" rows="3">${projectInfo.project_description }</textarea></div><br>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Status
+							</div>
+							<div class="col-xs-8">
+						    	<select id="id_status_id" name="status_id"  style="width: 170px; height: 26px!important;">
+							    	<c:forEach var="projectStatus" items="${projectStatus}">   
+							   			<option value="${projectStatus.status_id}" <c:if test="${projectInfo.status_id==projectStatus.status_id}"> selected="selected"</c:if> >${projectStatus.status_type}</option>
+							     	</c:forEach>  
+						    	</select>
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-xs-8">
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="row">
+							<div class="col-xs-4">
+								Description
+							</div>
+							<div class="col-xs-8">
+								
+								<textarea id="id_project_description" name="project_description" cols="60" rows="3">${projectInfo.project_description }</textarea><br>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-8">
+					</div>
+				</div><br>
 				<div style="text-align: end;">
-					
 					<button id="updateProject" style="background-color: green; color: white;">Save</button>
-					
-					<!-- <button onclick="function_submit()" id="updateProject" value="actionUpdateP" name="actionUpdateP" style="background-color: green; color: white;">Save</button> -->
 				</div>
-		<%-- </form:form> --%>
+
 	</div>
 
  <script type="text/javascript">

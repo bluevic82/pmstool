@@ -47,68 +47,46 @@
 <h6 style="margin-left: 20px">${projectInfor.project_name } > Setting > Milestone</h6>
 	<div class="container">
 
-		<div>
-			Project Name<input style="margin-left: 50px; width: 20%; "
+		<div style="margin-left: 8px;">
+			Project Name<input style="margin-left: 30px; width: 20%; "
 				value="${projectInfor.project_name }" disabled="disabled">
 		</div>
 		<div>
 			<input type="hidden"
 				value="${projectInfor.project_id}" name="project_id" id="p_id">
 		</div>
-		
-		<%-- <form:form id="id_form"> --%>
-			<div>Milestone</div>
-			<table id="id_table" class="table"
-				style="margin-top: 2%;">
+			
+			<table id="id_table" class="table" style="border: none!important;">
 				<thead>
 					<tr>
-						<th scope="col"></th>
-						<th scope="col"></th>
-						<th scope="col"></th>
-						<th scope="col"></th>
+						<th scope="col" style="border: none;"><div>Milestone</div></th>
+						<th scope="col" style="border: none;"></th>
+						<th scope="col" style="border: none;"></th>
+						<th scope="col" style="border: none;"></th>
 					</tr>
 				</thead>
 				<tbody >
 				<c:forEach var="ml" items="${ml}">
-				<tr id="id_tr">
-				<td><input type="hidden"
-				value="${ml.milestone_id}" name="milestone_id" id="id_milestone_id" width="100px;"></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="${ml.milestone_date}"/><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description" value="${ml.milestone_description}" /></td></tr>
+				<tr id="id_tr" style="border: none!important;">
+				<td style="border: none; width: 5px;"><input type="hidden"
+				value="${ml.milestone_id}" name="milestone_id" id="id_milestone_id" width="100px;"></td><td style="border: none; width: 10px;"><img alt="" src="../resources/image/delete.png" width="30px;" height="30px;" id="button_delete"/></td><td id="id_Date" style="border: none;"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="${ml.milestone_date}"/><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des" style="border: none;"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description" value="${ml.milestone_description}" /></td></tr>
 				
 				</c:forEach>
-						<!-- <tr id="id_tr">
-							<td>MileStone</td>
-							<td></td>
-							<td id="id_Date"><div class="input-group date datetimepicker" >
-									<input id="d_dateTime" type="text" class="form-control"
-										name="milestone_date"
-										value="" />
-									<div class="input-group-addon">
-										<div class="glyphicon glyphicon-calendar"></div>
-									</div>
-								</div>
-							</td>
-							<td id="id_des">
-							<input id="id_description" class="form-control input-sm" type="text" name="milestone_description"
-								value="" />
-							</td>
-						</tr> -->
 				</tbody>
 				
 			</table>
-		<%-- </form:form> --%>
 		<button id="button_add">+</button>
 		<div align="right" style="padding-top: 5%">
-			<button type="submit" id="id_buttonSave">Save</button>
+			<button type="submit" id="id_buttonSave" style="background-color: green; color: white;">Save</button>
 		</div>
 	</div>
-	
-	<input type="text"
+	<input type="hidden"
 				value="${projectInfor.project_from}" name="from" id="from">
-	<input type="text"
+	<input type="hidden"
 				value="${projectInfor.project_to}" name="to" id="to">
 						<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
-
+<jsp:include page="_bottom1.jsp"></jsp:include>
 <style>
 #id_Date{
 	width: 20%; 
@@ -152,10 +130,9 @@ $('.datetimepicker').datetimepicker({
 			},
 
 			success : function(data) {
-				//alert("delete completed!");
+				alert("delete completed!");
 			},
-			error : function(data) {
-				alert("error! ");
+				error : function(data) {
 			}
 		});	
 		
@@ -165,7 +142,7 @@ $('.datetimepicker').datetimepicker({
 	
 	/*add row milestone*/
 	$('#button_add').click(function() {
-						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id="id_tr"><td><input type="hidden" value="" name="milestone_id" id="id_milestone_id" width="100px;"></td><td><button id="button_delete">-</button></td><td id="id_Date"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description"value="" /></td></tr>';
+						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id="id_tr" style="border: none!important;  width: 5px;"><td style="border: none; width: 10px;"><input type="hidden" value="" name="milestone_id" id="id_milestone_id" width="100px;"></td><td style="border: none;"><img alt="" src="../resources/image/delete.png" width="30px;" height="30px;" id="button_delete"/></td><td id="id_Date" style="border: none;"><div class="input-group date datetimepicker" ><input id="d_dateTime" type="text" class="form-control"name="milestone_date"value="" /><div class="input-group-addon"><div class="glyphicon glyphicon-calendar"></div></div></div></td><td id="id_des" style="border: none;"><input id="id_description" class="form-control input-sm" type="text" name="milestone_description"value="" /></td></tr>';
 
 						$('.datetimepicker').datetimepicker({
 							format : "YYYY-MM-DD",
@@ -176,58 +153,7 @@ $('.datetimepicker').datetimepicker({
 	//---------------------
 	$('#id_buttonSave').click(		
 					function() {
-						//var m_id = $("#milestone_id").val();
-						/* if( m_id == null ){
-							var table = document.getElementById("id_table");
-							var p_id = $("#p_id").val();
-							var len = table.rows.length;	
-							
-							var arrayList_Milestone = new Array();
-
-							for (var i = 1; i < len; i++) {
-								// set value of var
-								var _milestone_date = table.rows[i].cells[2].childNodes[0].childNodes[0].value;
-								var _milestone_des = table.rows[i].cells[3].childNodes[0].value;
-								var info_Object = {
-										project_id: p_id,
-										milestone_date: _milestone_date,
-										milestone_description : _milestone_des,
-										} 
-
-								
-								arrayList_Milestone.push(info_Object);
-							}
-							console.log(arrayList_Milestone);
-							
-
-						 	var token = $("meta[name='_csrf']").attr("content");
-
-							var header = $("meta[name='_csrf_header']").attr(
-								"content"); 
-							//use ajax to submit
-							$.ajax({
-								url : "actionAddMileStone",
-
-								type : "POST",
-								data : JSON
-										.stringify(arrayList_Milestone),
-								contentType : 'application/json;charset=UTF-8',
-								dataType : 'json',
-
-								beforeSend : function(xhr) {
-									xhr.setRequestHeader(header, token);
-								},
-
-								success : function(data) {
-									alert("save completed!");
-									location.reload();
-								},
-								error : function(data) {
-									alert("error! ");
-								}
-							});		
-						} */
-						//else{
+						
 							var table = document.getElementById("id_table");
 							var p_id = $("#p_id").val();
 							var len = table.rows.length;
