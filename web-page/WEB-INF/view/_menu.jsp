@@ -88,24 +88,24 @@
 				</ul></li>
 			<li><a href="#"> Statistics</a>
 				<ul class="maxblock">
-					<li><a href="#">Task/Spec/Issue Managements</a>
-						<ul>
+					
 							<li><a href="${pageContext.request.contextPath}/taskList">List Task/Spec/Issue</a></li>
-						</ul></li>
-					<li><a href="#">Bug Managements</a>
-						<ul>
+						
+					
 							<li><a href="${pageContext.request.contextPath}/bugList">List Bug</a></li>
-						</ul></li>
-					<li><a href="#">Timesheet Managements</a>
-						<ul>
+						
+					
 							<li><a
 								href="${pageContext.request.contextPath}/timeSheetList">List
 									Timesheet</a></li>
-						</ul></li>
+						
 					<li><a href="${pageContext.request.contextPath}/qaList">Q&amp;A
 							List</a></li>
 
-				</ul></li>
+				
+				
+				</ul>
+				</li>
 			<c:if test="${pageContext.request.userPrincipal.name != null}">
 
 				<li style="float: right;">
@@ -147,18 +147,22 @@ body {
 	color: #e1e1e1; /* White font for link color. */
 	/* border: 1px solid #F5F5F5; */
 	/* background-color: #000000; */
+	
 }
 
 .nav-menu, .nav-menu ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	padding-left: 10px
+	padding-left: 10px;
 	
 }
 
 .nav-menu li {
 	position: relative;
+	/* padding-left: 10px;
+	padding-right: 10px; */
+	padding: 0px 10px 0px 10px; /*top right botton left*/
 }
 
 .nav-menu a {
@@ -226,6 +230,9 @@ body {
 .maxblock{
 	max-width: 150px;
 	
+}
+.nav-menu li ul li {
+	padding-left: 0px;
 }
 
 .nav-menu>li:hover>ul {

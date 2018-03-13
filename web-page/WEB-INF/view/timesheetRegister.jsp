@@ -181,11 +181,19 @@
 						var month="";
 						var year="";
 						if(date.getDate()<10){
-							day+=0+""+date.getDate();
+							day=0+""+date.getDate();
 						}
-						if(date.getMonth()<10){
-							month += month+=0+""+date.getMonth();
+						else{
+							day=date.getDate();
 						}
+						if((date.getMonth()+1)<10){
+							month= 0+""+(date.getMonth()+1);
+						}
+						/* alert(date.getMonth()); */
+						
+						 else{
+							month =(date.getMonth()+1);
+						} 
 						
 						var today = date.getFullYear()+"-"+month+"-"+day;
 
