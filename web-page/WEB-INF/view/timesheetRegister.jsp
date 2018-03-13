@@ -69,22 +69,23 @@
 			<table id="id_table" class="table table-bordered"
 				style="margin-top: 2%;">
 				<thead>
-					<tr>
-						<th scope="col"></th>
-						<th scope="col">Date *</th>
-						<th scope="col">Hour *</th>
-						<th scope="col">Pre-defined task</th>
-						<th scope="col">Process *</th>
-						<th scope="col">Type of work *</th>
-						<th scope="col">Requirement</th>
-						<th scope="col">Work content</th>
+					<tr id = "id_tr_head" >
+						<th scope="col" id="id_head_check"></th>
+						<th scope="col" style="text-align: center;" id="id_head_date">Date *</th>
+						<th scope="col" style="text-align: center;" id="id_head_hour">Hour *</th>
+						<th scope="col" style="text-align: center;" id="id_head_defined">Pre-defined task</th>
+						<th scope="col" style="text-align: center;" id="id_head_process">Process *</th>
+						<th scope="col" style="text-align: center;" id="id_head_type">Type of work *</th>
+						<th scope="col" style="text-align: center;" id="id_head_requirement">Requirement</th>
+						<th scope="col" style="text-align: center;" id="id_head_work_content">Work content</th>
+						<th scope="col" style="text-align: center;" id="id_head_status">Status</th>
 					</tr>
 				</thead>
 				<tbody >
 					<c:forEach var="list_TimeSheetOfOneProject"
 						items="${list_TimeSheetOfOneProject}">
 						<tr id="id_tr">
-							<td scope="col"><input id="id_checkbox" type="checkbox" name="checkboxTS" /><input type="hidden" value="${list_TimeSheetOfOneProject.ts_id}" name="ts_id"/></td>
+							<td scope="col" id="id_th_check"><input id="id_checkbox" type="checkbox" name="checkboxTS" /><input type="hidden" value="${list_TimeSheetOfOneProject.ts_id}" name="ts_id"/></td>
 								
 							<td id="id_ts_Date">${list_TimeSheetOfOneProject.detail_timesheet_date }</td>	
 							<td id="id_ts_Hour"><input id="id_input_HOUR" type="text"
@@ -120,7 +121,8 @@
 
 							<td id="id_ts_workContent"><input id="id_input_WorkContent"
 								type="text" value="${list_TimeSheetOfOneProject.workcontent}" /><input type="hidden" value="${ list_TimeSheetOfOneProject.detail_timesheet_id}" name="detail_timesheet_id"/></td>
-								
+							
+							<td id="id_ts_status">${list_TimeSheetOfOneProject.status_type}</td>
 						</tr>
 					</c:forEach>
 
@@ -147,12 +149,12 @@
 </body>
 
 <style>
-#id_input_HOUR {
-	width: 50px;
-}
 
 #id_table {
 	border-style: solid;
+}
+#id_tr_head{
+	background-color: #66FF33;
 }
 
 /* input, select{
@@ -164,7 +166,42 @@
 }
 #id_input_HOUR, #id_selectDefinded, #id_selectProcess, #id_setType, #id_selectRequirement, #id_input_WorkContent{
 	border: hidden;
+	width: 100%
 }
+
+#id_head_check{
+	width: 3%
+}
+#id_head_date{
+	width: 8%;
+}
+#id_head_hour{
+	width: 7%;
+}
+#id_head_defined{
+	width: 12%;
+}
+#id_head_process{
+	width: 13%;
+}
+#id_head_type{
+	width: 10%;
+}
+#id_head_requirement{
+	width: 15%
+}
+#id_head_work_contentt{
+	width: 25%
+}
+#id_head_status{
+	width: 10%
+}
+
+#id_input_HOUR, #id_ts_status{
+	text-align: center;
+}
+
+
 </style>
 
 
@@ -198,7 +235,7 @@
 						var today = date.getFullYear()+"-"+month+"-"+day;
 
 						
-						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id = "id_tr"><td scope="col"><input id="id_checkbox" type="checkbox" name="checkboxTS" /><input type="hidden" value="" name="ts_id"/></td>'
+						document.getElementById("id_table").insertRow(-1).innerHTML = '<tr id = "id_tr"><td scope="col" id="id_th_check"><input id="id_checkbox" type="checkbox" name="checkboxTS" /><input type="hidden" value="" name="ts_id"/></td>'
 
 								+ '<td id="id_ts_Date">'+today+'</td>'
 
@@ -217,6 +254,7 @@
 								
 								+ '<td id="id_ts_workContent"><input id="id_input_WorkContent" type="text" value="" /><input type="hidden" value="" name="detail_timesheet_id"/></td>'
 								
+								+ '<td></td>'
 								+ '</tr>';
 					});
 	

@@ -284,7 +284,7 @@ public class ProjectDaoImpl implements ProjectDao {
 						projectInfo.setProject_name(rs.getString(2));
 						projectInfo.setProject_from(rs.getString(3));
 						projectInfo.setProject_to(rs.getString(4));
-						projectInfo.setProject_charge_cost(rs.getInt(5));
+						projectInfo.setProject_charge_cost(rs.getFloat(5));
 						projectInfo.setStatus_id(rs.getInt(6));
 						projectInfo.setType_id(rs.getInt(7));
 						projectInfo.setProject_description(rs.getString(8));

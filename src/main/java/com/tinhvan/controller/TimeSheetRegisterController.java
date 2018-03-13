@@ -110,8 +110,10 @@ public class TimeSheetRegisterController {
 		else{
 			//get userInfo by user_mail
 			//get_User_current_loged(principal);
-			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
-					.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());	
+			/*List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
+					.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());*/	
+			
+			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, get_User_current_loged(principal).getUser_id());
 
 			model.addAttribute("list_TimeSheetOfOneProject",
 					list_TimeSheetOfOneProject);

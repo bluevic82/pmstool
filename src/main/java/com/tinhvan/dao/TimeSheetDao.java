@@ -32,4 +32,6 @@ public interface TimeSheetDao {
 	public List<TimeSheetDetail> getTimeSheetDetailsHaveConditionsOfPM(int project_id, int member_project_id, int process_id, String status_name, int user_id_PM);
 	public List<TimeSheetDetail> getTimeSheetDetailsNoConditionsOfPM(int user_id_PM);
 	
+	public List<TimeSheetDetail> getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(int project_id, int user_id);
+	
 }
