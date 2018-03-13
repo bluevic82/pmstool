@@ -99,10 +99,13 @@
 									
 												
 						
-								<th><input type="button" id="editRow" value="Edit" /></th>
+								<!-- <th><input type="button" id="editRow" value="Edit" /></th>
 
-								<th><input type="button" id="deleteRow" value="Delete" /></th>
-
+								<th><input type="button" id="deleteRow" value="Delete" /></th> -->
+								<!-- <th><input style="background-image: url('../resources/image/edit.png');" type="button" id="editRow" value="Edit" /></th> -->
+								<th><img alt="" src="../resources/image/edit.png" width="30px;" height="30px;"  id="editRow"/></th>
+								<!-- <th><input style="background-image: url('../resources/image/delete.png');" type="button" id="deleteRow" value="Delete" /></th> -->
+								<th><img alt="" src="../resources/image/delete.png" width="30px;" height="30px;" id="deleteRow"/></th>
 							</tr>
 
 						</c:forEach>
@@ -116,7 +119,7 @@
 					<div class="col-sm-6">
 						<b>System member</b>
 						<div class="card border-secondary"
-							style="overflow: scroll; height: 300px; border: solid; border-width: 1px">
+							style="overflow: auto;position: relative; height: 300px; border: solid; border-width: 1px">
 							<div class="card-body" style="padding: 5px 10px 10px 5px">
 								<c:forEach var="getAllUser" items="${getAllUser}">
 									<input type="checkbox" value="${getAllUser.user_fullName}"
@@ -305,8 +308,8 @@
 							
 							+ '<th><input type="text" value = "" style="width: 50px"></th>'
 							+ '<th id="id_cell_role"><input type="hidden" id="role_id" value="'+role_id+'" name="role_id" /><div class="class_Role">'+role+'</div><div id="panel" style="height: 100%; display: none"><select id="id_select_Role"><c:forEach var="roleUser" items="${roleUser}"><option id="role_select" value="${roleUser.role_id}">${roleUser.role_name}</option></c:forEach></select></div></th>'
-							+ '<th><input type="button" id="editRow" onclick="edit_function()"value="Edit" /></th>'
-							+ '<th><input type="button" id="deleteRow" onclick="delete_function()" value="Delete" /></th></tr>';
+							+ '<th><img alt="" src="../resources/image/edit.png" width="30px;" height="30px;"  id="editRow"/></th>'
+							+ '<th><img alt="" src="../resources/image/delete.png" width="30px;" height="30px;" id="deleteRow"/></th></tr>';
 					hang++;
 				}
 
@@ -460,6 +463,6 @@
 
 
 
-	<jsp:include page="_bottom.jsp"></jsp:include>
+	<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
 </html>
