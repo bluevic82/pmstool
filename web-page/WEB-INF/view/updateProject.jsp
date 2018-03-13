@@ -277,10 +277,27 @@
 
 
  $("#updateProject").click(function() { 
- 
- 	
-	axjaxUpdate()
-	
+	 if($("#project_name").val() == ""){
+			alert("project not null");
+		}else if($("#project_from").val() == ""){
+			alert("From not null");
+		}else if($("#project_to").val() == ""){
+			alert("To not null");
+		}else if(!$.isNumeric($("#project_charge_cost").val())){
+			alert("charge must number and use value .");
+		}else if($("#project_charge_cost").val() == ""){
+			alert("charge not null");
+		}else if($("#project_charge_cost").val() == "0"){
+			alert("charge not 0");
+		}else if($("#project_from").val() > $("#project_to").val()){
+			alert("From do not bigger than To");
+		}else if($("#id_project_description").val().length > 1000){
+			alert("Description < 1000 character");
+		}
+		
+		else if($("#project_name").val() != "" && $("#project_from").val() != "" && $("#project_charge_cost").val() != "" && $.isNumeric($("#project_charge_cost").val())){
+			axjaxUpdate()
+		}
 	
  });
  function axjaxUpdate(){

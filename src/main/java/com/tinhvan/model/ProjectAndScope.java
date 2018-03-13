@@ -7,7 +7,7 @@ public class ProjectAndScope {
 	private String project_name;
 	private String project_from;
 	private String project_to;
-	private int project_charge_cost;
+	private float project_charge_cost;
 	private int status_id;
 	private int type_id;
 	private String project_description;
@@ -38,10 +38,11 @@ public class ProjectAndScope {
 	public void setProject_to(String project_to) {
 		this.project_to = project_to;
 	}
-	public int getProject_charge_cost() {
+	
+	public float getProject_charge_cost() {
 		return project_charge_cost;
 	}
-	public void setProject_charge_cost(int project_charge_cost) {
+	public void setProject_charge_cost(float project_charge_cost) {
 		this.project_charge_cost = project_charge_cost;
 	}
 	public int getStatus_id() {

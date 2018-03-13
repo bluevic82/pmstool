@@ -28,6 +28,10 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/db_pms?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
 		<property name="password" value="Chudai@1995" />
+		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/test_pms_dbv3?characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="" /> -->
 	</bean>
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
     <property name="messageConverters">
