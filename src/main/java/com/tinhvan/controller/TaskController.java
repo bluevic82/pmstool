@@ -103,16 +103,18 @@ public class TaskController {
 
 	// Mapping button click create Task/Spec/Issue
 	@RequestMapping(value = "/{id}/actionCreateTask", method = RequestMethod.POST)
-	public @ResponseBody TaskInfo actionCreate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
+	public @ResponseBody TaskInfo actionCreate(@RequestBody TaskInfo taskInfo,@PathVariable int id, HttpServletRequest request, ModelMap model) {
 		taskInfoDao.addTask(taskInfo);
 		return taskInfo;
 	}
 
 	// Mapping view page update Task/Spec/Issue
 	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
-	public String updateTask(Model model) {
+	public String updateTask(Model model, @PathVariable int id) {
 		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Update Task");
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.addAttribute("project_Infor", projectInfo);
 		return "updateTask";
 	}
 

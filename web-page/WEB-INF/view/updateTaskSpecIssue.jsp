@@ -147,6 +147,8 @@
 			<div style="text-align: end;">
 				<button id="btnSave" type="submit" style="background-color: green; color: white;">Save</button>
 			</div>
+	<input type="hidden" value="${project_Infor.project_from}" name="project_from" id="project_from">
+	<input type="hidden" value="${project_Infor.project_to}" name="project_to" id="project_to">
 	</div>
 	
     <script type="text/javascript">
@@ -172,51 +174,42 @@
 			var subject = $("#subject").val();
 			var description = $("#description").val();
 			var solution = $("#solution").val();
+			var project_from = $("#project_from").val();
+			var project_to = $("#project_to").val();
 			
 			if (!$.isNumeric(done)){
-					alert("You must enter the number for % Done");
-				return false;
+				alert("%Done can not enter character!");
 			}
-			if(done > 100){
-					alert("% Done can not enter the number greater than 100%");
-				return false;
+			else if(done > 100){
+				alert("% Done can not enter the number greater than 100%");
 			}
-			if(done < 0){
-					alert("% Done can not enter the number less than < 0%");
-				return false;
+			else if(done < 0){
+				alert("% Done can not enter the number less than < 0%");
 			}
- 			if (from.length == ""){
-					alert("From can not be empty");
-				return false;
+			else if (from.length == ""){
+				alert("From can not be empty");
 			}
- 			if (to.length == ""){
-					alert("To can not be empty");
-				return false;
+			else if (to.length == ""){
+				alert("To can not be empty");
 			}
- 			if(from > to){
-					alert("From can not be greater than To");
-				return false;
+			else if(from > to){
+				alert("From can not be greater than To");
  			}
-			if (to.length == ""){
-					alert("To can not be empty");
-				return false;
+			else if (to.length == ""){
+				alert("To can not be empty");
 			} 
-			
-			if (subject.length == ""){
+			else if(subject.length == ""){
 					alert("Subject can not be empty");
-				return false;
 			}
-			
-			if (description.length > 1000){
-					alert("Description can not be more than 1000 characters");
-				return false;
+			else if(from < project_from){
+				alert("From out of date of Project From : " + project_from);
 			}
-			
-			if (solution.length == 1000){
-					alert("Solution can not be more than 1000 characters");
-				return false;
+			else if(to > project_to){
+				alert("To out of date of Project To : " + project_to);
+			} 
+			else if(from >= project_from &&  to <= project_to ){
+				ajaxUpdateTask();
 			}
-			else ( ajaxUpdateTask());
 		});
 		function ajaxUpdateTask(){
 			var id = $("#task_id").val();

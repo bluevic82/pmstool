@@ -113,9 +113,9 @@ public class BugController {
 
 	// Mapping view page update Bug
 	@RequestMapping(value = { "/updateBug" }, method = RequestMethod.GET)
-	public String updateBug(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "Update Bug");
+	public String updateBug(Model model, @PathVariable int id) {
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.addAttribute("project_Infor", projectInfo);
 		return "updateBug";
 	}
 

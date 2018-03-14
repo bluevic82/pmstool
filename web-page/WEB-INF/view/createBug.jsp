@@ -139,7 +139,8 @@
 			<div style="text-align: end;">
 				<button id="createBug" style="background-color: green; color: white;">Create</button>
 			</div>
-		
+<input type="hidden" value="${project_Infor.project_from}" name="project_from" id="project_from">
+<input type="hidden" value="${project_Infor.project_to}" name="project_to" id="project_to">
 	</div>
 
     <script type="text/javascript">
@@ -163,37 +164,42 @@
 			var from = $("#from").val();
 			var to = $("#to").val();
 			var subject = $("#subject").val();
+			var project_from = $("#project_from").val();
+			var project_to = $("#project_to").val();
 			
-			if(done > 100){
-					alert("% Done can not enter the number greater than 100%");
-				return false;
+			if (!$.isNumeric(done)){
+				alert("%Done can not enter character!");
 			}
-			if(done < 0){
-					alert("% Done can not enter the number less than < 0%");
-				return false;
+			else if(done > 100){
+				alert("% Done can not enter the number greater than 100%");
 			}
- 			if (from.length == ""){
-					alert("From can not be empty");
-				return false;
+			else if(done < 0){
+				alert("% Done can not enter the number less than < 0%");
 			}
- 			if (to.length == ""){
-					alert("To can not be empty");
-				return false;
+			else if (from.length == ""){
+				alert("From can not be empty");
 			}
- 			if(from > to){
-					alert("From can not be greater than To");
-				return false;
+			else if (to.length == ""){
+				alert("To can not be empty");
+			}
+			else if(from > to){
+				alert("From can not be greater than To");
  			}
-			if (to.length == ""){
-					alert("To can not be empty");
-				return false;
+			else if (to.length == ""){
+				alert("To can not be empty");
 			} 
-			
-			if (subject.length == ""){
+			else if(subject.length == ""){
 					alert("Subject can not be empty");
-				return false;
 			}
-			else ( ajaxCreateBug());
+			else if(from < project_from){
+				alert("From out of date of Project From : " + project_from);
+			}
+			else if(to > project_to){
+				alert("To out of date of Project To : " + project_to);
+			} 
+			else if(from >= project_from &&  to <= project_to ){
+				ajaxCreateBug();
+			}
 		});
 		function ajaxCreateBug(){
 			var type = $("#type").val();
