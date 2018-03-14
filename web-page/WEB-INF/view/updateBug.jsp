@@ -4,7 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Update Bug</title>
@@ -19,49 +19,50 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css.map">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
 	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
 <h6 style="margin-left: 20px">${project_Infor.project_name} > Update Bug</h6>
 	<div class="container" style="margin-top: 20px;">
-		<form:form id="id_form" action="/Login/actionUpdateBug" method="post">
-			<form:hidden path="bug_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
-						Project Name <input disabled="disabled" value="${project_Infor.project_name}" name="" size="30" style="margin-left: 7px;"/>
-						<input type="hidden" id="project_id" value="${project_Infor.project_id}" name="project_id" >
+						Project Name <input disabled="disabled" id="project_name" value="${project_Infor.project_name}" name="${project_Infor.project_id}" size="30" style="margin-left: 7px;">
+							<input type="hidden" id="project_id" value="${project_Infor.project_id}" name="project_id" >
+							<input type="hidden" id="bug_id" value="${bugInfo.bug_id}" name="bug_id" >
 					</div>
 				</div>
 			</div>
 			<br>
 			<div>
-				Type <form:select name="type_id" path="type_id" style="margin-left: 63px">
+				Type <select name="type_id" id="type_id" style="margin-left: 63px">
 					<c:forEach var="bugTypes" items="${bugTypes}">
-						<option value="${bugTypes.type_id}">
-							${bugTypes.type_name}</option>
+							<option value="${bugTypes.type_id}"
+							<c:if test="${bugTypes.type_id==bugInfo.type_id}">selected="selected"</c:if>
+							>${bugTypes.type_name}</option>
 					</c:forEach>
-				</form:select>
-			
+				</select>
+				
 			</div>
 			<br>
 			
 			<div>
 				Status
-				 <form:select name="status_id" path="status_id" style="margin-left: 52px">
-					<c:forEach var="taskStatus" items="${taskStatus}">
-						<option value="${taskStatus.status_id}">
-							${taskStatus.status_name}</option>
+				 <select name="status_id" id="status_id" style="margin-left: 52px">
+					<c:forEach var="bugStatus" items="${bugStatus}">
+						<option value="${bugStatus.status_id}"
+							<c:if test="${bugStatus.status_id==bugInfo.status_id}"> selected="selected"</c:if>
+							>${bugStatus.status_name}</option>
 					</c:forEach>
-				</form:select>
-				&emsp; Done<form:input id="done" style="margin-left: 10px;" value="" name="bug_done" path="bug_done"/>(%)
+				</select>
+				&emsp; Done<input value="${bugInfo.bug_done}" maxlength="3" id="done" style="margin-left: 10px;" name="bug_done"/>(%)
 			</div>
 			<br>
 			
@@ -71,7 +72,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <form:input id="from" type='text' class="form-control" name="bug_from" path="bug_from"/>
+			                    <input id="from" type='text' class="form-control" name="bug_from" value="${bugInfo.bug_from}"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -83,7 +84,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <form:input id="to" type='text' class="form-control" name="bug_to" path="bug_to"/>
+			                    <input id="to" type='text' class="form-control" name="bug_to" value="${bugInfo.bug_to}"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -98,54 +99,54 @@
 			
 			<div>
 			  <div>
-			  	   Subject<form:input maxlength="199" id="subject" value="" name="bug_subject" path="bug_subject" size="58" style="margin-left: 49px"/>
+					Subject<input id="subject" value="${bugInfo.bug_subject}" name="bug_subject" size="58" style="margin-left: 49px">
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<form:textarea id="description" name="bug_description" path="bug_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
+				<textarea id="description" name="bug_description" style="margin-left: 22px" cols="60" rows="3">${bugInfo.bug_description}</textarea>
 			</div>
 			<br>
 			<div>
 				Solution
-				<form:textarea id="solution" name="bug_solution" path="bug_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
+				<textarea id="solution" name="bug_solution" style="margin-left: 42px" cols="60" rows="3">${bugInfo.bug_solution}</textarea>
 			</div>
 			<br>
 			
 			<div>
 				 PIC
-				 <form:select name="member_project_id" path="member_project_id" style="margin-left: 65px">
+				 <select name="member_project_id" id="member_project_id" style="margin-left: 70px">
 					<c:forEach var="pic" items="${pic}">
-						<option value="${pic.member_project_id}" >
-							${pic.member_project_name}</option>
+						<option value="${pic.member_project_id}"
+							<c:if test="${pic.member_project_id==bugInfo.member_project_id}"> selected="selected"</c:if>
+							>${pic.member_project_name}</option>
 					</c:forEach>
-				</form:select>	
+				</select>	
 				&emsp;Priority
-				 	<form:select name="bug_priority" path="bug_priority">
+				 	<select name="bug_priority" id="bug_priority">
 						<option>Highest</option>
 						<option>High</option>
 						<option>Medium</option>
 						<option>Low</option>
-					</form:select>
+					</select>
 			</div>
 			<br>
 			
 			<div>
 				 Category
-				 <form:select name="category_id" path="category_id" style="margin-left: 30px">
+				 <select name="category_id" id="category_id" style="margin-left: 36px">
 					<c:forEach var="category" items="${category}">
 						<option value="${category.category_id}">
 							${category.category_name}</option>
 					</c:forEach>
-				</form:select>
+				</select>
 			</div>
 			<br>
 			<div style="text-align: end;">
 				<button id="btnSave" type="submit" style="background-color: green; color: white;">Save</button>
 			</div>
-		</form:form>
 	</div>
 	
     <script type="text/javascript">
@@ -163,7 +164,7 @@
          });
      </script> 
      
-          <script type="text/javascript">
+     <script type="text/javascript">
 		$("#btnSave").click(function(){
 			var done = $("#done").val();
 			var from = $("#from").val();
@@ -172,10 +173,6 @@
 			var description = $("#description").val();
 			var solution = $("#solution").val();
 			
- 			if (done.length == ""){
-					alert("% Done can not be empty");
-				return false;
-			}
 			if (!$.isNumeric(done)){
 					alert("You must enter the number for % Done");
 				return false;
@@ -219,8 +216,65 @@
 					alert("Solution can not be more than 1000 characters");
 				return false;
 			}
+			else ( ajaxUpdateBug());
 		});
+		function ajaxUpdateBug(){
+			var id = $("#bug_id").val();
+			var type = $("#type_id").val();
+			var status = $("#status_id").val();
+			var done = $("#done").val();
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var subject = $("#subject").val();
+			var description = $("#description").val();
+			var solution = $("#solution").val();
+			var member_project_id = $("#member_project_id").val();
+			var priority = $("#bug_priority").val();
+			var category = $("#category_id").val();
+			var project_id = $("#project_id").val();
+			
+			var obj = {
+				bug_id : id,
+				type_id : type,
+				status_id : status,
+				bug_done : done,
+				bug_from : from,
+				bug_to : to,
+				bug_subject : subject,
+				bug_description : description,
+				bug_solution : solution,
+				member_project_id : member_project_id,
+				bug_priority : priority,
+				category_id : category,
+				project_id : project_id
+			};
+			console.log(obj);
+			var token = $("meta[name='_csrf']").attr("content");
+
+			var header = $("meta[name='_csrf_header']").attr("content"); 
+			
+		    	// DO POST
+		    	$.ajax({
+					type : "POST",
+					url : "actionUpdateBug",
+					data : JSON.stringify(obj),
+					dataType : 'json',
+					contentType : 'application/json;charset=UTF-8',
+					beforeSend: function(xhr) {
+			            // here it is
+			            xhr.setRequestHeader(header, token);
+			        },
+					success : function(e) {
+						alert("updated!");
+						location.href="${pageContext.request.contextPath}/bugList";
+					},
+					error : function(e) {
+						alert("update error!");
+						
+					}
+				});	
+		}
 	</script>
-		<jsp:include page="_bottom2.jsp"></jsp:include>
+<jsp:include page="_bottom2.jsp"></jsp:include>
 </body>
 </html>

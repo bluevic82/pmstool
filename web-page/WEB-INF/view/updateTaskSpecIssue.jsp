@@ -24,43 +24,45 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
 <h6 style="margin-left: 20px">${project_Infor.project_name} > Update Task/Spec/Issue</h6>
 	<div class="container" style="margin-top: 20px;">
-		<form:form id="id_form" action="/Login/actionUpdateTask" method="post">
-			<form:hidden path="task_id"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
 						Project Name <input disabled="disabled" id="project_name" value="${project_Infor.project_name}" name="${project_Infor.project_id}" size="30" style="margin-left: 7px;">
 							<input type="hidden" id="project_id" value="${project_Infor.project_id}" name="project_id" >
+							<input type="hidden" id="task_id" value="${taskInfo.task_id}" name="task_id" >
 					</div>
 				</div>
 			</div>
 			<br>
 			<div>
-				Type <form:select name="type_id" path="type_id" style="margin-left: 63px">
+				Type <select name="type_id" id="type_id" style="margin-left: 63px">
 					<c:forEach var="taskTypes" items="${taskTypes}">
-						<option value="${taskTypes.type_id}">
-							${taskTypes.type_name}</option>
+							<option value="${taskTypes.type_id}"
+							<c:if test="${taskTypes.type_id==taskInfo.type_id}">selected="selected"</c:if>
+							>${taskTypes.type_name}</option>
 					</c:forEach>
-				</form:select>
+				</select>
 				
 			</div>
 			<br>
 			
 			<div>
 				Status
-				 <form:select name="status_id" path="status_id" style="margin-left: 52px">
+				 <select name="status_id" id="status_id" style="margin-left: 52px">
 					<c:forEach var="taskStatus" items="${taskStatus}">
-						<option value="${taskStatus.status_id}">
-							${taskStatus.status_name}</option>
+						<option value="${taskStatus.status_id}"
+							<c:if test="${taskStatus.status_id==taskInfo.status_id}"> selected="selected"</c:if>
+							>${taskStatus.status_name}</option>
 					</c:forEach>
-				</form:select>
-				&emsp; Done<form:input maxlength="3" id="done" style="margin-left: 10px;" value="" name="task_done" path="task_done"/>(%)
+				</select>
+				&emsp; Done<input value="${taskInfo.task_done}" maxlength="3" id="done" style="margin-left: 10px;" name="task_done"/>(%)
 			</div>
 			<br>
 			
@@ -70,7 +72,7 @@
 					<div class="row">
 					  	<div class="col-sm-2">From</div><div class="form-group col-sm-8" style="margin-left: 15px;">
 			                <div class='input-group date' id='datetimepicker1' >
-			                    <form:input id="from" type='text' class="form-control" name="task_from" path="task_from"/>
+			                    <input id="from" type='text' class="form-control" name="task_from" value="${taskInfo.task_from}"/>
 			                    <div class="input-group-addon">
 			                    	<div class="glyphicon glyphicon-calendar"></div>
 			                    </div>
@@ -82,7 +84,7 @@
 					<div class="row">
 						 <div class="col-sm-1">To</div><div class="form-group col-sm-8">
 			                <div class='input-group date' id='datetimepicker2' >
-			                    <form:input id="to" type='text' class="form-control" name="task_to" path="task_to"/>
+			                    <input id="to" type='text' class="form-control" name="task_to" value="${taskInfo.task_to}"/>
 			                    <span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -97,54 +99,54 @@
 			
 			<div>
 			  <div>
-			  	   Subject<form:input maxlength="199" id="subject" value="" name="task_subject" path="task_subject" size="58" style="margin-left: 49px"/>
+					Subject<input id="subject" value="${taskInfo.task_subject}" name="task_subject" size="58" style="margin-left: 49px">
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<form:textarea id="description" name="task_description" path="task_description" style="margin-left: 20px" cols="60" rows="3"></form:textarea>
+				<textarea id="description" name="task_description" style="margin-left: 22px" cols="60" rows="3">${taskInfo.task_description}</textarea>
 			</div>
 			<br>
 			<div>
 				Solution
-				<form:textarea id="solution" name="task_solution" path="task_solution" style="margin-left: 36px" cols="60" rows="3"></form:textarea>
+				<textarea id="solution" name="task_solution" style="margin-left: 42px" cols="60" rows="3">${taskInfo.task_solution}</textarea>
 			</div>
 			<br>
 			
 			<div>
 				 PIC
-				 <form:select name="member_project_id" path="member_project_id" style="margin-left: 65px">
+				 <select name="member_project_id" id="member_project_id" style="margin-left: 70px">
 					<c:forEach var="pic" items="${pic}">
-						<option value="${pic.member_project_id}" >
-							${pic.member_project_name}</option>
+						<option value="${pic.member_project_id}"
+							<c:if test="${pic.member_project_id==taskInfo.member_project_id}"> selected="selected"</c:if>
+							>${pic.member_project_name}</option>
 					</c:forEach>
-				</form:select>	
+				</select>	
 				&emsp;Priority
-				 	<form:select name="task_priority" path="task_priority">
+				 	<select name="task_priority" id="task_priority">
 						<option>Highest</option>
 						<option>High</option>
 						<option>Medium</option>
 						<option>Low</option>
-					</form:select>
+					</select>
 			</div>
 			<br>
 			
 			<div>
 				 Category
-				 <form:select name="category_id" path="category_id" style="margin-left: 30px">
+				 <select name="category_id" id="category_id" style="margin-left: 36px">
 					<c:forEach var="category" items="${category}">
 						<option value="${category.category_id}">
 							${category.category_name}</option>
 					</c:forEach>
-				</form:select>
+				</select>
 			</div>
 			<br>
 			<div style="text-align: end;">
 				<button id="btnSave" type="submit" style="background-color: green; color: white;">Save</button>
 			</div>
-		</form:form>
 	</div>
 	
     <script type="text/javascript">
@@ -171,10 +173,6 @@
 			var description = $("#description").val();
 			var solution = $("#solution").val();
 			
- 			if (done.length == ""){
-					alert("% Done can not be empty");
-				return false;
-			}
 			if (!$.isNumeric(done)){
 					alert("You must enter the number for % Done");
 				return false;
@@ -218,7 +216,64 @@
 					alert("Solution can not be more than 1000 characters");
 				return false;
 			}
+			else ( ajaxUpdateTask());
 		});
+		function ajaxUpdateTask(){
+			var id = $("#task_id").val();
+			var type = $("#type_id").val();
+			var status = $("#status_id").val();
+			var done = $("#done").val();
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var subject = $("#subject").val();
+			var description = $("#description").val();
+			var solution = $("#solution").val();
+			var member_project_id = $("#member_project_id").val();
+			var priority = $("#task_priority").val();
+			var category = $("#category_id").val();
+			var project_id = $("#project_id").val();
+			
+			var obj = {
+				task_id:id,
+				type_id : type,
+				status_id : status,
+				task_done : done,
+				task_from : from,
+				task_to : to,
+				task_subject : subject,
+				task_description : description,
+				task_solution : solution,
+				member_project_id : member_project_id,
+				task_priority : priority,
+				category_id : category,
+				project_id : project_id
+			};
+			console.log(obj);
+			var token = $("meta[name='_csrf']").attr("content");
+
+			var header = $("meta[name='_csrf_header']").attr("content"); 
+			
+		    	// DO POST
+		    	$.ajax({
+					type : "POST",
+					url : "actionUpdateTask",
+					data : JSON.stringify(obj),
+					dataType : 'json',
+					contentType : 'application/json;charset=UTF-8',
+					beforeSend: function(xhr) {
+			            // here it is
+			            xhr.setRequestHeader(header, token);
+			        },
+					success : function(e) {
+						alert("updated!");
+						location.href="${pageContext.request.contextPath}/taskList";
+					},
+					error : function(e) {
+						alert("update error!");
+						
+					}
+				});	
+		}
 	</script>
 <jsp:include page="_bottom2.jsp"></jsp:include>
 </body>

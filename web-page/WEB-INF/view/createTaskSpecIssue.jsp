@@ -99,7 +99,7 @@
 			
 			<div>
 			  <div>
-			  	   Subject<input id="subject" value="" name="task_subject" size="58" maxlength="199" style="margin-left: 49px">
+			  	   Subject<input id="subject" value="" name="task_subject" size="60" maxlength="199" style="margin-left: 49px">
 			  </div>
 			</div>
 			<br>
@@ -107,13 +107,13 @@
 			<div>
 				Description
 				<textarea id="description" name="task_description" maxlength="999" placeholder="optional & can not be more than 1000 characters" 
-							style="margin-left: 20px" cols="60" rows="3"></textarea>
+							style="margin-left: 23px" cols="60" rows="3"></textarea>
 			</div>
 			<br>
 			
 			<div>
 				 PIC
-				 <select id="pic" name="member_project_id" style="margin-left: 65px">
+				 <select id="pic" name="member_project_id" style="margin-left: 68px">
 					<c:forEach var="pic" items="${pic}">
 						<option value="${pic.member_project_id}">
 							${pic.member_project_name}</option>
@@ -131,7 +131,7 @@
 			
 			<div>
 				 Category
-				 <select id="category" name="category_id" style="margin-left: 30px">
+				 <select id="category" name="category_id" style="margin-left: 36px">
 					<c:forEach var="category" items="${category}">
 						<option value="${category.category_id}">
 							${category.category_name}</option>

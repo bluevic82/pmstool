@@ -113,11 +113,11 @@ public class BugController {
 		return "updateBug";
 	}
 
-	// Mapping button click save Bug
-	@RequestMapping(value = "/actionUpdateBug", method = RequestMethod.POST)
-	public ModelAndView UpdateBug(Model model, @ModelAttribute(value = "bug") BugInfo bugInfo) {
+	// Mapping button click save Task/Spec/Issue
+	@RequestMapping(value = "/bugList/{idP}/{id}/actionUpdateBug", method = RequestMethod.POST)	
+	public @ResponseBody BugInfo actionUpdate(@RequestBody BugInfo bugInfo, HttpServletRequest request) {
 		bugInfoDao.updateBug(bugInfo);
-		return new ModelAndView("redirect:/bugList");
+		return bugInfo;
 	}
 
 	// Mapping get dataById for update Bug
@@ -128,6 +128,7 @@ public class BugController {
 		BugInfo bugInfo = bugInfoDao.getBugById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(idP);
 		model.put("project_Infor", projectInfo);
+		model.put("bugInfo", bugInfo);
 
 		model.put("command", bugInfoDao.getBugById(id));
 		return new ModelAndView("updateBug", "command", bugInfo);

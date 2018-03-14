@@ -111,14 +111,10 @@ public class TaskController {
 	}
 
 	// Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "/actionUpdateTask", method = RequestMethod.POST)
-	public ModelAndView UpdateTask(Model model, @ModelAttribute(value = "task") TaskInfo taskInfo) {
+	@RequestMapping(value = "/taskList/{idP}/{id}/actionUpdateTask", method = RequestMethod.POST)	
+	public @ResponseBody TaskInfo actionUpdate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
 		taskInfoDao.updateTask(taskInfo);
-		return new ModelAndView("redirect:/taskList");
-	
-/*	public @ResponseBody TaskInfo actionUpdate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
-		taskInfoDao.updateTask(taskInfo);
-		return taskInfo;*/
+		return taskInfo;
 	}
 
 	// Mapping get dataById for update Task/Spec/Issue
@@ -129,10 +125,11 @@ public class TaskController {
 		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
 		ProjectInfo projectInfo = projectDao.getProjectById(idP);
 		model.put("project_Infor", projectInfo);
-
+		model.put("taskInfo", taskInfo);
 		model.put("command", taskInfoDao.getTaskById(id));
+		
 		return new ModelAndView("updateTaskSpecIssue", "command", taskInfo);
-		//return new ModelAndView("updateTaskSpecIssue");
+
 		}else {
 			return new ModelAndView("403Page");
 		}
@@ -193,10 +190,4 @@ public class TaskController {
 		List<Category> list = categoryDao.getAllCategory();
 		return list;
 	}
-	
-	/*@ModelAttribute("picL")
-	public List<MemberProject> getPICL() {
-		List<MemberProject> listL = memberProjectDao.getMember();
-		return listL;
-	}*/
 }
