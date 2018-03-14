@@ -116,7 +116,7 @@
 
 			</c:if>
 			<li style="float: right;"><a
-				href="${pageContext.request.contextPath}/admin">User</a></li>
+				href="${pageContext.request.contextPath}/admin">${UserInformation.user_fullName}</a></li>
 
 		</ul>
 	</div>

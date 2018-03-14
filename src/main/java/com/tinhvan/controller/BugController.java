@@ -60,6 +60,12 @@ public class BugController {
 	@Autowired
 	PermissionDao per;
 
+	// get User infor of current user login for menu user infor
+			@ModelAttribute("UserInformation")
+			public User getUserCurrentLogin(Principal principal){
+				return  userDao.getUserInfoByUserMail(principal.getName());
+				
+			}
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
 		public List<ProjectInfo> getListProject(Principal principal) {
