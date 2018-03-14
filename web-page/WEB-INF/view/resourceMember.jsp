@@ -271,13 +271,14 @@
 					role = radioRole[i].value;
 					role_id = hidden_radioRole[i].value;
 					
-					if(role_id==2){
+				/* 	if(role_id==2){
+						alert(checkManager());
 						if(checkManager()==1){
 							alert("One project only have one Management!");
 							return;
 						}
 						
-					}
+					} */
 					
 				}
 			}
@@ -315,9 +316,28 @@
 							soLuongMemberThemVao++;
 					  }
 					  
+					  
 				}
 				
 				}
+			
+			
+			if(role_id==2){
+				if(array_name_Of_Member_Add.length >1){
+					alert("One project only have one Management!");
+					return;
+				}
+				else{
+					if(checkManager()==1){
+						alert("One project only have one Management!");
+						return;
+					}
+				}
+				
+			}
+			
+			
+			
 			
 			if(string_Alert_Exists_Error!=""){
 				alert(string_Alert_Exists_Error + " are already existed!");
@@ -498,7 +518,7 @@
 			var rowCount = table.rows.length; */
 			string_Alert_err1=0; 
 			
-			for(var i=1;i<rowCount;i++){
+			for(var i=1;i<hang;i++){
 				if(table.rows[i].cells.namedItem("id_cell_role").childNodes[0].value ==2){
 					//alert("àdf");
 					string_Alert_err1= 1; 
