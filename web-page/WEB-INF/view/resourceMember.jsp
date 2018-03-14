@@ -163,6 +163,8 @@
 			</div>
 		</div>
 
+	<input type="hidden" id="id_role_user_login" value="${UserInformation.role_id}" name="id_role_user_login">
+	<input type="hidden" id="id_user_id_login" value="${UserInformation.user_id}" name="id_user_id_login">
 	</div>
 	<!-- </form> -->
 	
@@ -196,7 +198,7 @@
 				"#deleteRow",
 				function(e) {
 					e.preventDefault();
-					$(this).parent('th').parent('tr').remove();
+					
 
 					//var $(this).parent('th').parent('tr').;
 
@@ -205,33 +207,49 @@
 					//alert(member_project_id);
 					//id_member_project_name
 
-			
-        					$.ajax({
-        						url : "deleteOneMemberProject",
-
-        						type : "POST",
-        						data : JSON.stringify(member_project_id),
-        						contentType : 'application/json;charset=UTF-8',
-        						dataType : 'json',
-
-        						beforeSend : function(xhr) {
-        							// here it is
-        							xhr.setRequestHeader(header, token);
-        						},
-
-        						success : function(data) {
-        							alert("delete done!");
-        						},
-        						error : function(data) {
-        							alert("error! ");
-        						}
-        					});
-        					
-        					hang = 1;
-        					onload_function();
-        					
+					var user_id_in_memberProject = $(this).parent('th').parent('tr').find("#user_id").val();
+					var role_id = $(this).parent('th').parent('tr').find("#role_id").val();
 					
-				});
+						
+						
+						/* alert($('#id_role_user_login').val()); */
+					//check: neu user login la manager thi khong duoc xoa chinh no ra khoi project
+					
+					if(role_id==2){
+						if($('#id_role_user_login').val()==2 && $('#id_user_id_login').val()==user_id_in_memberProject){
+							alert("you're this Project's Manager and you can't delete yourself!");
+							return;
+						}
+						
+						
+						
+					}
+					
+						$.ajax({
+    						url : "deleteOneMemberProject",
+
+    						type : "POST",
+    						data : JSON.stringify(member_project_id),
+    						contentType : 'application/json;charset=UTF-8',
+    						dataType : 'json',
+
+    						beforeSend : function(xhr) {
+    							// here it is
+    							xhr.setRequestHeader(header, token);
+    						},
+
+    						success : function(data) {
+    							alert("delete done!");
+    						},
+    						error : function(data) {
+    							alert("error! ");
+    						}
+    					});
+						$(this).parent('th').parent('tr').remove();
+    					hang = 1;
+    					onload_function();
+					}
+				);
 
 		/*add row*/
 		function addRowToTable_function() {
@@ -252,6 +270,14 @@
 
 					role = radioRole[i].value;
 					role_id = hidden_radioRole[i].value;
+					
+					if(role_id==2){
+						if(checkManager()==1){
+							alert("One project only have one Management!");
+							return;
+						}
+						
+					}
 					
 				}
 			}
@@ -341,6 +367,14 @@
 
 										//get role_id at choose
 										var role_id_choose = $(this).val();
+										
+										if(role_id_choose==2){
+											if(checkManager()==1){
+												alert("One project only have one Management!");
+												return;
+											}
+											
+										}
 										
 										//set role_id at
 										$(this).parent('div').parent('th')
@@ -459,6 +493,25 @@
 
 						});
 		
+		function checkManager(){
+			/* var table = document.getElementById("dataTable");
+			var rowCount = table.rows.length; */
+			string_Alert_err1=0; 
+			
+			for(var i=1;i<rowCount;i++){
+				if(table.rows[i].cells.namedItem("id_cell_role").childNodes[0].value ==2){
+					//alert("àdf");
+					string_Alert_err1= 1; 
+				}
+			}
+			return string_Alert_err1;
+		}
+		
+	</script>
+	<script type="text/javascript">
+		//check manager
+		 
+	
 	</script>
 
 

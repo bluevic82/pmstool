@@ -70,7 +70,7 @@ public class UserResourceController {
 		}
 
 	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
-	public String resourceMember(@PathVariable int id, ModelMap model) {
+	public String resourceMember(@PathVariable int id, ModelMap model, Principal principal) {
 		Boolean checker = per.checker("set_res");
 		if(checker==true) {
 		List<MemberProject> listMemberOfProject = memberProjectDao
@@ -79,6 +79,10 @@ public class UserResourceController {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		model.put("listMemberOfProject", listMemberOfProject);
 		model.put("projectInfo", projectInfo);
+		
+		
+		
+		
 		return "resourceMember";
 		}else {
 			return "403Page";
@@ -110,8 +114,9 @@ public class UserResourceController {
 	
 
 	@ModelAttribute("roleUser")
-	public List<Role> getRole() {
-		List<Role> list = roleDao.getAllRole();
+	public List<Role> getRole(Principal principal) {
+		
+		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(principal.getName()).getRole_id());
 		return list;
 	}
 
