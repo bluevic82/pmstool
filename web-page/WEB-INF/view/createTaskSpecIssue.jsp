@@ -22,7 +22,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
@@ -167,14 +167,11 @@
 			var to = $("#to").val();
 			var subject = $("#subject").val();
 			
- 			if (done.length == ""){
-					alert("% Done can not be empty");
-				return false;
-			}
 			if (!$.isNumeric(done)){
-					alert("You must enter the number for % Done");
-				return false;
+				alert("You must enter the number for % Done");
+			return false;
 			}
+
 			if(done > 100){
 					alert("% Done can not enter the number greater than 100%");
 				return false;
@@ -208,6 +205,7 @@
 		});
 		function ajaxCreateTask(){
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var done = $("#done").val();
 			var from = $("#from").val();
 			var to = $("#to").val();
@@ -220,6 +218,7 @@
 			
 			var obj = {
 				type_id : type,
+				status_id : status,
 				task_done : done,
 				task_from : from,
 				task_to : to,

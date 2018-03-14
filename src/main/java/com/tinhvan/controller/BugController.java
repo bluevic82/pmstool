@@ -3,15 +3,19 @@ package com.tinhvan.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.BugInfoDao;
@@ -95,12 +99,11 @@ public class BugController {
 	}
 
 	// Mapping button click create Bug
-	@RequestMapping(value = "/actionCreateBug", method = RequestMethod.POST)
-	public ModelAndView addBug(Model model, @ModelAttribute(value = "bug") BugInfo bugInfo) {
+	@RequestMapping(value = "/{id}/actionCreateBug", method = RequestMethod.POST)		
+	public @ResponseBody BugInfo actionCreate(@RequestBody BugInfo bugInfo, HttpServletRequest request) {
 		bugInfoDao.addBug(bugInfo);
-		return new ModelAndView("redirect:/bugList");
+		return bugInfo;
 	}
-
 
 	// Mapping view page update Bug
 	@RequestMapping(value = { "/updateBug" }, method = RequestMethod.GET)
@@ -185,9 +188,4 @@ public class BugController {
 		List<Category> list = categoryDao.getAllCategory();
 		return list;
 	}
-/*	@ModelAttribute("picL")
-	public List<MemberProject> getPICL() {
-		List<MemberProject> listL = memberProjectDao.getMember();
-		return listL;
-	}*/
 }

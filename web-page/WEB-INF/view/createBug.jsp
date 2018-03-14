@@ -10,6 +10,7 @@
 <title>Create Bug</title>
 <jsp:include page="_banner1.jsp"></jsp:include>
 <jsp:include page="_menu.jsp" />
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -17,33 +18,29 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://momentjs.com/downloads/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
-	 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+	 <link rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-
+	<meta name="_csrf" content="${_csrf.token}" />
+	<meta name="_csrf_header" content="${_csrf.headerName}" />
+	<meta name="_csrf_parameterName" content="${_csrf.parameterName}" />
 </head>
 <body>
-<h6 style="margin-left: 20px">${project_Infor.project_name} > Create Bug</h6>
+<h6 style="margin-left: 20px"> ${project_Infor.project_name} > Create Bug</h6>
 	<div class="container" style="margin-top: 30px;">
-	
-	<form:form id="id_form" action="/Login/actionCreateBug" method="post">
-		<input type="hidden"  name="${_csrf.parameterName}"  value="${_csrf.token}"/>
 			<div class="row">
 				<div class="col-sm-4">
 					<div>
 						Project Name <input disabled="disabled" value="${project_Infor.project_name}" name="project_name" size="30" style="margin-left: 7px;">
-						<input type="hidden" value="${project_Infor.project_id}" name="project_id" >
+						<input type="hidden" value="${project_Infor.project_id}" name="project_id" id="project_id" >
 					</div>	
 				</div>
 			</div>
 			<br>
 			<div >
-				Type <select name="type_id" style="margin-left: 63px">
+				Type <select id="type" name="type_id" style="margin-left: 63px">
 					<c:forEach var="bugTypes" items="${bugTypes}">
 						<option value="${bugTypes.type_id}">
 							${bugTypes.type_name}</option>
@@ -56,13 +53,13 @@
 			
 			<div>
 				Status
-				 <select name="status_id" style="margin-left: 52px">
+				 <select id="status" name="status_id" style="margin-left: 52px">
 					<c:forEach var="bugStatus" items="${bugStatus}">
 						<option value="${bugStatus.status_id}">
 							${bugStatus.status_name}</option>
 					</c:forEach>
 				</select>
-				&emsp; Done<input id="done" style="margin-left: 10px;" value="" name="bug_done">(%)
+				&emsp; Done<input id="done" style="margin-left: 10px;" maxlength="3" value="" name="bug_done">(%)
 			</div>
 			<br>
 			
@@ -99,28 +96,28 @@
 			
 			<div>
 			  <div>
-			  	   Subject<input id="subject" value="" name="bug_subject" size="58" style="margin-left: 49px">
+			  	   Subject<input id="subject" value="" name="bug_subject" size="58" maxlength="199" style="margin-left: 49px">
 			  </div>
 			</div>
 			<br>
 			
 			<div>
 				Description
-				<textarea name="bug_description" maxlength="999" placeholder="optional & can not be more than 1000 characters"
-				 style="margin-left: 20px" cols="60" rows="3"></textarea>
+				<textarea id="description" name="bug_description" maxlength="999" placeholder="optional & can not be more than 1000 characters" 
+							style="margin-left: 20px" cols="60" rows="3"></textarea>
 			</div>
 			<br>
 			
 			<div>
 				 PIC
-				 <select name="member_project_id" style="margin-left: 65px">
+				 <select id="pic" name="member_project_id" style="margin-left: 65px">
 					<c:forEach var="pic" items="${pic}">
 						<option value="${pic.member_project_id}">
 							${pic.member_project_name}</option>
 					</c:forEach>
 				</select>	
 				&emsp;Priority
-				 	<select name="bug_priority">
+				 	<select id="prioprity" name="bug_priority">
 						<option>Highest</option>
 						<option>High</option>
 						<option>Medium</option>
@@ -131,7 +128,7 @@
 			
 			<div>
 				 Category
-				 <select name="category_id" style="margin-left: 30px">
+				 <select id="category" name="category_id" style="margin-left: 30px">
 					<c:forEach var="category" items="${category}">
 						<option value="${category.category_id}">
 							${category.category_name}</option>
@@ -140,9 +137,9 @@
 			</div>
 			<br>
 			<div style="text-align: end;">
-				<button id="createBug" type="submit" style="background-color: green; color: white;">Create</button>
+				<button id="createBug" style="background-color: green; color: white;">Create</button>
 			</div>
-		</form:form>
+		
 	</div>
 
     <script type="text/javascript">
@@ -158,23 +155,15 @@
              format:"YYYY-MM-DD",
             });
          });
-     </script> 
+     </script>
      
-     <script type="text/javascript">
+	<script type="text/javascript">
 		$("#createBug").click(function(){
 			var done = $("#done").val();
 			var from = $("#from").val();
 			var to = $("#to").val();
 			var subject = $("#subject").val();
 			
- 			if (done.length == ""){
-					alert("% Done can not be empty");
-				return false;
-			}
-			if (!$.isNumeric(done)){
-					alert("You must enter the number for % Done");
-				return false;
-			}
 			if(done > 100){
 					alert("% Done can not enter the number greater than 100%");
 				return false;
@@ -204,8 +193,61 @@
 					alert("Subject can not be empty");
 				return false;
 			}
+			else ( ajaxCreateBug());
 		});
+		function ajaxCreateBug(){
+			var type = $("#type").val();
+			var status = $("#status").val();
+			var done = $("#done").val();
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var subject = $("#subject").val();
+			var des = $("#description").val();
+			var pic = $("#pic").val();
+			var priority = $("#prioprity").val();
+			var category = $("#category").val();
+			var project_id = $("#project_id").val();
+			
+			var obj = {
+				type_id : type,
+				status_id : status,
+				bug_done : done,
+				bug_from : from,
+				bug_to : to,
+				bug_subject : subject,
+				bug_description : des,
+				member_project_id : pic,
+				bug_priority : priority,
+				category_id : category,
+				project_id : project_id
+			};
+			console.log(obj);
+			var token = $("meta[name='_csrf']").attr("content");
+
+			var header = $("meta[name='_csrf_header']").attr("content"); 
+			
+		    	// DO POST
+		    	$.ajax({
+					type : "POST",
+					url : "actionCreateBug",
+					data : JSON.stringify(obj),
+					dataType : 'json',
+					contentType : 'application/json;charset=UTF-8',
+					beforeSend: function(xhr) {
+			            // here it is
+			            xhr.setRequestHeader(header, token);
+			        },
+					success : function(e) {
+						alert("add success");
+						location.href="${pageContext.request.contextPath}/bugList";
+					},
+					error : function(e) {
+						alert("add false");
+						
+					}
+				});	
+		}
 	</script>
-			<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
+<jsp:include page="_bottom1.jsp"></jsp:include>
 </html>
