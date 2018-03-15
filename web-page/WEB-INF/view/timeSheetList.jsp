@@ -162,7 +162,6 @@
 				});
 	 
 	 
-	 
 	var table = document.getElementById("id_table");
 	var len = table.rows.length;
 	
