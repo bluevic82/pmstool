@@ -110,10 +110,10 @@
 			
 			<div>
 				 PIC
-				 <select id="pic" name="member_project_id" style="margin-left: 65px">
-					<c:forEach var="pic" items="${pic}">
-						<option value="${pic.member_project_id}">
-							${pic.member_project_name}</option>
+				 <select id="picT" name="member_project_id" style="margin-left: 68px">
+					<c:forEach var="picT" items="${picT}">
+						<option value="${picT.member_project_id}">
+							${picT.member_project_name}</option>
 					</c:forEach>
 				</select>	
 				&emsp;Priority
@@ -209,7 +209,7 @@
 			var to = $("#to").val();
 			var subject = $("#subject").val();
 			var des = $("#description").val();
-			var pic = $("#pic").val();
+			var pic = $("#picT").val();
 			var priority = $("#prioprity").val();
 			var category = $("#category").val();
 			var project_id = $("#project_id").val();

@@ -3,17 +3,15 @@ package com.tinhvan.controller;
 import java.security.Principal;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tinhvan.dao.BugInfoDao;
@@ -39,7 +37,7 @@ import com.tinhvan.model.User;
  * @date: 2018/02/02
  **/
 @Controller
-public class BugController {
+public class BugListController {
 
 	@Autowired
 	ProjectDao projectDao;
@@ -83,47 +81,50 @@ public class BugController {
 			}
 		}
 
-	// Mapping view page create Bug
-	@RequestMapping(value = "{id}/createBug")
-	public ModelAndView createBug(@PathVariable int id, Model model) {
-		Boolean checker = per.checker("cre_iss");
+	// Mapping get dataById for update Bug
+	@RequestMapping(value = "/bugList/{id}/editBug/{idP}")
+	public ModelAndView editBug(@PathVariable int id, ModelMap model,  @PathVariable int idP) {
+		Boolean checker = per.checker("upd_iss");
 		if(checker==true) {
-		model.addAttribute("project_id", id);
-		model.addAttribute("message", "Create Bug");
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		BugInfo bugInfo = bugInfoDao.getBugById(id);
+		ProjectInfo projectInfo = projectDao.getProjectById(idP);
+		List<MemberProject> picT=getPICT(idP);
+		model.put("project_Infor", projectInfo);
+		model.put("picT", picT);
+		model.put("bugInfo", bugInfo);
 
-		/**
-		 * purpose: get project's name
-		 */
-		model.addAttribute("project_Infor", projectInfo);
-		return new ModelAndView("createBug", "command", new BugInfo());
+		model.put("command", bugInfoDao.getBugById(id));
+		return new ModelAndView("updateBug", "command", bugInfo);
 		}else {
 			return new ModelAndView("403Page");
 		}
 	}
 
-	// Mapping button click create Bug
-	@RequestMapping(value = "/{id}/actionCreateBug", method = RequestMethod.POST)		
-	public @ResponseBody BugInfo actionCreate(@RequestBody BugInfo bugInfo, HttpServletRequest request) {
-		bugInfoDao.addBug(bugInfo);
-		return bugInfo;
+	// Mapping view list Bug
+		@RequestMapping("/bugList")
+		public ModelAndView listBug(
+				@RequestParam(value="projectName",required=false,defaultValue = "0") int projectName, 
+				@RequestParam(value = "type_id", required = false, defaultValue = "0") int type_id, 
+				@RequestParam(value = "status_id", required = false, defaultValue = "0") int status_id, 
+				@RequestParam(value = "member_project_id", required = false, defaultValue = "0") int member_project_id, 
+				@RequestParam(value = "bug_priority", required = false, defaultValue = "")
+				String bug_priority, Model modelMap, Principal principal) {
+			Boolean checker = per.checker("cre_iss");
+			if (checker == true) {
+			List<BugInfo> list = bugInfoDao.getAllBug(projectName,type_id,status_id,member_project_id,
+					bug_priority);
+			
+				modelMap.addAttribute("pn",projectName);
+				modelMap.addAttribute("ti", type_id);
+				modelMap.addAttribute("si",status_id);
+				modelMap.addAttribute("mp", member_project_id);
+				modelMap.addAttribute("bp", bug_priority);
+				
+			return new ModelAndView("bugList", "list", list);
+		}else {
+			return new ModelAndView("403Page");	
+		}
 	}
-
-	// Mapping view page update Bug
-	@RequestMapping(value = { "/updateBug" }, method = RequestMethod.GET)
-	public String updateBug(Model model, @PathVariable int id) {
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		model.addAttribute("project_Infor", projectInfo);
-		return "updateBug";
-	}
-
-	// Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "/bugList/{id}/{idP}/actionUpdateBug", method = RequestMethod.POST)	
-	public @ResponseBody BugInfo actionUpdate(@RequestBody BugInfo bugInfo, HttpServletRequest request) {
-		bugInfoDao.updateBug(bugInfo);
-		return bugInfo;
-	}
-
 	/*
 	 * @purpose: Methods Attributes
 	 */
@@ -153,12 +154,10 @@ public class BugController {
 		List<MemberProject> list = memberProjectDao.getAllMember();
 		return list;
 	}
-
-	@ModelAttribute("picT")
-	public List<MemberProject> getPICT( @PathVariable int id, Model model) {
+	
+	// get all member of project in Bug
+	public List<MemberProject> getPICT(int id) {
 		List<MemberProject> list = memberProjectDao.getAllMemberT(id);
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		model.addAttribute("project_Infor", projectInfo);
 		return list;
 	}
 

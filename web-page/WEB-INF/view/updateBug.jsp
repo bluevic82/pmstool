@@ -117,11 +117,11 @@
 			
 			<div>
 				 PIC
-				 <select name="member_project_id" id="member_project_id" style="margin-left: 70px">
-					<c:forEach var="pic" items="${pic}">
-						<option value="${pic.member_project_id}"
-							<c:if test="${pic.member_project_id==bugInfo.member_project_id}"> selected="selected"</c:if>
-							>${pic.member_project_name}</option>
+				 <select id="picT" name="member_project_id" style="margin-left: 70px">
+					<c:forEach var="picT" items="${picT}">
+						<option value="${picT.member_project_id}"
+						<c:if test="${picT.member_project_id==bugInfo.member_project_id}">selected="selected"</c:if>
+							>${picT.member_project_name}</option>
 					</c:forEach>
 				</select>	
 				&emsp;Priority
@@ -138,8 +138,10 @@
 				 Category
 				 <select name="category_id" id="category_id" style="margin-left: 36px">
 					<c:forEach var="category" items="${category}">
-						<option value="${category.category_id}">
-							${category.category_name}</option>
+						<option value="${category.category_id}"
+						<c:if test="${category.category_id==bugInfo.category_id}">selected="selected"</c:if>		
+							>${category.category_name}
+						</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -228,7 +230,7 @@
 			var subject = $("#subject").val();
 			var description = $("#description").val();
 			var solution = $("#solution").val();
-			var member_project_id = $("#member_project_id").val();
+			var pic = $("#picT").val();
 			var priority = $("#bug_priority").val();
 			var category = $("#category_id").val();
 			var project_id = $("#project_id").val();
@@ -243,7 +245,7 @@
 				bug_subject : subject,
 				bug_description : description,
 				bug_solution : solution,
-				member_project_id : member_project_id,
+				member_project_id : pic,
 				bug_priority : priority,
 				category_id : category,
 				project_id : project_id
