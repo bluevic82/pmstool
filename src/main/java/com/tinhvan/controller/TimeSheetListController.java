@@ -2,17 +2,13 @@ package com.tinhvan.controller;
 
 import java.util.List;
 import java.security.Principal;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.management.MalformedObjectNameException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,10 +30,7 @@ import com.tinhvan.model.PreDefinedTask;
 import com.tinhvan.model.Process;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
-import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
-import com.tinhvan.model.TimeSheetDetail_List;
-import com.tinhvan.model.TimeSheet_Info;
 import com.tinhvan.model.User;
 
 @Controller
@@ -73,8 +66,6 @@ public class TimeSheetListController {
 	// get list project for menu
 			@ModelAttribute("list_Project_For_menu")
 			public List<ProjectInfo> getListProject(Principal principal) {
-				//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-				//User user = get_User_current_loged(principal);
 				User user = userDao.getUserInfoByUserMail(principal.getName());
 				
 				//check role: if user is Admin => list all projects 
@@ -119,8 +110,7 @@ public class TimeSheetListController {
 					
 					
 					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, user_id_member_project, process_id, status_name);
-					List<MemberProject> list_PIC = locTrungUser(memberProjectDao.getAllMember());
-					//List<Process> list_Process = processDao.getAll();
+					List<MemberProject> list_PIC = memberProjectDao.get_All_MemberProjects_filter_duplicate();
 					
 					//tra ve dieu kien tim kiem
 					model.addAttribute("project_searched", projectDao.getProjectById(project_id));
@@ -131,43 +121,14 @@ public class TimeSheetListController {
 					model.addAttribute("listTimeSheetDetails", listAllTimeSheetDetails);
 					model.addAttribute("listProjects", listAllProjectInfos);
 					model.addAttribute("list_PIC", list_PIC);
-					//model.addAttribute("list_Process", list_Process);
-					
-					
-					
-					
-					//List<MemberProject> lisMemberProjects = memberProjectDao.getAllMember();
-					//List<TimeSheetDetail> lisTimeSheetDetailsOfAllMember = timeSheetDao.getAllTimeSheet();
-					//List<TimeSheetDetail> lisTimeSheetDetailsOfOneTs_Id 
-					/*List<TimeSheet_Info> liTimeSheet_Infos = timeSheetDao.getAllTimeSheetInfor();
-					
-					for(int i=0;i<liTimeSheet_Infos.size();i++){
-						MemberProject memberProject = memberProjectDao.getMemberProjectByMem_id(liTimeSheet_Infos.get(i).getMember_project_id());
-						List<TimeSheetDetail> lisTimeSheetDetailsOfOneTs_Id = timeSheetDao.getListTimeSheetByTimeSheetId(liTimeSheet_Infos.get(i).getTs_id());
-						TimeSheetDetail_List timeSheetDetail_List= new TimeSheetDetail_List();
-						timeSheetDetail_List.setMemberProject(memberProject);
-						timeSheetDetail_List.setTimeSheetDetail(lisTimeSheetDetailsOfOneTs_Id);
-						list_timeSheetDetail_Lists.add(timeSheetDetail_List);
-					}*/
-					//System.out.println("size = "+list_timeSheetDetail_Lists.get(2).getTimeSheetDetail().size());
-					//model.addAttribute("list_timeSheetDetail_Lists", list_timeSheetDetail_Lists);
 					return new ModelAndView("timeSheetList");
-					
-					//if role = 1 => get all member_project => return all member_projects
-					//get all timesheet_infors => have member_project_name
-					//for ts_id => get member_project_name
 					
 				}
 				
 				else if(user.getRole_id() == 2){
-					
-					
 					//if role = 2 => get list member_project of user 
-					List<MemberProject> listMemberProjectsAssigned = memberProjectDao.getListMemberProjectsByCurrentUserAssigned(user.getUser_id());
-					List<TimeSheetDetail> listTimeSheetDetails = new ArrayList<TimeSheetDetail>();
-					List<MemberProject> lisMemberProjectsAssignedNotPM = new ArrayList<MemberProject>();
-					List<MemberProject> lisMemberProjectsAssignedIsPM = new ArrayList<MemberProject>();
-					List<MemberProject> list_PIC = new ArrayList<MemberProject>();
+					List<MemberProject> list_PIC = memberProjectDao.getListMemberProject_By_Current_User_Is_PM_filter_duplicate(user.getUser_id());
+					
 					
 					List<TimeSheetDetail> lisTimeSheetDetails_No_ConditionOfPM = timeSheetDao.getTimeSheetDetailsNoConditionsOfPM(user.getUser_id());
 					
@@ -180,7 +141,6 @@ public class TimeSheetListController {
 						
 							if(project_id!=0 ||user_id_member_project!=0||process_id!=0||!status_name.equals("")) {
 								List<TimeSheetDetail> listTimeSheetDetails_Have_ConditionOfPM=timeSheetDao.getTimeSheetDetailsHaveConditionsOfPM(project_id, user_id_member_project, process_id, status_name, user.getUser_id());
-								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 								
 								//loc ra list timesheets trong project PM duoc assign
 								for(int i=0;i<listTimeSheetDetails_Have_ConditionOfPM.size();i++){
@@ -197,34 +157,22 @@ public class TimeSheetListController {
 										listTimeSheetDetails_Have_ConditionOfPM.remove(i);
 									}
 									
-									
 								}
 								
 								
 								model.addAttribute("listTimeSheetDetails", listTimeSheetDetails_Have_ConditionOfPM);
-								model.addAttribute("listProjects", listProjectInfos);
-								model.addAttribute("list_PIC", list_PIC);
-								//model.addAttribute("list_Process", list_Process);
-								/*model.addAttribute("listProjects", listAllProjectInfos);
-								model.addAttribute("list_PIC", list_PIC);
-								model.addAttribute("list_Process", list_Process);*/
-								//get list detail_timesheets by list timesheet_ids: have member_project_name
-								return new ModelAndView("timeSheetList");
 							}
 							else{
-								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 								model.addAttribute("listTimeSheetDetails", lisTimeSheetDetails_No_ConditionOfPM);
+							}
+							
+								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+								
 								model.addAttribute("listProjects", listProjectInfos);
 								model.addAttribute("list_PIC", list_PIC);
-								//model.addAttribute("list_Process", list_Process);
-								/*model.addAttribute("listProjects", listAllProjectInfos);
-								model.addAttribute("list_PIC", list_PIC);
-								model.addAttribute("list_Process", list_Process);*/
-								//get list detail_timesheets by list timesheet_ids: have member_project_name
 								return new ModelAndView("timeSheetList");
-							}
-					
-					
+							
+							
 				}
 				else{
 					String message = "Access denied for "+principal.getName()+"!";
@@ -232,14 +180,6 @@ public class TimeSheetListController {
 					return new ModelAndView("403Page");
 				}
 				
-				
-				
-				
-				
-				
-				
-				//List<TimeSheetDetail> list = timeSheetDao.getAllTimeSheet();
-				//return new ModelAndView("timeSheetList", "list", list);
 			}
 			
 			@RequestMapping(value = "/actionUpdateStatusTypeOfListTimesheets", method = RequestMethod.POST)
@@ -293,34 +233,10 @@ public class TimeSheetListController {
 				return list;
 			}
 
-			/*@ModelAttribute("Tasks")
-			public List<TaskInfo> getTaskInfos(@PathVariable int id, Model model) {
-				ProjectInfo projectInfo = projectDao.getProjectById(id);
-
-				// purpose: get project's name
-				model.addAttribute("project_Infor", projectInfo);
-				List<TaskInfo> list = TaskInfoDao.getTaskInfo_By_Status_Open_And_OnGoing(id);
-				return list;
-			}*/
 			@ModelAttribute("picL")
 			public List<MemberProject> getPICL() {
 				List<MemberProject> list = memberProjectDao.getMember();
 				return list;
 			}
 			
-			public List<MemberProject> locTrungUser(List<MemberProject> listMemberProjects_Loc){
-				for(int i=0;i<listMemberProjects_Loc.size();i++){
-					/*for(int j=i++;j<listMemberProjects_Loc.size();j++){
-						if(listMemberProjects_Loc.get(i).getUser_id()==listMemberProjects_Loc.get(j).getUser_id()){
-							listMemberProjects_Loc.remove(j);
-						}
-					}*/
-					/*for(int j=listMemberProjects_Loc.size()-1;j>=i++;j--){
-						if(listMemberProjects_Loc.get(i).getUser_id()==listMemberProjects_Loc.get(j).getUser_id()){
-							listMemberProjects_Loc.remove(j);
-						}
-					}*/
-				}
-				return listMemberProjects_Loc;
-			}
 }

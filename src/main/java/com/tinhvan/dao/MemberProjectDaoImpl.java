@@ -233,10 +233,10 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 		
 	
 	@Override
-	public List<MemberProject> getListMemberProject_By_Current_User_Is_PM(
-			int user_id, int role_id) {
+	public List<MemberProject> getListMemberProject_By_Current_User_Is_PM_filter_duplicate(
+			int user_id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM member_project WHERE USER_ID = "+user_id+" AND ROLE_ID = "+role_id+"";
+		String sql = "select * from member_project m0 where m0.PROJECT_ID in ( select m.PROJECT_ID from member_project m where m.USER_ID = "+user_id+" and m.ROLE_ID = 2) group by m0.user_id";
 		try{
 			return jdbcTemplate.query(sql, new RowMapper<MemberProject>() {
 				@Override
@@ -305,6 +305,33 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 					return memberProject;
 				}
 			});
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
+
+	@Override
+	public List<MemberProject> get_All_MemberProjects_filter_duplicate() {
+		// TODO Auto-generated method stub
+		
+		try{
+			return jdbcTemplate.query("select * from member_project m group by m.user_id;",
+					new RowMapper<MemberProject>() {
+
+						@Override
+						public MemberProject mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							MemberProject mp = new MemberProject();
+							mp.setMember_project_id(rs.getInt(1));
+							mp.setUser_id(rs.getInt(2));
+							mp.setMember_project_name(rs.getString(3));
+							mp.setRole_id(rs.getInt(4));
+							mp.setMember_project_effort(rs.getInt(5));
+							mp.setProject_id(rs.getInt(6));
+							return mp;
+						}
+					});
 		}
 		catch(Exception e){
 			return null;

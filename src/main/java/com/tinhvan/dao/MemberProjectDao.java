@@ -11,8 +11,10 @@ public interface MemberProjectDao {
 	public void deleteOneMemberProject(int memberProject_id);
 	public void addListMemberProjectToDB(List<MemberProject> list_MemberProjects_toInsert, int project_id);
 	public MemberProject getMemberProjectByProject_Id_And_UserCurrentLogged(int project_id, int user_id);
-	public List<MemberProject> getListMemberProject_By_Current_User_Is_PM(int user_id, int role_id);
+	public List<MemberProject> getListMemberProject_By_Current_User_Is_PM_filter_duplicate(int user_id);
 	public List<MemberProject> getMember();
 	public MemberProject getMemberProjectByMem_id(int memberProject_id);
 	public List<MemberProject> getListMemberProjectsByCurrentUserAssigned(int user_id);
+	
+	public List<MemberProject> get_All_MemberProjects_filter_duplicate();
 }
