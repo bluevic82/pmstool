@@ -337,6 +337,26 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 			return null;
 		}
 	}
+
+	@Override
+	public List<MemberProject> getAllMemberT(int id) {
+		// TODO Auto-generated method stub
+		return jdbcTemplate.query("SELECT * FROM MEMBER_PROJECT where project_id =" + id + "",
+				new RowMapper<MemberProject>() {
+
+					@Override
+					public MemberProject mapRow(ResultSet rs, int rowNum) throws SQLException {
+						MemberProject mp = new MemberProject();
+						mp.setMember_project_id(rs.getInt(1));
+						mp.setUser_id(rs.getInt(2));
+						mp.setMember_project_name(rs.getString(3));
+						mp.setRole_id(rs.getInt(4));
+						mp.setMember_project_effort(rs.getInt(5));
+						mp.setProject_id(rs.getInt(6));
+						return mp;
+					}
+				});
+	}
 		
 
 }

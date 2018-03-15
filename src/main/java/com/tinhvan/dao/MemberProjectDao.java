@@ -17,4 +17,6 @@ public interface MemberProjectDao {
 	public List<MemberProject> getListMemberProjectsByCurrentUserAssigned(int user_id);
 	
 	public List<MemberProject> get_All_MemberProjects_filter_duplicate();
+	
+	public List<MemberProject> getAllMemberT(int id);
 }

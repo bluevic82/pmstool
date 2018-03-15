@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,7 +54,8 @@ public class TaskController {
 	CategoryDao categoryDao;
 	@Autowired
 	TaskInfoDao taskInfoDao;
-	@Autowired UserDao userDao;
+	@Autowired 
+	UserDao userDao;
 	@Autowired
 	PermissionDao per;
 	
@@ -119,48 +119,11 @@ public class TaskController {
 	}
 
 	// Mapping button click save Task/Spec/Issue
-	@RequestMapping(value = "/taskList/{idP}/{id}/actionUpdateTask", method = RequestMethod.POST)	
+	@RequestMapping(value = "/taskList/{id}/{idP}/actionUpdateTask", method = RequestMethod.POST)	
 	public @ResponseBody TaskInfo actionUpdate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
 		taskInfoDao.updateTask(taskInfo);
 		return taskInfo;
 	}
-
-	// Mapping get dataById for update Task/Spec/Issue
-	@RequestMapping(value = "/taskList/{id}/editTask/{idP}")
-	public ModelAndView editTask(@PathVariable int id, ModelMap model, @PathVariable int idP) {
-		Boolean checker = per.checker("upd_iss");
-		if(checker==true) {
-		TaskInfo taskInfo = taskInfoDao.getTaskById(id);
-		ProjectInfo projectInfo = projectDao.getProjectById(idP);
-		model.put("project_Infor", projectInfo);
-		model.put("taskInfo", taskInfo);
-		model.put("command", taskInfoDao.getTaskById(id));
-		
-		return new ModelAndView("updateTaskSpecIssue", "command", taskInfo);
-
-		}else {
-			return new ModelAndView("403Page");
-		}
-	}
-
-	// Mapping view list Task/Spec/Issue
-		@RequestMapping("/taskList")
-		public ModelAndView listTask(
-				@RequestParam(value="projectName",required=false,defaultValue = "0")int projectName,
-				@RequestParam(value="type_id",required=false,defaultValue = "0") int type_id,
-				@RequestParam(value="status_id",required=false,defaultValue = "0") int status_id,
-				@RequestParam(value="member_project_id",required=false,defaultValue = "0") int member_project_id,
-				@RequestParam(value="task_priority",required=false,defaultValue = "") 
-			String task_priority, Model modelMap,Principal principal) {
-				modelMap.addAttribute("pn",projectName);
-				modelMap.addAttribute("ti", type_id);
-				modelMap.addAttribute("si",status_id);
-				modelMap.addAttribute("mp", member_project_id);
-				modelMap.addAttribute("tp", task_priority);
-			List<TaskInfo> list = taskInfoDao.getAllTask(projectName,type_id,status_id,member_project_id,task_priority);
-
-			return new ModelAndView("taskList", "list", list);
-		}
 
 	/*
 	 * @purpose: Methods Attributes
@@ -187,8 +150,19 @@ public class TaskController {
 
 	// get all member project in Task/Spec/Issue
 	@ModelAttribute("pic")
-	public List<MemberProject> getPIC() {
+	public List<MemberProject> getPIC( @PathVariable int id, Model model) {
 		List<MemberProject> list = memberProjectDao.getAllMember();
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.addAttribute("project_Infor", projectInfo);
+		return list;
+	}
+	
+	@ModelAttribute("picT")
+	public List<MemberProject> getPICT( @PathVariable int id, Model model) {
+		System.out.println(id);
+		List<MemberProject> list = memberProjectDao.getAllMemberT(id);
+		ProjectInfo projectInfo = projectDao.getProjectById(id);
+		model.addAttribute("project_Infor", projectInfo);
 		return list;
 	}
 
@@ -198,4 +172,6 @@ public class TaskController {
 		List<Category> list = categoryDao.getAllCategory();
 		return list;
 	}
+	
+
 }

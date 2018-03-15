@@ -59,7 +59,8 @@
 					<c:forEach var="taskStatus" items="${taskStatus}">
 						<option value="${taskStatus.status_id}"
 							<c:if test="${taskStatus.status_id==taskInfo.status_id}"> selected="selected"</c:if>
-							>${taskStatus.status_name}</option>
+							>${taskStatus.status_name}
+						</option>
 					</c:forEach>
 				</select>
 				&emsp; Done<input value="${taskInfo.task_done}" maxlength="3" id="done" style="margin-left: 10px;" name="task_done"/>(%)
@@ -117,13 +118,13 @@
 			
 			<div>
 				 PIC
-				 <select name="member_project_id" id="member_project_id" style="margin-left: 70px">
-					<c:forEach var="pic" items="${pic}">
-						<option value="${pic.member_project_id}"
-							<c:if test="${pic.member_project_id==taskInfo.member_project_id}"> selected="selected"</c:if>
-							>${pic.member_project_name}</option>
+				 <select id="picT" name="member_project_id" style="margin-left: 70px">
+					<c:forEach var="picT" items="${picT}">
+						<option value="${picT.member_project_id}"
+						<c:if test="${picT.member_project_id==taskInfo.member_project_id}">selected="selected"</c:if>
+							>${picT.member_project_name}</option>
 					</c:forEach>
-				</select>	
+				</select>
 				&emsp;Priority
 				 	<select name="task_priority" id="task_priority">
 						<option>Highest</option>
@@ -138,8 +139,10 @@
 				 Category
 				 <select name="category_id" id="category_id" style="margin-left: 36px">
 					<c:forEach var="category" items="${category}">
-						<option value="${category.category_id}">
-							${category.category_name}</option>
+						<option value="${category.category_id}"
+						<c:if test="${category.category_id==taskInfo.category_id}">selected="selected"</c:if>		
+							>${category.category_name}
+						</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -221,11 +224,11 @@
 			var subject = $("#subject").val();
 			var description = $("#description").val();
 			var solution = $("#solution").val();
-			var member_project_id = $("#member_project_id").val();
+			var pic = $("#picT").val();
 			var priority = $("#task_priority").val();
 			var category = $("#category_id").val();
 			var project_id = $("#project_id").val();
-			
+
 			var obj = {
 				task_id:id,
 				type_id : type,
@@ -236,7 +239,7 @@
 				task_subject : subject,
 				task_description : description,
 				task_solution : solution,
-				member_project_id : member_project_id,
+				member_project_id : pic,
 				task_priority : priority,
 				category_id : category,
 				project_id : project_id
