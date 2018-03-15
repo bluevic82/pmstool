@@ -91,14 +91,7 @@ public class TimeSheetRegisterController {
 		}
 	
 	//Test DaiK
-		/*get user infor current logged*/
-		@ModelAttribute("user_current_logged")
-		public User get_User_current_loged(Principal principal){
-			String user_mail = principal.getName();
-			//user_current_loged.setUser_mail(principal.getName());
-			User user_current_loged = userDao.getUserInfoByUserMail(user_mail);
-			return user_current_loged;
-		}
+		
 
 	// Mapping view Screen Register TimeSheet
 	@RequestMapping(value = { "/{id}/registerTimeSheet" }, method = RequestMethod.GET)
@@ -108,7 +101,7 @@ public class TimeSheetRegisterController {
 		//System.out.println("user_mail = "+principal.getName());
 		
 		//check role of user
-		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, get_User_current_loged(principal).getUser_id())==null){
+		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, getUserCurrentLogin(principal).getUser_id())==null){
 			String message = "Access denied for "+principal.getName()+"!";
 			model.addAttribute("message", message);
 			return new ModelAndView("403Page");
@@ -119,7 +112,7 @@ public class TimeSheetRegisterController {
 			/*List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
 					.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());*/	
 			
-			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, get_User_current_loged(principal).getUser_id());
+			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, getUserCurrentLogin (principal).getUser_id());
 
 			model.addAttribute("list_TimeSheetOfOneProject",
 					list_TimeSheetOfOneProject);

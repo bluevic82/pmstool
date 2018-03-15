@@ -171,7 +171,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	}
 
 	/* Test DaiK */
-	@Override
+	/*@Override
 	public List<TimeSheetDetail> getListTimeSheetOfOneProject(int _projectId,
 			int _user_id) {
 		// set public var project_id = _projectId: purpose => use in function
@@ -179,7 +179,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		project_id = _projectId;
 		user_id = _user_id;
 
-		/* List TimeSheet of one Project */
+		 List TimeSheet of one Project 
 		try {
 			int ts_id = getTimeSheetId(project_id, user_id).getTs_id();// OK
 
@@ -195,7 +195,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		// return list_TimeSheetOfOneProject;
 	}
 
-	/* get List TimeSheet Id by project Id */
+	 get List TimeSheet Id by project Id 
 	public TimeSheet_Info getTimeSheetId(int _project_id, int _user_id) {
 
 		try {
@@ -226,21 +226,13 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	}*/
 
 	/* get Object TimeSheetDetail of one DetailTimeSheet_Id */
-	@Override
+	/*@Override
 	public List<TimeSheetDetail> getListTimeSheetByTimeSheetId(int timeSheetId) {
 
-		/*
-		 * if (timeSheetId == 0) { return null; } else { String sql =
-		 * "SELECT * FROM detail_timesheet WHERE TS_ID = " + timeSheetId + "";
-		 * List<TimeSheetDetail> List_timeSheetDetail_Of_timeSheetId =
-		 * jdbcTemplate .query(sql, new BeanPropertyRowMapper<TimeSheetDetail>(
-		 * TimeSheetDetail.class));
-		 * 
-		 * return List_timeSheetDetail_Of_timeSheetId; }
-		 */
+		
 
 		try {
 			return jdbcTemplate.query(
@@ -285,7 +277,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 			return null;
 		}
 
-	}
+	}*/
 
 	@Override
 	public void updateListTimeSheetToDB(
@@ -580,7 +572,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 
 	}
 
-	@Override
+	/*@Override
 	public List<TimeSheet_Info> getListTimeSheet_InfosByProjectId(int project_id) {
 		// TODO Auto-generated method stub
 
@@ -604,9 +596,9 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public List<TimeSheet_Info> getListTimeSheet_InfosByMemberProjectId(
 			int member_project_id) {
 		// TODO Auto-generated method stub
@@ -631,7 +623,7 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	}*/
 
 	@Override
 	public void updateStatusOfListTimeSheetDetails(
