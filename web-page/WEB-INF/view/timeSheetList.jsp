@@ -33,27 +33,27 @@
 		<div>
 			<form method="post" action="/Login/timeSheetList/">
 				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" /> Project Name <select name="projectName">
+					value="${_csrf.token}" /> <b>Project Name</b>  <select name="projectName">
 					
 					<option value="0"></option>
 					<c:forEach var="listProjects" items="${listProjects}">
 						<option value="${listProjects.project_id}" <c:if test="${listProjects.project_id==project_searched.project_id}"> selected="selected"</c:if> >${listProjects.project_name}</option>
 					</c:forEach>
-				</select> <label style="margin-left: 10px"> PIC </label> <select
-					name="user_id" style="margin-left: 5px">
+				</select> <label style="margin-left: 2%"> PIC </label> <select
+					name="user_id" style="margin-left: 5px; width: 15%">
 					<option value="0"></option>
 					<c:forEach var="list_PIC" items="${list_PIC}">
 						<option value="${list_PIC.user_id}" <c:if test="${list_PIC.user_id==PIC_searched.user_id}"> selected="selected"</c:if>>
 							${list_PIC.member_project_name}</option>
 					</c:forEach>
-				</select> <label style="margin-left: 10px"> Process </label> <select  id="id_select_process"
-					name="process_id" style="margin-left: 5px">
+				</select> <label style="margin-left: 2%"> Process </label> <select  id="id_select_process"
+					name="process_id" style="margin-left: 5px; width: 20%">
 					<option value="0"></option>
 					<c:forEach var="process" items="${process}">
 						<option value="${process.process_id}" <c:if test="${process.process_id==process_searched.process_id}"> selected="selected"</c:if>>
 							${process.process_name}</option>
 					</c:forEach>
-				</select> <label style="margin-left: 10px"> Status </label> <select
+				</select> <label style="margin-left: 2%"> Status </label> <select id="id_status_search"
 					name="status_name" style="margin-left: 5px">
 					<option value=""></option>
 					<c:forEach var="timeSheetStatus" items="${timeSheetStatus}">
@@ -61,7 +61,7 @@
 							${timeSheetStatus.status_name}</option>
 					</c:forEach>
 				</select>
-				<button type="submit"
+				<button id="id_button_search" type="submit"
 					style="background-color: green; color: white; margin-left: 30px">Search</button>
 			</form>
 		</div>
@@ -102,7 +102,7 @@
 						<th>${listTimeSheetDetails.type_name}</th>
 						<th>${listTimeSheetDetails.task_subject}</th>
 						<th>${listTimeSheetDetails.workcontent}</th>
-						<th><select id="select_stt" style="margin-left: 5px; border: hidden;"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
+						<th style="width: 9%"><select id="select_stt" style="width:100%; border: hidden;"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
 							<option id="id_status_type_Request" value="Request">Request</option>
 							<option id="id_status_Approved" value="Approved">Approved</option>
 							<option id="id_status_Reject" value="Reject">Reject</option></select></th>
@@ -122,7 +122,27 @@
 </body>
 <jsp:include page="_bottom.jsp"></jsp:include>
 <style>
-
+	#id_status_search{
+		/* padding-right: 10%; */
+	}
+	#id_button_search{
+		float: right;
+		
+	}
+	#id_buttonApprove{
+		margin-right: 20%;
+		width: 10%;
+		color: white;
+		background-color: green;
+	}
+	#id_buttonSave{
+		width: 10%;
+		color: white;
+		background-color: green;
+	}
+	thead tr th{
+	 text-align: center;
+	}
   
 </style>
 <script type="text/javascript">
