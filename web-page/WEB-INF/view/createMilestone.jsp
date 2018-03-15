@@ -84,7 +84,6 @@
 				value="${projectInfor.project_from}" name="from" id="from">
 	<input type="hidden"
 				value="${projectInfor.project_to}" name="to" id="to">
-						<jsp:include page="_bottom1.jsp"></jsp:include>
 </body>
 <jsp:include page="_bottom1.jsp"></jsp:include>
 <style>
