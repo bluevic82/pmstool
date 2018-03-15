@@ -373,14 +373,25 @@
 				"#editRow",
 				function(e) {
 					e.preventDefault();
-					$(this).parent('th').parent('tr').find("#panel")
-							.slideToggle("fast");
+					
+					var user_id_in_memberProject = $(this).parent('th').parent('tr').find("#user_id").val();
 
-					$(this).parent('th').parent('tr').find("#id_select_Role")
-							.on(
-									'change',
-									function() {
+					if(user_id_in_memberProject==$('#id_user_id_login').val() && $('#id_role_user_login').val()==2){
+							alert("you're Project's Manager, you can't edit your's role!");
+							return;
+						
+					}
+					else{
+						
+						$(this).parent('th').parent('tr').find("#panel")
+						.slideToggle("fast");
 
+				$(this).parent('th').parent('tr').find("#id_select_Role")
+						.on(
+								'change',
+								function() {
+									
+										
 										//get role_name at choose
 										var valueOfSelectRole = $(this).find(
 												"option:selected").text();
@@ -405,9 +416,15 @@
 												.parent('tr').find(
 														".class_Role").html(
 														valueOfSelectRole);
+									
+									
 
-									});
+								});
 
+					}
+					
+					
+					
 				});
 
 		$('#id_save_button')
