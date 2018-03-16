@@ -18,6 +18,7 @@
 	href="<c:url value="/resources/css/bootstrap-grid.css" />">
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 <script
 	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -102,7 +103,7 @@
 						<th>${listTimeSheetDetails.type_name}</th>
 						<th>${listTimeSheetDetails.task_subject}</th>
 						<th>${listTimeSheetDetails.workcontent}</th>
-						<th style="width: 9%"><select id="select_stt" style="width:100%; border: hidden;"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
+						<th style="width: 9%;"><select id="select_stt" style="width:100%; border: hidden;"><option id="id_Get_status_type" value="${listTimeSheetDetails.status_type}">${listTimeSheetDetails.status_type}</option>
 							<option id="id_status_type_Request" value="Request">Request</option>
 							<option id="id_status_Approved" value="Approved">Approved</option>
 							<option id="id_status_Reject" value="Reject">Reject</option></select></th>
@@ -146,6 +147,10 @@
   
 </style>
 <script type="text/javascript">
+
+	var table = document.getElementById("id_table");
+	var len = table.rows.length;
+	
 	 
 	 $("#id_table").on(
 				"change",
@@ -162,8 +167,7 @@
 				});
 	 
 	 
-	var table = document.getElementById("id_table");
-	var len = table.rows.length;
+	
 	
 	function function_checkAll() {
 		
@@ -188,6 +192,34 @@
 		}
 
 	}
+	
+	
+	$("#id_status_search").change(function(){
+		//alert("ầdsfasdf");
+		var status_select_search = $('#id_status_search :selected').val();
+		// alert(status_select_search);//ok
+		 console.log(status_select_search.toUpperCase());
+		 for (var i = 1; i < len; i++) {
+			console.log(table.rows[i].cells[9].childNodes[0].childNodes[0].value);
+			console.log((table.rows[i].cells[9].childNodes[0].childNodes[0].value).length);
+			
+			/*  if(String(table.rows[i].cells[9].childNodes[0].childNodes[0].value) != String(status_select_search) && String(status_select_search) != ""){
+				 
+				 table.rows[i].style.display = "none";  
+			 }  */
+				
+ 				if((table.rows[i].cells[9].childNodes[0].childNodes[0].value).toUpperCase().indexOf((status_select_search).toUpperCase())>-1){
+				 
+				 table.rows[i].style.display = "";  
+			 } 
+ 				else{
+ 					table.rows[i].style.display = "none";
+ 				}
+		}
+		
+		 
+	})
+	
 	 
 	 $('#id_buttonApprove')
 		.click(
