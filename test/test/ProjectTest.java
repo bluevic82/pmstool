@@ -31,6 +31,7 @@ import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.dao.UserDao;
+import com.tinhvan.model.ProjectInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:/dispatcher-servlet.xml"})
@@ -68,10 +69,58 @@ public class ProjectTest {
 	
 	@Test
 	public void addProjectTest() throws Exception{
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/detailProject/{id}",1); 
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/addProject"); 
 		MvcResult result = mockmvc.perform(contentType)
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("/detailProject/1"))
+				//.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("addProject"))
+				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
+				.andReturn();
+		
+		Assert.assertNotNull(result.getModelAndView());
+	}
+	@Test
+	public void detailProject() throws Exception{
+		ProjectInfo p = new ProjectInfo();
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/editproject/{id}",1); 
+		MvcResult result = mockmvc.perform(contentType)
+				//.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("editproject/1"))
+				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
+				.andReturn();
+		
+		Assert.assertNotNull(result.getModelAndView());
+		
+	}
+	@Test
+	public void addProject() throws Exception{
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/actionAdd"); 
+		MvcResult result = mockmvc.perform(contentType)
+				//.andExpect(MockMvcResultMatchers.status().isOk())
+				//.andExpect(MockMvcResultMatchers.view().name("updateProject/1"))
+				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
+				.andReturn();
+		
+		Assert.assertNotNull(result.getModelAndView());
+		
+	}
+	@Test
+	public void updateP() throws Exception{
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/{id}/actionUpdateP",1); 
+		MvcResult result = mockmvc.perform(contentType)
+				//.andExpect(MockMvcResultMatchers.status().isOk())
+				//.andExpect(MockMvcResultMatchers.view().name("updateProject/1"))
+				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
+				.andReturn();
+		
+		Assert.assertNotNull(result.getModelAndView());
+		
+	}
+	@Test
+	public void detailTest() throws Exception{
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/detalproject/{id}",1); 
+		MvcResult result = mockmvc.perform(contentType)
+				//.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("detailProject/1"))
 				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
 				.andReturn();
 		

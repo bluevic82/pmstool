@@ -85,7 +85,7 @@ public class TaskController {
 		}
 
 	// Mapping view page create Task/Spec/Issue
-	@RequestMapping(value = "{id}/createTask")
+	@RequestMapping(value = "{id}/createTask", method=RequestMethod.GET)
 	public ModelAndView createTask(@PathVariable int id, Model model) {
 		Boolean checker = per.checker("cre_iss");
 		if(checker==true) {

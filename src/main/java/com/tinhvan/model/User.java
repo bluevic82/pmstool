@@ -59,4 +59,16 @@ public class User {
 		this.role_id = role_id;
 	}
 
+	public User(int user_id, String user_fullName, String user_mail,
+			String user_passWord, int role_id) {
+		super();
+		this.user_id = user_id;
+		this.user_fullName = user_fullName;
+		this.user_mail = user_mail;
+		this.user_passWord = user_passWord;
+		this.role_id = role_id;
+	}
+	
+	
+
 }
