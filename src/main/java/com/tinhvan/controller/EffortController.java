@@ -27,6 +27,7 @@ import com.tinhvan.model.User;
  **/
 
 @Controller
+@RequestMapping(value="effort")
 public class EffortController {
 	@Autowired
 	ProjectDao projectDao;
