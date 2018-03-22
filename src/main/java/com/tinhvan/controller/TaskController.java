@@ -60,29 +60,29 @@ public class TaskController {
 	PermissionDao per;
 	
 	// get User infor of current user login for menu user infor
-			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(Principal principal){
-				return  userDao.getUserInfoByUserMail(principal.getName());
-				
-			}
+/*	@ModelAttribute("UserInformation")
+	public User getUserCurrentLogin(Principal principal) {
+		return userDao.getUserInfoByUserMail(principal.getName());
+
+	}*/
+	
 	// get list project for menu
-		@ModelAttribute("list_Project_For_menu")
-		public List<ProjectInfo> getListProject(Principal principal) {
-			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-			//User user = get_User_current_loged(principal);
-			User user = userDao.getUserInfoByUserMail(principal.getName());
-			
-			//check role: if user is Admin => list all projects 
-			if(user.getRole_id()==1){
-				return projectDao.getAllProject();
-			}
-			else{
-				//only get list projects that user access
-				//get List project_ids of user is PM
-				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
-				
-			}
+/*	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject(Principal principal) {
+		// List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+		// User user = get_User_current_loged(principal);
+		User user = userDao.getUserInfoByUserMail(principal.getName());
+
+		// check role: if user is Admin => list all projects
+		if (user.getRole_id() == 1) {
+			return projectDao.getAllProject();
+		} else {
+			// only get list projects that user access
+			// get List project_ids of user is PM
+			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+
 		}
+	} */
 
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask", method=RequestMethod.GET)
@@ -103,19 +103,18 @@ public class TaskController {
 
 	// Mapping button click create Task/Spec/Issue
 	@RequestMapping(value = "/{id}/actionCreateTask", method = RequestMethod.POST)
-	public @ResponseBody TaskInfo actionCreate(@RequestBody TaskInfo taskInfo,@PathVariable int id, HttpServletRequest request, ModelMap model) {
+	public @ResponseBody TaskInfo actionCreate(@RequestBody TaskInfo taskInfo, @PathVariable("id") int id, 
+												HttpServletRequest request, ModelMap model) {
 		taskInfoDao.addTask(taskInfo);
 		return taskInfo;
 	}
 
 	// Mapping view page update Task/Spec/Issue
 	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
-	public String updateTask(Model model, @PathVariable int id) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "Update Task");
+	public ModelAndView updateTask(@PathVariable int id,Model model) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		model.addAttribute("project_Infor", projectInfo);
-		return "updateTask";
+		return new ModelAndView("updateTaskSpecIssue");
 	}
 
 	// Mapping button click save Task/Spec/Issue
