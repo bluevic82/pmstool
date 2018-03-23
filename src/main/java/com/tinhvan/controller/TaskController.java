@@ -60,14 +60,14 @@ public class TaskController {
 	PermissionDao per;
 	
 	// get User infor of current user login for menu user infor
-/*	@ModelAttribute("UserInformation")
+	@ModelAttribute("UserInformation")
 	public User getUserCurrentLogin(Principal principal) {
 		return userDao.getUserInfoByUserMail(principal.getName());
 
-	}*/
+	}
 	
 	// get list project for menu
-/*	@ModelAttribute("list_Project_For_menu")
+	@ModelAttribute("list_Project_For_menu")
 	public List<ProjectInfo> getListProject(Principal principal) {
 		// List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
 		// User user = get_User_current_loged(principal);
@@ -82,7 +82,7 @@ public class TaskController {
 			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 
 		}
-	} */
+	} 
 
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask", method=RequestMethod.GET)
