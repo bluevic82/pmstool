@@ -93,9 +93,11 @@ public class MileStoneController {
 
 	// Mapping button click create MileStone
 	@RequestMapping(value = "/{id}/actionSaveMileStone", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<MileStone> update(@RequestBody final ArrayList<MileStone> milestone){
-		mileStoneDao.updateMilestone(milestone);	
-		return milestone;
+	public @ResponseBody ArrayList<MileStone> update(@PathVariable int id, @RequestBody final ArrayList<MileStone> milestone){
+		mileStoneDao.updateMilestone(milestone);
+		List<MileStone> m = mileStoneDao.getMileStoneByProjectId(id);
+		ArrayList<MileStone> mileStones = new ArrayList<MileStone>(m);
+		return mileStones;
 	}
 	// Mapping button click create MileStone
 		/*@RequestMapping(value = "/{id}/actionAddMileStone", method = RequestMethod.POST)
@@ -112,9 +114,11 @@ public class MileStoneController {
 	}*/
 	
 	@RequestMapping(value = "/{id}/actionDeleteMileStone", method = RequestMethod.POST)
-	public @ResponseBody int deleteMileStone(@RequestBody final Integer milestone_id){
+	public @ResponseBody ArrayList<MileStone> deleteMileStone(@PathVariable int id, @RequestBody final Integer milestone_id){
 		mileStoneDao.deleteMidelStone(milestone_id);	
-		return milestone_id;
+		List<MileStone> m = mileStoneDao.getMileStoneByProjectId(id);
+		ArrayList<MileStone> mileStones = new ArrayList<MileStone>(m);
+		return mileStones;
 	}
 
 }
