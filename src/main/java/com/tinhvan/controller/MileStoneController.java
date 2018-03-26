@@ -41,13 +41,13 @@ public class MileStoneController {
 	PermissionDao per;
 	
 	// get User infor of current user login for menu user infor
-			@ModelAttribute("UserInformation")
+			/*@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
 				
-			}
+			}*/
 	// get list project for menu
-		@ModelAttribute("list_Project_For_menu")
+		/*@ModelAttribute("list_Project_For_menu")
 		public List<ProjectInfo> getListProject(Principal principal) {
 			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
 			//User user = get_User_current_loged(principal);
@@ -63,7 +63,7 @@ public class MileStoneController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}
+		}*/
 
 	// Mapping to view MileStone JSP
 	/*@RequestMapping(value = { "/createMileStone" }, method = RequestMethod.GET)
@@ -83,8 +83,8 @@ public class MileStoneController {
 		model.addAttribute("ml",m);
 		model.put("projectInfor", projectInfor);
 		model.addAttribute("projectInfor", projectInfor);
-		System.out.println(projectInfor.getProject_id());
-		System.out.println(projectInfor.getProject_name());
+		//System.out.println(projectInfor.getProject_id());
+		//System.out.println(projectInfor.getProject_name());
 		return new ModelAndView("createMilestone");
 		}else {
 			return new ModelAndView("403Page");

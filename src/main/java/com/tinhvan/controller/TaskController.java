@@ -59,7 +59,7 @@ public class TaskController {
 	@Autowired
 	PermissionDao per;
 	
-	// get User infor of current user login for menu user infor
+/*	// get User infor of current user login for menu user infor
 	@ModelAttribute("UserInformation")
 	public User getUserCurrentLogin(Principal principal) {
 		return userDao.getUserInfoByUserMail(principal.getName());
@@ -82,7 +82,7 @@ public class TaskController {
 			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 
 		}
-	} 
+	}*/ 
 
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask", method=RequestMethod.GET)

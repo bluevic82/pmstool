@@ -142,7 +142,6 @@ public class TaskTest {
 	 */
 	@Test
 	public void updateTask() throws Exception {
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/{id}/createTask");
 //		ProjectInfo p = projectDao.getProjectById(2);
 		ProjectInfo projectInfo = new ProjectInfo();
 		projectInfo.setProject_id(2);
@@ -152,11 +151,12 @@ public class TaskTest {
 		projectInfo.setProject_technical("code");
 		projectInfo.setProject_charge_cost(5);
 		projectInfo.setProject_description("gggggggggggg");
-//		when(projectDao.getProjectById(2)).thenReturn(projectInfo);
-		
+		ProjectInfo projectInfo1 = projectDao.getProjectById(2);
+		when(projectDao.getProjectById(2)).thenReturn(projectInfo);
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/{id}/createTask", 2);
 		MvcResult result = mockmvc.perform(builder)
 //				.andExpect(status().isOk())
-				.andExpect(model().attribute("project_Info", projectInfo))
+				.andExpect(model().attribute("project_Info", projectInfo1))
 				.andExpect(view().name("updateTaskSpecIssue"))
 				.andReturn();
 		Assert.assertNotNull(result.getModelAndView());

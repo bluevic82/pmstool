@@ -69,6 +69,18 @@ public class MemberProject {
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
 	}
+
+	public MemberProject(int member_project_id, int user_id,
+			String member_project_name, int role_id, int member_project_effort,
+			int project_id) {
+		super();
+		this.member_project_id = member_project_id;
+		this.user_id = user_id;
+		this.member_project_name = member_project_name;
+		this.role_id = role_id;
+		this.member_project_effort = member_project_effort;
+		this.project_id = project_id;
+	}
 	
 	
 	

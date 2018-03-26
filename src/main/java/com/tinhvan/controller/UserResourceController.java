@@ -44,7 +44,7 @@ public class UserResourceController {
 	@Autowired
 	PermissionDao per;
 	
-	// get User infor of current user login for menu user infor
+	/*// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
@@ -67,10 +67,10 @@ public class UserResourceController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}
+		}*/
 
-	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
-	public String resourceMember(@PathVariable int id, ModelMap model, Principal principal) {
+	@RequestMapping(value = "/resource/{id}", method = RequestMethod.GET)
+	public String resourceMember(@PathVariable(value = "id") int id, ModelMap model) {
 		Boolean checker = per.checker("set_res");
 		if(checker==true) {
 		List<MemberProject> listMemberOfProject = memberProjectDao
@@ -79,9 +79,6 @@ public class UserResourceController {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		model.put("listMemberOfProject", listMemberOfProject);
 		model.put("projectInfo", projectInfo);
-		
-		
-		
 		
 		return "resourceMember";
 		}else {
@@ -92,7 +89,7 @@ public class UserResourceController {
 
 	//@RequestMapping(value = "/aaaaaaa", method = RequestMethod.GET)
 	@RequestMapping(value = "/{id}/actionSaveMemberToDB", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<MemberProject> post(@PathVariable int id, @RequestBody  final ArrayList<MemberProject> list_MemberProjects) {
+	public @ResponseBody ArrayList<MemberProject> update(@PathVariable(value = "id") int id, @RequestBody  final ArrayList<MemberProject> list_MemberProjects) {
 		
 		memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
 	
@@ -103,7 +100,7 @@ public class UserResourceController {
 	
 	
 	@RequestMapping(value = "/{id}/deleteOneMemberProject", method = RequestMethod.POST)
-	public @ResponseBody MemberProject post(@PathVariable int id, @RequestBody  final int member_project_id) {
+	public @ResponseBody MemberProject delete(@PathVariable int id, @RequestBody  final int member_project_id) {
 		MemberProject m=new MemberProject();
 		
 		memberProjectDao.deleteOneMemberProject(member_project_id);

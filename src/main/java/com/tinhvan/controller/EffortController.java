@@ -3,7 +3,11 @@ package com.tinhvan.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -27,7 +31,7 @@ import com.tinhvan.model.User;
  **/
 
 @Controller
-@RequestMapping(value="effort")
+//@RequestMapping(value="effort")
 public class EffortController {
 	@Autowired
 	ProjectDao projectDao;
@@ -37,19 +41,32 @@ public class EffortController {
 	UserDao userDao;
 	@Autowired
 	PermissionDao per;
-
+	
+	/*final User user = (User) SecurityContextHolder
+            .getContext()
+            .getAuthentication()
+            .getPrincipal();*/
+	//HttpServletRequest request;
+	
+		
+		
 	// get User infor of current user login for menu user infor
-			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(Principal principal){
-				return  userDao.getUserInfoByUserMail(principal.getName());
+		/*	@ModelAttribute("UserInformation")
+			public User getUserCurrentLogin(){
+				final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				return  userDao.getUserInfoByUserMail(auth.getName());
 				
 			}
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")
+	
 	public List<ProjectInfo> getListProject(Principal principal) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//System.out.println(auth.getName());
+		//System.out.println("priasdfasd = "+p.getName());
 		//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
 		//User user = get_User_current_loged(principal);
-		User user = userDao.getUserInfoByUserMail(principal.getName());
+		User user = userDao.getUserInfoByUserMail(auth.getName());
 		
 		//check role: if user is Admin => list all projects 
 		if(user.getRole_id()==1){
@@ -61,7 +78,7 @@ public class EffortController {
 			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 			
 		}
-	}
+	}*/
 
 	@RequestMapping(value = "/effortManagement")
 	public ModelAndView EffortManagementPage(Model model) {
@@ -77,7 +94,7 @@ public class EffortController {
 	}
 
 	@RequestMapping(value = "/effortCalculate/{id}")
-	public ModelAndView effortCalculate(@PathVariable int id, ModelMap model) {
+	public ModelAndView effortCalculate(@PathVariable(value = "id") int id, ModelMap model) {
 		Boolean checker = per.checker("eff_can");
 		if(checker==true) {
 		Effort effort = effortDao.getEffortById(id);
