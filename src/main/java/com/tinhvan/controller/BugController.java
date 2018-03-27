@@ -1,6 +1,7 @@
 package com.tinhvan.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
+import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 import com.tinhvan.model.User;
 
@@ -58,37 +61,37 @@ public class BugController {
 	@Autowired
 	PermissionDao per;
 
-	// get User infor of current user login for menu user infor
-			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(Principal principal){
-				return  userDao.getUserInfoByUserMail(principal.getName());
-				
-			}
+/*	// get User infor of current user login for menu user infor
+	@ModelAttribute("UserInformation")
+	public User getUserCurrentLogin(Principal principal) {
+		return userDao.getUserInfoByUserMail(principal.getName());
+
+	}
+
 	// get list project for menu
-		@ModelAttribute("list_Project_For_menu")
-		public List<ProjectInfo> getListProject(Principal principal) {
-			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-			//User user = get_User_current_loged(principal);
-			User user = userDao.getUserInfoByUserMail(principal.getName());
-			
-			//check role: if user is Admin => list all projects 
-			if(user.getRole_id()==1){
-				return projectDao.getAllProject();
-			}
-			else{
-				//only get list projects that user access
-				//get List project_ids of user is PM
-				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
-				
-			}
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject(Principal principal) {
+		// List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+		// User user = get_User_current_loged(principal);
+		User user = userDao.getUserInfoByUserMail(principal.getName());
+
+		// check role: if user is Admin => list all projects
+		if (user.getRole_id() == 1) {
+			return projectDao.getAllProject();
+		} else {
+			// only get list projects that user access
+			// get List project_ids of user is PM
+			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+
 		}
+	}*/
 
 	// Mapping view page create Bug
-	@RequestMapping(value = "{id}/createBug")
+	@RequestMapping(value = "{id}/createBug", method=RequestMethod.GET)
 	public ModelAndView createBug(@PathVariable int id, Model model) {
 		Boolean checker = per.checker("cre_iss");
 		if(checker==true) {
-		model.addAttribute("project_id", id);
+		model.addAttribute("title", "Welcome");
 		model.addAttribute("message", "Create Bug");
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 
@@ -104,24 +107,21 @@ public class BugController {
 
 	// Mapping button click create Bug
 	@RequestMapping(value = "/{id}/actionCreateBug", method = RequestMethod.POST)		
-	public @ResponseBody BugInfo actionCreate(@RequestBody BugInfo bugInfo, HttpServletRequest request) {
+	public @ResponseBody ArrayList<BugInfo> actionCreate(@RequestBody BugInfo bugInfo,int id,
+														HttpServletRequest request, ModelMap model) {
 		bugInfoDao.addBug(bugInfo);
-		return bugInfo;
+		ArrayList<BugInfo> arrBugInfo = new ArrayList<BugInfo>(bugInfoDao.getBugByIdPro(id)) ;
+		return arrBugInfo;
 	}
 
-	// Mapping view page update Bug
-	@RequestMapping(value = { "/updateBug" }, method = RequestMethod.GET)
-	public String updateBug(Model model, @PathVariable int id) {
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		model.addAttribute("project_Infor", projectInfo);
-		return "updateBug";
-	}
-
-	// Mapping button click save Task/Spec/Issue
+	// Mapping button click save Bug
 	@RequestMapping(value = "/bugList/{id}/{idP}/actionUpdateBug", method = RequestMethod.POST)	
-	public @ResponseBody BugInfo actionUpdate(@RequestBody BugInfo bugInfo, HttpServletRequest request) {
+	public @ResponseBody ArrayList<BugInfo> actionUpdate(@PathVariable int id, @RequestBody BugInfo bugInfo, 
+																		HttpServletRequest request) {
 		bugInfoDao.updateBug(bugInfo);
-		return bugInfo;
+		List<BugInfo> ti = bugInfoDao.getBugByIdPro(id);
+		ArrayList<BugInfo> arrBugInfo = new ArrayList<BugInfo>(ti);
+		return arrBugInfo;
 	}
 
 	/*

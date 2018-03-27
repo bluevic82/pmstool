@@ -1,6 +1,7 @@
 package com.tinhvan.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +60,7 @@ public class TaskController {
 	@Autowired
 	PermissionDao per;
 	
-/*	// get User infor of current user login for menu user infor
+	// get User infor of current user login for menu user infor
 	@ModelAttribute("UserInformation")
 	public User getUserCurrentLogin(Principal principal) {
 		return userDao.getUserInfoByUserMail(principal.getName());
@@ -82,7 +83,7 @@ public class TaskController {
 			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 
 		}
-	}*/ 
+	}
 
 	// Mapping view page create Task/Spec/Issue
 	@RequestMapping(value = "{id}/createTask", method=RequestMethod.GET)
@@ -103,25 +104,21 @@ public class TaskController {
 
 	// Mapping button click create Task/Spec/Issue
 	@RequestMapping(value = "/{id}/actionCreateTask", method = RequestMethod.POST)
-	public @ResponseBody TaskInfo actionCreate(@RequestBody TaskInfo taskInfo, @PathVariable("id") int id, 
+	public @ResponseBody ArrayList<TaskInfo> actionCreate(@RequestBody TaskInfo taskInfo,int id, 
 												HttpServletRequest request, ModelMap model) {
 		taskInfoDao.addTask(taskInfo);
-		return taskInfo;
-	}
-
-	// Mapping view page update Task/Spec/Issue
-	@RequestMapping(value = { "/updateTask" }, method = RequestMethod.GET)
-	public ModelAndView updateTask(@PathVariable int id,Model model) {
-		ProjectInfo projectInfo = projectDao.getProjectById(id);
-		model.addAttribute("project_Infor", projectInfo);
-		return new ModelAndView("updateTaskSpecIssue");
+		ArrayList<TaskInfo> arrTaskInfo = new ArrayList<TaskInfo>(taskInfoDao.getTaskByIdPro(id)) ;
+		return arrTaskInfo;
 	}
 
 	// Mapping button click save Task/Spec/Issue
 	@RequestMapping(value = "/taskList/{id}/{idP}/actionUpdateTask", method = RequestMethod.POST)	
-	public @ResponseBody TaskInfo actionUpdate(@RequestBody TaskInfo taskInfo, HttpServletRequest request) {
+	public @ResponseBody ArrayList<TaskInfo> actionUpdate(@PathVariable int id, @RequestBody TaskInfo taskInfo, 
+																				HttpServletRequest request) {
 		taskInfoDao.updateTask(taskInfo);
-		return taskInfo;
+		List<TaskInfo> ti = taskInfoDao.getTaskByIdPro(id);
+		ArrayList<TaskInfo> arrTaskInfo = new ArrayList<TaskInfo>(ti);
+		return arrTaskInfo;
 	}
 
 	/*

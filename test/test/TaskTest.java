@@ -6,16 +6,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.condition.MediaTypeExpression;
 
 import com.tinhvan.controller.TaskController;
 import com.tinhvan.dao.CategoryDao;
@@ -35,6 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
@@ -64,7 +74,6 @@ public class TaskTest {
 	@InjectMocks
 	TaskController taskController;
 
-	
 	@Before
 	public void initTest() {
 		MockitoAnnotations.initMocks(this);
@@ -87,7 +96,7 @@ public class TaskTest {
 	}*/
 	
 	/**
-	 * @purpose: Function test for function Mapping view page create Task/Spec/Issue case i
+	 * @purpose: Function test for function Mapping view page create Task/Spec/Issue case if
 	 */
 	@Test
 	public void createTaskTrue() throws Exception{
@@ -117,8 +126,7 @@ public class TaskTest {
 	 * @purpose: Function test for function Mapping button click createTaskSpecIssue
 	 */
 	@Test
-	public void actionCreateTask() throws Exception {
-		int id = 1;
+	public void actionCreateTask() throws Exception {	
 		TaskInfo taskInfo = new TaskInfo();
 		taskInfo.setTask_id(1);
 		taskInfo.setTask_subject("This is name's Task");
@@ -128,66 +136,48 @@ public class TaskTest {
 		taskInfo.setTask_description("This is description");
 		taskInfo.setTask_solution("This is Solution");
 		taskInfo.setType_id(4);
-		List<TaskInfo> lstTask = new ArrayList<TaskInfo>();
+		ArrayList<TaskInfo> lstTask = new ArrayList<TaskInfo>();
 		lstTask.add(taskInfo);
 		
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/{id}/actionCreateTask",id);
-		MvcResult mvcResult = mockmvc.perform(builder)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/actionCreateTask",1)
+				.accept(MediaType.APPLICATION_JSON);
+		
+		Mockito.when(taskInfoDao.getTaskByIdPro(1)).thenReturn(lstTask);
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		ModelMap model = null;
+//		when(taskController.actionCreate(taskInfo, 1, request, model)).thenReturn(lstTask);
+		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
-		Assert.assertNotNull(mvcResult.getResponse().equals(taskInfo));
+				
+		System.out.println(result.getResponse());
 	}
 	
 	/**
-	 * @purpose: Function test for function Mapping view page updateTaskSpecIssue
-	 */
-	@Test
-	public void updateTask() throws Exception {
-//		ProjectInfo p = projectDao.getProjectById(2);
-		ProjectInfo projectInfo = new ProjectInfo();
-		projectInfo.setProject_id(2);
-		projectInfo.setProject_name("aaa");
-		projectInfo.setProject_from("2018-02-02");
-		projectInfo.setProject_to("2018-04-02");
-		projectInfo.setProject_technical("code");
-		projectInfo.setProject_charge_cost(5);
-		projectInfo.setProject_description("gggggggggggg");
-		ProjectInfo projectInfo1 = projectDao.getProjectById(2);
-		when(projectDao.getProjectById(2)).thenReturn(projectInfo);
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/{id}/createTask", 2);
-		MvcResult result = mockmvc.perform(builder)
-//				.andExpect(status().isOk())
-				.andExpect(model().attribute("project_Info", projectInfo1))
-				.andExpect(view().name("updateTaskSpecIssue"))
-				.andReturn();
-		Assert.assertNotNull(result.getModelAndView());
-	}
-	
-	/**
-	 * @purpose: Function test for function Mapping button save createTaskSpecIssue
+	 * @purpose: Function test for function Mapping button save TaskSpecIssue
 	 */
 	@Test
 	public void actionUpdateTask() throws Exception {
-		int id = 1;
-		int idP = 1;
 		TaskInfo taskInfo = new TaskInfo();
 		taskInfo.setTask_id(1);
-		taskInfo.setTask_subject("This is name's UpdateTask");
+		taskInfo.setTask_subject("This is name's Task");
 		taskInfo.setTask_done(50);
 		taskInfo.setTask_from("2018-03-22");
 		taskInfo.setTask_to("2018-03-23");
 		taskInfo.setTask_description("This is description");
 		taskInfo.setTask_solution("This is Solution");
 		taskInfo.setType_id(4);
-		List<TaskInfo> lstTask = new ArrayList<TaskInfo>();
+		ArrayList<TaskInfo> lstTask = new ArrayList<TaskInfo>();
 		lstTask.add(taskInfo);
 		
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/taskList/{id}/{idP}/actionUpdateTask",id, idP);
-		MvcResult mvcResult = mockmvc.perform(builder)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/taskList/{id}/{idP}/actionUpdateTask",1,1)
+				.accept(MediaType.APPLICATION_JSON);
+		
+		Mockito.when(taskInfoDao.getTaskByIdPro(1)).thenReturn(lstTask);
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		when(taskController.actionUpdate(1, taskInfo, request)).thenReturn(lstTask);
+		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
-		Assert.assertNotNull(mvcResult.getResponse().equals(taskInfo));
+		System.out.println(result.getResponse());
 	}
 	
-//	/taskList/{id}/{idP}/actionUpdateTask
-	
-
 }
