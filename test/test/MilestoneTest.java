@@ -191,7 +191,7 @@ public class MilestoneTest {
 		mile.add(m2);
 		
 		ArrayList<MileStone> mile2 = new ArrayList<>();
-		mile2.add(m);
+		mile2.add(m2);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
@@ -203,13 +203,14 @@ public class MilestoneTest {
 		//mileStoneDao.deleteMidelStone(m.getMilestone_id());
 		//Mockito.when(mileStoneDao.deleteMidelStone(m.getMilestone_id()));
 		//when(mileStoneDao.deleteMidelStone(m.getMilestone_id()));
-		Mockito.when(mileStoneDao.getMileStoneByProjectId(1)).thenReturn(mile2);
+		//Mockito.when(mileStoneDao.getMileStoneByProjectId(1)).thenReturn(mile2);
 		when(mileStoneController.deleteMileStone(m.getProject_id(), m.getMilestone_id())).thenReturn(mile2);
 		
 		MvcResult result = mockmvc.perform(requestBuilder)
 		.andReturn();
-		String expected = "[{\"milestone_id\":1,\"milestone_date\":\"22-11-2018\",\"milestone_description\":\"abcabsa\",\"project_id\":1}]";
-		//Assert.assertEquals(expected, result.getResponse().getContentAsString());
+		System.out.println("content = "+result.getResponse().getContentLength());
+		String expected = "[{\"milestone_id\":2,\"milestone_date\":\"23-11-2018\",\"milestone_description\":\"dddddddddd\",\"project_id\":1}]";
+		Assert.assertEquals(expected, result.getResponse().getContentAsString());
 		/*JSONAssert.assertEquals(expected, result.getResponse()
 				.getContentAsString(), false);*/
 		

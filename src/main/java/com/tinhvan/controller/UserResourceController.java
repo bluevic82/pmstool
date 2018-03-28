@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
@@ -44,7 +46,7 @@ public class UserResourceController {
 	@Autowired
 	PermissionDao per;
 	
-	/*// get User infor of current user login for menu user infor
+	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
@@ -67,9 +69,9 @@ public class UserResourceController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}*/
+		}
 
-	@RequestMapping(value = "/resource/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
 	public String resourceMember(@PathVariable(value = "id") int id, ModelMap model) {
 		Boolean checker = per.checker("set_res");
 		if(checker==true) {
@@ -93,30 +95,34 @@ public class UserResourceController {
 		
 		memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
 	
-		return list_MemberProjects;
+		return new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
 
 	}
 	
 	
 	
 	@RequestMapping(value = "/{id}/deleteOneMemberProject", method = RequestMethod.POST)
-	public @ResponseBody MemberProject delete(@PathVariable int id, @RequestBody  final int member_project_id) {
-		MemberProject m=new MemberProject();
-		
+	public @ResponseBody ArrayList<MemberProject> delete(@PathVariable int id, @RequestBody  final int member_project_id) {
 		memberProjectDao.deleteOneMemberProject(member_project_id);
-	
+		//MemberProject m = memberProjectDao.getMemberProjectByMem_id(memberProject_id);
+		ArrayList<MemberProject> m =new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
 		return m;
 
 	}
 	
+	
+	
+	//comment to run testcase
 
 	@ModelAttribute("roleUser")
-	public List<Role> getRole(Principal principal) {
-		
-		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(principal.getName()).getRole_id());
+	public List<Role> getRole() {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(auth.getName()).getRole_id());
 		return list;
 	}
 
+	//
+	
 	@ModelAttribute("getAllUser")
 	public List<User> getAllUser() {
 		List<User> us = userDao.getAllUser_Except_Admin();
