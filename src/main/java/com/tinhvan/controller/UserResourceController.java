@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -115,10 +116,11 @@ public class UserResourceController {
 	
 	//comment to run testcase
 
-	/*@ModelAttribute("roleUser")
-	public List<Role> getRole() {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(auth.getName()).getRole_id());
+/*	@ModelAttribute("roleUser")
+	public List<Role> getRole(HttpServletRequest request, HttpServletResponse response) {
+		java.security.Principal principal = request.getUserPrincipal();
+		//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(principal.getName()).getRole_id());
 		return list;
 	}*/
 

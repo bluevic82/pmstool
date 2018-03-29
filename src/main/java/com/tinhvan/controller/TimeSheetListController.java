@@ -56,7 +56,7 @@ public class TimeSheetListController {
 	@Autowired
 	UserDao userDao;
 	
-	
+	/*
 	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
@@ -81,14 +81,14 @@ public class TimeSheetListController {
 			}
 		
 		//Test DaiK
-			/*get user infor current logged*/
+			get user infor current logged
 			@ModelAttribute("user_current_logged")
 			public User get_User_current_loged(Principal principal){
 				String user_mail = principal.getName();
 				//user_current_loged.setUser_mail(principal.getName());
 				User user_current_loged = userDao.getUserInfoByUserMail(user_mail);
 				return user_current_loged;
-			}
+			}*/
 	
 	// Mapping view list TimeSheeet
 			@RequestMapping("/timeSheetList")
@@ -99,7 +99,7 @@ public class TimeSheetListController {
 			String status_name, Principal principal, Model model) {
 				
 				User user = userDao.getUserInfoByUserMail(principal.getName());
-				System.out.println(status_name);
+				//System.out.println(status_name);
 				//List<TimeSheetDetail_List> list_timeSheetDetail_Lists = new ArrayList<TimeSheetDetail_List>();
 				
 				//check role: if role = 1 or 2
@@ -107,7 +107,7 @@ public class TimeSheetListController {
 				if(user.getRole_id() == 1){
 					
 					List<ProjectInfo> listAllProjectInfos = projectDao.getAllProject();
-					
+									
 					
 					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, user_id_member_project, process_id, status_name);
 					List<MemberProject> list_PIC = memberProjectDao.get_All_MemberProjects_filter_duplicate();

@@ -10,10 +10,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.Charset;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.rmi.CORBA.Stub;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.bytebuddy.implementation.StubMethod;
 
@@ -53,15 +56,19 @@ import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.MileStoneDao;
 import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
+import com.tinhvan.dao.RoleDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.MileStone;
 import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.Role;
+import com.tinhvan.model.User;
 
 import org.mockito.internal.verification.Times;
 import org.mockito.stubbing.Answer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -70,6 +77,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -89,6 +97,14 @@ public class UserResourceTest {
 	@Mock
 	ProjectDao projectDao;
 	@Mock UserDao userDao;
+	@Mock RoleDao roleDao;
+	@Mock
+	private Principal principal;
+	@Mock
+	private HttpServletRequest request;
+	  
+	@Mock
+	private HttpServletResponse response;
 	@Mock
 	PermissionDao per;
 	@InjectMocks
@@ -231,14 +247,14 @@ public class UserResourceTest {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/deleteOneMemberProject", memberProject1.getProject_id()).accept(
 				MediaType.APPLICATION_JSON).content(requestJson1).contentType(MediaType.APPLICATION_JSON);
 		
-		when(userResourceController.delete(memberProject1.getProject_id(), memberProject1.getMember_project_id())).thenReturn(memList2);
+		
 		when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList1);
 		//memberProjectDao.deleteOneMemberProject(memberProject1.getMember_project_id());
 		/*do(memberProjectDao.deleteOneMemberProject(memberProject1.getMember_project_id()));*/
 		doNothing().when(memberProjectDao).deleteOneMemberProject(memberProject1.getMember_project_id());
 		when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList2);
 		
-
+		when(userResourceController.delete(memberProject1.getProject_id(), memberProject1.getMember_project_id())).thenReturn(memList2);
 		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
 		//Mockito.verify(memberProjectDao, times(1)).deleteOneMemberProject(memberProject1.getMember_project_id());
@@ -246,6 +262,39 @@ public class UserResourceTest {
 			//String expected = "[{\"member_project_id\":1,\"user_id\":5,\"member_project_name\":\"chu quang dai\",\"role_id\":1,\"member_project_effort\":20,\"project_id\":2,\"role_name\":\"Developer\"}]";
 				//Assert.assertEquals(expected, result.getResponse().getContentAsString());
 	}
+	
+/*	@Test
+	public void getRole_Test() throws Exception{
+		
+		User user=new User();
+		user.setUser_id(1);
+		user.setUser_fullName("Chu Quang Dai");
+		user.setUser_mail("daicq@tinhvan.com");
+		user.setRole_id(1);
+		user.setUser_passWord("123456");
+		
+		Role role1 = new Role();
+		role1.setRole_id(1);
+		role1.setRole_name("Manager");
+		Role role2 = new Role();
+		role2.setRole_id(1);
+		role2.setRole_name("Manager");
+		
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(role1);
+		roles.add(role2);
+		
+		
+		when(principal.getName()).thenReturn("daicq1@tinhvan.com");
+		when(request.getUserPrincipal()).thenReturn(principal);
+		when(request.isUserInRole("Manager")).thenReturn(true);
+		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
+		
+		when(userDao.getUserInfoByUserMail(principal.getName()).getRole_id()).thenReturn(user.getRole_id());
+		when(roleDao.getListRoleExceptManagerIfUserLoginIsManager(user.getRole_id())).thenReturn(roles);
+		when(userResourceController.getRole(request, response)).thenReturn(roles);
+		//user = userDao.getUserInfoByUserMail(principal.getName());
+	}*/
 	
 	/*@Test
 	public void registerTest() throws Exception{
