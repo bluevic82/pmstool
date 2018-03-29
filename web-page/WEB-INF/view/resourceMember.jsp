@@ -507,11 +507,11 @@
 												xhr.setRequestHeader(header, token);
 											},
 
-											success : function(data) {
+											success : function(result) {
 												alert("save completed!");
 												location.reload();
 											},
-											error : function(data) {
+											error : function(result) {
 												alert("error! ");
 											}
 										});

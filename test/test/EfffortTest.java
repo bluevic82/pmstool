@@ -12,6 +12,7 @@ import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.portlet.MockActionRequest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -32,6 +34,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.Mockito.when;
 
@@ -63,12 +68,20 @@ public class EfffortTest {
 	private Principal principal;
 	@Mock
 	private Authentication auth;
+	
+	 @Mock
+	 private HttpServletRequest request;
+	  
+	 @Mock
+	 private HttpServletResponse response;
+	
 	@Spy
 	@InjectMocks
 	private EffortController effortController;
 	/*@InjectMocks
 	private EffortDao effortDaoDao;*/
-	
+	/*private final String USER = "User";
+	private final String ROLE = "Manager";*/
 	@Before
 	public void setup() {
 		
@@ -78,8 +91,8 @@ public class EfffortTest {
 		//MockitoAnnotations.initMocks(effortController);
 	}
 	
-	/*@Test
-	public void a() throws Exception{
+	@Test
+	public void getUserCurrentLogin_Test() throws Exception{
 		
 		User user=new User();
 		user.setUser_id(1);
@@ -99,44 +112,22 @@ public class EfffortTest {
 		projectInfo.setProject_charge_cost(5);
 		projectInfo.setProject_description("gggggggggggg");
 		//EffortController effortController;
+		Authentication auth = Mockito.mock(Authentication.class);
+		SecurityContext secCont = Mockito.mock(SecurityContext.class);
+		Mockito.when(secCont.getAuthentication()).thenReturn(auth);
+		Mockito.when(auth.getName()).thenReturn("daicq@tinhvan.com");
+		System.out.println("name2 = "+auth.getName());
 		
 		
+		when(principal.getName()).thenReturn("daicq@tinhvan.com");
+		when(request.getUserPrincipal()).thenReturn(principal);
+		when(request.isUserInRole("Manager")).thenReturn(true);
+		when(effortController.getUserCurrentLogin(request, response)).thenReturn(user);
+		Assert.assertEquals(user.getUser_mail(), principal.getName());
 		
-		//ModelAttribute model = MockitoAnnotations();
-		
-//		Mockito.when( userDao.getUserInfoByUserMail(user.getUser_mail())).thenReturn(user);
-//		userDao.getUserInfoByUserMail("daicq@tinhvan.com");
-//		MockMvcResultMatchers.model().attribute("UserInformation", "daicq@tinhvan.com");
-		//User modelP = effortController.getUserCurrentLogin((Principal) user);
-		//Mockito.verify("", modelP);
-		//mockmvc.perform((RequestBuilder) modelP).andExpect(MockMvcResultMatchers.model().attribute("UserInformation", modelP))
-		//.andReturn();
-		//List<ProjectInfo> modeU = effortController.getListProject((Principal) user);
-		 when(principal.getName()).thenReturn(user.getUser_mail());
-		 when(effortController.getUserCurrentLogin(principal)).thenReturn(user);
-//		when(userDao.getUserInfoByUserMail("daicq@tinhvan.com")).thenReturn(user);
-//		 ((MockHttpServletRequestBuilder) mockmvc.perform(get("/effort")))
-//         .andExpect(view().name("addClient"))
-//         .andExpect(forwardedUrl("/WEB-INF/pages/addClient.jsp"))
-//         .andExpect(model().attributeExists("client"))
-//		 .flashAttr("principal", new Principal());
-//         .andExpect(model().attribute("UserInformation", user));
-		 
-		 
-		 
-		//MockHttpServletRequestBuilder contentType = Mock
-		
-		when(per.checker("eff_mana")).thenReturn(true);
-		MvcResult result = mockmvc.perform(contentType)
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("effortManagementPage"))
-				.andReturn();
-		
-		Assert.assertNotNull(result.getModelAndView());
-		
-	}*/
+	}
 	
-/*	@Test
+	@Test
 	public void getListProject_Test_true() throws Exception{
 		
 		User user=new User();
@@ -161,7 +152,7 @@ public class EfffortTest {
 		//EffortController effortController;
 		//User u = new User();
 		
-		when(auth.getName()).thenReturn("daicq@tinhvan.com");
+		/*when(auth.getName()).thenReturn("daicq@tinhvan.com");
 		//String user_mail = auth.getName();
 		when(userDao.getUserInfoByUserMail("daicq@tinhvan.com")).thenReturn(new User());
 		User user1 = userDao.getUserInfoByUserMail(auth.getName());
@@ -175,6 +166,15 @@ public class EfffortTest {
 		List<ProjectInfo> result = effortController.getListProject(auth);
 		//Assert.assertEquals(result.size(), 0);
 		//when(effortController.getListProject(auth)).thenReturn(p);
+*/
+		when(principal.getName()).thenReturn("daicq1@tinhvan.com");
+		when(request.getUserPrincipal()).thenReturn(principal);
+		when(request.isUserInRole("Manager")).thenReturn(true);
+		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
+		user = userDao.getUserInfoByUserMail(principal.getName());
+		//when(user.getRole_id()).thenReturn(1);
+		when(projectDao.getAllProject()).thenReturn(p);
+		when(effortController.getListProject(request, response)).thenReturn(p);
 	}
 	
 	@Test
@@ -202,17 +202,28 @@ public class EfffortTest {
 		//EffortController effortController;
 		User u = new User();
 		
-		// when(principal.getName()).thenReturn(user.getUser_mail());
+		when(principal.getName()).thenReturn("daicq1@tinhvan.com");
+		when(request.getUserPrincipal()).thenReturn(principal);
+		when(request.isUserInRole("Manager")).thenReturn(true);
+		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
+		user = userDao.getUserInfoByUserMail(principal.getName());
+		//when(user.getRole_id()).thenReturn(1);
+		//when(projectDao.getAllProject()).thenReturn(p);
+		when(projectDao.getListPRojectOfUserAccessed(user.getUser_id())).thenReturn(p);
+		when(effortController.getListProject(request, response)).thenReturn(p);
+		
+		/*// when(principal.getName()).thenReturn(user.getUser_mail());
 		when(auth.getName()).thenReturn("daicq@tinhvan.com");
 		when(userDao.getUserInfoByUserMail("daicq@tinhvan.com")).thenReturn(user);
 		//User u = userDao.getUserInfoByUserMail("daicq@tinhvan.com");
 		when(user.getRole_id()==1).thenReturn(false);
 		when(projectDao.getListPRojectOfUserAccessed(user.getUser_id())).thenReturn(p);
-		when(effortController.getListProject(auth)).thenReturn(p);
+		when(effortController.getListProject(auth)).thenReturn(p);*/
 	}
-	*/
+	
 	@Test
 	public void effManageTest_true() throws Exception{
+		Model model = Mockito.mock(Model.class);
 		
 		User user=new User();
 		user.setUser_id(1);
@@ -229,10 +240,10 @@ public class EfffortTest {
 //		MockMvcResultMatchers.model().attribute("UserInformation", "daicq@tinhvan.com");
 		/*User modelP = effortController.getUserCurrentLogin((Principal) user);
 		List<ProjectInfo> modeU = effortController.getListProject((Principal) user);*/
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/effortManagement"); 
-		
-		when(per.checker("eff_mana")).thenReturn(true);
-		MvcResult result = mockmvc.perform(contentType)
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/effortManagement"); 
+		//when(effortController.EffortManagementPage(model)).thenReturn(arg0)
+		//when(per.checker("eff_mana")).thenReturn(true);
+		MvcResult result = mockmvc.perform(builder)
 				//.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("effortManagementPage"))
 				.andReturn();

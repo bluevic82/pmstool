@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.management.MalformedObjectNameException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -65,18 +68,22 @@ public class TimeSheetRegisterController {
 	@Autowired
 	UserDao userDao;
 	
+	/*HttpServletRequest realRequest;*/
 	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(Principal principal){
-				return  userDao.getUserInfoByUserMail(principal.getName());
+			public User getUserCurrentLogin(){
+				final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+/*				System.out.println(realRequest.getUserPrincipal().getName());*/
+				return  userDao.getUserInfoByUserMail(auth.getName());
 				
 			}
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
 		public List<ProjectInfo> getListProject(Principal principal) {
+			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
 			//User user = get_User_current_loged(principal);
-			User user = userDao.getUserInfoByUserMail(principal.getName());
+			User user = userDao.getUserInfoByUserMail(auth.getName());
 			
 			//check role: if user is Admin => list all projects 
 			if(user.getRole_id()==1){
@@ -101,7 +108,7 @@ public class TimeSheetRegisterController {
 		//System.out.println("user_mail = "+principal.getName());
 		
 		//check role of user
-		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, getUserCurrentLogin(principal).getUser_id())==null){
+		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, getUserCurrentLogin().getUser_id())==null){
 			String message = "Access denied for "+principal.getName()+"!";
 			model.addAttribute("message", message);
 			return new ModelAndView("403Page");
@@ -112,7 +119,7 @@ public class TimeSheetRegisterController {
 			/*List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
 					.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());*/	
 			
-			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, getUserCurrentLogin (principal).getUser_id());
+			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, getUserCurrentLogin ().getUser_id());
 
 			model.addAttribute("list_TimeSheetOfOneProject",
 					list_TimeSheetOfOneProject);

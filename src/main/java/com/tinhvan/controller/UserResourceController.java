@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,7 +48,7 @@ public class UserResourceController {
 	@Autowired
 	PermissionDao per;
 	
-	// get User infor of current user login for menu user infor
+/*	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
@@ -69,7 +71,7 @@ public class UserResourceController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}
+		}*/
 
 	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
 	public String resourceMember(@PathVariable(value = "id") int id, ModelMap model) {
@@ -94,7 +96,6 @@ public class UserResourceController {
 	public @ResponseBody ArrayList<MemberProject> update(@PathVariable(value = "id") int id, @RequestBody  final ArrayList<MemberProject> list_MemberProjects) {
 		
 		memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
-	
 		return new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
 
 	}
@@ -114,12 +115,12 @@ public class UserResourceController {
 	
 	//comment to run testcase
 
-	@ModelAttribute("roleUser")
+	/*@ModelAttribute("roleUser")
 	public List<Role> getRole() {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(auth.getName()).getRole_id());
 		return list;
-	}
+	}*/
 
 	//
 	

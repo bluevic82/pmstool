@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,31 +43,29 @@ public class EffortController {
 	@Autowired
 	PermissionDao per;
 	
-	/*final User user = (User) SecurityContextHolder
-            .getContext()
-            .getAuthentication()
-            .getPrincipal();*/
-	//HttpServletRequest request;
-	
 		
 		
 	// get User infor of current user login for menu user infor
-		/*	@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(){
-				final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				return  userDao.getUserInfoByUserMail(auth.getName());
+			@ModelAttribute("UserInformation")
+			public User getUserCurrentLogin(HttpServletRequest request, HttpServletResponse response){
+				java.security.Principal principal = request.getUserPrincipal();
+				 
+				//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				//User user = userDao.getUserInfoByUserMail(auth.getName());
+				User user = userDao.getUserInfoByUserMail(principal.getName());
+				return user ;
 				
 			}
 	// get list project for menu
-	@ModelAttribute("list_Project_For_menu")
-	
-	public List<ProjectInfo> getListProject(Principal principal) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	@ModelAttribute("list_Project_For_menu")	
+	public List<ProjectInfo> getListProject(HttpServletRequest request, HttpServletResponse response) {
+		java.security.Principal principal = request.getUserPrincipal();
+		//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		//System.out.println(auth.getName());
 		//System.out.println("priasdfasd = "+p.getName());
 		//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
 		//User user = get_User_current_loged(principal);
-		User user = userDao.getUserInfoByUserMail(auth.getName());
+		User user = userDao.getUserInfoByUserMail(principal.getName());
 		
 		//check role: if user is Admin => list all projects 
 		if(user.getRole_id()==1){
@@ -78,7 +77,7 @@ public class EffortController {
 			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 			
 		}
-	}*/
+	}
 
 	@RequestMapping(value = "/effortManagement")
 	public ModelAndView EffortManagementPage(Model model) {
