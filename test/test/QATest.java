@@ -24,7 +24,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,6 +40,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.tinhvan.controller.QAController;
@@ -66,24 +74,17 @@ public class QATest {
 	PermissionDao per;
 	@Mock
 	Principal principal;
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
 	@InjectMocks
 	QAController qaController;
 	
 	@Before
 	public void initTest() {
-		
 	    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 	    viewResolver.setPrefix("/WEB-INF/view/");
 	    viewResolver.setSuffix(".jsp");
 	    
-	    mockMvc = MockMvcBuilders.standaloneSetup(new TaskListTest())
-                .setViewResolvers(viewResolver)
-                .build();
-	    
 		MockitoAnnotations.initMocks(this);
-		this.mockMvc = MockMvcBuilders.standaloneSetup(qaController).build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup(qaController).setViewResolvers(viewResolver).build();
 	}
 	
 	/**
@@ -148,14 +149,15 @@ public class QATest {
 	 * @purpose: Function test for function Mapping button click registerQA case if
 	 */
 	@Test
-	public void actionRegisterQA() throws Exception {
+	public void actionRegisterQACaseIf() throws Exception {
 		MockMultipartFile file = new MockMultipartFile("file", "file.txt", 
 												MediaType.TEXT_PLAIN_VALUE, "test, file".getBytes());
-		when(file.isEmpty()).thenReturn(true);
-		mockMvc.perform(fileUpload("D:/temp/").file(file))
-				.andDo(print())
-				.andExpect(status().isCreated())
-				.andExpect(view().name("qaList"));
+		when(!file.isEmpty()).thenReturn(true);
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/D:/temp/")
+				.file(file)
+				.param("i", "file.txt")
+				.param("uploadedBy", "admin"));
+		
 	}
 	
 	

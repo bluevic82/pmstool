@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.tinhvan.controller.BugController;
 import com.tinhvan.controller.ProjectController;
@@ -75,8 +76,12 @@ public class Bugtest {
 	
 	@Before
 	public void initTest() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/view/");
+		viewResolver.setSuffix(".jsp");
+
 		MockitoAnnotations.initMocks(this);
-		this.mockmvc = MockMvcBuilders.standaloneSetup(bugController).build();
+		this.mockmvc = MockMvcBuilders.standaloneSetup(bugController).setViewResolvers(viewResolver).build();
 	}
 	
 	/**

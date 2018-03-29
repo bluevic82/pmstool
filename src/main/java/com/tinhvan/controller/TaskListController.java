@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -57,29 +58,28 @@ public class TaskListController {
 	
 	
 	// get User infor of current user login for menu user infor
-			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(Principal principal){
-				return  userDao.getUserInfoByUserMail(principal.getName());
-				
-			}
+	@ModelAttribute("UserInformation")
+	public User getUserCurrentLogin(Principal principal) {
+		return userDao.getUserInfoByUserMail(principal.getName());
+
+	}
 	// get list project for menu
-		@ModelAttribute("list_Project_For_menu")
-		public List<ProjectInfo> getListProject(Principal principal) {
-			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-			//User user = get_User_current_loged(principal);
-			User user = userDao.getUserInfoByUserMail(principal.getName());
-			
-			//check role: if user is Admin => list all projects 
-			if(user.getRole_id()==1){
-				return projectDao.getAllProject();
-			}
-			else{
-				//only get list projects that user access
-				//get List project_ids of user is PM
-				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
-				
-			}
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject(Principal principal) {
+		// List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+		// User user = get_User_current_loged(principal);
+		User user = userDao.getUserInfoByUserMail(principal.getName());
+
+		// check role: if user is Admin => list all projects
+		if (user.getRole_id() == 1) {
+			return projectDao.getAllProject();
+		} else {
+			// only get list projects that user access
+			// get List project_ids of user is PM
+			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+
 		}
+	}
 
 	// Mapping get dataById for update Task/Spec/Issue
 	@RequestMapping(value = "/taskList/{id}/editTask/{idP}")
@@ -103,7 +103,7 @@ public class TaskListController {
 	}
 
 	// Mapping view list Task/Spec/Issue
-		@RequestMapping("/taskList")
+		@RequestMapping(value = "/taskList")
 		public ModelAndView listTask(
 				@RequestParam(value="projectName",required=false,defaultValue = "0")int projectName,
 				@RequestParam(value="type_id",required=false,defaultValue = "0") int type_id,

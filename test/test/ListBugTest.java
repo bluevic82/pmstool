@@ -69,13 +69,9 @@ public class ListBugTest {
 	    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 	    viewResolver.setPrefix("/WEB-INF/view/");
 	    viewResolver.setSuffix(".jsp");
-	    
-	    mockMvc = MockMvcBuilders.standaloneSetup(new ListBugTest())
-                .setViewResolvers(viewResolver)
-                .build();
-	    
+	    	    
 		MockitoAnnotations.initMocks(this);
-		this.mockMvc = MockMvcBuilders.standaloneSetup(bugListController).build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup(bugListController).setViewResolvers(viewResolver).build();
 	}
 	
 	/**

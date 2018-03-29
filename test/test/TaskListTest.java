@@ -73,34 +73,29 @@ public class TaskListTest {
 	TaskListController taskListController;
 	
 	@Before
-	public void setUp() {
-		
+	public void initTest() {
 	    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 	    viewResolver.setPrefix("/WEB-INF/view/");
 	    viewResolver.setSuffix(".jsp");
 	    
-	    mockMvc = MockMvcBuilders.standaloneSetup(new TaskListTest())
-                .setViewResolvers(viewResolver)
-                .build();
-	    
 		MockitoAnnotations.initMocks(this);
-		this.mockMvc = MockMvcBuilders.standaloneSetup(taskListController).build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup(taskListController).setViewResolvers(viewResolver).build();
 	}
 	
 	/**
 	 * @purpose: Function test for function set User info
 	 */
-//	@Test
-//	public void getUserLogin() {
-//		User user = new User();
-//		user.setUser_id(1);
-//		user.setUser_fullName("Admin");
-//		user.setUser_mail("Manhnv@gmail.com");
-//		user.setRole_id(1);
-//		user.setUser_passWord("123456");
-//		when(principal.getName()).thenReturn(user.getUser_mail());
-//		when(taskListController.getUserCurrentLogin(principal)).thenReturn(user);
-//	}
+/*	@Test
+	public void getUserLogin() {
+		User user = new User();
+		user.setUser_id(1);
+		user.setUser_fullName("Admin");
+		user.setUser_mail("Manhnv@gmail.com");
+		user.setRole_id(1);
+		user.setUser_passWord("123456");
+		when(principal.getName()).thenReturn(user.getUser_mail());
+		when(taskListController.getUserCurrentLogin(principal)).thenReturn(user);
+	}*/
 	
 	/**
 	 * @purpose: Function test for function Mapping get dataById for updateTaskSpecIssue case true
