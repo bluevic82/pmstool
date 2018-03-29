@@ -56,7 +56,7 @@ public class TaskListController {
 	PermissionDao per;
 	
 	
-/*	// get User infor of current user login for menu user infor
+	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
@@ -80,7 +80,7 @@ public class TaskListController {
 				
 			}
 		}
-*/
+
 	// Mapping get dataById for update Task/Spec/Issue
 	@RequestMapping(value = "/taskList/{id}/editTask/{idP}")
 	public ModelAndView editTask(@PathVariable int id, ModelMap model, @PathVariable int idP) {

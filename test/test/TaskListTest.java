@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.tinhvan.controller.TaskController;
@@ -72,7 +73,7 @@ public class TaskListTest {
 	TaskListController taskListController;
 	
 	@Before
-	public void initTest() {
+	public void setUp() {
 		
 	    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 	    viewResolver.setPrefix("/WEB-INF/view/");

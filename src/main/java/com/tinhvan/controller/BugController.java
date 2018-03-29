@@ -31,7 +31,6 @@ import com.tinhvan.model.Category;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Status;
-import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.Type;
 import com.tinhvan.model.User;
 
@@ -61,7 +60,7 @@ public class BugController {
 	@Autowired
 	PermissionDao per;
 
-/*	// get User infor of current user login for menu user infor
+	// get User infor of current user login for menu user infor
 	@ModelAttribute("UserInformation")
 	public User getUserCurrentLogin(Principal principal) {
 		return userDao.getUserInfoByUserMail(principal.getName());
@@ -84,7 +83,7 @@ public class BugController {
 			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 
 		}
-	}*/
+	}
 
 	// Mapping view page create Bug
 	@RequestMapping(value = "{id}/createBug", method=RequestMethod.GET)

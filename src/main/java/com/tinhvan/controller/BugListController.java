@@ -56,7 +56,7 @@ public class BugListController {
 	@Autowired
 	PermissionDao per;
 
-/*	// get User infor of current user login for menu user infor
+	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
@@ -79,7 +79,7 @@ public class BugListController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}*/
+		}
 
 	// Mapping get dataById for update Bug
 	@RequestMapping(value = "/bugList/{id}/editBug/{idP}")

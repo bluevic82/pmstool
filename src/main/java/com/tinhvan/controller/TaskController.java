@@ -107,7 +107,7 @@ public class TaskController {
 	public @ResponseBody ArrayList<TaskInfo> actionCreate(@RequestBody TaskInfo taskInfo,int id, 
 												HttpServletRequest request, ModelMap model) {
 		taskInfoDao.addTask(taskInfo);
-		ArrayList<TaskInfo> arrTaskInfo = new ArrayList<TaskInfo>(taskInfoDao.getTaskByIdPro(id)) ;
+		ArrayList<TaskInfo> arrTaskInfo = new ArrayList<TaskInfo>(taskInfoDao.getTaskByIdPro(id));
 		return arrTaskInfo;
 	}
 

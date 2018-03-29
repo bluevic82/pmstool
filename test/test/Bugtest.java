@@ -140,8 +140,10 @@ public class Bugtest {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/actionCreateBug",1)
 				.accept(MediaType.APPLICATION_JSON);
-		
 		Mockito.when(bugInfoDao.getBugByIdPro(1)).thenReturn(lstBug);
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		ModelMap model = null;
+		when(bugController.actionCreate(bugInfo, 1, request, model)).thenReturn(lstBug);
 		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
 				

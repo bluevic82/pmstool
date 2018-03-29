@@ -145,7 +145,7 @@ public class TaskTest {
 		Mockito.when(taskInfoDao.getTaskByIdPro(1)).thenReturn(lstTask);
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		ModelMap model = null;
-//		when(taskController.actionCreate(taskInfo, 1, request, model)).thenReturn(lstTask);
+		when(taskController.actionCreate(taskInfo, 1, request, model)).thenReturn(lstTask);
 		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
 				

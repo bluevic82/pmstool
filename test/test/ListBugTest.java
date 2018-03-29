@@ -28,14 +28,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.tinhvan.controller.BugListController;
-import com.tinhvan.controller.TaskListController;
 import com.tinhvan.dao.BugInfoDao;
 import com.tinhvan.dao.CategoryDao;
 import com.tinhvan.dao.MemberProjectDao;
 import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.StatusDao;
-import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.ProjectInfo;
@@ -56,7 +54,7 @@ public class ListBugTest {
 	@Mock
 	CategoryDao categoryDao;
 	@Mock
-	TaskInfoDao taskInfoDao;
+	BugInfoDao bugInfoDao;
 	@Mock 
 	UserDao userDao;
 	@Mock
@@ -72,7 +70,7 @@ public class ListBugTest {
 	    viewResolver.setPrefix("/WEB-INF/view/");
 	    viewResolver.setSuffix(".jsp");
 	    
-	    mockMvc = MockMvcBuilders.standaloneSetup(new TaskListTest())
+	    mockMvc = MockMvcBuilders.standaloneSetup(new ListBugTest())
                 .setViewResolvers(viewResolver)
                 .build();
 	    

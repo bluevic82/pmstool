@@ -52,43 +52,44 @@ public class QAController {
 	PermissionDao per;
 	
 	// get User infor of current user login for menu user infor
-			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(Principal principal){
-				return  userDao.getUserInfoByUserMail(principal.getName());
-				
-			}
+	@ModelAttribute("UserInformation")
+	public User getUserCurrentLogin(Principal principal) {
+		return userDao.getUserInfoByUserMail(principal.getName());
+
+	}
+	
 	// get list project for menu
-		@ModelAttribute("list_Project_For_menu")
-		public List<ProjectInfo> getListProject(Principal principal) {
-			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-			//User user = get_User_current_loged(principal);
-			User user = userDao.getUserInfoByUserMail(principal.getName());
-			
-			//check role: if user is Admin => list all projects 
-			if(user.getRole_id()==1){
-				return projectDao.getAllProject();
-			}
-			else{
-				//only get list projects that user access
-				//get List project_ids of user is PM
-				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
-				
-			}
+	@ModelAttribute("list_Project_For_menu")
+	public List<ProjectInfo> getListProject(Principal principal) {
+		// List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
+		// User user = get_User_current_loged(principal);
+		User user = userDao.getUserInfoByUserMail(principal.getName());
+
+		// check role: if user is Admin => list all projects
+		if (user.getRole_id() == 1) {
+			return projectDao.getAllProject();
+		} else {
+			// only get list projects that user access
+			// get List project_ids of user is PM
+			return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
+
 		}
+	}
 	
 	// Mapping view ListQuestion & Answer
-		@RequestMapping(value = "/qaList")
-		public ModelAndView listQA(
-				@RequestParam(value = "projectName", required = false, defaultValue = "0") int projectName,
-				@RequestParam(value = "status", required = false, defaultValue = "0") int status,
-				@RequestParam(value = "member_project_id", required = false, defaultValue = "0") int member_project_id, Model model) {
+	@RequestMapping(value = "/qaList")
+	public ModelAndView listQA(
+			@RequestParam(value = "projectName", required = false, defaultValue = "0") int projectName,
+			@RequestParam(value = "status", required = false, defaultValue = "0") int status,
+			@RequestParam(value = "member_project_id", required = false, defaultValue = "0") int member_project_id,
+			Model model) {
 
-			List<QuestionAnwer> list = answerDao.getAllQA(projectName, status, member_project_id);
-				model.addAttribute("pn", projectName);
-				model.addAttribute("st", status);
-				model.addAttribute("mp", member_project_id);
-			return new ModelAndView("qaList", "list", list);
-		}
+		List<QuestionAnwer> list = answerDao.getAllQA(projectName, status, member_project_id);
+		model.addAttribute("pn", projectName);
+		model.addAttribute("st", status);
+		model.addAttribute("mp", member_project_id);
+		return new ModelAndView("qaList", "list", list);
+	}
 
 	// Mapping view page register QA
 	@RequestMapping(value = "{id}/registerQA")
@@ -118,6 +119,7 @@ public class QAController {
 			try {
 				file.transferTo(new File("D:/temp/" + fileName));
 				questionAnwer.setReferencepoint("D:/temp/" + fileName);
+				
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -130,12 +132,6 @@ public class QAController {
 		}
 		answerDao.registerQA(questionAnwer);
 		return new ModelAndView("redirect:/qaList");
-	}
-
-	// Mapping view page update QA
-	@RequestMapping(value = { "/updateQA" }, method = RequestMethod.GET)
-	public String updateQA(Model model) {
-		return "updateQandA";
 	}
 
 	// Mapping button click save QA
