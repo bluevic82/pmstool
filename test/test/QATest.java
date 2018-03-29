@@ -151,13 +151,18 @@ public class QATest {
 	 */
 	@Test
 	public void actionRegisterQACaseIf() throws Exception {
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/actionRegisterQA"); 
 		MockMultipartFile file = new MockMultipartFile("file", "file.txt", 
-												MediaType.TEXT_PLAIN_VALUE, "test, file".getBytes());
-		when(!file.isEmpty()).thenReturn(true);
+						MediaType.TEXT_PLAIN_VALUE, "test, file".getBytes());
 		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/D:/temp/")
 				.file(file)
 				.param("i", "file.txt")
 				.param("uploadedBy", "admin"));
+		MvcResult result = mockMvc.perform(contentType)
+				.andExpect(status().isOk())
+				.andReturn();
+		Assert.assertNotNull(result.getModelAndView());
+
 		
 	}
 	
