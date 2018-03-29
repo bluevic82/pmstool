@@ -83,7 +83,6 @@ public class QAController {
 			@RequestParam(value = "status", required = false, defaultValue = "0") int status,
 			@RequestParam(value = "member_project_id", required = false, defaultValue = "0") int member_project_id,
 			Model model) {
-
 		List<QuestionAnwer> list = answerDao.getAllQA(projectName, status, member_project_id);
 		model.addAttribute("pn", projectName);
 		model.addAttribute("st", status);
@@ -119,12 +118,9 @@ public class QAController {
 			try {
 				file.transferTo(new File("D:/temp/" + fileName));
 				questionAnwer.setReferencepoint("D:/temp/" + fileName);
-				
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else {
