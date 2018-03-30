@@ -1,7 +1,9 @@
 package test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -196,7 +198,7 @@ public class MilestoneTest {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = ow.writeValueAsString(mile);
+		String requestJson = ow.writeValueAsString(mile.get(0).getMilestone_id());
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/actionDeleteMileStone",1).accept(
 				MediaType.APPLICATION_JSON).content(requestJson).contentType(MediaType.APPLICATION_JSON);
@@ -204,12 +206,23 @@ public class MilestoneTest {
 		//Mockito.when(mileStoneDao.deleteMidelStone(m.getMilestone_id()));
 		//when(mileStoneDao.deleteMidelStone(m.getMilestone_id()));
 		//Mockito.when(mileStoneDao.getMileStoneByProjectId(1)).thenReturn(mile2);
-		when(mileStoneController.deleteMileStone(m.getProject_id(), m.getMilestone_id())).thenReturn(mile2);
+		//when(mileStoneController.deleteMileStone(m.getProject_id(), m.getMilestone_id())).thenReturn(mile2);
+		
+		doNothing().when(mileStoneDao).deleteMidelStone(mile.get(0).getMilestone_id());
+		
+		mileStoneDao.deleteMidelStone(mile.get(0).getMilestone_id());
+		
+		Mockito.verify(mileStoneDao, times(1)).deleteMidelStone(mile.get(0).getMilestone_id());
+		Mockito.verify(mileStoneDao).deleteMidelStone(mile.get(0).getMilestone_id());
+		when(mileStoneDao.getMileStoneByProjectId(mile.get(0).getMilestone_id())).thenReturn(mile2);
+		//userResourceController.deleteOneMemberProject(2,memList1.get(0).getMember_project_id() );
+		when(mileStoneController.deleteMileStone(m.getProject_id(), mile.get(0).getMilestone_id())).thenReturn(mile2);
+		
 		
 		MvcResult result = mockmvc.perform(requestBuilder)
 		.andReturn();
-		System.out.println("content = "+result.getResponse().getContentLength());
-		String expected = "[{\"milestone_id\":2,\"milestone_date\":\"23-11-2018\",\"milestone_description\":\"dddddddddd\",\"project_id\":1}]";
+		System.out.println("content = "+result.getResponse().getContentAsString());
+		String expected = "[{\"milestone_id\":2,\"milestone_date\":\"23-11-2018\",\"milestone_description\":\"dddddddddd\",\"project_id\":2}]";
 		Assert.assertEquals(expected, result.getResponse().getContentAsString());
 		/*JSONAssert.assertEquals(expected, result.getResponse()
 				.getContentAsString(), false);*/

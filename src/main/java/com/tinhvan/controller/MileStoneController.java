@@ -41,13 +41,13 @@ public class MileStoneController {
 	PermissionDao per;
 	
 	// get User infor of current user login for menu user infor
-			/*@ModelAttribute("UserInformation")
+			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
 				
-			}*/
+			}
 	// get list project for menu
-		/*@ModelAttribute("list_Project_For_menu")
+		@ModelAttribute("list_Project_For_menu")
 		public List<ProjectInfo> getListProject(Principal principal) {
 			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
 			//User user = get_User_current_loged(principal);
@@ -63,7 +63,7 @@ public class MileStoneController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}*/
+		}
 
 	// Mapping to view MileStone JSP
 	/*@RequestMapping(value = { "/createMileStone" }, method = RequestMethod.GET)
@@ -117,9 +117,7 @@ public class MileStoneController {
 	@RequestMapping(value = "/{id}/actionDeleteMileStone", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<MileStone> deleteMileStone(@PathVariable int id, @RequestBody final int milestone_id){
 		mileStoneDao.deleteMidelStone(milestone_id);	
-		List<MileStone> m = mileStoneDao.getMileStoneByProjectId(id);
-		ArrayList<MileStone> mileStones = new ArrayList<MileStone>(m);
-		return mileStones;
+		return new ArrayList<MileStone>(mileStoneDao.getMileStoneByProjectId(id));
 	}
 
 }
