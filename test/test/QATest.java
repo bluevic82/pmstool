@@ -1,35 +1,25 @@
 package test;
 
-import static org.junit.Assert.assertThat;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.io.FileInputStream;
 import java.security.Principal;
 
-import javax.print.attribute.standard.Media;
+
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,9 +30,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.tinhvan.controller.QAController;
@@ -154,11 +141,18 @@ public class QATest {
 		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/actionRegisterQA"); 
 		MockMultipartFile file = new MockMultipartFile("file", "file.txt", 
 						MediaType.TEXT_PLAIN_VALUE, "test, file".getBytes());
+		
+		FileInputStream fis = new FileInputStream("/home/me/Desktop/someFolder/image.jpg");
+	    MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
+		
+		
 		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/D:/temp/")
 				.file(file)
 				.param("i", "file.txt")
 				.param("uploadedBy", "admin"));
-		MvcResult result = mockMvc.perform(contentType)
+		MvcResult result = mockMvc.perform(contentType.content(multipartFile.getBytes())
+				.contentType(MediaType)
+				)
 				.andExpect(status().isOk())
 				.andReturn();
 		Assert.assertNotNull(result.getModelAndView());

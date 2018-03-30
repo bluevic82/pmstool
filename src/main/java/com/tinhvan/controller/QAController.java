@@ -52,6 +52,7 @@ public class QAController {
 	PermissionDao per;
 	
 	// get User infor of current user login for menu user infor
+	
 /*	@ModelAttribute("UserInformation")
 	public User getUserCurrentLogin(Principal principal) {
 		return userDao.getUserInfoByUserMail(principal.getName());
