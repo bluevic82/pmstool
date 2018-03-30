@@ -49,7 +49,7 @@ public class UserResourceController {
 	@Autowired
 	PermissionDao per;
 	
-/*	// get User infor of current user login for menu user infor
+	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
 				return  userDao.getUserInfoByUserMail(principal.getName());
@@ -72,7 +72,7 @@ public class UserResourceController {
 				return projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 				
 			}
-		}*/
+		}
 
 	@RequestMapping(value = "/{id}/resource", method = RequestMethod.GET)
 	public String resourceMember(@PathVariable(value = "id") int id, ModelMap model) {
@@ -104,11 +104,11 @@ public class UserResourceController {
 	
 	
 	@RequestMapping(value = "/{id}/deleteOneMemberProject", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<MemberProject> delete(@PathVariable int id, @RequestBody  final int member_project_id) {
+	public @ResponseBody ArrayList<MemberProject> deleteOneMemberProject(@PathVariable(value = "id") int id, @RequestBody  final int member_project_id) {
 		memberProjectDao.deleteOneMemberProject(member_project_id);
 		//MemberProject m = memberProjectDao.getMemberProjectByMem_id(memberProject_id);
-		ArrayList<MemberProject> m =new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
-		return m;
+		//ArrayList<MemberProject> m =new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
+		return new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
 
 	}
 	
@@ -116,13 +116,13 @@ public class UserResourceController {
 	
 	//comment to run testcase
 
-/*	@ModelAttribute("roleUser")
+	@ModelAttribute("roleUser")
 	public List<Role> getRole(HttpServletRequest request, HttpServletResponse response) {
 		java.security.Principal principal = request.getUserPrincipal();
 		//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(principal.getName()).getRole_id());
 		return list;
-	}*/
+	}
 
 	//
 	

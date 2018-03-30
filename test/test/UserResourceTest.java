@@ -201,15 +201,23 @@ public class UserResourceTest {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/actionSaveMemberToDB", id).accept(
 				MediaType.APPLICATION_JSON).content(requestJson).contentType(MediaType.APPLICATION_JSON);
+		
+		doNothing().when(memberProjectDao).updateMemberProjectBy_PrjId(memList, id);
+		
+		memberProjectDao.updateMemberProjectBy_PrjId(memList, id);
+		Mockito.verify(memberProjectDao, times(1)).updateMemberProjectBy_PrjId(memList, id);
+		Mockito.verify(memberProjectDao).updateMemberProjectBy_PrjId(memList, id);
 		//Mockito.when(mileStoneDao.getMileStoneByProjectId(Mockito.anyInt())).thenReturn(mile);
+		when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList);
 		when(userResourceController.update(id, memList)).thenReturn(memList);
+		//Mockito.verify(memberProjectDao).updateMemberProjectBy_PrjId(memList, id);
 		
 		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
 				System.out.println("content = "+result.getResponse().getContentAsString());
 			String expected = "[{\"member_project_id\":1,\"user_id\":5,\"member_project_name\":\"chu quang dai\",\"role_id\":1,\"member_project_effort\":20,\"project_id\":2,\"role_name\":\"Developer\"}]";
 				Assert.assertEquals(expected, result.getResponse().getContentAsString());
-		
+				
 	}
 	
 	@Test
@@ -237,30 +245,36 @@ public class UserResourceTest {
 		ArrayList<MemberProject> memList2 = new ArrayList<MemberProject>();
 		memList2.add(memberProject2);
 		
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper(); 
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 		
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson1 = ow.writeValueAsString(memList1);
-		String requestJson2 = ow.writeValueAsString(memList2);
+		String requestJson1 = ow.writeValueAsString(memList1.get(0).getMember_project_id());
+		//String requestJson2 = ow.writeValueAsString(memList2);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/deleteOneMemberProject", memberProject1.getProject_id()).accept(
 				MediaType.APPLICATION_JSON).content(requestJson1).contentType(MediaType.APPLICATION_JSON);
 		
 		
-		when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList1);
+		//when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList1);
 		//memberProjectDao.deleteOneMemberProject(memberProject1.getMember_project_id());
 		/*do(memberProjectDao.deleteOneMemberProject(memberProject1.getMember_project_id()));*/
-		doNothing().when(memberProjectDao).deleteOneMemberProject(memberProject1.getMember_project_id());
-		when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList2);
+		doNothing().when(memberProjectDao).deleteOneMemberProject(memList1.get(0).getMember_project_id());
 		
-		when(userResourceController.delete(memberProject1.getProject_id(), memberProject1.getMember_project_id())).thenReturn(memList2);
+		memberProjectDao.deleteOneMemberProject(memList1.get(0).getMember_project_id());
+		
+		Mockito.verify(memberProjectDao, times(1)).deleteOneMemberProject(memList1.get(0).getMember_project_id());
+		Mockito.verify(memberProjectDao).deleteOneMemberProject(memList1.get(0).getMember_project_id());
+		when(memberProjectDao.getMemberProjectByProjectId1(memList1.get(0).getMember_project_id())).thenReturn(memList2);
+		//userResourceController.deleteOneMemberProject(2,memList1.get(0).getMember_project_id() );
+		when(userResourceController.deleteOneMemberProject(2,memList1.get(0).getMember_project_id())).thenReturn(memList2);
+		//when(userResourceController.delete(memberProject1.getProject_id(), memberProject1.getMember_project_id())).thenReturn(memList2);
 		MvcResult result = mockmvc.perform(requestBuilder)
 				.andReturn();
 		//Mockito.verify(memberProjectDao, times(1)).deleteOneMemberProject(memberProject1.getMember_project_id());
 				System.out.println("content11111 = "+result.getResponse().getContentAsString());
-			//String expected = "[{\"member_project_id\":1,\"user_id\":5,\"member_project_name\":\"chu quang dai\",\"role_id\":1,\"member_project_effort\":20,\"project_id\":2,\"role_name\":\"Developer\"}]";
-				//Assert.assertEquals(expected, result.getResponse().getContentAsString());
+			String expected = "[{\"member_project_id\":2,\"user_id\":6,\"member_project_name\":\"le thi thao\",\"role_id\":1,\"member_project_effort\":20,\"project_id\":2,\"role_name\":\"Developer\"}]";
+			Assert.assertEquals(expected, result.getResponse().getContentAsString());
 	}
 	
 /*	@Test
