@@ -1,16 +1,13 @@
 package test;
 
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.security.Principal;
-
-
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -30,6 +28,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.tinhvan.controller.QAController;
@@ -40,6 +39,7 @@ import com.tinhvan.dao.QuestionAnswerDao;
 import com.tinhvan.dao.StatusDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.QuestionAnwer;
 import com.tinhvan.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,6 +59,7 @@ public class QATest {
 	UserDao userDao;
 	@Mock
 	PermissionDao per;
+	@Mock Model model;
 	@Mock
 	Principal principal;
 	@InjectMocks
@@ -106,7 +107,6 @@ public class QATest {
 		Assert.assertNotNull(result.getModelAndView());
 	}
 	
-	
 	/**
 	 * @purpose: Function test for function Mapping view page registerQA case if
 	 */
@@ -134,39 +134,84 @@ public class QATest {
 	}
 	
 	/**
-	 * @purpose: Function test for function Mapping button click registerQA case if
+	 * @purpose: Function test button click registerQA case if
 	 */
 	@Test
 	public void actionRegisterQACaseIf() throws Exception {
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/actionRegisterQA"); 
-		MockMultipartFile file = new MockMultipartFile("file", "file.txt", 
-						MediaType.TEXT_PLAIN_VALUE, "test, file".getBytes());
-		
-		FileInputStream fis = new FileInputStream("/home/me/Desktop/someFolder/image.jpg");
-	    MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
-		
-		
-		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/D:/temp/")
-				.file(file)
-				.param("i", "file.txt")
-				.param("uploadedBy", "admin"));
-		MvcResult result = mockMvc.perform(contentType.content(multipartFile.getBytes())
-				.contentType(MediaType)
-				)
-				.andExpect(status().isOk())
-				.andReturn();
-		Assert.assertNotNull(result.getModelAndView());
-
-		
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/actionRegisterQA");
+		MockMultipartFile firstFile = new MockMultipartFile("i", "l.txt", "text/plain", "some xml".getBytes());
+		MockMultipartFile secondfile = new MockMultipartFile("i", "other-file-name.data", "text/plain",
+				"some other type".getBytes());
+		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
+		File f = new File("D:/temp/l.txt");
+		firstFile.transferTo(f);
+		questionAnwer.setReferencepoint("D:/temp/l.txt");
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionRegisterQA")
+				.file(firstFile).file(secondfile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+				// .andExpect(status().isOk())
+				.andExpect(view().name("redirect:/qaList")).andReturn();
 	}
 	
-	
-	
 	/**
-	 * @purpose: Function test for function Mapping button click saveQA
+	 * @purpose: Function test button click registerQA case else
 	 */
 	
+	@Test
+	public void actionRegisterQACaseElse() throws Exception {
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/actionRegisterQA");
+		MockMultipartFile firstFile = new MockMultipartFile("i", "filename.txt", "text/plain", "some xml".getBytes());
+		MockMultipartFile secondfile = new MockMultipartFile("i", "other-file-name.data", "text/plain",
+				"some other type".getBytes());
+
+		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
+		File file = new File("file.txt");
+		questionAnwer.setReferencepoint("");
+		Mockito.doCallRealMethod().when(questionAnwer).setReferencepoint("");
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionRegisterQA")
+				.file(firstFile).file(secondfile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+				// .andExpect(status().isOk())
+				.andExpect(view().name("redirect:/qaList")).andReturn();
+	}
 	
+	/**
+	 * @purpose: Function test button click actionUpdateQA case if
+	 */
+	@Test
+	public void actionUpdateQACaseIf() throws Exception {
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/actionUpdateQA");
+		MockMultipartFile firstFile = new MockMultipartFile("i", "l.txt", "text/plain", "some xml".getBytes());
+		MockMultipartFile secondfile = new MockMultipartFile("i", "other-file-name.data", "text/plain",
+				"some other type".getBytes());
+		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
+		File f = new File("D:/temp/l.txt");
+		firstFile.transferTo(f);
+		questionAnwer.setReferencepoint("D:/temp/l.txt");
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionRegisterQA")
+				.file(firstFile).file(secondfile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+				// .andExpect(status().isOk())
+				.andExpect(view().name("redirect:/qaList")).andReturn();
+	}
+	
+	/**
+	 * @purpose: Function test button click actionUpdateQA case else
+	 */
+	
+	@Test
+	public void actionUpdateQACaseElse() throws Exception {
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/actionUpdateQA");
+		MockMultipartFile firstFile = new MockMultipartFile("i", "filename.txt", "text/plain", "some xml".getBytes());
+		MockMultipartFile secondfile = new MockMultipartFile("i", "other-file-name.data", "text/plain",
+				"some other type".getBytes());
+
+		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
+		File file = new File("file.txt");
+		questionAnwer.setReferencepoint("");
+		Mockito.doCallRealMethod().when(questionAnwer).setReferencepoint("");
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionRegisterQA")
+				.file(firstFile).file(secondfile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+				// .andExpect(status().isOk())
+				.andExpect(view().name("redirect:/qaList")).andReturn();
+	}
 	/**
 	 * @purpose: Function test for function Mapping get dataById for updateQA
 	 */

@@ -112,18 +112,12 @@ public class QAController {
 	// Mapping button click registerQA
 	@RequestMapping("/actionRegisterQA")
 	public ModelAndView registerQA(Model model, @ModelAttribute(value = "qa" ) QuestionAnwer questionAnwer ,
-			@RequestParam(value="i", required = false)MultipartFile file) {
+			@RequestParam(value="i", required = false)MultipartFile file) throws IllegalStateException, IOException {
 			//upload file
 		if (!file.isEmpty()) {
-			String fileName= file.getOriginalFilename();
-			try {
-				file.transferTo(new File("D:/temp/" + fileName));
-				questionAnwer.setReferencepoint("D:/temp/" + fileName);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String fileName = file.getOriginalFilename();
+			file.transferTo(new File("D:/temp/" + fileName));
+			questionAnwer.setReferencepoint("D:/temp/" + fileName);
 		}else {
 			questionAnwer.setReferencepoint("");
 		}
@@ -134,18 +128,12 @@ public class QAController {
 	// Mapping button click save QA
 	@RequestMapping(value = "/actionUpdateQA", method = RequestMethod.POST)
 	public ModelAndView updateQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer questionAnwer,
-			@RequestParam(value="i", required = false)MultipartFile file) {
+			@RequestParam(value="i", required = false)MultipartFile file) throws IllegalStateException, IOException {
 			//update file
 		if (!file.isEmpty()) {
-			String fileName= file.getOriginalFilename();
-			try {
-				file.transferTo(new File("D:/temp/" + fileName));
-				questionAnwer.setReferencepoint("D:/temp/" + fileName);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String fileName = file.getOriginalFilename();
+			file.transferTo(new File("D:/temp/" + fileName));
+			questionAnwer.setReferencepoint("D:/temp/" + fileName);
 		}else {
 			questionAnwer.setReferencepoint("");
 		}
