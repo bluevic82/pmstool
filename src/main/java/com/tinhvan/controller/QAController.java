@@ -111,7 +111,7 @@ public class QAController {
 
 	// Mapping button click registerQA
 	@RequestMapping("/actionRegisterQA")
-	public ModelAndView registerQA(Model model, @ModelAttribute(value = "qa" ) QuestionAnwer questionAnwer ,
+	public ModelAndView actionRegisterQA(Model model, @ModelAttribute(value = "qa" ) QuestionAnwer questionAnwer ,
 			@RequestParam(value="i", required = false)MultipartFile file) throws IllegalStateException, IOException {
 			//upload file
 		
@@ -131,13 +131,13 @@ public class QAController {
 	public ModelAndView updateQA(Model model, @ModelAttribute(value = "qa") QuestionAnwer questionAnwer,
 			@RequestParam(value="i", required = false)MultipartFile file) throws IllegalStateException, IOException {
 			//update file
-		//if (!file.isEmpty()) {
+		if (!file.isEmpty()) {
 			String fileName = file.getOriginalFilename();
 			file.transferTo(new File("D:/temp/" + fileName));
 			questionAnwer.setReferencepoint("D:/temp/" + fileName);
-		//}else {
-		//	questionAnwer.setReferencepoint("");
-		//}
+		}else {
+			questionAnwer.setReferencepoint("");
+		}
 		answerDao.updateQA(questionAnwer);
 		return new ModelAndView("redirect:/qaList");
 	}

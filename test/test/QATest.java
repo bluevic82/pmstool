@@ -171,23 +171,28 @@ public class QATest {
 	@Test
 	public void actionRegisterQACaseIf() throws Exception {
 		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/actionRegisterQA");
-		MockMultipartFile file = new MockMultipartFile("i", "file.txt", MediaType.TEXT_PLAIN_VALUE, "some xml".getBytes());
+		MockMultipartFile file = new MockMultipartFile("i", "file.txt", MediaType.TEXT_PLAIN_VALUE, "some xml".getBytes()){
+			@Override
+			public boolean isEmpty() {
+				return false;
+			}
+		};
 		
 		
 		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
 		File f = new File("D:/temp/file.txt");
 		
-		MultipartFile file2 = Mockito.mock(MultipartFile.class);
-		Mockito.when( file2.isEmpty()).thenReturn(false);
+		/*MultipartFile file2 = Mockito.mock(MultipartFile.class);
+		Mockito.when( file2.isEmpty()).thenReturn(false);*/
 		
-			file2.transferTo(f);
+			file.transferTo(f);
 			questionAnwer.setReferencepoint("D:/temp/file.txt");
 		
 		
 		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionRegisterQA")
 				.file(file).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
 				// .andExpect(status().isOk())
-				.andExpect(view().name("redirect:/qaList")).andDo(print()).andReturn();
+				.andExpect(view().name("redirect:/qaList")).andDo(print())/*.andExpect(status().isCreated())*/.andReturn();
 		
 	}
 	
@@ -223,18 +228,29 @@ public class QATest {
 	 */
 	@Test
 	public void actionUpdateQACaseIf() throws Exception {
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/actionUpdateQA");
-		MockMultipartFile firstFile = new MockMultipartFile("i", "l.txt", "text/plain", "some xml".getBytes());
-		MockMultipartFile secondfile = new MockMultipartFile("i", "other-file-name.data", "text/plain",
-				"some other type".getBytes());
+		
+		MockMultipartFile file = new MockMultipartFile("i", "file.txt", MediaType.TEXT_PLAIN_VALUE, "some xml".getBytes()){
+			@Override
+			public boolean isEmpty() {
+				return false;
+			}
+		};
+		
+		
 		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
-		File f = new File("D:/temp/l.txt");
-		firstFile.transferTo(f);
-		questionAnwer.setReferencepoint("D:/temp/l.txt");
+		File f = new File("D:/temp/file.txt");
+		
+		/*MultipartFile file2 = Mockito.mock(MultipartFile.class);
+		Mockito.when( file2.isEmpty()).thenReturn(false);*/
+		
+			file.transferTo(f);
+			questionAnwer.setReferencepoint("D:/temp/file.txt");
+		
+		
 		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionUpdateQA")
-				.file(firstFile).file(secondfile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+				.file(file).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
 				// .andExpect(status().isOk())
-				.andExpect(view().name("redirect:/qaList")).andReturn();
+				.andExpect(view().name("redirect:/qaList")).andDo(print())/*.andExpect(status().isCreated())*/.andReturn();
 	}
 	
 	/**
@@ -243,17 +259,21 @@ public class QATest {
 	
 	@Test
 	public void actionUpdateQACaseElse() throws Exception {
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/actionUpdateQA");
-		MockMultipartFile firstFile = new MockMultipartFile("i", "filename.txt", "text/plain", "some xml".getBytes());
-		MockMultipartFile secondfile = new MockMultipartFile("i", "other-file-name.data", "text/plain",
-				"some other type".getBytes());
+		
+		MockMultipartFile firstFile = new MockMultipartFile("i", "filename.txt", "text/plain", "some xml".getBytes()){
+			@Override
+			public boolean isEmpty() {
+				return true;
+			}
+		};
 
 		QuestionAnwer questionAnwer = Mockito.mock(QuestionAnwer.class, Mockito.RETURNS_DEEP_STUBS);
 		File file = new File("file.txt");
 		questionAnwer.setReferencepoint("");
 		Mockito.doCallRealMethod().when(questionAnwer).setReferencepoint("");
-		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionRegisterQA")
-				.file(firstFile).file(secondfile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("/actionUpdateQA")
+				.file(firstFile).sessionAttr("qa", questionAnwer).param("i", "file.txt"))
+				
 				// .andExpect(status().isOk())
 				.andExpect(view().name("redirect:/qaList")).andReturn();
 	}
