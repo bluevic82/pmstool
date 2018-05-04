@@ -38,6 +38,7 @@ import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.TaskInfo;
+import com.tinhvan.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:/dispatcher-servlet.xml" })
@@ -69,7 +70,7 @@ public class LoginControllerTest {
 
 	@InjectMocks
 	private LoginController loginController;
-
+	List<ProjectInfo> pi= new ArrayList<ProjectInfo>();
 	@Before
 	public void setUp() {
 
@@ -84,7 +85,8 @@ public class LoginControllerTest {
 
 		RequestBuilder request = get("/")
 
-				.param("name", "").param("pm", "").param("from", "").param("to", "");
+				.param("name", "").param("pm", "").param("from", "").param("to", "")
+				.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		this.mockMvc.perform(request).andExpect(view().name("403Page"));
 	}
 
@@ -132,25 +134,29 @@ public class LoginControllerTest {
 		when(taskInfoDao.getTaskByIdPro(0)).thenReturn(lt);
 		RequestBuilder request = get("/")
 
-				.param("name", "").param("pm", "").param("from", "").param("to", "");
+				.param("name", "").param("pm", "").param("from", "").param("to", "")
+				.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		this.mockMvc.perform(request).andExpect(view().name("welcomePage"));
 		
 		when(taskInfoDao.getTaskByIdPro(0)).thenReturn(lt1);
 		RequestBuilder request1 = get("/")
 
-				.param("name", "").param("pm", "").param("from", "").param("to", "");
+				.param("name", "").param("pm", "").param("from", "").param("to", "")
+				.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		this.mockMvc.perform(request).andExpect(view().name("welcomePage"));
 		
 		when(taskInfoDao.getTaskByIdPro(0)).thenReturn(lt2);
 		RequestBuilder request2 = get("/")
 
-				.param("name", "").param("pm", "").param("from", "").param("to", "");
+				.param("name", "").param("pm", "").param("from", "").param("to", "")
+				.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		this.mockMvc.perform(request).andExpect(view().name("welcomePage"));
 		
 		when(taskInfoDao.getTaskByIdPro(0)).thenReturn(lt3);
 		RequestBuilder request3 = get("/")
 
-				.param("name", "").param("pm", "").param("from", "").param("to", "");
+				.param("name", "").param("pm", "").param("from", "").param("to", "")
+				.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		this.mockMvc.perform(request).andExpect(view().name("welcomePage"));
 	}
 

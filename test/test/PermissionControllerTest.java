@@ -44,6 +44,8 @@ import com.tinhvan.dao.TaskInfoDao;
 import com.tinhvan.dao.TypeDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.Permission;
+import com.tinhvan.model.ProjectInfo;
+import com.tinhvan.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:/dispatcher-servlet.xml" })
@@ -74,7 +76,7 @@ public class PermissionControllerTest {
 
 	@InjectMocks
 	private LoginController loginController;
-
+	List<ProjectInfo> pi= new ArrayList<ProjectInfo>();
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
@@ -93,7 +95,7 @@ public class PermissionControllerTest {
 		List<Permission> allPer = new ArrayList<Permission>();
 		Permission p = new Permission();
 		allPer.add(p);
-		RequestBuilder request = get("/permissionManager");
+		RequestBuilder request = get("/permissionManager").flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		this.mockMvc.perform(request).andExpect(view().name("permissionManager"))
 				.andExpect(model().attribute("listPer", notNullValue())).andExpect(status().isOk());
 
@@ -112,7 +114,7 @@ public class PermissionControllerTest {
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(perrr);
-		RequestBuilder request = post("/updatePer").contentType(APPLICATION_JSON_UTF8).content(requestJson);
+		RequestBuilder request = post("/updatePer").contentType(APPLICATION_JSON_UTF8).content(requestJson).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);;
 		mockMvc.perform(request)
 				.andExpect(status().isOk());
 

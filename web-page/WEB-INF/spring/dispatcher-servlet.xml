@@ -22,12 +22,13 @@
 		<property name="contentType" value="text/html;charset=UTF-8"></property>
 	</bean>
 	
+	
 	<!-- config database -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/project_manager_system?characterEncoding=UTF-8" />
+		<property name="url" value="jdbc:mysql://localhost:3306/pms?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
-		<property name="password" value="Chudai@1995" />
+		<property name="password" value="" />
 		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/test_pms_dbv3?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
@@ -78,4 +79,5 @@
 	<!-- import resources css,js,image -->
 	<mvc:resources location="/resources/lib/" mapping="/resources/**"></mvc:resources>
 	
+
 </beans>

@@ -27,6 +27,7 @@ import com.tinhvan.dao.PermissionDao;
 import com.tinhvan.dao.ProjectDao;
 import com.tinhvan.dao.RoleDao;
 import com.tinhvan.dao.UserDao;
+import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,7 +55,7 @@ public class CreateUserControllerTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(userSystemController).build();
 
 	}
-
+	List<ProjectInfo> pi= new ArrayList<ProjectInfo>();
 	@Test
 	public void addUserTest() throws Exception {
 		FileInputStream inputFile = new FileInputStream("C:/Users/Otoke/Downloads/soncsv.csv");
@@ -66,7 +67,7 @@ public class CreateUserControllerTest {
 		u.setUser_id(9);
 		u.setUser_mail("sonace264@gmail.com");
 		u.setUser_passWord("aHeee7%asd");
-		RequestBuilder request = fileUpload("/actionCreateUser").file(file).flashAttr("userInfo", u);
+		RequestBuilder request = fileUpload("/actionCreateUser").file(file).flashAttr("userInfo", u).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);
 		List<User> gettAllUser = new ArrayList();
 		gettAllUser.add(u);
 		when(userDao.gettAllUser()).thenReturn(gettAllUser);

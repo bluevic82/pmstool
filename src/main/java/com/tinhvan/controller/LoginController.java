@@ -306,10 +306,7 @@ public class LoginController {
 		return "adminPage";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage(Model model) {
-		return "loginPage";
-	}
+
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutDo(HttpServletRequest request,HttpServletResponse response){
