@@ -32,26 +32,26 @@
 <h6 style="margin-left: 20px">Timesheet Management > <a href="${pageContext.request.contextPath}/timeSheetList"> List</a></h6>
 	<div class="container" style="margin-top: 10px;">
 		<div>
-			<form method="post" action="/Login/timeSheetList/">
+			<form method="post" action="timeSheetList">
 				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" /> <b>Project Name</b>  <select name="projectName">
+					value="${_csrf.token}" /> <b>Project Name</b>  <select id="id_select_Project" name="projectName">
 					
 					<option value="0"></option>
 					<c:forEach var="listProjects" items="${listProjects}">
 						<option value="${listProjects.project_id}" <c:if test="${listProjects.project_id==project_searched.project_id}"> selected="selected"</c:if> >${listProjects.project_name}</option>
 					</c:forEach>
-				</select> <label style="margin-left: 2%"> PIC </label> <select
+				</select> <label style="margin-left: 2%"> PIC </label> <select id="id_select_User"
 					name="user_id" style="margin-left: 5px; width: 15%">
 					<option value="0"></option>
 					<c:forEach var="list_PIC" items="${list_PIC}">
-						<option value="${list_PIC.user_id}" <c:if test="${list_PIC.user_id==PIC_searched.user_id}"> selected="selected"</c:if>>
+						<option value="${list_PIC.member_project_name}" <c:if test="${list_PIC.user_id==PIC_searched.user_id}"> selected="selected"</c:if>>
 							${list_PIC.member_project_name}</option>
 					</c:forEach>
 				</select> <label style="margin-left: 2%"> Process </label> <select  id="id_select_process"
 					name="process_id" style="margin-left: 5px; width: 20%">
 					<option value="0"></option>
 					<c:forEach var="process" items="${process}">
-						<option value="${process.process_id}" <c:if test="${process.process_id==process_searched.process_id}"> selected="selected"</c:if>>
+						<option value="${process.process_name}" <c:if test="${process.process_id==process_searched.process_id}"> selected="selected"</c:if>>
 							${process.process_name}</option>
 					</c:forEach>
 				</select> <label style="margin-left: 2%"> Status </label> <select id="id_status_search"
@@ -62,7 +62,7 @@
 							${timeSheetStatus.status_name}</option>
 					</c:forEach>
 				</select>
-				<button id="id_button_search" type="submit"
+				<button id="id_button_search" type="button"
 					style="background-color: green; color: white; margin-left: 30px">Search</button>
 			</form>
 		</div>
@@ -94,7 +94,7 @@
 
 
 					<tr>
-						<th><input type="checkbox" id="id_check_One" /></th>
+						<th><input type="checkbox" id="id_check_One" /><input type="hidden"  id="td_id_project_Name" value="${listTimeSheetDetails.memberProject.project_id}"></th>
 						<th>${listTimeSheetDetails.memberProject.member_project_name}</th>
 						<th><input type="hidden" name="detail_timesheet_id" value="${listTimeSheetDetails.detail_timesheet_id}">${listTimeSheetDetails.detail_timesheet_date}</th>
 						<th>${listTimeSheetDetails.hour}</th>
@@ -194,29 +194,130 @@
 	}
 	
 	
-	$("#id_status_search").change(function(){
+	$('#id_button_search')
+	.click(
+			function() {
 		//alert("ầdsfasdf");
-		var status_select_search = $('#id_status_search :selected').val();
+		var status_select_search = $('#id_status_search :selected').val().toUpperCase();
+		//get name
+		var project_Name_search = $('#id_select_Project :selected').text().toUpperCase(); //ok
+		
+		//get id
+		var project_id_search = $('#id_select_Project :selected').val();
+		
+		console.log("project name = "+project_Name_search);
+		console.log("project id = "+project_id_search);
+		//get name
+		var user_search = $('#id_select_User :selected').val().toUpperCase(); //ok
+		console.log("user = "+user_search);
+		console.log("len search pic = "+user_search.length);
+		console.log("status = "+status_select_search);
+		//get name
+		var process_search =  $('#id_select_process :selected').val().toUpperCase(); //ok
+		console.log("process = "+process_search);
+	//	var process_search =  $('#id_select_process :selected').val().toUpperCase();
 		// alert(status_select_search);//ok
 		 console.log(status_select_search.toUpperCase());
-		 for (var i = 1; i < len; i++) {
-			console.log(table.rows[i].cells[9].childNodes[0].childNodes[0].value);
-			console.log((table.rows[i].cells[9].childNodes[0].childNodes[0].value).length);
-			
-			/*  if(String(table.rows[i].cells[9].childNodes[0].childNodes[0].value) != String(status_select_search) && String(status_select_search) != ""){
-				 
-				 table.rows[i].style.display = "none";  
-			 }  */
-				
- 				if((table.rows[i].cells[9].childNodes[0].childNodes[0].value).toUpperCase().indexOf((status_select_search).toUpperCase())>-1){
-				 
-				 table.rows[i].style.display = "";  
-			 } 
- 				else{
- 					table.rows[i].style.display = "none";
- 				}
-		}
 		
+		
+		 var conditionSearch;
+		 	
+		 
+		//set condition search
+		
+		var flag_conditionBefor = 0;
+		 	var string_condition = "";
+		 
+		 	if(status_select_search !=""){ //ok
+		 		
+		 		string_condition += status_select_search;
+		 	} 
+		 	
+		 	if(user_search !=0){ //ok
+		 		
+		 		
+		 			string_condition += user_search;
+		 		
+		 		}
+		 	
+	 		if(process_search !=0){ //ok
+	 			string_condition += process_search;
+	 		}
+	 		
+	 		
+	 	if(project_id_search != 0){// projectNAme condition is not null
+	 		
+	 		console.log("string condition = "+string_condition);
+			 for (var i = 1; i < len; i++) {
+				 
+				 
+				 tdStatus = table.rows[i].cells[9].childNodes[0].childNodes[0].value; //ok
+				 	tdPic = table.rows[i].cells[1].innerHTML; //ok
+				 	tdProcessName = table.rows[i].cells[5].innerHTML;
+				 	tdProjectId = table.rows[i].cells[0].childNodes[1].value;
+				 	
+				 //	tdProjectName = 
+				 	console.log(tdStatus);
+				 	console.log(tdPic);
+				 	console.log("project_id td = "+tdProjectId);
+				 	console.log("len pic = "+tdPic.length);
+				 	
+				 	console.log(tdProcessName);
+				 	
+				 	
+				 	
+				 	var string_td = tdStatus.toUpperCase()+tdPic.toUpperCase()+tdProcessName.toUpperCase();
+				 	
+	 				if(string_td.includes(string_condition) && (tdProjectId==project_id_search)){
+					 console.log("giong");
+					 console.log("status td = "+tdStatus);
+					 table.rows[i].style.display = "";  
+					 } 
+	 				else{
+	 					table.rows[i].style.display = "none";
+	 				}
+	 		
+	 		}
+	 	}
+	 	
+	 	else{ //projectNAme condition is  null
+	 		
+	 		console.log("string condition = "+string_condition);
+			 for (var i = 1; i < len; i++) {
+				 
+				 
+				 tdStatus = table.rows[i].cells[9].childNodes[0].childNodes[0].value; //ok
+				 	tdPic = table.rows[i].cells[1].innerHTML; //ok
+				 	tdProcessName = table.rows[i].cells[5].innerHTML;
+				 //	tdProjectName = 
+				 	console.log(tdStatus);
+				 	console.log(tdPic);
+				 	console.log("len pic = "+tdPic.length);
+				 	
+				 	console.log(tdProcessName);
+				 	
+				 	
+				 	
+				 	var string_td = tdStatus.toUpperCase()+tdPic.toUpperCase()+tdProcessName.toUpperCase();
+				 	
+			//	 	console.log("td searched = "+s);
+				 	
+			//	 	var s2 = tdStatus.toUpperCase().indexOf(status_select_search)>-1 && tdPic.toUpperCase().indexOf(user_search)>-1 && tdProcessName.toUpperCase().indexOf(process_search)>-1;
+				 	
+	 				if(string_td.includes(string_condition)){
+					 console.log("giong");
+					 console.log("status td = "+tdStatus);
+					 table.rows[i].style.display = "";  
+				 } 
+	 				else{
+	 					table.rows[i].style.display = "none";
+	 				}
+			}
+			
+	 		
+	 	}
+		
+	 	
 		 
 	})
 	
@@ -264,7 +365,7 @@
 							var header = $("meta[name='_csrf_header']").attr("content");
 						 
 						 $.ajax({
-								url : "/Login/actionUpdateStatusTypeOfListTimesheets",
+								url : "actionUpdateStatusTypeOfListTimesheets",
 
 								type : "POST",
 								data : JSON

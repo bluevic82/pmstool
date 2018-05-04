@@ -92,15 +92,9 @@ public class TimeSheetListController {
 	
 	// Mapping view list TimeSheeet
 			@RequestMapping("/timeSheetList")
-			public ModelAndView listTimeSheet(@RequestParam(value="projectName",required=false,defaultValue = "0")
-			int project_id,@RequestParam(value="user_id",required=false,defaultValue = "0") 
-			int user_id_member_project,@RequestParam(value="process_id",required=false,defaultValue = "0") 
-			int process_id,@RequestParam(value="status_name",required=false,defaultValue = "") 
-			String status_name, Principal principal, Model model) {
+			public ModelAndView listTimeSheet(Principal principal, Model model) {
 				
 				User user = userDao.getUserInfoByUserMail(principal.getName());
-				//System.out.println(status_name);
-				//List<TimeSheetDetail_List> list_timeSheetDetail_Lists = new ArrayList<TimeSheetDetail_List>();
 				
 				//check role: if role = 1 or 2
 				//if role = 1 => list all project
@@ -109,21 +103,15 @@ public class TimeSheetListController {
 					List<ProjectInfo> listAllProjectInfos = projectDao.getAllProject();
 									
 					
-					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet(project_id, user_id_member_project, process_id, status_name);
+					List<TimeSheetDetail> listAllTimeSheetDetails = timeSheetDao.getAllTimeSheet();
 					List<MemberProject> list_PIC = memberProjectDao.get_All_MemberProjects_filter_duplicate();
-					
-					//tra ve dieu kien tim kiem
-					model.addAttribute("project_searched", projectDao.getProjectById(project_id));
-					model.addAttribute("PIC_searched", userDao.getUserInfoByUser_Id(user_id_member_project));
-					model.addAttribute("process_searched", processDao.getProcessByProcessId(process_id));
-					model.addAttribute("status_searched", status_name);
 					
 					model.addAttribute("listTimeSheetDetails", listAllTimeSheetDetails);
 					model.addAttribute("listProjects", listAllProjectInfos);
 					model.addAttribute("list_PIC", list_PIC);
 					return new ModelAndView("timeSheetList");
 					
-				}
+				} 
 				
 				else if(user.getRole_id() == 2){
 					//if role = 2 => get list member_project of user 
@@ -133,38 +121,7 @@ public class TimeSheetListController {
 					List<TimeSheetDetail> lisTimeSheetDetails_No_ConditionOfPM = timeSheetDao.getTimeSheetDetailsNoConditionsOfPM(user.getUser_id());
 					
 					
-					//tra ve dieu kien tim kiem
-					model.addAttribute("project_searched", projectDao.getProjectById(project_id));
-					model.addAttribute("PIC_searched", userDao.getUserInfoByUser_Id(user_id_member_project));
-					model.addAttribute("process_searched", processDao.getProcessByProcessId(process_id));
-					model.addAttribute("status_searched", status_name);
-						
-							if(project_id!=0 ||user_id_member_project!=0||process_id!=0||!status_name.equals("")) {
-								List<TimeSheetDetail> listTimeSheetDetails_Have_ConditionOfPM=timeSheetDao.getTimeSheetDetailsHaveConditionsOfPM(project_id, user_id_member_project, process_id, status_name, user.getUser_id());
-								
-								//loc ra list timesheets trong project PM duoc assign
-								for(int i=0;i<listTimeSheetDetails_Have_ConditionOfPM.size();i++){
-									//if(listTimeSheetDetails1)
-									boolean flag = false;
-									for(int j=0;j<lisTimeSheetDetails_No_ConditionOfPM.size();j++){
-										if(listTimeSheetDetails_Have_ConditionOfPM.get(i).getDetail_timesheet_id()==lisTimeSheetDetails_No_ConditionOfPM.get(j).getDetail_timesheet_id()){
-											flag=true;
-											break;
-										}
-										
-									}
-									if(flag==false){
-										listTimeSheetDetails_Have_ConditionOfPM.remove(i);
-									}
-									
-								}
-								
-								
-								model.addAttribute("listTimeSheetDetails", listTimeSheetDetails_Have_ConditionOfPM);
-							}
-							else{
 								model.addAttribute("listTimeSheetDetails", lisTimeSheetDetails_No_ConditionOfPM);
-							}
 							
 								List<ProjectInfo> listProjectInfos = projectDao.getListPRojectOfUserAccessed(user.getUser_id());
 								
