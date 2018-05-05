@@ -213,103 +213,124 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	}*/
 
 	@Override
-	public void updateListTimeSheetToDB(
+	public boolean updateListTimeSheetToDB(
 			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
 		// TODO Auto-generated method stub
 
-		String sql_update = "update detail_timesheet set DETAIL_TIMESHEET_DATE = ?, HOUR = ?, PRE_DEFINED_ID = ?, PROCESS_ID = ?, TYPE_ID = ?, TASK_ID = ?, WORKCONTENT = ? where DETAIL_TIMESHEET_ID = ?";
-		jdbcTemplate.batchUpdate(sql_update,
-				new BatchPreparedStatementSetter() {
+		try{
+			String sql_update = "update detail_timesheet set DETAIL_TIMESHEET_DATE = ?, HOUR = ?, PRE_DEFINED_ID = ?, PROCESS_ID = ?, TYPE_ID = ?, TASK_ID = ?, WORKCONTENT = ? where DETAIL_TIMESHEET_ID = ?";
+			jdbcTemplate.batchUpdate(sql_update,
+					new BatchPreparedStatementSetter() {
 
-					@Override
-					public void setValues(PreparedStatement ps, int i)
-							throws SQLException {
-						// TODO Auto-generated method stub
-						// MemberProject memberProject =
-						// list_MemberProjects.get(i);
-						ps.setString(1, list_TimeSheetDetails.get(i)
-								.getDetail_timesheet_date());
-						ps.setFloat(2, list_TimeSheetDetails.get(i).getHour());
-						ps.setInt(3, list_TimeSheetDetails.get(i)
-								.getPre_defined_id());
-						ps.setInt(4, list_TimeSheetDetails.get(i)
-								.getProcess_id());
-						ps.setInt(5, list_TimeSheetDetails.get(i).getType_id());
-						ps.setInt(6, list_TimeSheetDetails.get(i).getTask_id());
-						ps.setString(7, list_TimeSheetDetails.get(i)
-								.getWorkcontent());
-						ps.setInt(8, list_TimeSheetDetails.get(i)
-								.getDetail_timesheet_id());
+						@Override
+						public void setValues(PreparedStatement ps, int i)
+								throws SQLException {
+							// TODO Auto-generated method stub
+							// MemberProject memberProject =
+							// list_MemberProjects.get(i);
+							ps.setString(1, list_TimeSheetDetails.get(i)
+									.getDetail_timesheet_date());
+							ps.setFloat(2, list_TimeSheetDetails.get(i).getHour());
+							ps.setInt(3, list_TimeSheetDetails.get(i)
+									.getPre_defined_id());
+							ps.setInt(4, list_TimeSheetDetails.get(i)
+									.getProcess_id());
+							ps.setInt(5, list_TimeSheetDetails.get(i).getType_id());
+							ps.setInt(6, list_TimeSheetDetails.get(i).getTask_id());
+							ps.setString(7, list_TimeSheetDetails.get(i)
+									.getWorkcontent());
+							ps.setInt(8, list_TimeSheetDetails.get(i)
+									.getDetail_timesheet_id());
 
-					}
+						}
 
-					@Override
-					public int getBatchSize() {
-						// TODO Auto-generated method stub
-						return list_TimeSheetDetails.size();
-					}
-				});
+						@Override
+						public int getBatchSize() {
+							// TODO Auto-generated method stub
+							return list_TimeSheetDetails.size();
+						}
+					});
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
 
 	}
 
 	@Override
-	public void createListTimeSheet(
+	public boolean createListTimeSheet(
 			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
 		// TODO Auto-generated method stub
 		System.out.println(member_project_id);
 
-		/*
-		 * if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged
-		 * (project_id, user_id) == null){
-		 * jdbcTemplate.execute("INSERT INTO member_project()"); }
-		 */
+		try{
+			
+			/*
+			 * if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged
+			 * (project_id, user_id) == null){
+			 * jdbcTemplate.execute("INSERT INTO member_project()"); }
+			 */
 
-		// get timesheet_id by project_id and member_project_id
-		// if timesheet_id ==0 => create timesheet at table timesheet_infor
-		if (getTimeSheet_idByProject_idAndMemberProjectId(project_id,
-				member_project_id) == 0) {
+			// get timesheet_id by project_id and member_project_id
+			// if timesheet_id ==0 => create timesheet at table timesheet_infor
+			if (getTimeSheet_idByProject_idAndMemberProjectId(project_id,
+					member_project_id) == 0) {
 
-			jdbcTemplate
-					.execute("INSERT INTO timesheet_info(PROJECT_ID, MEMBER_PROECT_ID) VALUES ("
-							+ project_id + ", " + member_project_id + ")");
+				jdbcTemplate
+						.execute("INSERT INTO timesheet_info(PROJECT_ID, MEMBER_PROECT_ID) VALUES ("
+								+ project_id + ", " + member_project_id + ")");
+			}
+
+			// get timesheet_id at table timesheet_info
+			int timesheet_id = getTimeSheet_idByProject_idAndMemberProjectId(
+					project_id, member_project_id);
+
+			// insert timsheet_detail into table detail_timesheet
+			String sql_insert = "INSERT INTO detail_timesheet(DETAIL_TIMESHEET_DATE, HOUR, PRE_DEFINED_ID, PROCESS_ID, TYPE_ID, TASK_ID, WORKCONTENT, TS_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			jdbcTemplate.batchUpdate(sql_insert,
+					new BatchPreparedStatementSetter() {
+
+						@Override
+						public void setValues(PreparedStatement ps, int i)
+								throws SQLException {
+							// TODO Auto-generated method stub
+							// MemberProject memberProject =
+							// list_MemberProjects.get(i);
+							ps.setString(1, list_TimeSheetDetails.get(i)
+									.getDetail_timesheet_date());
+							ps.setFloat(2, list_TimeSheetDetails.get(i).getHour());
+							ps.setInt(3, list_TimeSheetDetails.get(i)
+									.getPre_defined_id());
+							ps.setInt(4, list_TimeSheetDetails.get(i)
+									.getProcess_id());
+							ps.setInt(5, list_TimeSheetDetails.get(i).getType_id());
+							ps.setInt(6, list_TimeSheetDetails.get(i).getTask_id());
+							ps.setString(7, list_TimeSheetDetails.get(i)
+									.getWorkcontent());
+							ps.setInt(8, timesheet_id);
+
+						}
+
+						@Override
+						public int getBatchSize() {
+							// TODO Auto-generated method stub
+							return list_TimeSheetDetails.size();
+						}
+					});
+			
+			return true;
+			
 		}
-
-		// get timesheet_id at table timesheet_info
-		int timesheet_id = getTimeSheet_idByProject_idAndMemberProjectId(
-				project_id, member_project_id);
-
-		// insert timsheet_detail into table detail_timesheet
-		String sql_insert = "INSERT INTO detail_timesheet(DETAIL_TIMESHEET_DATE, HOUR, PRE_DEFINED_ID, PROCESS_ID, TYPE_ID, TASK_ID, WORKCONTENT, TS_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		jdbcTemplate.batchUpdate(sql_insert,
-				new BatchPreparedStatementSetter() {
-
-					@Override
-					public void setValues(PreparedStatement ps, int i)
-							throws SQLException {
-						// TODO Auto-generated method stub
-						// MemberProject memberProject =
-						// list_MemberProjects.get(i);
-						ps.setString(1, list_TimeSheetDetails.get(i)
-								.getDetail_timesheet_date());
-						ps.setFloat(2, list_TimeSheetDetails.get(i).getHour());
-						ps.setInt(3, list_TimeSheetDetails.get(i)
-								.getPre_defined_id());
-						ps.setInt(4, list_TimeSheetDetails.get(i)
-								.getProcess_id());
-						ps.setInt(5, list_TimeSheetDetails.get(i).getType_id());
-						ps.setInt(6, list_TimeSheetDetails.get(i).getTask_id());
-						ps.setString(7, list_TimeSheetDetails.get(i)
-								.getWorkcontent());
-						ps.setInt(8, timesheet_id);
-
-					}
-
-					@Override
-					public int getBatchSize() {
-						// TODO Auto-generated method stub
-						return list_TimeSheetDetails.size();
-					}
-				});
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		
 
 	}
 
@@ -331,43 +352,52 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	}
 
 	@Override
-	public void deleteListTimeSheet(
+	public boolean deleteListTimeSheet(
 			ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
 
-		// if delete all data of table detail_timesheet => also delete at table
-		// timesheet_info
-		int sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id = jdbcTemplate
-				.queryForObject(
-						"SELECT COUNT(DETAIL_TIMESHEET_ID) FROM detail_timesheet WHERE TS_ID = "
-								+ list_TimeSheetDetails_Delete.get(0)
-										.getTs_id() + "", Integer.class);
-		System.out.println("size = "
-				+ sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id);
-		if (sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id == list_TimeSheetDetails_Delete
-				.size()) {
-			jdbcTemplate.execute("DELETE FROM timesheet_info WHERE TS_ID = "
-					+ list_TimeSheetDetails_Delete.get(0).getTs_id() + "");
+		try{
+			
+			// if delete all data of table detail_timesheet => also delete at table
+			// timesheet_info
+			int sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id = jdbcTemplate
+					.queryForObject(
+							"SELECT COUNT(DETAIL_TIMESHEET_ID) FROM detail_timesheet WHERE TS_ID = "
+									+ list_TimeSheetDetails_Delete.get(0)
+											.getTs_id() + "", Integer.class);
+			System.out.println("size = "
+					+ sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id);
+			if (sizeOfData_In_Table_Detail_TimeSheet_By_Ts_Id == list_TimeSheetDetails_Delete
+					.size()) {
+				jdbcTemplate.execute("DELETE FROM timesheet_info WHERE TS_ID = "
+						+ list_TimeSheetDetails_Delete.get(0).getTs_id() + "");
+			}
+
+			String sql_deleteList = "DELETE FROM detail_timesheet WHERE DETAIL_TIMESHEET_ID = ?";
+			jdbcTemplate.batchUpdate(sql_deleteList,
+					new BatchPreparedStatementSetter() {
+
+						@Override
+						public void setValues(PreparedStatement ps, int i)
+								throws SQLException {
+							// TODO Auto-generated method stub
+							ps.setInt(1, list_TimeSheetDetails_Delete.get(i)
+									.getDetail_timesheet_id());
+
+						}
+
+						@Override
+						public int getBatchSize() {
+							// TODO Auto-generated method stub
+							return list_TimeSheetDetails_Delete.size();
+						}
+					});
+			return true;
 		}
-
-		String sql_deleteList = "DELETE FROM detail_timesheet WHERE DETAIL_TIMESHEET_ID = ?";
-		jdbcTemplate.batchUpdate(sql_deleteList,
-				new BatchPreparedStatementSetter() {
-
-					@Override
-					public void setValues(PreparedStatement ps, int i)
-							throws SQLException {
-						// TODO Auto-generated method stub
-						ps.setInt(1, list_TimeSheetDetails_Delete.get(i)
-								.getDetail_timesheet_id());
-
-					}
-
-					@Override
-					public int getBatchSize() {
-						// TODO Auto-generated method stub
-						return list_TimeSheetDetails_Delete.size();
-					}
-				});
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
 
 	}
 
@@ -559,33 +589,41 @@ public class TimeSheetDaoImpl implements TimeSheetDao {
 	}*/
 
 	@Override
-	public void updateStatusOfListTimeSheetDetails(
+	public boolean updateStatusOfListTimeSheetDetails(
 			ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
 		// TODO Auto-generated method stub
 
-		String sql_update = "update detail_timesheet set STATUS_ID = ? where DETAIL_TIMESHEET_ID = ?";
-		jdbcTemplate.batchUpdate(sql_update,
-				new BatchPreparedStatementSetter() {
+		try{
+			String sql_update = "update detail_timesheet set STATUS_ID = ? where DETAIL_TIMESHEET_ID = ?";
+			jdbcTemplate.batchUpdate(sql_update,
+					new BatchPreparedStatementSetter() {
 
-					@Override
-					public void setValues(PreparedStatement ps, int i)
-							throws SQLException {
-						// TODO Auto-generated method stub
-						// MemberProject memberProject =
-						// list_MemberProjects.get(i);
-						ps.setString(1, list_TimeSheetDetails.get(i)
-								.getStatus_type());
-						ps.setFloat(2, list_TimeSheetDetails.get(i)
-								.getDetail_timesheet_id());
+						@Override
+						public void setValues(PreparedStatement ps, int i)
+								throws SQLException {
+							// TODO Auto-generated method stub
+							// MemberProject memberProject =
+							// list_MemberProjects.get(i);
+							ps.setString(1, list_TimeSheetDetails.get(i)
+									.getStatus_type());
+							ps.setFloat(2, list_TimeSheetDetails.get(i)
+									.getDetail_timesheet_id());
 
-					}
+						}
 
-					@Override
-					public int getBatchSize() {
-						// TODO Auto-generated method stub
-						return list_TimeSheetDetails.size();
-					}
-				});
+						@Override
+						public int getBatchSize() {
+							// TODO Auto-generated method stub
+							return list_TimeSheetDetails.size();
+						}
+					});
+			return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
 
 	}
 

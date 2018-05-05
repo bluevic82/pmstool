@@ -335,10 +335,10 @@ $('.datetimepicker').datetimepicker({
 						xhr.setRequestHeader(header, token);
 					},
 
-					success : function(data) {
+					success : function() {
 						alert("delete completed!");
 					},
-					error : function(data) {
+					error : function() {
 						alert("error! ");
 					}
 				});

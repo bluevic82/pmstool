@@ -117,9 +117,7 @@ public class UserResourceController {
 	//comment to run testcase
 
 	@ModelAttribute("roleUser")
-	public List<Role> getRole(HttpServletRequest request, HttpServletResponse response) {
-		java.security.Principal principal = request.getUserPrincipal();
-		//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	public List<Role> getRole(Principal principal) {
 		List<Role> list = roleDao.getListRoleExceptManagerIfUserLoginIsManager(userDao.getUserInfoByUserMail(principal.getName()).getRole_id());
 		return list;
 	}

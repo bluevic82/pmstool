@@ -37,6 +37,7 @@ import com.tinhvan.model.Status;
 import com.tinhvan.model.TaskInfo;
 import com.tinhvan.model.TimeSheetDetail;
 import com.tinhvan.model.User;
+import com.tinhvan.model.Type;
 
 /*
  * @Purpose: TimeSheet Controller using register/update TimeSheet
@@ -71,19 +72,15 @@ public class TimeSheetRegisterController {
 	/*HttpServletRequest realRequest;*/
 	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(){
-				final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			public User getUserCurrentLogin(Principal principal){
 /*				System.out.println(realRequest.getUserPrincipal().getName());*/
-				return  userDao.getUserInfoByUserMail(auth.getName());
+				return  userDao.getUserInfoByUserMail(principal.getName());
 				
 			}
 	// get list project for menu
 		@ModelAttribute("list_Project_For_menu")
 		public List<ProjectInfo> getListProject(Principal principal) {
-			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-			//User user = get_User_current_loged(principal);
-			User user = userDao.getUserInfoByUserMail(auth.getName());
+			User user = userDao.getUserInfoByUserMail(principal.getName());
 			
 			//check role: if user is Admin => list all projects 
 			if(user.getRole_id()==1){
@@ -102,16 +99,16 @@ public class TimeSheetRegisterController {
 
 	// Mapping view Screen Register TimeSheet
 	@RequestMapping(value = { "/{id}/registerTimeSheet" }, method = RequestMethod.GET)
-	public ModelAndView regisTimeSheet(@PathVariable(value = "id") int id,
+	public String regisTimeSheet(@PathVariable(value = "id") int id,
 			Model model, Principal principal) {
 		ProjectInfo projectInfo = projectDao.getProjectById(id);
 		//System.out.println("user_mail = "+principal.getName());
 		
 		//check role of user
-		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, getUserCurrentLogin().getUser_id())==null){
+		if(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(id, getUserCurrentLogin(principal).getUser_id())==null){
 			String message = "Access denied for "+principal.getName()+"!";
 			model.addAttribute("message", message);
-			return new ModelAndView("403Page");
+			return "403Page";
 		}
 		else{
 			//get userInfo by user_mail
@@ -119,7 +116,7 @@ public class TimeSheetRegisterController {
 			/*List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao
 					.getListTimeSheetOfOneProject(id, get_User_current_loged(principal).getUser_id());*/	
 			
-			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, getUserCurrentLogin ().getUser_id());
+			List<TimeSheetDetail> list_TimeSheetOfOneProject = timeSheetDao.getListTimeSheetDetailsOfOneProjectOfCurrentUserHaveStatusAreRequestAndReject(id, getUserCurrentLogin(principal).getUser_id());
 
 			model.addAttribute("list_TimeSheetOfOneProject",
 					list_TimeSheetOfOneProject);
@@ -127,13 +124,13 @@ public class TimeSheetRegisterController {
 			model.addAttribute("title", "Success");
 			model.addAttribute("message", "RegisterTimeSheet");
 
-			return new ModelAndView("timesheetRegister");
+			return "timesheetRegister";
 		}
 		
 	}
 	
 	@RequestMapping(value = "/{id}/actionSaveTimeSheet", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<TimeSheetDetail> save(@PathVariable int id, @RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails, Principal principal) {
+	public @ResponseBody boolean save(@PathVariable int id, @RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails, Principal principal) {
 		//System.out.println("prj_id = "+id);
 		ArrayList<TimeSheetDetail> list_TimeSheetDetails_To_Insert = new ArrayList<TimeSheetDetail>();
 		for(int i=0;i<list_TimeSheetDetails.size();i++){
@@ -149,18 +146,19 @@ public class TimeSheetRegisterController {
 			
 		}
 		
-		timeSheetDao.updateListTimeSheetToDB(list_TimeSheetDetails);
+		boolean result = timeSheetDao.updateListTimeSheetToDB(list_TimeSheetDetails);
 	
-		return list_TimeSheetDetails;
+		return result;
 	}
 	
 	
 	@RequestMapping(value = "/{id}/actionDeleteListTimeSheet", method = RequestMethod.POST)
-	public @ResponseBody ArrayList<TimeSheetDetail> deleteListTimeSheet(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
+	public @ResponseBody boolean deleteListTimeSheet(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
 		
-		timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_Delete);
-	
-		return list_TimeSheetDetails_Delete;
+			boolean result = timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_Delete);
+			return result;
+		
+		
 	}
 
 	/*
@@ -204,8 +202,8 @@ public class TimeSheetRegisterController {
 	}
 	
 	@ModelAttribute("timsheetTypes")
-	public List<com.tinhvan.model.Type> getTypeOfTimeSheet() {
-		List<com.tinhvan.model.Type> list = typeDao.getAllTypeOfTimeSheet();
+	public List<Type> getTypeOfTimeSheet() {
+		List<Type> list = typeDao.getAllTypeOfTimeSheet();
 		return list;
 	}
 

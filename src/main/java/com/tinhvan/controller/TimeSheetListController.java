@@ -56,7 +56,7 @@ public class TimeSheetListController {
 	@Autowired
 	UserDao userDao;
 	
-	/*
+	
 	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
 			public User getUserCurrentLogin(Principal principal){
@@ -80,7 +80,7 @@ public class TimeSheetListController {
 				}
 			}
 		
-		//Test DaiK
+	/*	//Test DaiK
 			get user infor current logged
 			@ModelAttribute("user_current_logged")
 			public User get_User_current_loged(Principal principal){
@@ -91,8 +91,8 @@ public class TimeSheetListController {
 			}*/
 	
 	// Mapping view list TimeSheeet
-			@RequestMapping("/timeSheetList")
-			public ModelAndView listTimeSheet(Principal principal, Model model) {
+			@RequestMapping(value = "/timeSheetList", method = RequestMethod.GET)
+			public String listTimeSheet(Principal principal, Model model) {
 				
 				User user = userDao.getUserInfoByUserMail(principal.getName());
 				
@@ -109,7 +109,7 @@ public class TimeSheetListController {
 					model.addAttribute("listTimeSheetDetails", listAllTimeSheetDetails);
 					model.addAttribute("listProjects", listAllProjectInfos);
 					model.addAttribute("list_PIC", list_PIC);
-					return new ModelAndView("timeSheetList");
+					return "timeSheetList";
 					
 				} 
 				
@@ -127,25 +127,25 @@ public class TimeSheetListController {
 								
 								model.addAttribute("listProjects", listProjectInfos);
 								model.addAttribute("list_PIC", list_PIC);
-								return new ModelAndView("timeSheetList");
+								return "timeSheetList";
 							
 							
 				}
 				else{
 					String message = "Access denied for "+principal.getName()+"!";
 					model.addAttribute("message", message);
-					return new ModelAndView("403Page");
+					return "403Page";
 				}
 				
 			}
 			
 			@RequestMapping(value = "/actionUpdateStatusTypeOfListTimesheets", method = RequestMethod.POST)
-			public @ResponseBody ArrayList<TimeSheetDetail> save(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
+			public @ResponseBody boolean save(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
 				//System.out.println("prj_id = "+id);
 				
-				timeSheetDao.updateStatusOfListTimeSheetDetails(list_TimeSheetDetails);
+				boolean result = timeSheetDao.updateStatusOfListTimeSheetDetails(list_TimeSheetDetails);
 			
-				return list_TimeSheetDetails;
+				return result;
 			}
 			
 			

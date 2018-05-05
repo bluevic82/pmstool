@@ -45,6 +45,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.result.RequestResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -60,6 +61,7 @@ import com.tinhvan.dao.RoleDao;
 import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.MileStone;
+import com.tinhvan.model.Permission;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Role;
 import com.tinhvan.model.User;
@@ -109,13 +111,67 @@ public class UserResourceTest {
 	PermissionDao per;
 	@InjectMocks
 	UserResourceController userResourceController;
-	
-	//public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+	List<ProjectInfo> pi= new ArrayList<ProjectInfo>();
+	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 	@Before
 	public void setup() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/view/");
+		viewResolver.setSuffix(".jsp");
 		MockitoAnnotations.initMocks(this);
-		this.mockmvc = MockMvcBuilders.standaloneSetup(userResourceController).build();
+		this.mockmvc = MockMvcBuilders.standaloneSetup(userResourceController).setViewResolvers(viewResolver).build();
 	}
+	
+	@Test
+	public void getUserCurrentLogin_Test() throws Exception{
+		
+		User user=new User();
+		user.setUser_id(1);
+		user.setUser_fullName("Chu Quang Dai");
+		user.setUser_mail("daicq@tinhvan.com");
+		user.setRole_id(1);
+		
+		when(principal.getName()).thenReturn("daicq@tinhvan.com");
+		when(userResourceController.getUserCurrentLogin(principal)).thenReturn(user);
+		Assert.assertEquals(user.getUser_mail(), principal.getName());
+		
+	}
+	
+	@Test
+	public void getListProject_Test_true() throws Exception{
+		
+		User user=new User();
+		user.setUser_id(1);
+		user.setUser_fullName("Chu Quang Dai");
+		user.setUser_mail("daicq1@tinhvan.com");
+		user.setRole_id(1);
+		user.setUser_passWord("123456");
+		
+	//	Principal principal = Mockito.mock(Principal.class);
+		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
+	//	when(user.getRole_id()).thenReturn(1);
+		when(projectDao.getAllProject()).thenReturn(pi);
+		when(userResourceController.getListProject(principal)).thenReturn(pi);
+	}
+	
+	@Test
+	public void getListProject_Test_false() throws Exception{
+		
+		User user=new User();
+		user.setUser_id(1);
+		user.setUser_fullName("Chu Quang Dai");
+		user.setUser_mail("daicq@tinhvan.com");
+		user.setRole_id(2);
+		user.setUser_passWord("123456");
+		
+	//	Principal principal = Mockito.mock(Principal.class);
+		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
+	//	when(user.getRole_id()).thenReturn(2);
+		when(projectDao.getListPRojectOfUserAccessed(user.getUser_id())).thenReturn(pi);
+		when(userResourceController.getListProject(principal)).thenReturn(pi);
+	}
+	
+	
 	@Test
 	public void resourceMemberTest_true() throws Exception{
 		MemberProject memberProject = new MemberProject();
@@ -145,7 +201,7 @@ public class UserResourceTest {
 		when(projectDao.getProjectById(2)).thenReturn(projectInfo);
 		
 		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/resource",2); 
-		mockmvc.perform(contentType)
+		mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>()))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.model().attribute("listMemberOfProject", memList))
 				.andExpect(MockMvcResultMatchers.model().attribute("projectInfo", projectInfo))
@@ -170,7 +226,7 @@ public class UserResourceTest {
 		when(per.checker("set_res")).thenReturn(false);
 		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/resource",id); 
 		
-		mockmvc.perform(contentType)
+		mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>()))
 				//.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("403Page"))
 				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
@@ -200,7 +256,7 @@ public class UserResourceTest {
 		String requestJson = ow.writeValueAsString(memList);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/actionSaveMemberToDB", id).accept(
-				MediaType.APPLICATION_JSON).content(requestJson).contentType(MediaType.APPLICATION_JSON);
+				MediaType.APPLICATION_JSON).content(requestJson).contentType(MediaType.APPLICATION_JSON).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>());
 		
 		doNothing().when(memberProjectDao).updateMemberProjectBy_PrjId(memList, id);
 		
@@ -253,7 +309,7 @@ public class UserResourceTest {
 		//String requestJson2 = ow.writeValueAsString(memList2);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/{id}/deleteOneMemberProject", memberProject1.getProject_id()).accept(
-				MediaType.APPLICATION_JSON).content(requestJson1).contentType(MediaType.APPLICATION_JSON);
+				MediaType.APPLICATION_JSON).content(requestJson1).contentType(MediaType.APPLICATION_JSON).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>());
 		
 		
 		//when(memberProjectDao.getMemberProjectByProjectId1(memberProject1.getProject_id())).thenReturn(memList1);
@@ -277,7 +333,7 @@ public class UserResourceTest {
 			Assert.assertEquals(expected, result.getResponse().getContentAsString());
 	}
 	
-/*	@Test
+	@Test
 	public void getRole_Test() throws Exception{
 		
 		User user=new User();
@@ -299,35 +355,25 @@ public class UserResourceTest {
 		roles.add(role2);
 		
 		
-		when(principal.getName()).thenReturn("daicq1@tinhvan.com");
-		when(request.getUserPrincipal()).thenReturn(principal);
-		when(request.isUserInRole("Manager")).thenReturn(true);
 		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
-		
-		when(userDao.getUserInfoByUserMail(principal.getName()).getRole_id()).thenReturn(user.getRole_id());
 		when(roleDao.getListRoleExceptManagerIfUserLoginIsManager(user.getRole_id())).thenReturn(roles);
-		when(userResourceController.getRole(request, response)).thenReturn(roles);
+		when(userResourceController.getRole(principal)).thenReturn(roles);
 		//user = userDao.getUserInfoByUserMail(principal.getName());
-	}*/
+	}
 	
-	/*@Test
-	public void registerTest() throws Exception{
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/resource",1); 
-		MvcResult result = mockmvc.perform(contentType)
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				//.andExpect(MockMvcResultMatchers.model().attributeExists("tongPer"))
-				.andExpect(MockMvcResultMatchers.view().name("/1/resource"))
-				.andReturn();
-		Assert.assertNotNull(result.getModelAndView());
+	@Test
+	public void getAllUserTest() throws Exception{
+		User user1=new User();
+		user1.setUser_id(1);
+		user1.setUser_fullName("Chu Quang Dai");
+		user1.setUser_mail("daicq@tinhvan.com");
+		user1.setRole_id(1);
+		user1.setUser_passWord("123456");
 		
-		.andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-        .andExpect(jsonPath("$[0].id", is(1)))
-        .andExpect(jsonPath("$[0].username", is("Daenerys Targaryen")))
-        .andExpect(jsonPath("$[1].id", is(2)))
-        .andExpect(jsonPath("$[1].username", is("John Snow")));
-verify(userService, times(1)).getAll();
-verifyNoMoreInteractions(userService);
+		ArrayList<User> list_user = new ArrayList<User>();
+		list_user.add(user1);
+		when(userDao.getAllUser_Except_Admin()).thenReturn(list_user);
+		when(userResourceController.getAllUser()).thenReturn(list_user);
 		
-	}*/
+	}
 }

@@ -47,8 +47,8 @@ public class EffortController {
 		
 	// get User infor of current user login for menu user infor
 			@ModelAttribute("UserInformation")
-			public User getUserCurrentLogin(HttpServletRequest request, HttpServletResponse response){
-				java.security.Principal principal = request.getUserPrincipal();
+			public User getUserCurrentLogin(Principal principal){
+		//		java.security.Principal principal = request.getUserPrincipal();
 				 
 				//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				//User user = userDao.getUserInfoByUserMail(auth.getName());
@@ -58,13 +58,7 @@ public class EffortController {
 			}
 	// get list project for menu
 	@ModelAttribute("list_Project_For_menu")	
-	public List<ProjectInfo> getListProject(HttpServletRequest request, HttpServletResponse response) {
-		java.security.Principal principal = request.getUserPrincipal();
-		//final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//System.out.println(auth.getName());
-		//System.out.println("priasdfasd = "+p.getName());
-		//List<ProjectInfo> list_Project_For_Menu = new ArrayList<ProjectInfo>();
-		//User user = get_User_current_loged(principal);
+	public List<ProjectInfo> getListProject(Principal principal) {
 		User user = userDao.getUserInfoByUserMail(principal.getName());
 		
 		//check role: if user is Admin => list all projects 
