@@ -25,12 +25,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		// Các trang không yêu cầu login
-		http.authorizeRequests().antMatchers("/", "/welcome", "/login", "/logout").permitAll();
+		http.authorizeRequests().antMatchers("/welcome", "/login", "/logout").permitAll();
 
 		// Trang /userInfo yêu cầu phải login với vai trò USER hoặc ADMIN.
 		// Nếu chưa login, nó sẽ redirect tới trang /login.
 		http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('2', '1')");
+		
 
+//		http.authorizeRequests().antMatchers("/login").access("hasAnyRole('2', '1')");
+		
 		// For ADMIN only.
 		// Trang chỉ dành cho ADMIN
 		http.authorizeRequests().antMatchers("/admin").access("hasRole('1')");
@@ -45,16 +48,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				// Submit URL của trang login
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
-				.loginPage("/login")//
+				.loginPage("/loginPage")//
 				.defaultSuccessUrl("/welcome")//
-				.failureUrl("/login?error=true")//
+				.failureUrl("/?error=true")//
 				.usernameParameter("user_mail")//
 				.passwordParameter("user_password")
 
 				// Cấu hình cho Logout Page.
 				/*.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");*/
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/logoutSuccessfulPage").deleteCookies("JSESSIONID")
+				.logoutSuccessUrl("/").deleteCookies("JSESSIONID")
 				.invalidateHttpSession(true);
 	}
 
