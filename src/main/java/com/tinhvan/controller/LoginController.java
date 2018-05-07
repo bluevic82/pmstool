@@ -129,7 +129,7 @@ public class LoginController {
 		}
 		
 	
-	@RequestMapping(value = {"/welcome" })
+	@RequestMapping(value = {"/", "/welcome" })
 	public ModelAndView welcomePage(Model model,
 			@RequestParam(value="name",defaultValue="") String sname,
 			@RequestParam(value="pm",defaultValue="") String spm,
