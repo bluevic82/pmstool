@@ -16,7 +16,7 @@
   <form class="login-container" name='f' action="${pageContext.request.contextPath}/j_spring_security_check" method='POST'>
     <p><input type="text" placeholder="Email" name='user_mail'></p>
     <p><input type="password" placeholder="Password" name='user_password'></p>
-    <p><input type="submit" value="Log in"></p>
+    <p><input type="submit" value="submit"></p>
   </form>
 
       

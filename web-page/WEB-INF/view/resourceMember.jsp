@@ -233,10 +233,10 @@
     						contentType : 'application/json;charset=UTF-8',
     						dataType : 'json',
 
-    						beforeSend : function(xhr) {
+    						/* beforeSend : function(xhr) {
     							// here it is
     							xhr.setRequestHeader(header, token);
-    						},
+    						}, */
 
     						success : function(data) {
     							alert("delete done!");
@@ -490,8 +490,10 @@
 							if(_check_loi_effort){
 								alert("Error! Effort is number(Integer) and from 0 to 100. Please reset effort!");
 							} else{
-								//console.log(array_Infor_Member_Of_Project);
+								
+								var token = $("meta[name='_csrf']").attr("content");
 
+								var header = $("meta[name='_csrf_header']").attr("content");
 								
 										$.ajax({
 											url : "actionSaveMemberToDB",
@@ -502,10 +504,10 @@
 											contentType : 'application/json;charset=UTF-8',
 											dataType : 'json',
 
-											beforeSend : function(xhr) {
+											/* beforeSend : function(xhr) {
 												// here it is
 												xhr.setRequestHeader(header, token);
-											},
+											}, */
 
 											success : function(data) {
 												alert("save completed!");

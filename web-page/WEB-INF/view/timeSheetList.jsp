@@ -364,6 +364,8 @@
 
 							var header = $("meta[name='_csrf_header']").attr("content");
 						 
+							console.log("context path = "+"${pageContext.request.contextPath}");
+							
 						 $.ajax({
 								url : "actionUpdateStatusTypeOfListTimesheets",
 

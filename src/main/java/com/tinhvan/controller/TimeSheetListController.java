@@ -1,9 +1,14 @@
 package com.tinhvan.controller;
 
 import java.util.List;
+import java.io.Console;
 import java.security.Principal;
 import java.util.ArrayList;
 
+
+
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -141,7 +146,6 @@ public class TimeSheetListController {
 			
 			@RequestMapping(value = "/actionUpdateStatusTypeOfListTimesheets", method = RequestMethod.POST)
 			public @ResponseBody boolean save(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails) {
-				//System.out.println("prj_id = "+id);
 				
 				boolean result = timeSheetDao.updateStatusOfListTimeSheetDetails(list_TimeSheetDetails);
 			

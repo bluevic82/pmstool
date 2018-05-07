@@ -29,6 +29,7 @@ import com.tinhvan.dao.UserDao;
 import com.tinhvan.model.MemberProject;
 import com.tinhvan.model.ProjectInfo;
 import com.tinhvan.model.Role;
+import com.tinhvan.model.TimeSheetDetail;
 import com.tinhvan.model.User;
 
 /**
@@ -96,11 +97,20 @@ public class UserResourceController {
 	@RequestMapping(value = "/{id}/actionSaveMemberToDB", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<MemberProject> update(@PathVariable int id, @RequestBody  final ArrayList<MemberProject> list_MemberProjects) {
 
+		
 		memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
 		return new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
 
 	}
 	
+	/*@RequestMapping(value = "/{id}/actionDeleteListTimeSheet", method = RequestMethod.POST)
+	public @ResponseBody boolean deleteListTimeSheet(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
+		
+			boolean result = timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_Delete);
+			return result;
+		
+		
+	}*/
 	
 	
 	@RequestMapping(value = "/{id}/deleteOneMemberProject", method = RequestMethod.POST)
