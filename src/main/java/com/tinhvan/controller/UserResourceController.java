@@ -97,7 +97,6 @@ public class UserResourceController {
 	@RequestMapping(value = "/{id}/actionSaveMemberToDB", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<MemberProject> update(@PathVariable int id, @RequestBody  final ArrayList<MemberProject> list_MemberProjects) {
 
-		
 		memberProjectDao.updateMemberProjectBy_PrjId(list_MemberProjects, id);
 		return new ArrayList<MemberProject>(memberProjectDao.getMemberProjectByProjectId1(id));
 

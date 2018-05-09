@@ -89,10 +89,14 @@ public class MemberProjectDaoImpl implements MemberProjectDao {
 		@Override
 		public void updateMemberProjectBy_PrjId(List<MemberProject> list_MemberProjects, int project_id) {
 			
+			
 				List<MemberProject> list_MemberProjects_toInsert = new ArrayList<MemberProject>();
 				for(int i = 0 ; i < list_MemberProjects.size(); i++){
 					if(list_MemberProjects.get(i).getMember_project_id() == 0){
-						list_MemberProjects_toInsert.add(list_MemberProjects.get(i));
+						if(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM member_project WHERE PROJECT_ID = "+list_MemberProjects.get(i).getProject_id()+" AND USER_ID = "+list_MemberProjects.get(i).getUser_id()+"", Integer.class) == 0){
+							list_MemberProjects_toInsert.add(list_MemberProjects.get(i));
+						}
+						
 					}
 				}
 				//add new member to DB

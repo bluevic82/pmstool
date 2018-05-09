@@ -23,7 +23,7 @@
 <h6 style="margin-left: 20px">Bug Management > <a href="${pageContext.request.contextPath}/bugList"> List</a></h6>
 	<div class="container" style="margin-top: 10px;">
 		<div>
-			<form method="post" action="/Login/bugList/">
+			<form method="post" action="/pms/bugList/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<label style="margin-left: 10px"> Project Name</label> 
 			<select name="projectName">
@@ -84,8 +84,8 @@
 				<c:forEach var="list" items="${list}">
 					<tr>
 						<th scope="row">
-						<a href="/Login/bugList/${list.bug_id}/editBug/${list.project_id}">${list.bug_id}</a></th>
-						<th><a href="/Login/bugList/${list.bug_id}/editBug/${list.project_id}">${list.bug_subject}</a></th>
+						<a href="/pms/bugList/${list.bug_id}/editBug/${list.project_id}">${list.bug_id}</a></th>
+						<th><a href="/pms/bugList/${list.bug_id}/editBug/${list.project_id}">${list.bug_subject}</a></th>
 						<th>${list.mb}</th>
 						<th>${list.bug_priority}</th>
 						<th>${list.bug_to}</th>
