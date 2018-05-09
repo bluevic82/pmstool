@@ -190,15 +190,6 @@ public class TimesheetListTest {
 //		 when(sheetListController.listTimeSheet(principal, model)).thenReturn("timeSheetList");
 		 
 		 MvcResult result = mockmvc.perform(get("/timeSheetList")
-				 	/*.flashAttr("UserInformation", user)
-					.flashAttr("list_Project_For_menu", pi)*/
-					/*.flashAttr("projectName", new ArrayList<ProjectInfo>())
-					.flashAttr("pic", new ArrayList<MemberProject>())
-					.flashAttr("process", new ArrayList<Process>())
-					.flashAttr("timeSheetStatus", new ArrayList<Status>())
-					.flashAttr("pre_defined", new ArrayList<PreDefinedTask>())
-					.flashAttr("timsheetTypes", new ArrayList<Type>())
-					.flashAttr("picL", new ArrayList<MemberProject>())*/
 					.principal(principal))
 					.andExpect(MockMvcResultMatchers.status().isOk())
 					.andExpect(MockMvcResultMatchers.view().name("timeSheetList"))

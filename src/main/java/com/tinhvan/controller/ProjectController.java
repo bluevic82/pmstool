@@ -116,15 +116,6 @@ public class ProjectController {
 	@PostMapping(value = "/actionAdd")
 	public @ResponseBody ProjectAndScope actionAddProject(@RequestBody ProjectAndScope ps, HttpServletRequest request) {
 
-		System.out.println(ps.getProject_name());
-		System.out.println(ps.getType_id());
-		System.out.println(ps.getProject_from());
-		System.out.println(ps.getProject_to());
-		System.out.println(ps.getProject_technical());
-		System.out.println(ps.getProject_charge_cost());
-		System.out.println(ps.getScope_id());
-		System.out.println(ps.getStatus_id());
-		System.out.println(ps.getProject_description());
 		
 		final List<Integer> sp = new ArrayList<>();
 		sp.addAll(ps.getScope_id());
@@ -166,13 +157,6 @@ public class ProjectController {
 			return new ModelAndView("403Page");
 		}
 	}
-	/*@RequestMapping(value="actionUpdateP", method = RequestMethod.POST)
-	public ModelAndView update(@ModelAttribute(value = "project") ProjectInfo project) {
-		System.out.println("size scope = "+scope_For_Update.size());
-		
-		projectDao.updateProject(project);
-		return new ModelAndView("redirect:/");
-	}*/
 	
 	@RequestMapping(value = "/{id}/actionUpdateP", method = RequestMethod.POST)
 	public @ResponseBody ProjectAndScope updateProject(@RequestBody ProjectAndScope projectAndScope, HttpServletRequest request) {

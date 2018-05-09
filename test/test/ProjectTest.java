@@ -2,8 +2,10 @@ package test;
 
 import static org.mockito.Mockito.when;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 import org.junit.Assert;
@@ -75,6 +77,9 @@ public class ProjectTest {
 	UserDao userDao;
 	@InjectMocks
 	private ProjectController projectController;
+	
+	List<ProjectInfo> pi= new ArrayList<ProjectInfo>();
+	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -91,6 +96,9 @@ public class ProjectTest {
 		this.mockmvc = MockMvcBuilders.standaloneSetup(projectController).setViewResolvers(viewResolver).build();
 	}
 	
+	
+	
+	
 	@Test
 	public void addProjectTest() throws Exception{
 		 User u = new User();
@@ -102,17 +110,19 @@ public class ProjectTest {
 	     
 	     Permission p = new Permission();
 		//Boolean checker = per.checker("add_pro");
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/addProject");
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/addProject").flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);
 	
 		when(per.checker("add_pro")).thenReturn(true);
-		mockmvc.perform(contentType).andExpect(MockMvcResultMatchers.view().name("addProject"));
+		MvcResult result1 = mockmvc.perform(contentType).andExpect(MockMvcResultMatchers.view().name("addProject")).andReturn();
 		when(per.checker("add_pro")).thenReturn(false);
-		mockmvc.perform(contentType).andExpect(MockMvcResultMatchers.view().name("403Page2"));
+		MvcResult result2 = mockmvc.perform(contentType).andExpect(MockMvcResultMatchers.view().name("403Page2")).andReturn();
+		Assert.assertNotNull(result1.getModelAndView());
+		Assert.assertNotNull(result2.getModelAndView());
 		
 	}
 	//List<ScopeProject> scope_For_Update = new ArrayList<ScopeProject>();
 	@Test
-	public void editProjectTrue() throws Exception{
+	public void editProjectTest() throws Exception{
 		
 		ScopeProject sp = new ScopeProject();
 		sp.setProject_id(1);
@@ -138,15 +148,13 @@ public class ProjectTest {
 		p.setStatus_id(3);
 		
 		
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/editproject/{id}",p.getProject_id()); 
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/editproject/{id}",p.getProject_id()).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi); 
 		when(per.checker("set_upd")).thenReturn(true);
 		System.out.println("size start: " + spl.size());
 		//List<ScopeProject> s = projectDao.getScope(sp.getScope_id());
 		when(projectDao.getProjectById(1)).thenReturn(p);
 		System.out.println(p.getProject_id());
 		Mockito.when(projectDao.getScope(sp.getScope_id())).thenReturn(spl);
-		//ArrayList<ScopeProject> s1 = new ArrayList<>(s);
-		System.out.println("size mid:  " + spl.size());
 		
 		//ProjectInfo projectInfo = projectDao.getProjectById(1);
 		List<ScopeProject> scope_For_Update = (ArrayList<ScopeProject>)(spl) ;
@@ -158,18 +166,16 @@ public class ProjectTest {
 		MvcResult result = mockmvc.perform(contentType)
 				.andExpect(MockMvcResultMatchers.view().name("updateProject"))
 				.andReturn();
+		
+		when(per.checker("set_upd")).thenReturn(false);
+		MvcResult result2 = mockmvc.perform(contentType).andExpect(MockMvcResultMatchers.view().name("403Page")).andReturn();
+		
+		Assert.assertNotNull(result.getModelAndView());
+		Assert.assertNotNull(result2.getModelAndView());
 	}
 	
 	@Test
-	public void editProjectfalse() throws Exception{
-		//ProjectAndScope ps = new ProjectAndScope();
-		
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/editproject/{id}",1); 
-		when(per.checker("set_upd")).thenReturn(false);
-		mockmvc.perform(contentType).andExpect(MockMvcResultMatchers.view().name("403Page"));
-	}
-	@Test
-	public void addProject() throws Exception{
+	public void actionAddProjectTest() throws Exception{
 		ProjectAndScope projectAndScope = new ProjectAndScope();
 		projectAndScope.setProject_id(1);
 		projectAndScope.setProject_name("abac");
@@ -189,7 +195,7 @@ public class ProjectTest {
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		String requestJson = ow.writeValueAsString(projectAndScope);
 		
-		RequestBuilder contentType = MockMvcRequestBuilders.post("/actionAdd").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(requestJson);
+		RequestBuilder contentType = MockMvcRequestBuilders.post("/actionAdd").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(requestJson).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi);
 		final List<Integer> sp = new ArrayList<>();
 		sp.addAll(projectAndScope.getScope_id());
 		
@@ -237,7 +243,7 @@ public class ProjectTest {
 		String requestJson = ow.writeValueAsString(projectAndScope);
 		
 		
-		RequestBuilder contentType = MockMvcRequestBuilders.post("/{id}/actionUpdateP",1).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(requestJson); 
+		RequestBuilder contentType = MockMvcRequestBuilders.post("/{id}/actionUpdateP",1).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(requestJson).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi); 
 		ProjectInfo p = new ProjectInfo(); 
 		p.setProject_id(projectAndScope.getProject_id());
 		p.setProject_name(projectAndScope.getProject_name());
@@ -261,7 +267,7 @@ public class ProjectTest {
 	}
 	@Test
 	public void detailTest() throws Exception{
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/detailProject/{id}",1); 
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.post("/detailProject/{id}",1).flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi); 
 		MvcResult result = mockmvc.perform(contentType)
 				.andExpect(MockMvcResultMatchers.view().name("detailProject"))
 				.andReturn();

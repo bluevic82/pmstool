@@ -128,12 +128,15 @@ public class EfffortTest {
 		user.setUser_mail("daicq1@tinhvan.com");
 		user.setRole_id(1);
 		user.setUser_passWord("123456");
+		pi.add(new ProjectInfo());
+		pi.add(new ProjectInfo());
 		
 	//	Principal principal = Mockito.mock(Principal.class);
 		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
 	//	when(user.getRole_id()).thenReturn(1);
 		when(projectDao.getAllProject()).thenReturn(pi);
 		when(effortController.getListProject(principal)).thenReturn(pi);
+		Assert.assertEquals(2, pi.size());
 	}
 	
 	@Test
@@ -145,12 +148,15 @@ public class EfffortTest {
 		user.setUser_mail("daicq@tinhvan.com");
 		user.setRole_id(2);
 		user.setUser_passWord("123456");
+		pi.add(new ProjectInfo());
+		pi.add(new ProjectInfo());
 		
 	//	Principal principal = Mockito.mock(Principal.class);
 		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
 	//	when(user.getRole_id()).thenReturn(2);
 		when(projectDao.getListPRojectOfUserAccessed(user.getUser_id())).thenReturn(pi);
 		when(effortController.getListProject(principal)).thenReturn(pi);
+		Assert.assertEquals(2, pi.size());
 	}
 		
 	
@@ -165,41 +171,24 @@ public class EfffortTest {
 		user.setRole_id(1);
 		user.setUser_passWord("123456");
 		when(per.checker("eff_mana")).thenReturn(true);
-		MvcResult result = mockmvc.perform(get("/effortManagement").flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi))
+		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/effortManagement").flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi); 
+		
+		MvcResult result = mockmvc.perform(contentType)
 				//.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("effortManagementPage"))
 				.andReturn();
 		
-		Assert.assertNotNull(result.getModelAndView());
-		
-	}
-	
-	@Test
-	public void effManageTest_false() throws Exception{
-		
-		User user=new User();
-		user.setUser_id(1);
-		user.setUser_fullName("Chu Quang Dai");
-		user.setUser_mail("daicq@tinhvan.com");
-		user.setRole_id(3);
-		user.setUser_passWord("123456");
-		/*Permission permission = new Permission();
-		permission.setEff_mana(true);
-		permission.setEff_can(true);*/
-		
-		userDao.getUserInfoByUserMail("daicq@tinhvan.com");
-		MockMvcResultMatchers.model().attribute("UserInformation", "daicq@tinhvan.com");
-		
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/effortManagement"); 
 		when(per.checker("eff_mana")).thenReturn(false);
-		MvcResult result = mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi))
+		MvcResult result2 = mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi))
 				//.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("403Page2"))
 				.andReturn();
 		
 		Assert.assertNotNull(result.getModelAndView());
+		Assert.assertNotNull(result2.getModelAndView());
 		
 	}
+	
 	
 	@Test
 	public void effCanTest_true() throws Exception{
@@ -234,17 +223,13 @@ public class EfffortTest {
 				//.andExpect(MockMvcResultMatchers.view().name("effortCanculate"))
 				.andReturn();
 		
-		Assert.assertNotNull(result.getModelAndView());
-	}
-	@Test
-	public void effCanTest_false() throws Exception{
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/effortCalculate/{id}",1); 
 		when(per.checker("eff_can")).thenReturn(false);
-		MvcResult result = mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi))
+		MvcResult result2 = mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi))
 				//.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("403Page"))
 				.andReturn();
 		
 		Assert.assertNotNull(result.getModelAndView());
+		Assert.assertNotNull(result2.getModelAndView());
 	}
 }

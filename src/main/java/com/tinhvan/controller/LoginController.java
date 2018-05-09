@@ -129,7 +129,7 @@ public class LoginController {
 		}
 		
 	
-	@RequestMapping(value = {"/", "/welcome" })
+	@RequestMapping("/")
 	public ModelAndView welcomePage(Model model,
 			@RequestParam(value="name",defaultValue="") String sname,
 			@RequestParam(value="pm",defaultValue="") String spm,
@@ -308,7 +308,7 @@ public class LoginController {
 
 
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutDo(HttpServletRequest request,HttpServletResponse response){
 		HttpSession session= request.getSession(false);
 		    SecurityContextHolder.clearContext();
@@ -320,7 +320,7 @@ public class LoginController {
 		            cookie.setMaxAge(0);
 		        }
 		    return "logoutSuccessfulPage";
-	}
+	}*/
 
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
 	public String userInfo(Model model, Principal principal) {

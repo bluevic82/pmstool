@@ -162,6 +162,7 @@ public class TimesheetTest {
 	//	when(user.getRole_id()).thenReturn(1);
 		when(projectDao.getAllProject()).thenReturn(p);
 		when(timesheetController.getListProject(principal)).thenReturn(p);
+		Assert.assertEquals(1, p.size());
 	}
 	
 	@Test
@@ -195,17 +196,18 @@ public class TimesheetTest {
 	//	when(user.getRole_id()).thenReturn(2);
 		when(projectDao.getListPRojectOfUserAccessed(user.getUser_id())).thenReturn(p);
 		when(timesheetController.getListProject(principal)).thenReturn(p);
+		Assert.assertEquals(1, p.size());
 	}
 	
 	@Test
-	public void registerTimesheetTestWhenMemberIsNull() throws Exception{
+	public void registerTimesheetTest() throws Exception{
 		ProjectInfo projectInfo = new ProjectInfo();
 		MemberProject memberProject = new MemberProject();
 		
 		User user = new User();
 		user.setUser_id(2);
 		when(projectDao.getProjectById(1)).thenReturn(projectInfo);
-		when(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(1, 2)).thenReturn(null);
+		
 		String message = "Access denied for "+principal.getName()+"!";
 		int id=1;
 		when(timesheetController.getUserCurrentLogin(principal)).thenReturn(user);
@@ -213,6 +215,8 @@ public class TimesheetTest {
 		
 	//	when(user.getUser_id()).thenReturn(2);
 		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/registerTimeSheet",id); 
+		
+		when(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(1, 2)).thenReturn(null);
 		MvcResult result = mockmvc.perform(contentType
 				
 				.principal(principal))
@@ -222,25 +226,9 @@ public class TimesheetTest {
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("403Page"))
 				.andReturn();
-		Assert.assertNotNull(result.getModelAndView());
-	}
-	
-	@Test
-	public void registerTimesheetTestWhenMemberNotNull() throws Exception{
-		ProjectInfo projectInfo = new ProjectInfo();
-		MemberProject memberProject = new MemberProject();
-		memberProject.setUser_id(1);
 		
-		User user = new User();
-		user.setUser_id(2);
-		when(projectDao.getProjectById(1)).thenReturn(projectInfo);
 		when(memberProjectDao.getMemberProjectByProject_Id_And_UserCurrentLogged(1, 2)).thenReturn(memberProject);
-		String message = "Access denied for "+principal.getName()+"!";
-		int id=1;
-		when(timesheetController.getUserCurrentLogin(principal)).thenReturn(user);
-		
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/registerTimeSheet",id); 
-		MvcResult result = mockmvc.perform(contentType
+		MvcResult result2 = mockmvc.perform(contentType
 				
 				.principal(principal))
 			//	.flashAttr("message", message))
@@ -248,29 +236,12 @@ public class TimesheetTest {
 				//.andExpect(MockMvcResultMatchers.model().attributeExists("tongPer"))
 				.andExpect(MockMvcResultMatchers.view().name("timesheetRegister"))
 				.andReturn();
+		
 		Assert.assertNotNull(result.getModelAndView());
+		Assert.assertNotNull(result2.getModelAndView());
 	}
 	
-	@Test
-	public void regisTimeSheetTest() throws Exception{
-		ProjectInfo projectInfo = new ProjectInfo();
-		User user = new User();
-		user.setUser_id(1);
-		int id=1;
-		when(projectDao.getProjectById(id)).thenReturn(projectInfo);
-		
-		
-		when(timesheetController.getUserCurrentLogin(principal)).thenReturn(user);
-//		
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/{id}/registerTimeSheet", id)
-				
-				.principal(principal);
-		MvcResult result = mockmvc.perform(requestBuilder)
-				.andExpect(model().attribute("message", notNullValue())).andExpect(status().isOk())
-			//	.andExpect(MockMvcResultMatchers.model().attribute("message", message))
-				.andExpect(MockMvcResultMatchers.view().name("403Page"))
-				.andReturn();
-	}
+	
 	
 	@Test
 	public void saveTest() throws Exception{
@@ -324,7 +295,6 @@ public class TimesheetTest {
 		
 				when(timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_DeleteBefor)).thenReturn(true);
 				when(timesheetController.deleteListTimeSheet(list_TimeSheetDetails_DeleteBefor)).thenReturn(true);
-				
 		
 	}
 	

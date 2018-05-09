@@ -29,7 +29,7 @@
 
 		<ul class="nav-menu" style=" font-size: 14px">
 			
-			<li><a href="${pageContext.request.contextPath}/welcome">Over View</a></li>
+			<li><a href="${pageContext.request.contextPath}">Over View</a></li>
 			<li><a href="${pageContext.request.contextPath}/addProject">Add Project</a></li>
 			<li><a href="#">Projects</a>
 				<ul >

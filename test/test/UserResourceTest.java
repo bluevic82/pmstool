@@ -146,12 +146,14 @@ public class UserResourceTest {
 		user.setUser_mail("daicq1@tinhvan.com");
 		user.setRole_id(1);
 		user.setUser_passWord("123456");
+		pi.add(new ProjectInfo()); pi.add(new ProjectInfo());
 		
 	//	Principal principal = Mockito.mock(Principal.class);
 		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
 	//	when(user.getRole_id()).thenReturn(1);
 		when(projectDao.getAllProject()).thenReturn(pi);
 		when(userResourceController.getListProject(principal)).thenReturn(pi);
+		Assert.assertEquals(2, pi.size());
 	}
 	
 	@Test
@@ -163,12 +165,14 @@ public class UserResourceTest {
 		user.setUser_mail("daicq@tinhvan.com");
 		user.setRole_id(2);
 		user.setUser_passWord("123456");
+		pi.add(new ProjectInfo()); pi.add(new ProjectInfo());
 		
 	//	Principal principal = Mockito.mock(Principal.class);
 		when(userDao.getUserInfoByUserMail(principal.getName())).thenReturn(user);
 	//	when(user.getRole_id()).thenReturn(2);
 		when(projectDao.getListPRojectOfUserAccessed(user.getUser_id())).thenReturn(pi);
 		when(userResourceController.getListProject(principal)).thenReturn(pi);
+		Assert.assertEquals(2, pi.size());
 	}
 	
 	
@@ -201,7 +205,7 @@ public class UserResourceTest {
 		when(projectDao.getProjectById(2)).thenReturn(projectInfo);
 		
 		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/resource",2); 
-		mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>()))
+		MvcResult result = mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>()))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.model().attribute("listMemberOfProject", memList))
 				.andExpect(MockMvcResultMatchers.model().attribute("projectInfo", projectInfo))
@@ -210,29 +214,16 @@ public class UserResourceTest {
 				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
 				.andReturn();
 		
-		//Assert.assertNotNull(result.getModelAndView());
-	}
-	@Test
-	public void resourceMemberTest_false() throws Exception{
-		MemberProject memberProject = new MemberProject();
-		memberProject.setMember_project_id(1);
-		memberProject.setMember_project_name("chu quang dai");
-		memberProject.setUser_id(5);
-		memberProject.setRole_id(1);
-		memberProject.setMember_project_effort(20);
-		memberProject.setProject_id(2);
-		Model model;
-		int id =2;
 		when(per.checker("set_res")).thenReturn(false);
-		MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/resource",id); 
+	//	MockHttpServletRequestBuilder contentType = MockMvcRequestBuilders.get("/{id}/resource",id); 
 		
-		mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>()))
+		MvcResult result2 = mockmvc.perform(contentType.flashAttr("UserInformation", new User()).flashAttr("list_Project_For_menu", pi).flashAttr("roleUser", new ArrayList<Role>()).flashAttr("getAllUser", new ArrayList<User>()))
 				//.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("403Page"))
 				//.andExpect(MockMvcResultMatchers.forwardedUrl("addProject"))
 				.andReturn();
-		
-		//Assert.assertNotNull(result.getModelAndView());
+		Assert.assertNotNull(result.getModelAndView());
+		Assert.assertNotNull(result2.getModelAndView());
 	}
 	
 	@Test

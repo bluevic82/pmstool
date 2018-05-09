@@ -25,11 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		// Các trang không yêu cầu login
-		http.authorizeRequests().antMatchers("/welcome", "/login", "/logout").permitAll();
+		http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
 
 		// Trang /userInfo yêu cầu phải login với vai trò USER hoặc ADMIN.
 		// Nếu chưa login, nó sẽ redirect tới trang /login.
 		http.authorizeRequests().antMatchers("/**").authenticated();
+	//	http.authorizeRequests().antMatchers("/welcome").authenticated();
 		http.authorizeRequests().antMatchers("/").authenticated();
 		
 		
@@ -50,8 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Submit URL của trang login
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
 				.loginPage("/login")//
-			//	.defaultSuccessUrl("/welcome")//
-				.failureUrl("/login/?error=true")//
+				.defaultSuccessUrl("/")//
+				.failureUrl("/?error=true")//
 				.usernameParameter("user_mail")//
 				.passwordParameter("user_password")
 
@@ -61,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
 				.invalidateHttpSession(true);
 		
-		http.formLogin().defaultSuccessUrl("/welcome", true);
+	//	http.formLogin().defaultSuccessUrl("/", true);
 	}
 
 }

@@ -103,16 +103,6 @@ public class UserResourceController {
 
 	}
 	
-	/*@RequestMapping(value = "/{id}/actionDeleteListTimeSheet", method = RequestMethod.POST)
-	public @ResponseBody boolean deleteListTimeSheet(@RequestBody  final ArrayList<TimeSheetDetail> list_TimeSheetDetails_Delete) {
-		
-			boolean result = timeSheetDao.deleteListTimeSheet(list_TimeSheetDetails_Delete);
-			return result;
-		
-		
-	}*/
-	
-	
 	@RequestMapping(value = "/{id}/deleteOneMemberProject", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<MemberProject> deleteOneMemberProject(@PathVariable(value = "id") int id, @RequestBody  final int member_project_id) {
 		memberProjectDao.deleteOneMemberProject(member_project_id);

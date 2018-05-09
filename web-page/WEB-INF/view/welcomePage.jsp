@@ -19,11 +19,11 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-	<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/welcome">${message}</a></h6>
+	<h6 style="margin-left: 20px"><a href="${pageContext.request.contextPath}/">${message}</a></h6>
 	<div class="container-fluid" style="margin: auto;">
 	
 		<div class="row" style="padding: 10px 180px 1px;">
-		<form method="post" action="/Login/">
+		<form method="post" action="/pms/">
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<div class="col-sm-3">Name <input type="text" name="name" value="${sname}" /></div>
 			<div class="col-sm-2">PM <input type="text" size="10" name="pm" value="${spm}"/></div>
