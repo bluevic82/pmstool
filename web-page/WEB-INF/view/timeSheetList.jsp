@@ -150,7 +150,7 @@
 
 	var table = document.getElementById("id_table");
 	var len = table.rows.length;
-	
+	var arrayList_TimesheetResultSearched = new Array();
 	 
 	 $("#id_table").on(
 				"change",
@@ -204,23 +204,17 @@
 		
 		//get id
 		var project_id_search = $('#id_select_Project :selected').val();
-		
-		console.log("project name = "+project_Name_search);
-		console.log("project id = "+project_id_search);
 		//get name
 		var user_search = $('#id_select_User :selected').val().toUpperCase(); //ok
-		console.log("user = "+user_search);
-		console.log("len search pic = "+user_search.length);
-		console.log("status = "+status_select_search);
 		//get name
 		var process_search =  $('#id_select_process :selected').val().toUpperCase(); //ok
-		console.log("process = "+process_search);
-	//	var process_search =  $('#id_select_process :selected').val().toUpperCase();
-		// alert(status_select_search);//ok
-		 console.log(status_select_search.toUpperCase());
 		
 		
 		 var conditionSearch;
+		 
+		 
+		 
+			
 		 	
 		 
 		//set condition search
@@ -245,9 +239,12 @@
 	 		}
 	 		
 	 		
-	 	if(project_id_search != 0){// projectNAme condition is not null
+	 		//create a new array to contain result of searching
+			  arrayList_TimesheetResultSearched = new Array();
+					
+			
 	 		
-	 		console.log("string condition = "+string_condition);
+	 	if(project_id_search != 0){// projectNAme condition is not null
 			 for (var i = 1; i < len; i++) {
 				 
 				 
@@ -256,28 +253,33 @@
 				 	tdProcessName = table.rows[i].cells[5].innerHTML;
 				 	tdProjectId = table.rows[i].cells[0].childNodes[1].value;
 				 	
-				 //	tdProjectName = 
-				 	console.log(tdStatus);
-				 	console.log(tdPic);
-				 	console.log("project_id td = "+tdProjectId);
-				 	console.log("len pic = "+tdPic.length);
-				 	
-				 	console.log(tdProcessName);
-				 	
 				 	
 				 	
 				 	var string_td = tdStatus.toUpperCase()+tdPic.toUpperCase()+tdProcessName.toUpperCase();
 				 	
 	 				if(string_td.includes(string_condition) && (tdProjectId==project_id_search)){
-					 console.log("giong");
-					 console.log("status td = "+tdStatus);
 					 table.rows[i].style.display = "";  
+					 
+					 var detail_timesheet_id = table.rows[i].cells[2].childNodes[0].value;
+	 				 var _status_type = table.rows[i].cells[9].childNodes[0].childNodes[0].value;
+	 				 console.log(detail_timesheet_id); //write
+	 				 var infor_Object = {
+	 							detail_timesheet_id : detail_timesheet_id,
+	 							status_type : _status_type
+	 						}
+	 				 
+	 				 arrayList_TimesheetResultSearched.push(infor_Object);					 
+					 
 					 } 
 	 				else{
 	 					table.rows[i].style.display = "none";
 	 				}
+	 				
+	 				
 	 		
 	 		}
+			 
+			 
 	 	}
 	 	
 	 	else{ //projectNAme condition is  null
@@ -289,14 +291,6 @@
 				 tdStatus = table.rows[i].cells[9].childNodes[0].childNodes[0].value; //ok
 				 	tdPic = table.rows[i].cells[1].innerHTML; //ok
 				 	tdProcessName = table.rows[i].cells[5].innerHTML;
-				 //	tdProjectName = 
-				 	console.log(tdStatus);
-				 	console.log(tdPic);
-				 	console.log("len pic = "+tdPic.length);
-				 	
-				 	console.log(tdProcessName);
-				 	
-				 	
 				 	
 				 	var string_td = tdStatus.toUpperCase()+tdPic.toUpperCase()+tdProcessName.toUpperCase();
 				 	
@@ -305,15 +299,28 @@
 			//	 	var s2 = tdStatus.toUpperCase().indexOf(status_select_search)>-1 && tdPic.toUpperCase().indexOf(user_search)>-1 && tdProcessName.toUpperCase().indexOf(process_search)>-1;
 				 	
 	 				if(string_td.includes(string_condition)){
-					 console.log("giong");
-					 console.log("status td = "+tdStatus);
 					 table.rows[i].style.display = "";  
+					 
+					 var detail_timesheet_id = table.rows[i].cells[2].childNodes[0].value;
+	 				 var _status_type = table.rows[i].cells[9].childNodes[0].childNodes[0].value;
+	 				 console.log(detail_timesheet_id); //write
+	 				 var infor_Object = {
+	 							detail_timesheet_id : detail_timesheet_id,
+	 							status_type : _status_type
+	 						}
+	 				 
+	 				 arrayList_TimesheetResultSearched.push(infor_Object);
+					 
 				 } 
 	 				else{
 	 					table.rows[i].style.display = "none";
 	 				}
+	 				
+	 				
+	 				
 			}
 			
+			 
 	 		
 	 	}
 		
@@ -321,23 +328,57 @@
 		 
 	})
 	
+	
+	//function find rows by detail_timesheet_id
+	
+	
 	 
 	 $('#id_buttonApprove')
 		.click(
 				function() {
-					 for(var i =1;i<len;i++){
-							
-							if(table.rows[i].cells[0].childNodes[0].checked===true){
-									table.rows[i].cells[9].childNodes[0].childNodes[0].innerHTML = "Approved";
-									table.rows[i].cells[9].childNodes[0].childNodes[0].value = "Approved";
+					
+					//if have condition search => only approve on list searched
+					if(arrayList_TimesheetResultSearched.length != 0){
+						console.log("have condition len = "+arrayList_TimesheetResultSearched.length)
+						 for(var i = 0;i<arrayList_TimesheetResultSearched.length;i++){
+							 
+							 for(var j = 1; j < len; j ++){
+								 var detail_timesheet_id_of_tableAll = table.rows[j].cells[2].childNodes[0].value;
+							//	 var detail_timesheet_id_of_tableAll = table.rows[j].cells[2].childNodes[0].value;
+								 console.log("ts_id = "+detail_timesheet_id_of_tableAll);
+								 if(arrayList_TimesheetResultSearched[i].detail_timesheet_id === detail_timesheet_id_of_tableAll ){
+									 if(table.rows[j].cells[0].childNodes[0].checked===true){
+											table.rows[j].cells[9].childNodes[0].childNodes[0].innerHTML = "Approved";
+											table.rows[j].cells[9].childNodes[0].childNodes[0].value = "Approved";
+									}
+								 }
+							 }
+								
+								
 							}
-						}
+						
+					}
+					
+					//if no condition searched => approve on all
+					else{
+						console.log("no condition len = "+len)
+						 for(var i =1;i<len;i++){
+								
+								if(table.rows[i].cells[0].childNodes[0].checked===true){
+										table.rows[i].cells[9].childNodes[0].childNodes[0].innerHTML = "Approved";
+										table.rows[i].cells[9].childNodes[0].childNodes[0].value = "Approved";
+								}
+							}
+					}
+					
+				
 					
 				});
 	 
 	 $('#id_buttonSave')
 		.click(
 				function() {
+					
 					// create arrayList object
 					var arrayList_Timesheet = new Array();
 					 for(var i =1;i<len;i++){
@@ -354,17 +395,16 @@
 									status_type : _status_type
 								} 
 
-							
 							arrayList_Timesheet.push(infor_Object);
+						
 						}
+					
 					
 					 if(arrayList_Timesheet.length!=0){
 						 
 						 var token = $("meta[name='_csrf']").attr("content");
 
 							var header = $("meta[name='_csrf_header']").attr("content");
-						 
-							console.log("context path = "+"${pageContext.request.contextPath}");
 							
 						 $.ajax({
 								url : "actionUpdateStatusTypeOfListTimesheets",
