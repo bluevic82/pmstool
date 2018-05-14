@@ -262,7 +262,7 @@ $( document).ready(function() {
 		        },
 				success : function(result) {
 				alert("add success");
-				location.href="${pageContext.request.contextPath}/welcome";
+				location.href="${pageContext.request.contextPath}";
 				},
 				error : function(e) {
 					alert("add false");

@@ -330,11 +330,11 @@ $('.datetimepicker').datetimepicker({
 					contentType : 'application/json;charset=UTF-8',
 					dataType : 'json',
 
-					beforeSend : function(xhr) {
+					/* beforeSend : function(xhr) {
 						// here it is
 						xhr.setRequestHeader(header, token);
 					},
-
+ */
 					success : function() {
 						alert("delete completed!");
 					},

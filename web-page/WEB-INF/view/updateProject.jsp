@@ -356,7 +356,7 @@
 			        },
 					success : function(result) {
 					alert("update success");
-					location.href="${pageContext.request.contextPath}/welcome"; 
+					location.href="${pageContext.request.contextPath}"; 
 					},
 					error : function(e) {
 						alert("update false");
